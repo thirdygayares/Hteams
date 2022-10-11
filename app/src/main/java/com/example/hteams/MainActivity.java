@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextInputLayout input;
+    EditText input;
     Button button;
 
     @Override
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //insert data
                 Map<String, Object> data = new HashMap<>();
-                data.put("task_name", input.getEditText().toString());
+                data.put("task_name", input.getText().toString());
                 myDB.collection("tasks")
                         .add(data)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
