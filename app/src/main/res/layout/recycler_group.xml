@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="10dp"
+        >
+        <RelativeLayout
+            android:paddingVertical="20dp"
+            android:paddingHorizontal="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            >
+
+            <ImageView
+                android:id="@+id/group_image"
+                android:padding="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_group"
+                >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/groupName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/group_image"
+                android:fontFamily="@font/gilroymedium"
+                android:paddingHorizontal="10dp"
+                android:text="Firetera"
+                android:textColor="@color/black"
+                android:textSize="30dp"></TextView>
+
+
+            <TextView
+                android:id="@+id/group_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/groupName"
+                android:layout_toRightOf="@+id/group_image"
+                android:fontFamily="@font/gilroyregular"
+                android:paddingHorizontal="10dp"
+                android:text="This is Short Description"
+                android:textSize="10dp"></TextView>
+
+
+
+            <RelativeLayout
+                android:layout_toRightOf="@id/group_image"
+                android:layout_below="@+id/group_description"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+
+                >
+
+
+                <ImageView
+                    android:id="@+id/teacher_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_teacher"
+
+                    ></ImageView>
+
+
+                <TextView
+                    android:id="@+id/teacher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_toRightOf="@+id/teacher_icon"
+                    android:fontFamily="@font/gilroyregular"
+                    android:paddingHorizontal="10dp"
+                    android:text="Prof Novem Lanaban"
+                    android:textSize="10dp"></TextView>
+
+                <ImageView
+                    android:id="@+id/subject_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_toRightOf="@+id/teacher"
+                    android:src="@drawable/ic_subject"
+                    ></ImageView>
+
+
+                <TextView
+                    android:id="@+id/subject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_toRightOf="@+id/subject_icon"
+                    android:fontFamily="@font/gilroyregular"
+                    android:paddingHorizontal="10dp"
+                    android:text="Elective 1"
+                    android:textSize="10dp"></TextView>
+
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

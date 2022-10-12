@@ -20,6 +20,7 @@ public class Notification extends Fragment {
         View view = inflater.inflate(R.layout.activity_notification, container, false);
 
 
+
         return view;
     }
 }

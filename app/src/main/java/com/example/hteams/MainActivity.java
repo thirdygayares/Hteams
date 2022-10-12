@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (x == 0) {
             bottomNav.setSelectedItemId(R.id.nav_home);
+
             selectedFragment = new Task();
         }else if(x == 1){
             bottomNav.setSelectedItemId(R.id.nav_task);
