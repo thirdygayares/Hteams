@@ -4,12 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class creategroup extends AppCompatActivity {
 
-    Button backbtn;
-
-
+    Button backbtn,nextbtn ;
+    EditText grpname, subject,professor,descrip;
 
 
 
