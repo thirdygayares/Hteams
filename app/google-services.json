@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "193416192754",
+    "project_id": "hteams-4b7e1",
+    "storage_bucket": "hteams-4b7e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193416192754:android:42a40f48cc2270c8bf266b",
+        "android_client_info": {
+          "package_name": "com.example.hteams"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193416192754-2j04mbt6c0iqbmro2sd16m6nr8gb9870.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7cq2nedSwjqmkpqIVNtE10rpg9hkBTT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193416192754-2j04mbt6c0iqbmro2sd16m6nr8gb9870.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

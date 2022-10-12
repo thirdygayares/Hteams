@@ -3,9 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/drawable/rounded_corner_view.xml" value="0.115" />
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_creategroup.xml" value="0.25" />
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_groupspace.xml" value="0.5" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_login.xml" value="0.4859154929577465" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_main.xml" value="0.18" />
       </map>
     </option>
   </component>
