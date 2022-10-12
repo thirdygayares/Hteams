@@ -3,7 +3,11 @@ package com.example.hteams;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,8 +15,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.hteams.group.Home;
+import com.example.hteams.notification.Notification;
+import com.example.hteams.profile.Profile;
+import com.example.hteams.task.Task;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -33,64 +43,54 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        firebaseAuth = FirebaseAuth.getInstance();
-      initxml();
-      logout();
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnItemSelectedListener(navListener);
 
 
-        button.setOnClickListener(new View.OnClickListener() {
+        int x = 5;
+        Intent intent = getIntent();
+//        x = Integer.parseInt(intent.getStringExtra("going"));
 
-            @Override
-            public void onClick(View view) {
+        Fragment selectedFragment = new Home();
 
-                //Toast.makeText(getApplicationContext(),"Testing okay", Toast.LENGTH_SHORT).show();
+        if (x == 0) {
+            bottomNav.setSelectedItemId(R.id.nav_home);
+            selectedFragment = new Task();
+        }else if(x == 1){
+            bottomNav.setSelectedItemId(R.id.nav_task);
+            selectedFragment = new Notification();
+        }else if(x == 2){
+            bottomNav.setSelectedItemId(R.id.nav_notification);
+            selectedFragment = new Profile();
+        }else if(x == 3){
+            bottomNav.setSelectedItemId(R.id.nav_profile);
+            selectedFragment = new Profile();
+        }
 
-                //insert data
-                Map<String, Object> user = new HashMap<>();
-//                user.put("first", "Ada");
-//                user.put("last", "Lovelace");
-//                user.put("born", 1815);
-
-        // Add a new document with a generated ID
-                firestore.collection("users")
-                        .add(user)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
-                            }
-                        });
-
-            }
-        });
-
-
-
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                selectedFragment).commit();
 
     }
 
-    private void logout() {
-        Logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-
-            }
-        });
-
-    }
-
-    private void initxml() {
-        input = findViewById(R.id.input);
-        button = findViewById(R.id.enter);
-        Logout = findViewById(R.id.logout
-        );
-    }
+    private NavigationBarView.OnItemSelectedListener navListener =
+            item -> {
+                Fragment selectedFragment = null;
+                switch (item.getItemId()){
+                    case R.id.nav_home:
+                        selectedFragment = new Home();
+                        break;
+                    case R.id.nav_task:
+//                            Toast.makeText(MainActivity.this, "stocks", Toast.LENGTH_SHORT).show();
+                        selectedFragment = new Task();
+                        break;
+                    case R.id.nav_notification:
+                        selectedFragment = new Notification();
+                        break;
+                    case R.id.nav_profile:
+                        selectedFragment = new Profile();
+                        break;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+                return true;
+            };
 }

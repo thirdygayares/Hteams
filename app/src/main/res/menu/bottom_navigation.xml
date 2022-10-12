@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        app:iconTint="#434343"
+        android:iconTint="#434343"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/nav_task"
+        android:icon="@drawable/ic_baseline_task_alt_24"
+        app:iconTint="#434343"
+        android:iconTint="#434343"
+        android:title="Task" />
+
+    <item
+        android:id="@+id/nav_notification"
+        android:icon="@drawable/ic_notification"
+        app:iconTint="#434343"
+        android:iconTint="#434343"
+        android:title="Notification" />
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_profile"
+        app:iconTint="#434343"
+        android:iconTint="#434343"
+        android:title="Profile" />
+
+
+
+
+
+</menu>
