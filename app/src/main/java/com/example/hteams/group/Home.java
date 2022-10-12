@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.example.hteams.MainActivity;
 import com.example.hteams.R;
 import com.example.hteams.Sample;
 import com.example.hteams.adapter.GroupAdapter;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
 
 public class Home extends Fragment implements GroupInterface {
 
-    ImageView menu;
+    ImageView menu,addgroup;
     ArrayList<GroupModel> groupModels = new ArrayList<>();
 
     @Nullable
@@ -42,10 +43,13 @@ public class Home extends Fragment implements GroupInterface {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_home, container, false);
 
-
+        addgroup = view.findViewById(R.id.addgroup);
         menu = view.findViewById(R.id.menu);
         menu();
 
+        //To add the group
+        //Button
+        addgroup();
 
         setupGroupData();
         RecyclerView recyclerView = view.findViewById(R.id.grouprecyclerview);
@@ -54,6 +58,15 @@ public class Home extends Fragment implements GroupInterface {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         return view;
+    }
+
+    private void addgroup() {
+        addgroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), Creategroup.class));
+            }
+        });
     }
 
     private void setupGroupData() {

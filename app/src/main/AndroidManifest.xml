@@ -12,42 +12,31 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="Hteams"
-
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Hteams"
-
         tools:targetApi="31">
         <activity
+            android:name="com.example.hteams.group.ListOfClassmate"
+            android:exported="false" />
+        <activity
             android:name=".Sample"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:exported="false" /> <!-- Group -->
+        <activity
+            android:name="com.example.hteams.group.Creategroup"
             android:exported="false" />
         <activity
-            android:name="com.example.hteams.task.Task"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:exported="false" />
-        <activity
-            android:name="com.example.hteams.profile.Profile"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:exported="false" />
-        <activity
-            android:name="com.example.hteams.notification.Notification"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:exported="false" />
-        <activity
-            android:name="com.example.hteams.group.Home"
+            android:name="com.example.hteams.group.CreateGroup2"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".Login"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"
-
-                    />
+                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

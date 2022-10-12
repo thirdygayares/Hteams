@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".group.CreateGroup2">
+
+
+    <Button
+        android:id="@+id/createbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/primary"
+        android:fontFamily="@font/gilroybold"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="2dp"
+        android:text="Create"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+
+
+
+    <ImageView
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:src="@drawable/indicator2"
+
+        ></ImageView>
+
+    <TextView
+        android:id="@+id/txt_invite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createbtn"
+        android:layout_margin="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/gilroybold"
+        android:text="Invite Your Classmate"></TextView>
+
+    <RelativeLayout
+        android:id="@+id/leader_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_invite"
+        android:layout_marginHorizontal="15dp"
+        android:background="#FEFAFA"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/profile_leader"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/classmate"></ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+           android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/profile_leader"
+            android:fontFamily="@font/gilroymedium"
+            android:text="Thirdy Gayares"
+            android:textColor="@color/black"
+            android:textSize="20dp"></TextView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+          android:layout_marginRight="20dp"
+            android:fontFamily="@font/gilroymedium"
+            android:text="Creator"
+            android:textSize="10dp"></TextView>
+
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/inviteRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/leader_container"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="100dp" />
+
+    <TextView
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inviteRecycler"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="-90dp"
+        android:fontFamily="@font/gilroybold"
+        android:text="+Add"
+        android:textColor="@color/primary"
+        android:textSize="20dp"
+
+        ></TextView>
+
+</RelativeLayout>
