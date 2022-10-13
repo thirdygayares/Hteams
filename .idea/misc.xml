@@ -11,12 +11,14 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_profile.xml" value="0.2265" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_subject.xml" value="0.2315" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_teacher.xml" value="0.2315" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_add_task.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_creategroup.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_creategroup2.xml" value="0.5" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_group_page.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_groupspace.xml" value="0.32135416666666666" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_list_of_classmate.xml" value="0.33" />
-        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_login.xml" value="0.4859154929577465" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_notification.xml" value="0.1796875" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_profile.xml" value="0.33" />
@@ -26,7 +28,10 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/listviewclassmateinvite.xml" value="0.5" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/login_loading.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_group.xml" value="0.5" />
-        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_invite.xml" value="0.5" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_group1.xml" value="0.33" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_grouppage2.xml" value="0.234375" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_invite.xml" value="0.25" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/time.xml" value="0.31614583333333335" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/menu/bottom_navigation.xml" value="0.21979166666666666" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/menu/home_menu.xml" value="0.2755208333333333" />
       </map>

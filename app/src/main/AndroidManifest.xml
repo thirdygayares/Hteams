@@ -17,7 +17,13 @@
         android:theme="@style/Theme.Hteams"
         tools:targetApi="31">
         <activity
-            android:name=".Login"
+            android:name=".group.GroupPage"
+            android:exported="false" />
+        <activity
+            android:name=".group.AddTask"
+            android:exported="false" />
+        <activity
+            android:name=".Testingfirebase"
             android:exported="false" />
         <activity
             android:name=".group.ListOfClassmate"
@@ -35,7 +41,7 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".Testingfirebase"
+            android:name=".Login"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>

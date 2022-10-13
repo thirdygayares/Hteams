@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".group.GroupPage">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="20dp"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/ic_group" />
+
+            <TextView
+                android:id="@+id/nameofgroup"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/gilroymedium"
+                android:text="Name of Group"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+
+            <ImageView
+                android:id="@+id/menu"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="20dp"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/ic_baseline_menu_24" />
+
+
+            <RelativeLayout
+                android:id="@+id/firstGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/logo"
+                android:layout_margin="2dp">
+
+                <TextView
+                    android:id="@+id/Table"
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="3dp"
+                    android:fontFamily="@font/gilroybold"
+                    android:text="Reseach Design"
+                    android:textAlignment="center"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/taskRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Table" />
+
+                <TextView
+                    android:id="@+id/Addtask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/taskRecycler"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/gilroyregular"
+                    android:text="+ADD TASK"
+                    android:textAlignment="center"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp" />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/secondGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/firstGroup"
+                android:layout_margin="2dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/Table1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/gilroybold"
+                    android:text="User Case"
+                    android:layout_marginLeft="3dp"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/taskRecycler2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Table1" />
+
+                <TextView
+                    android:id="@+id/Addtask2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/taskRecycler2"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/gilroyregular"
+                    android:text="+ADD TASK"
+                    android:textAlignment="center"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/secondGroup"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="+Add Group"
+                android:textColor="@color/primary"
+                android:textSize="20dp"></TextView>
+
+        </RelativeLayout>
+    </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

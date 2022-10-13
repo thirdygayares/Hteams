@@ -1,25 +1,60 @@
 package com.example.hteams.group;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.hteams.MainActivity;
 import com.example.hteams.R;
+import com.example.hteams.model.FireBaseParticipant;
 import com.example.hteams.model.InviteModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListOfClassmate extends AppCompatActivity {
     ListView classmateList;
     ArrayList<InviteModel> inviteModels = new ArrayList<>();
-    ArrayList< String > Classmate = new ArrayList < > ();
+//    static  ArrayList< String > Classmate = new ArrayList < > ();
+//    static ArrayList< String > holder = new ArrayList < > ();
+    FirebaseAuth firebaseAuth;
+    static String section;
+    TextView college;
+    FirebaseFirestore firestore;
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,23 +64,63 @@ public class ListOfClassmate extends AppCompatActivity {
 //        initialize
         initiatexml();
 
+        //firebase
+
+        firebaseGettingdata();
+
+
+
+
+        //to know the email and uid
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+
+
+        //choose section
+        //cyrrent name
+        String cname = firebaseAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = firestore.collection("students").document(cname);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                section =  value.getString("Section");
+//                Toast.makeText(ListOfClassmate.this, section, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
+
+//        Classmate.add(holder.get(0));
         //when click to listview
         choosing();
 
-        Classmate.add("Jonny Sagloria");
-        Classmate.add("Novem Lanaban");
-        Classmate.add("Jose Renan Gasidan");
-        Classmate.add("Angel Macatuhay");
-        Classmate.add("Marielle Zabala");
-        Classmate.add("Justine Louise Carunungan");
-        Classmate.add("Raiden Guillergan");
-        Classmate.add("Christie Pelayo");
-        Classmate.add("Joricel Roldan");
+
+        MainActivity xx = new MainActivity();
+
+//        Classmate.add("Jonny Sagloria");
+//        Classmate.add("Novem Lanaban");
+//        Classmate.add("Jose Renan Gasidan");
+//        Classmate.add("Angel Macatuhay");
+//        Classmate.add("Marielle Zabala");
+//        Classmate.add("Justine Louise Carunungan");
+//        Classmate.add("Raiden Guillergan");
+//        Classmate.add("Christie Pelayo");
+//        Classmate.add("Joricel Roldan");
 
 
         CustomAdapter customAdapter = new CustomAdapter();
         classmateList.setAdapter(customAdapter);
+
     }
+
+    private void firebaseGettingdata() {
+
+    }
+
 
     private void choosing() {
         classmateList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,14 +129,15 @@ public class ListOfClassmate extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Intent intent = new Intent(Tutorial.class);
                 //variable for getting the value of array list when click
-                String link = String.valueOf(Classmate.get(position));
+
+                Creategroup xx = new Creategroup();
+                String link = String.valueOf(xx.ClassHolder.get(position));
 //                Toast.makeText(MainActivity.this,link , Toast.LENGTH_SHORT).show();
 
 
                 //test1
                 //inviteModels.add(new InviteModel(link));
 
-                //TODO test 2
                 CreateGroup2 createGroup2 = new CreateGroup2();
                 createGroup2.Classmate.add(link);
 
@@ -73,12 +149,15 @@ public class ListOfClassmate extends AppCompatActivity {
 
     private void initiatexml() {
         classmateList = findViewById(R.id.classmateList);
+        college = findViewById(R.id.college);
     }
 
     private class CustomAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return Classmate.size();
+
+            Creategroup xx = new Creategroup();
+            return xx.ClassHolder.size();
         }
 
         @Override
@@ -95,10 +174,44 @@ public class ListOfClassmate extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             View viewl = getLayoutInflater().inflate(R.layout.listviewclassmateinvite, null);
             TextView title = viewl.findViewById(R.id.classmate_name);
-            title.setText(Classmate.get(position));
+            Creategroup xx = new Creategroup();
+
+            title.setText(xx.ClassHolder.get(position));
             return viewl;
         }
     }
 
 
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+//        firestore.collection("students")
+//                .whereEqualTo("Section",section)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+//                        if(task.isSuccessful()){
+//                            //Toast.makeText(ListOfClassmate.this, "Successful", Toast.LENGTH_SHORT).show();
+//
+//                            for(QueryDocumentSnapshot documentSnapshot :  task.getResult()){
+//                                Toast.makeText(ListOfClassmate.this, documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
+//                                String documentId = documentSnapshot.getString("Name");
+//                                Classmate.add(documentId);
+//                            }
+//
+//                        }
+//                    }
+//                });
+
+
+
+
+
+    }
+
 }
+
+
