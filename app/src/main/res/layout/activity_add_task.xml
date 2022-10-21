@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".group.AddTask">
+
+    <ImageView
+        android:id="@+id/back_option"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="20dp"
+        android:layout_alignParentLeft="true"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_group" />
+
+    <TextView
+        android:id="@+id/nameofgroup"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/gilroymedium"
+        android:text="Name of Group"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+
+    <LinearLayout
+
+        android:id="@+id/info_container"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameofgroup"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp">
+
+        <TextView
+            android:id="@+id/name_text"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:fontFamily="@font/gilroysemibold"
+            android:text="Name"
+            android:textColor="@color/primary"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/input_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gilroymedium"
+            android:hint="Task Name"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/gilroysemibold"
+            android:text="Assigned to"
+            android:textAlignment="center"
+            android:textColor="@color/primary"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/input_subject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gilroymedium"
+            android:hint="Role"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/gilroysemibold"
+            android:text="Date"
+            android:textAlignment="center"
+            android:textColor="@color/primary"
+            android:textSize="12sp" />
+
+        <EditText
+
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gilroymedium"
+            android:hint="Deadline"
+            android:inputType="none"
+            android:textSize="18sp"
+            android:enabled="true"
+            />
+
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/nextbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:paddingVertical="20dp"
+        android:paddingHorizontal="80dp"
+        android:backgroundTint="@color/primary"
+        android:fontFamily="@font/gilroybold"
+        android:layout_centerHorizontal="true"
+        android:text="ADD"
+        android:textColor="@color/white"
+        android:textSize="28dp" />
+
+
+
+
+</RelativeLayout>

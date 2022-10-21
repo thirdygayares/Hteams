@@ -64,13 +64,14 @@
             android:src="@drawable/classmate"></ImageView>
 
         <TextView
+            android:id="@+id/currentName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
-           android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/profile_leader"
             android:fontFamily="@font/gilroymedium"
-            android:text="Thirdy Gayares"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="20dp"></TextView>
 

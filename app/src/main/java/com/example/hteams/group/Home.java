@@ -96,10 +96,10 @@ public class Home extends Fragment implements GroupInterface {
     @Override
     public void onItemClick(int position) {
         Toast.makeText(getActivity(), "click", Toast.LENGTH_SHORT).show();
-//        Intent intent = new Intent(getActivity(), HistorySingleView.class);
+        Intent intent = new Intent(getActivity(), GroupPage.class);
 //        intent.putExtra("salesId", historyDataModels.get(position).getSalesID());
 //        intent.putExtra("Total", historyDataModels.get(position).getTotalPrice());
-//        startActivity(intent);
+        startActivity(intent);
     }
 
     private void menu() {

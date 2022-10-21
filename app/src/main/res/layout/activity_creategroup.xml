@@ -85,6 +85,7 @@
             android:textSize="12sp" />
 
         <EditText
+            android:id="@+id/input_subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gilroymedium"
@@ -102,6 +103,7 @@
             android:textSize="12sp" />
 
         <EditText
+            android:id="@+id/input_professor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gilroymedium"
@@ -119,6 +121,7 @@
             android:textSize="12sp" />
 
         <EditText
+            android:id="@+id/input_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gilroymedium"

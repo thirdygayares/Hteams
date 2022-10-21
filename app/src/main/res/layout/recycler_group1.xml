@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="2dp"
+        android:layout_marginHorizontal="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="4dp"
+        >
+        <RelativeLayout
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            >
+
+            <TextView
+                android:id="@+id/taskName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/gilroymedium"
+                android:paddingHorizontal="10dp"
+                android:text="Pangalan ng Task"
+                android:textColor="@color/black"
+                android:textSize="15dp"></TextView>
+
+
+            <ImageView
+                android:id="@+id/participant_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/classmate"
+                android:layout_alignParentRight="true"
+                ></ImageView>
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/participant_photo"
+                android:fontFamily="@font/gilroymedium"
+                android:paddingHorizontal="10dp"
+                android:text="Working On It"
+                android:textColor="@color/primary"
+                android:textSize="12dp"></TextView>
+
+            <TextView
+                android:id="@+id/duedate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/status"
+                android:layout_toLeftOf="@+id/participant_photo"
+                android:fontFamily="@font/gilroymedium"
+                android:paddingHorizontal="10dp"
+                android:text="Oct 16, 10PM"
+                android:textColor="@color/black"
+                android:textSize="12dp"></TextView>
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
