@@ -46,13 +46,15 @@ public class Comments extends AppCompatActivity {
         EditText sitelink = findViewById(R.id.linkfield);
 
 
-        submit.setOnClickListener(new View.OnClickListener() {
+  /*      submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 linkdialog.dismiss();
                 Toast.makeText(Comments.this,name.getText().toString(),Toast.LENGTH_SHORT).show();
             }
         });
+
+   */
 
         linkdialog.setContentView(view);
     }
