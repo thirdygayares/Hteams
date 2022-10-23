@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+  <LinearLayout
+      android:layout_marginLeft="40dp"
+      android:layout_marginTop="35dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src ="@drawable/addlink"
+        />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Add link"
+          android:textColor="@color/gray0"
+          android:fontFamily="@font/gilroysemibold"
+          android:textSize="20sp"
+          android:textAlignment="center"
+          android:paddingTop="10dp"/>
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="30dp"
+      android:layout_marginTop="120dp"
+      android:orientation="vertical">
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Site"
+        android:fontFamily="@font/gilroymedium"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/sitenamefield"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:fontFamily="@font/gilroymedium"
+        android:hint="Site Name "
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Name"
+        android:fontFamily="@font/gilroymedium"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id = "@+id/customenamefield"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:fontFamily="@font/gilroymedium"
+        android:hint="Custom Name "
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Link"
+        android:fontFamily="@font/gilroymedium"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/linkfield"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:fontFamily="@font/gilroymedium"
+        android:hint="www.hteams.com"
+        />
+
+  </LinearLayout>
+
+  <Button
+      android:id= "@+id/submitbtn"
+      android:layout_width="150dp"
+      android:layout_height="50dp"
+      android:layout_centerHorizontal="true"
+      android:fontFamily="@font/gilroybold"
+      android:backgroundTint="@color/primarybutton"
+      android:text="SUBMIT"
+      android:textColor="@color/white"
+      android:textSize="20sp"
+      android:layout_marginTop="430dp"/>
+
+
+
+
+</RelativeLayout>

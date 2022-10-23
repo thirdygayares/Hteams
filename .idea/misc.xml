@@ -5,9 +5,13 @@
       <map>
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_login.xml" value="0.4859154929577465" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_main.xml" value="0.18" />
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_comments.xml" value="0.2" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/drawable/bottomsheetbacckground.xml" value="0.155" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/drawable/buttomsheetbacckground.xml" value="0.16" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/drawable/roundbutton.xml" value="0.1565" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_comments.xml" value="0.33" />
         <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_creategroup.xml" value="0.1" />
         <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_userprofile.xml" value="0.5" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/bottomsheet.xml" value="0.1" />
       </map>
     </option>
   </component>
