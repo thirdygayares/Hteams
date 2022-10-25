@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -18,11 +19,22 @@ public class Comments extends AppCompatActivity {
 
     BottomSheetDialog linkdialog;
 
+    ImageButton list;
+    ImageButton capture;
+    ImageButton files;
+    ImageButton records;
+    Button update;
+    TextView cancel;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
+
+
+
 
 
         ImageButton links = findViewById(R.id.linkbtn);
@@ -55,7 +67,63 @@ public class Comments extends AppCompatActivity {
         });
 
    */
-
         linkdialog.setContentView(view);
+
+        list = findViewById(R.id.listbtn);
+        list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Comments.this,"List Clicked".toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        capture = findViewById(R.id.capturebtn);
+        capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(Comments.this,"Capture Clicked".toString(),Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+        records = findViewById(R.id.recordbtn);
+        records.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Comments.this,"Record Clicked".toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        files = findViewById(R.id.filebtn);
+        files.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Comments.this,"Files  Clicked".toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        update =  findViewById(R.id.comment_updatebtn);
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Comments.this,"update selected".toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cancel = findViewById(R.id.comment_cancelbtn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Comments.this,"Comment cancelled ".toString(),Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
     }
+
+
 }

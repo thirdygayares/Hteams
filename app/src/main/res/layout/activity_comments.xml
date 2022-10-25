@@ -9,8 +9,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
         android:textSize="15sp"
         android:text="Comment to"
         android:fontFamily="@font/gilroymedium"/>
@@ -18,36 +19,39 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Task Title"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="39dp"
         android:fontFamily="@font/gilroybold"
-        android:textStyle="bold"
+        android:text="Task Title"
         android:textSize="25sp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="49dp"/>
+        android:textStyle="bold" />
 
 
     <Button
+        android:id="@+id/comment_updatebtn"
         android:layout_width="100dp"
         android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="75dp"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="200dp"
-        android:text="Update"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        android:fontFamily="@font/gilroymedium"
         android:backgroundTint="@color/primary"
+        android:fontFamily="@font/gilroymedium"
+        android:text="Update"
         android:textAllCaps="false"
-        />
+        android:textColor="@color/white"
+        android:textSize="15sp" />
 
-     <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_marginTop="30dp"
-         android:layout_marginLeft="320dp"
-         android:text="Cancel"
-         android:textSize="18sp"
-         android:fontFamily="@font/gilroymedium"
-         />
+    <TextView
+        android:id="@+id/comment_cancelbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/gilroymedium"
+        android:text="Cancel"
+        android:textSize="15sp" />
 
 
     <ScrollView
@@ -60,6 +64,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:hint="With your comments and suggestions we can work more efficient"
             android:textSize="14sp" />
 
@@ -69,7 +74,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="590dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
 
@@ -79,11 +85,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
              android:layout_marginHorizontal="10dp">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/camera"
-                android:backgroundTint="@color/white"/>
+
+             <ImageButton
+                 android:id="@+id/capturebtn"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:backgroundTint="@color/white"
+                 android:src="@drawable/camera" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,11 +105,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp">
+
             <ImageButton
+                android:id="@+id/filebtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/attach"
-                android:backgroundTint="@color/white"/>
+                android:backgroundTint="@color/white"
+                android:src="@drawable/attach" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -115,11 +125,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp">
+
             <ImageButton
+                android:id="@+id/recordbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/microphone"
-                android:backgroundTint="@color/white"/>
+                android:backgroundTint="@color/white"
+                android:src="@drawable/microphone" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,11 +145,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp">
+
             <ImageButton
+                android:id="@+id/listbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/list"
-                android:backgroundTint="@color/white"/>
+                android:backgroundTint="@color/white"
+                android:src="@drawable/list" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

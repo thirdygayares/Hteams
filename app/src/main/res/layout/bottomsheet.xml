@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
   <LinearLayout
-      android:layout_marginLeft="40dp"
+      android:layout_alignParentLeft="true"
+      android:layout_marginLeft="25dp"
       android:layout_marginTop="35dp"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -29,6 +30,8 @@
   </LinearLayout>
 
   <LinearLayout
+      android:layout_centerHorizontal="true"
+      android:id="@+id/fields"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginLeft="30dp"
@@ -50,6 +53,7 @@
         android:textSize="20sp"
         android:fontFamily="@font/gilroymedium"
         android:hint="Site Name "
+        android:background="@color/white"
         />
 
     <TextView
@@ -68,6 +72,7 @@
         android:textSize="20sp"
         android:fontFamily="@font/gilroymedium"
         android:hint="Custom Name "
+        android:background="@color/white"
         />
 
     <TextView
@@ -86,21 +91,24 @@
         android:textSize="20sp"
         android:fontFamily="@font/gilroymedium"
         android:hint="www.hteams.com"
+        android:background="@color/white"
         />
 
   </LinearLayout>
 
   <Button
-      android:id= "@+id/submitbtn"
+      android:id="@+id/submitbtn"
       android:layout_width="150dp"
       android:layout_height="50dp"
       android:layout_centerHorizontal="true"
-      android:fontFamily="@font/gilroybold"
+      android:layout_below="@id/fields"
+      android:layout_marginTop="20dp"
+      android:layout_marginBottom="30dp"
       android:backgroundTint="@color/primarybutton"
+      android:fontFamily="@font/gilroybold"
       android:text="SUBMIT"
       android:textColor="@color/white"
-      android:textSize="20sp"
-      android:layout_marginTop="430dp"/>
+      android:textSize="20sp" />
 
 
 
