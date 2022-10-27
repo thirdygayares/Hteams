@@ -107,7 +107,6 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
             groupPageModels2.add(new GroupPageModel2(Title2[i],Status2[i],Deadline2[i]
             ));
         }
-
     }
 
     @Override

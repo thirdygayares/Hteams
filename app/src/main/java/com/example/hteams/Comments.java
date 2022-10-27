@@ -19,10 +19,10 @@ public class Comments extends AppCompatActivity {
 
     BottomSheetDialog linkdialog;
 
-    ImageButton list;
-    ImageButton capture;
-    ImageButton files;
-    ImageButton records;
+    Button list;
+    Button capture;
+    Button files;
+    Button records;
     Button update;
     TextView cancel;
 
@@ -37,7 +37,7 @@ public class Comments extends AppCompatActivity {
 
 
 
-        ImageButton links = findViewById(R.id.linkbtn);
+        Button links = findViewById(R.id.linkbtn);
         linkdialog = new BottomSheetDialog(this);
         createDialog();
 
