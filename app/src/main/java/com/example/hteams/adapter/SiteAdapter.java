@@ -45,6 +45,7 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
         holder.siteIcon.setImageResource(siteModels.get(position).getSiteicon());
         holder.siteName.setText(siteModels.get(position).getSitename());
         String nameGetter = siteModels.get(position).getSitename();
+
         holder.cancelbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
