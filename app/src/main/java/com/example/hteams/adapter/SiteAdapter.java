@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,33 +19,39 @@ import java.util.ArrayList;
 
 public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> {
 
-    private final SiteInterface siteaInterfaces;
+    private final SiteInterface siteInterfaces;
 
 
     Context context;
     ArrayList<SiteModel> siteModels;
 
-    public SiteAdapter(Context context, ArrayList<SiteModel> siteModels, SiteInterface siteaInterfaces){
+    public SiteAdapter(Context context, ArrayList<SiteModel> siteModels, SiteInterface siteInterfaces){
         this.context = context;
         this.siteModels = siteModels;
-        this.siteaInterfaces = siteaInterfaces;
+        this.siteInterfaces = siteInterfaces;
     }
 
     @NonNull
     @Override
     public SiteAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType  ) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.recycler_group, parent, false);
+        View view = inflater.inflate(R.layout.recyclersites, parent, false);
 
-        return new SiteAdapter.MyViewHolder(view, siteaInterfaces);
+        return new SiteAdapter.MyViewHolder(view, siteInterfaces);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SiteAdapter.MyViewHolder holder, int position) {
-        holder.groupName.setText(siteModels.get(position).getGroupTitle());
-        holder.group_description.setText(siteModels.get(position).getShortDescription());
-        holder.teacher.setText(siteModels.get(position).getProfessor());
-        holder.subject.setText(siteModels.get(position).getSubject());
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.siteIcon.setImageResource(siteModels.get(position).getSiteicon());
+        holder.siteName.setText(siteModels.get(position).getSitename());
+        String nameGetter = siteModels.get(position).getSitename();
+        holder.cancelbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Toast.makeText(v.getContext(),nameGetter,Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
     }
@@ -56,22 +64,22 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView groupName, group_description, teacher, subject;
+        TextView siteName;
+        ImageView siteIcon, cancelbtn ;
 
-        public MyViewHolder(@NonNull View itemView, SiteInterface SiteInterface) {
+        public MyViewHolder(@NonNull View itemView, SiteInterface siteInterfaces) {
             super(itemView);
-            groupName = itemView.findViewById(R.id.groupName);
-            group_description = itemView.findViewById(R.id.group_description);
-            teacher = itemView.findViewById(R.id.teacher);
-            subject = itemView.findViewById(R.id.subject);
+            siteIcon= itemView.findViewById(R.id.site_icon);
+            siteName = itemView.findViewById(R.id.sitename);
+            cancelbtn = itemView.findViewById(R.id.cancelsite);
 
 
 
             itemView.setOnClickListener(view -> {
-                if(siteaInterfaces != null ){
+                if(siteInterfaces != null ){
                     int pos = getAdapterPosition();
                     if(pos!= RecyclerView.NO_POSITION){
-                        siteaInterfaces.onItemClick(pos);
+                        siteInterfaces.onItemClick(pos);
                     }
 
                 }

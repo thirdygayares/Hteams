@@ -4,22 +4,23 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/gmeet"
+        android:id="@+id/site_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/meetlogo"/>
+        android:src="@drawable/meetlogo" />
 
     <TextView
+        android:id="@+id/sitename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/gmeet"
-        android:text="Google Meet"
         android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/site_icon"
         android:fontFamily="@font/gilroymedium"
-        android:textSize="17sp"
-        />
+        android:text="Google Meet"
+        android:textSize="17sp" />
 
     <ImageView
+        android:id="@+id/cancelsite"
         android:src="@drawable/ic_baseline_cancel_24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

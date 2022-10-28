@@ -2,17 +2,17 @@ package com.example.hteams.model;
 
 public class SiteModel {
 
-    int meeticon;
+    int siteicon;
     String sitename;
 
 
     public SiteModel(int meeticon, String sitename) {
-        this.meeticon = meeticon;
+        this.siteicon = siteicon;
         this.sitename = sitename;
     }
 
-    public int getMeeticon() {
-        return meeticon;
+    public int getSiteicon() {
+        return siteicon;
     }
 
     public String getSitename() {
