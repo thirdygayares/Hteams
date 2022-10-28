@@ -10,20 +10,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="25dp"
         android:textSize="15sp"
         android:text="Comment to"
+        android:layout_marginLeft="10dp"
         android:fontFamily="@font/gilroymedium"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="39dp"
         android:fontFamily="@font/gilroybold"
         android:text="Task Title"
+        android:layout_marginLeft="10dp"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -55,10 +54,11 @@
 
 
     <ScrollView
-        android:layout_width="350dp"
-        android:layout_height="400dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="10dp">
 
 
         <EditText
@@ -66,124 +66,123 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:hint="With your comments and suggestions we can work more efficient"
-            android:textSize="14sp" />
+            android:padding="10dp"
+            android:fontFamily="@font/gilroyregular"
+            android:textSize="16sp" />
 
 
     </ScrollView>
 
-    <LinearLayout
+
+    <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="25dp"
         android:layout_centerHorizontal="true"
+        >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
 
         >
 
-         <RelativeLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-             android:layout_marginHorizontal="10dp">
+            android:layout_height="wrap_content">
 
-             <ImageButton
-                 android:id="@+id/capturebtn"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:backgroundTint="@color/white"
-                 android:src="@drawable/camera" />
-            <TextView
+            <Button
+                android:id="@+id/capturebtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:drawableTop="@drawable/camera"
                 android:text="Capture"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"/>
+                android:fontFamily="@font/gilroyregular"
+                android:textAllCaps="false" />
 
-          </RelativeLayout>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp">
+            android:layout_marginHorizontal="0dp">
 
-            <ImageButton
+            <Button
                 android:id="@+id/filebtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
-                android:src="@drawable/attach" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/attach"
+                android:fontFamily="@font/gilroyregular"
                 android:text="Files"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"/>
+                android:textAllCaps="false" />
+
+
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp">
+         >
 
-            <ImageButton
+            <Button
                 android:id="@+id/recordbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
-                android:src="@drawable/microphone" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/microphone"
                 android:text="Record"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"/>
+                android:fontFamily="@font/gilroyregular"
+                android:textAllCaps="false" />
+
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp">
+            >
 
-            <ImageButton
+            <Button
                 android:id="@+id/listbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
-                android:src="@drawable/list" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/list"
+                android:fontFamily="@font/gilroyregular"
                 android:text="List"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"/>
+                android:textAllCaps="false" />
+
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp">
-            <ImageButton
+           >
+
+            <Button
                 android:id="@+id/linkbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/addlink"
-                android:backgroundTint="@color/white"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:drawableTop="@drawable/addlink"
+                android:fontFamily="@font/gilroyregular"
                 android:text="Link"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"/>
+                android:textAllCaps="false" />
+
+
 
         </RelativeLayout>
 
 
     </LinearLayout>
 
-
+    </HorizontalScrollView>
 
 
 

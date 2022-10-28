@@ -8,12 +8,11 @@
 
 
     <ImageButton
-        android:src= "@drawable/arrowpointingleft"
         android:layout_width="70dp"
         android:layout_height="30dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/white"
-        />
+        android:src="@drawable/arrowpointingleft" />
 
     <TextView
         android:layout_width="100dp"
@@ -22,8 +21,8 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/gilroymedium"
         android:paddingTop="5dp"
-        android:textColor="@color/black"
-        android:text="User Profile" />
+        android:text="User Profile"
+        android:textColor="@color/black" />
 
     <ImageView
         android:layout_width="75dp"
@@ -42,14 +41,12 @@
         android:textSize="20dp" />
 
 
-
     <TextView
         android:layout_width="100dp"
         android:layout_height="20dp"
         android:layout_marginLeft="120dp"
         android:layout_marginTop="110dp"
-        android:text="thirdygayares"
-        />
+        android:text="thirdygayares" />
 
     <TextView
         android:layout_width="150dp"
@@ -78,10 +75,10 @@
     <TextView
         android:layout_width="170dp"
         android:layout_height="20dp"
-        android:layout_marginTop="230dp"
         android:layout_marginLeft="45dp"
-        android:text="gayaresthird@gmail.com"
-        android:fontFamily="@font/gilroyregular"/>
+        android:layout_marginTop="230dp"
+        android:fontFamily="@font/gilroyregular"
+        android:text="gayaresthird@gmail.com" />
 
 
     <TextView
@@ -119,16 +116,12 @@
     <Button
         android:layout_width="140dp"
         android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="390dp"
-        android:text="EDIT PROFILE "
-        android:textColor="@color/white"
-        android:fontFamily="@font/gilroymedium"
-        android:textSize="12sp"
         android:backgroundTint="@color/primary"
-        android:layout_centerHorizontal="true"/>
-
-
-
-
+        android:fontFamily="@font/gilroymedium"
+        android:text="logOut "
+        android:textColor="@color/white"
+        android:textSize="12sp" />
 
 </RelativeLayout>

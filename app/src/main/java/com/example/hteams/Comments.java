@@ -19,10 +19,10 @@ public class Comments extends AppCompatActivity {
 
     BottomSheetDialog linkdialog;
 
-    ImageButton list;
-    ImageButton capture;
-    ImageButton files;
-    ImageButton records;
+    Button list;
+    Button capture;
+    Button files;
+    Button records;
     Button update;
     TextView cancel;
 
@@ -32,6 +32,42 @@ public class Comments extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
+
+
+
+
+
+        Button links = findViewById(R.id.linkbtn);
+        linkdialog = new BottomSheetDialog(this);
+        createDialog();
+
+          links.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  linkdialog.show();
+              }
+          });
+    }
+
+    private void createDialog() {
+
+        View view = getLayoutInflater().inflate(R.layout.bottomsheet,null,false);
+        Button submit = findViewById(R.id.submitbtn);
+        EditText site = findViewById(R.id.sitenamefield);
+        EditText name = findViewById(R.id.customenamefield);
+        EditText sitelink = findViewById(R.id.linkfield);
+
+
+  /*      submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linkdialog.dismiss();
+                Toast.makeText(Comments.this,name.getText().toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+   */
+        linkdialog.setContentView(view);
 
         list = findViewById(R.id.listbtn);
         list.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +87,7 @@ public class Comments extends AppCompatActivity {
             }
         });
 
+
         records = findViewById(R.id.recordbtn);
         records.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,14 +96,15 @@ public class Comments extends AppCompatActivity {
             }
         });
 
+
         files = findViewById(R.id.filebtn);
         files.setOnClickListener(new View.OnClickListener() {
-                                     @Override
-                                     public void onClick(View v) {
-                                         Toast.makeText(Comments.this,"Files  Clicked".toString(),Toast.LENGTH_SHORT).show();
-                                     }
-        }
-        );
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Comments.this,"Files  Clicked".toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         update =  findViewById(R.id.comment_updatebtn);
         update.setOnClickListener(new View.OnClickListener() {
@@ -76,21 +114,6 @@ public class Comments extends AppCompatActivity {
             }
         });
 
-
-
-
-        ImageButton links = findViewById(R.id.linkbtn);
-        linkdialog = new BottomSheetDialog(this);
-        createDialog();
-
-          links.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  linkdialog.show();
-              }
-          });
-
-
         cancel = findViewById(R.id.comment_cancelbtn);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,21 +122,6 @@ public class Comments extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void createDialog() {
-
-        View view = getLayoutInflater().inflate(R.layout.bottomsheet,null,false);
-        Button submit = findViewById(R.id.submitbtn);
-        EditText site = findViewById(R.id.sitenamefield);
-        EditText name = findViewById(R.id.customenamefield);
-        EditText sitelink = findViewById(R.id.linkfield);
-
-
-
-        linkdialog.setContentView(view);
-
-
 
     }
 
