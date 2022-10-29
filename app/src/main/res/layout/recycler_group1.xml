@@ -8,68 +8,153 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="2dp"
-        android:layout_marginHorizontal="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="4dp"
+
         >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
         <RelativeLayout
-            android:paddingVertical="10dp"
-            android:paddingHorizontal="8dp"
+            android:id="@+id/blueline"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:background="@color/primary"
+            ></RelativeLayout>
+
+
+        <RelativeLayout
+            android:paddingRight="10dp"
+            android:paddingTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
             >
 
+
             <TextView
                 android:id="@+id/taskName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+
                 android:fontFamily="@font/gilroymedium"
                 android:paddingHorizontal="10dp"
                 android:text="Pangalan ng Task"
                 android:textColor="@color/black"
-                android:textSize="15dp"></TextView>
+                android:textSize="17dp"></TextView>
 
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/participant_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/classmate"
-                android:layout_alignParentRight="true"
-                ></ImageView>
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/taskName"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:maxWidth="50dp"
+                android:maxHeight="50dp"
+                android:scaleType="fitXY"
+                app:shapeAppearance="?attr/actionButtonStyle"
+                app:shapeAppearanceOverlay="@style/imageViewRounded"
+                app:strokeColor="@android:color/white"
+                android:src="@drawable/profile"></com.google.android.material.imageview.ShapeableImageView>
+
+<!--            icon status-->
+            <ImageView
+                android:id="@+id/iconstatus"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="4dp"
+                android:layout_toLeftOf="@id/status"
+                android:src="@drawable/inprogress"></ImageView>
 
             <TextView
                 android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/participant_photo"
+                android:layout_alignParentRight="true"
                 android:fontFamily="@font/gilroymedium"
-                android:paddingHorizontal="10dp"
                 android:text="Working On It"
                 android:textColor="@color/primary"
+                android:textSize="14dp"></TextView>
+
+
+
+<!--    Timestamp-->
+            <TextView
+                android:id="@+id/timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/status"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/gilroymedium"
+                android:text="2hr 12mins"
+                android:visibility="gone"
+                android:textColor="@color/black"
                 android:textSize="12dp"></TextView>
 
+<!--            Timestamp icon-->
+
+            <ImageView
+                android:id="@+id/timestapicon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:visibility="gone"
+
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="4dp"
+                android:layout_below="@+id/iconstatus"
+                android:layout_toLeftOf="@id/timestamp"
+                android:src="@drawable/play"></ImageView>
+
+
+<!--            Duedate-->
             <TextView
                 android:id="@+id/duedate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/status"
-                android:layout_toLeftOf="@+id/participant_photo"
+                android:layout_below="@+id/timestamp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/gilroymedium"
-                android:paddingHorizontal="10dp"
                 android:text="Oct 16, 10PM"
                 android:textColor="@color/black"
                 android:textSize="12dp"></TextView>
 
-        </RelativeLayout>
 
+<!--            Duedate icon-->
+
+            <ImageView
+                android:id="@+id/calendaricon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="4dp"
+                android:layout_below="@+id/timestapicon"
+                android:layout_toLeftOf="@id/duedate"
+                android:src="@drawable/calendar"></ImageView>
+
+
+<!--            gap-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/participant_photo"
+                android:layout_marginTop="10dp"
+                android:background="@color/gray0"></LinearLayout>
+
+
+        </RelativeLayout>
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

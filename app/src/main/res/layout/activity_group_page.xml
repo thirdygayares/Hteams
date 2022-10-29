@@ -25,7 +25,10 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
-                android:layout_margin="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+
+                android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/white"
                 android:src="@drawable/ic_group" />
 
@@ -33,8 +36,9 @@
                 android:id="@+id/nameofgroup"
                 android:layout_width="120dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="60dp"
-                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@+id/logo"
+                android:layout_marginTop="22dp"
+                android:layout_marginLeft="5dp"
                 android:fontFamily="@font/gilroymedium"
                 android:text="Name of Group"
                 android:textAlignment="center"
@@ -56,38 +60,121 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/logo"
-                android:layout_margin="2dp">
+                >
 
-                <TextView
-                    android:id="@+id/Table"
-                    android:layout_width="120dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="3dp"
-                    android:fontFamily="@font/gilroybold"
-                    android:text="Reseach Design"
-                    android:textAlignment="center"
-                    android:textColor="@color/primary"
-                    android:textSize="16sp" />
+                <RelativeLayout
+                    android:id="@+id/firstTable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <RelativeLayout
+                        android:id="@+id/titlehigh"
+                        android:layout_width="10dp"
+                        android:layout_height="30dp"
+                        android:background="@color/primary"
+                        ></RelativeLayout>
+
+
+                    <TextView
+                        android:id="@+id/Table"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/titlehigh"
+                        android:fontFamily="@font/gilroybold"
+                        android:text="Reseach Design"
+                        android:textAlignment="center"
+                        android:textColor="@color/primary"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/display_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="@font/gilroyregular"
+                        android:text="List View"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"></TextView>
+
+<!--                    icon of dispalay mode-->
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@id/display_layout"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_baseline_view_list_24"></ImageView>
+
+                </RelativeLayout>
+
+
 
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="5dp"
                     android:id="@+id/taskRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/Table" />
+                    android:layout_below="@+id/firstTable" />
 
-                <TextView
-                    android:id="@+id/Addtask"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <androidx.cardview.widget.CardView
                     android:layout_below="@+id/taskRecycler"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/gilroyregular"
-                    android:text="+ADD TASK"
-                    android:textAlignment="center"
-                    android:textColor="@color/primary"
-                    android:textSize="16sp" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                    <RelativeLayout
+                        android:id="@+id/blueline"
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary"
+                        ></RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:paddingRight="10dp"
+                        android:paddingTop="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        >
+
+                        <TextView
+                            android:id="@id/Addtask"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="+ Add Task"
+                            android:layout_marginHorizontal="10dp"
+                            android:textColor="@color/primary"></TextView>
+
+
+                        <!--            gap-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@+id/Addtask"
+                            android:layout_marginTop="17dp"
+                            android:background="@color/gray0"></LinearLayout>
+
+                    </RelativeLayout>
+
+
+
+
+                    </LinearLayout>
+
+
+
+                </androidx.cardview.widget.CardView>
 
 
             </RelativeLayout>
