@@ -30,10 +30,10 @@
   </LinearLayout>
 
   <LinearLayout
-      android:layout_centerHorizontal="true"
       android:id="@+id/fields"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
       android:layout_marginLeft="30dp"
       android:layout_marginTop="120dp"
       android:orientation="vertical">
@@ -41,58 +41,55 @@
     <TextView
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="Site"
         android:fontFamily="@font/gilroymedium"
+        android:text="Site"
         android:textColor="@color/black"
-        android:textSize="20sp"/>
-
+        android:textSize="20sp" />
+    <!--sample comments-->
     <EditText
         android:id="@+id/sitenamefield"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:background="@color/white"
         android:fontFamily="@font/gilroymedium"
         android:hint="Site Name "
-        android:background="@color/white"
-        />
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Name"
         android:fontFamily="@font/gilroymedium"
+        android:text="Name"
         android:textColor="@color/black"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 
     <EditText
-        android:id = "@+id/customenamefield"
+        android:id="@+id/customenamefield"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:background="@color/white"
         android:fontFamily="@font/gilroymedium"
         android:hint="Custom Name "
-        android:background="@color/white"
-        />
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Link"
         android:fontFamily="@font/gilroymedium"
+        android:text="Link"
         android:textColor="@color/black"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/linkfield"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:background="@color/white"
         android:fontFamily="@font/gilroymedium"
         android:hint="www.hteams.com"
-        android:background="@color/white"
-        />
+        android:textSize="20sp" />
 
   </LinearLayout>
 

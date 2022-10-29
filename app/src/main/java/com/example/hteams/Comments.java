@@ -30,22 +30,27 @@ public class Comments extends AppCompatActivity implements SiteInterface {
     Button update;
     TextView cancel;
     RecyclerView sitesRecycler;
+    EditText sitenamefield;
+
+    //store in sitename
+    String NameSite = "Site Name";
 
     ArrayList<SiteModel> siteModels = new ArrayList<>();
 
+    //name of site
+    ArrayList<String> siteName = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
-        initxml();
-        setupData();
-
 
         Button links = findViewById(R.id.linkbtn);
         linkdialog = new BottomSheetDialog(this);
         createlinksDialog();
 
+
+        //links button
         links.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +58,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
                                      }
                                  }
         );
+
 
 
         list = findViewById(R.id.listbtn);
@@ -67,6 +73,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         // end of list
 
 
+        //capture start
         capture = findViewById(R.id.capturebtn);
         capture.setOnClickListener(new View.OnClickListener()
 
@@ -131,60 +138,90 @@ public class Comments extends AppCompatActivity implements SiteInterface {
 
 
 
-
-    private void initxml() {
-        sitesRecycler  = findViewById(R.id.sitesRecycler);
-    }
-
+    //comment
     private void setupData() {
         int[] siteicon = {R.drawable.meetlogo, R.drawable.githublogo};
         String[] sitename = {"Google Meet","Github"};
 
         for(int i = 0; i<siteicon.length;i++){
-            siteModels  .add(new SiteModel(siteicon[i],sitename[i]));
-
+            siteModels.add(new SiteModel(siteicon[i],sitename[i]));
         }
-
-
 
     }
 
 
-
+//pag pinindot ang link dialog
     private void createlinksDialog() {     // for bottomsheet
 
         View view = getLayoutInflater().inflate(R.layout.bottomsheet, null, false);
-        Button submit = findViewById(R.id.submitbtn);
-        EditText sitenamefield = findViewById(R.id.sitenamefield); // call createsitedialog
+        Button submit = view.findViewById(R.id.submitbtn);
+        sitenamefield = view.findViewById(R.id.sitenamefield); // call createsitedialog
         EditText name = findViewById(R.id.customenamefield);
         EditText sitelink = findViewById(R.id.linkfield);
 
         sitelistdialog = new BottomSheetDialog(this);
         createsitesDialog();
 
+
+        sitenamefield.setText(NameSite);
+
         sitenamefield.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {sitelistdialog.show();}
+            public void onClick(View v) {
+                sitelistdialog.show();
+
+                //para maghide yung link dialig
+                linkdialog.hide();
+            }
         });
 
-
         linkdialog.setContentView(view);
+
     }
 
 
+    //pag pinindot ang site name lalabas to
+    //bla
+    //bla
     private void createsitesDialog() {
         View view = getLayoutInflater().inflate(R.layout.sitesbottomsheet,null, false);
-       //initxml();
+        sitesRecycler  = view.findViewById(R.id.sitesRecycler);
+        setupData();
+        SiteAdapter adapter = new SiteAdapter(Comments.this,siteModels,this);
+        sitesRecycler.setAdapter(adapter);
+        sitesRecycler.setLayoutManager(new LinearLayoutManager(Comments.this));
 
-        //SiteAdapter adapter = new SiteAdapter(Comments.this,siteModels,this);
-       // sitesRecycler.setAdapter(adapter);
-       // sitesRecycler.setLayoutManager(new LinearLayoutManager(Comments.this));
+        //para lumabas
+        sitelistdialog.setContentView(view);
+
     }
 
 
     @Override
     public void onItemClick(int pos) {
         Toast.makeText(Comments.this,"Clicked an Item",Toast.LENGTH_SHORT).show();
+        sitelistdialog.hide();
+        //para maghide yung link dialig
+        linkdialog.show();
+
+
+        //nagaautomatic na magchange
+        sitenamefield.setText(siteModels.get(pos).getSitename());
+
+        //dito ka magsasave sa array
+        siteName.add(siteModels.get(pos).getSitename());
+        Toast.makeText(Comments.this,siteName.toString(),Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        if(siteName.isEmpty()){
+//            sitenamefield.setText("yangina");
+//        }else {
+//            sitenamefield.setText(siteName.get(0));siteName.get(0));
+//        }
 
     }
 }
