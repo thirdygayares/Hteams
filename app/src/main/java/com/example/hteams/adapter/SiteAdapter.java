@@ -25,7 +25,7 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
     Context context;
     ArrayList<SiteModel> siteModels;
 
-    public SiteAdapter(Context context, ArrayList<SiteModel> siteModels, SiteInterface siteInterfaces){
+    public SiteAdapter(Context context, ArrayList<SiteModel> siteModels, SiteInterface siteInterfaces) {
         this.context = context;
         this.siteModels = siteModels;
         this.siteInterfaces = siteInterfaces;
@@ -33,7 +33,7 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
 
     @NonNull
     @Override
-    public SiteAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType  ) {
+    public SiteAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recyclersites, parent, false);
 
@@ -49,10 +49,9 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
         holder.cancelbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Toast.makeText(v.getContext(),nameGetter,Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), nameGetter, Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
     }
@@ -63,23 +62,22 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
         return siteModels.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView siteName;
-        ImageView siteIcon, cancelbtn ;
+        ImageView siteIcon, cancelbtn;
 
         public MyViewHolder(@NonNull View itemView, SiteInterface siteInterfaces) {
             super(itemView);
-            siteIcon= itemView.findViewById(R.id.site_icon);
+            siteIcon = itemView.findViewById(R.id.site_icon);
             siteName = itemView.findViewById(R.id.sitename);
             cancelbtn = itemView.findViewById(R.id.cancelsite);
 
 
-
             itemView.setOnClickListener(view -> {
-                if(siteInterfaces != null ){
+                if (siteInterfaces != null) {
                     int pos = getAdapterPosition();
-                    if(pos!= RecyclerView.NO_POSITION){
+                    if (pos != RecyclerView.NO_POSITION) {
                         siteInterfaces.onItemClick(pos);
                     }
 
@@ -87,3 +85,4 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
             });
         }
     }
+}

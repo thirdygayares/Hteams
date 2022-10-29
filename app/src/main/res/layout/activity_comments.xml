@@ -60,15 +60,28 @@
         android:layout_marginTop="100dp"
         android:layout_marginBottom="10dp">
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
 
         <EditText
+            android:id="@+id/cmntfield"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
+            android:fontFamily="@font/gilroyregular"
             android:hint="With your comments and suggestions we can work more efficient"
             android:padding="10dp"
-            android:fontFamily="@font/gilroyregular"
             android:textSize="16sp" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cmntfield"/>
+
+        </RelativeLayout>
 
 
     </ScrollView>
