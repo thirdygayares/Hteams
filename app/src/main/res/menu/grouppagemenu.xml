@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/groupdetails"
+        android:icon="@drawable/ic_details"
+        android:title="Group details"
+        />
+
+    <item
+        android:id="@+id/viewyourtask"
+        android:icon="@drawable/ic_task"
+        android:title="View your task"
+        />
+
+    <item
+        android:id="@+id/groupmates"
+        android:icon="@drawable/ic_baseline_group_24"
+        android:title="Groupmates"
+        />
+
+    <item
+        android:id="@+id/events"
+        android:icon="@drawable/ic_baseline_event_note_24"
+        android:title="Events"
+        />
+
+    <item
+        android:id="@+id/arhived"
+        android:icon="@drawable/ic_archived"
+        android:title="Archived"
+        />
+
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_baseline_delete_outline_24"
+        android:title="Delete"
+        />
+
+</menu>
