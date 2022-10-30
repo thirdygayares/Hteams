@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingVertical="10dp"
-        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
         android:background="@color/white">
         <!--        Title Name-->
         <TextView
@@ -77,6 +77,24 @@
 
 <!--    end of header-->
 
+<!--start of scroll bar-->
+    <ScrollView
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                >
 
 <!--    assigned to row-->
     <androidx.cardview.widget.CardView
@@ -206,10 +224,10 @@
                     android:layout_centerVertical="true"
                     android:layout_marginHorizontal="10dp"
                     android:backgroundTint="@color/working"
+                    android:drawableLeft="@drawable/ic_baseline_work_outline_24"
                     android:fontFamily="@font/gilroymedium"
                     android:stateListAnimator="@null"
                     android:text="Working"
-                    android:drawableLeft="@drawable/ic_baseline_work_outline_24"
                     android:textAllCaps="false"
                     android:textColor="@color/white"></com.google.android.material.button.MaterialButton>
 
@@ -240,9 +258,6 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 <!--    end status row-->
-
-
-
 
 
     <!--    start of deadline row-->
@@ -322,27 +337,54 @@
         ></TextView>
 
 
-    <com.google.android.material.button.MaterialButton
-        style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/postButton"
+                    style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/statusDeadlime"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:drawableLeft="@drawable/ic_baseline_add_24"
+                    android:drawableTint="@color/primary"
+                    android:fontFamily="@font/gilroyregular"
+                    android:stateListAnimator="@null"
+                    android:text="Post"
+                    android:textAllCaps="false"
+                    android:textColor="@color/primary"
+                    app:backgroundTint="@android:color/transparent"
+                    app:cornerRadius="8dp"
+                    app:rippleColor="@color/primary"
+                    app:strokeColor="@color/primary"
+                    app:strokeWidth="1dp"></com.google.android.material.button.MaterialButton>
+
+
+    <LinearLayout
+        android:layout_below="@+id/postButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/statusDeadlime"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:drawableLeft="@drawable/ic_baseline_add_24"
-        android:drawableTint="@color/primary"
-        android:fontFamily="@font/gilroyregular"
-        app:backgroundTint="@android:color/transparent"
-        app:cornerRadius="8dp"
-        app:rippleColor="@color/primary"
-        app:strokeColor="@color/primary"
-        app:strokeWidth="1dp"
-        android:stateListAnimator="@null"
-        android:text="Post"
-        android:textAllCaps="false"
-        android:textColor="@color/primary"></com.google.android.material.button.MaterialButton>
+        android:background="@color/grey1"
+         >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/viewtaskposting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            ></androidx.recyclerview.widget.RecyclerView>
+
+
+
+
+    </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
 
 </RelativeLayout>

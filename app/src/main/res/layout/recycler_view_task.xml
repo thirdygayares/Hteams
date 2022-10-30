@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_marginBottom="5dp"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+<!--            credentials-->
+            <RelativeLayout
+                android:id="@+id/credentials"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+<!--                profile picture-->
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/participant_photo"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/profile"
+                    app:shapeAppearance="?attr/actionButtonStyle"
+                    app:shapeAppearanceOverlay="@style/imageViewRounded"
+                    app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
+
+                <TextView
+                    android:id="@+id/participant_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/participant_photo"
+                    android:layout_toRightOf="@id/participant_photo"
+                    android:fontFamily="@font/gilroymedium"
+                    android:text="Thirdy Gayares"
+                    android:textColor="@color/text"
+                    android:textSize="20dp"></TextView>
+
+                <TextView
+                    android:id="@+id/date_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Oct 10"
+                    android:layout_below="@id/participant_name"
+                    android:textColor="@color/text"
+                    android:fontFamily="@font/gilroylight"
+                    android:textSize="15dp"
+                    android:layout_toRightOf="@id/participant_photo"
+
+                    ></TextView>
+
+
+
+            </RelativeLayout>
+
+
+<!--            counting view and comment-->
+
+            <LinearLayout
+                android:id="@+id/countingviewandcomment"
+                android:padding="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+<!--                counting view-->
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_remove_red_eye_24"
+                    app:tint="@color/text"
+                    ></ImageView>
+
+                <TextView
+                    android:id="@+id/viewcount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2"
+                    android:textColor="@color/text"
+                    android:fontFamily="@font/gilroylight"
+                    android:paddingHorizontal="5dp"
+                    android:layout_marginTop="3dp"
+                    ></TextView>
+
+<!--        end counting view-->
+
+<!--                start comment count-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_comment_24"
+                    app:tint="@color/text"
+                    ></ImageView>
+
+                <TextView
+                    android:id="@+id/commentcount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textColor="@color/text"
+                    android:fontFamily="@font/gilroylight"
+                    android:paddingHorizontal="5dp"
+                    android:layout_marginTop="3dp"
+                    ></TextView>
+            </LinearLayout>
+
+<!--            end of counting views and comments-->
+
+<!--            desciption-->
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/credentials"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/gilroyregular"
+                android:text="Pa check naman to @Novem Lanaban Kung okay lang po "
+                android:textColor="@color/text"
+                android:textSize="15dp"></TextView>
+
+<!--            end of description-->
+
+
+<!--            count of files-->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/files"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/description"
+                android:layout_marginHorizontal="22dp"
+                android:backgroundTint="@color/primary"
+                android:padding="10dp"
+                app:cardCornerRadius="10dp"
+                >
+
+
+            <TextView
+                android:id="@+id/files_count"
+                android:textColor="@color/white"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="With 2 Files"
+                ></TextView>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--    end of counting of files-->
+
+
+<!--            buttons : like dislike save-->
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/navigatorlikes"
+                android:layout_below="@+id/files"
+                android:layout_alignStart="@+id/files"
+                android:layout_marginVertical="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                >
+
+                <!--                button of like-->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonLikes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_baseline_thumb_up_24"
+                    android:fontFamily="@font/gilroymedium"
+                    android:stateListAnimator="@null"
+                    android:text="12"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text"></com.google.android.material.button.MaterialButton>
+
+                <!--                button of dislike-->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttondislike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_baseline_thumb_down_24"
+                    android:fontFamily="@font/gilroymedium"
+                    android:stateListAnimator="@null"
+                    android:text="4"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text"></com.google.android.material.button.MaterialButton>
+
+
+                <!--                button of dislike-->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonsave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_baseline_save"
+                    android:fontFamily="@font/gilroymedium"
+                    android:stateListAnimator="@null"
+                    android:text="Save"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text"></com.google.android.material.button.MaterialButton>
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</RelativeLayout>

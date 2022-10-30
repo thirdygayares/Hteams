@@ -248,9 +248,9 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
     @Override
     public void onItemClick(int position) {
         Toast.makeText(GroupPage.this, "click", Toast.LENGTH_SHORT).show();
-//        Intent intent = new Intent(GroupPage.this, GroupPage.class);
-//        intent.putExtra("salesId", historyDataModels.get(position).getSalesID());
-//        intent.putExtra("Total", historyDataModels.get(position).getTotalPrice());
-//        startActivity(intent);
-    }
-}
+
+        Intent intent = new Intent(GroupPage.this, ViewTask.class);
+//     wwwwwwent.putExtra("salesId", historyDataModels.get(position).getSalesID());
+//    w   intent.putExtra("Total", historyDataModels.get(position).getTotalPrice());
+        startActivity(intent);
+    }}
