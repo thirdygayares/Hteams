@@ -111,16 +111,16 @@
 <!--                button of choosing asignee-->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_asignee"
-                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="Thirdy Gayares"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/gilroymedium"
                     android:paddingLeft="50dp"
                     android:stateListAnimator="@null"
-                    android:fontFamily="@font/gilroymedium"
-                    android:textColor="#887C7C"
-                    android:textAllCaps="false"></com.google.android.material.button.MaterialButton>
+                    android:text="Thirdy Gayares"
+                    android:textAllCaps="false"
+                    android:textColor="#887C7C"></com.google.android.material.button.MaterialButton>
 
 
 <!--                Image of assignee-->
@@ -307,5 +307,42 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <!--    end deadline row-->
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Updates"
+        android:layout_below="@+id/statusDeadlime"
+        android:fontFamily="@font/gilroymedium"
+        android:textColor="@color/primary"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        ></TextView>
+
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/statusDeadlime"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/ic_baseline_add_24"
+        android:drawableTint="@color/primary"
+        android:fontFamily="@font/gilroyregular"
+        app:backgroundTint="@android:color/transparent"
+        app:cornerRadius="8dp"
+        app:rippleColor="@color/primary"
+        app:strokeColor="@color/primary"
+        app:strokeWidth="1dp"
+        android:stateListAnimator="@null"
+        android:text="Post"
+        android:textAllCaps="false"
+        android:textColor="@color/primary"></com.google.android.material.button.MaterialButton>
 
 </RelativeLayout>
