@@ -75,11 +75,11 @@
             android:padding="10dp"
             android:textSize="16sp" />
 
-
             <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cmntfield"/>
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cmntfield" />
 
         </RelativeLayout>
 
@@ -91,109 +91,103 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        >
+        android:layout_centerHorizontal="true">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-
-        >
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/capturebtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:drawableTop="@drawable/camera"
-                android:text="Capture"
-                android:fontFamily="@font/gilroyregular"
-                android:textAllCaps="false" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="0dp">
+            android:orientation="horizontal"
 
-            <Button
-                android:id="@+id/filebtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:drawableTop="@drawable/attach"
-                android:fontFamily="@font/gilroyregular"
-                android:text="Files"
-                android:textAllCaps="false" />
-
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-         >
-
-            <Button
-                android:id="@+id/recordbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:drawableTop="@drawable/microphone"
-                android:text="Record"
-                android:fontFamily="@font/gilroyregular"
-                android:textAllCaps="false" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             >
 
-            <Button
-                android:id="@+id/listbtn"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/capturebtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:drawableTop="@drawable/camera"
+                    android:fontFamily="@font/gilroyregular"
+                    android:text="Capture"
+                    android:textAllCaps="false" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:drawableTop="@drawable/list"
-                android:fontFamily="@font/gilroyregular"
-                android:text="List"
-                android:textAllCaps="false" />
+                android:layout_marginHorizontal="0dp">
+
+                <Button
+                    android:id="@+id/filebtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:drawableTop="@drawable/attach"
+                    android:fontFamily="@font/gilroyregular"
+                    android:text="Files"
+                    android:textAllCaps="false" />
 
 
-        </RelativeLayout>
+            </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           >
-
-            <Button
-                android:id="@+id/linkbtn"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:drawableTop="@drawable/addlink"
-                android:fontFamily="@font/gilroyregular"
-                android:text="Link"
-                android:textAllCaps="false" />
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/recordbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:drawableTop="@drawable/microphone"
+                    android:fontFamily="@font/gilroyregular"
+                    android:text="Record"
+                    android:textAllCaps="false" />
 
 
+            </RelativeLayout>
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/listbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:drawableTop="@drawable/lists"
+                    android:fontFamily="@font/gilroyregular"
+                    android:text="List"
+                    android:textAllCaps="false" />
 
 
-    </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/linkbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:drawableTop="@drawable/addlink"
+                    android:fontFamily="@font/gilroyregular"
+                    android:text="Link"
+                    android:textAllCaps="false" />
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
 
     </HorizontalScrollView>
 

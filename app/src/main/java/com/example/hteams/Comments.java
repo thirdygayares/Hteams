@@ -31,6 +31,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
     TextView cancel;
     RecyclerView sitesRecycler;
     EditText sitenamefield;
+    Button sitebtnemmbedd; // para pag click nung edit text madetect
 
     //store in sitename
     String NameSite = "Site Name";
@@ -39,6 +40,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
 
     //name of site
     ArrayList<String> siteName = new ArrayList<>();
+    ArrayList<String> cmntsitelist = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +56,10 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         links.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                                         linkdialog.show();
-                                     }
-                                 }
-        );
+                linkdialog.show();
+                cmntsitelist.add(NameSite);
+            }
+        });
 
 
 
@@ -140,8 +142,8 @@ public class Comments extends AppCompatActivity implements SiteInterface {
 
     //comment
     private void setupData() {
-        int[] siteicon = {R.drawable.meetlogo, R.drawable.githublogo};
-        String[] sitename = {"Google Meet","Github"};
+        int[] siteicon = {R.drawable.meetlogo, R.drawable.githublogo,R.drawable.drivelogo};
+        String[] sitename = {"Google Meet","Github","Google Drive","facebook"};
 
         for(int i = 0; i<siteicon.length;i++){
             siteModels.add(new SiteModel(siteicon[i],sitename[i]));
@@ -158,6 +160,15 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         sitenamefield = view.findViewById(R.id.sitenamefield); // call createsitedialog
         EditText name = findViewById(R.id.customenamefield);
         EditText sitelink = findViewById(R.id.linkfield);
+        sitebtnemmbedd = findViewById(R.id.sitenamebtn);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               linkdialog.dismiss();
+
+
+            }
+        });
 
         sitelistdialog = new BottomSheetDialog(this);
         createsitesDialog();
@@ -165,7 +176,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
 
         sitenamefield.setText(NameSite);
 
-        sitenamefield.setOnClickListener(new View.OnClickListener() {
+       sitebtnemmbedd.setOnClickListener(new View.OnClickListener() {    // first click bottom dialog call
             @Override
             public void onClick(View v) {
                 sitelistdialog.show();
@@ -200,8 +211,8 @@ public class Comments extends AppCompatActivity implements SiteInterface {
     @Override
     public void onItemClick(int pos) {
         Toast.makeText(Comments.this,"Clicked an Item",Toast.LENGTH_SHORT).show();
-        sitelistdialog.hide();
-        //para maghide yung link dialig
+        sitelistdialog.hide(); //para maghide yung link dialiog
+
         linkdialog.show();
 
 
@@ -218,7 +229,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
     protected void onStart() {
         super.onStart();
 //        if(siteName.isEmpty()){
-//            sitenamefield.setText("yangina");
+//            sitenamefield.setText("Test");
 //        }else {
 //            sitenamefield.setText(siteName.get(0));siteName.get(0));
 //        }

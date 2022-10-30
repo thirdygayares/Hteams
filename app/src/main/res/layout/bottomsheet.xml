@@ -53,7 +53,12 @@
         android:background="@color/white"
         android:fontFamily="@font/gilroymedium"
         android:hint="Site Name "
-        android:textSize="20sp" />
+        android:textSize="20sp" >
+      <Button
+          android:id="@+id/sitenamebtn"
+         />
+
+    </EditText>
 
     <TextView
         android:layout_width="wrap_content"
