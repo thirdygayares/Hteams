@@ -224,10 +224,9 @@ public class Login extends AppCompatActivity {
                     firebaseAuth.signInWithEmailAndPassword(emaiL, passworD).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-
+                            alertDialog.dismiss();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             finish();
-
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -245,7 +244,6 @@ public class Login extends AppCompatActivity {
 //                    alertDialog.dismiss();
 //                    Toast.makeText(Login.this, "All Fields are Required", Toast.LENGTH_SHORT).show();
                 }
-
 
         //sa button
             }
