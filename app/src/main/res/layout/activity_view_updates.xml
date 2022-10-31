@@ -54,7 +54,7 @@
     <!--    end of header-->
 
 
-<!--    Start of Scroll View-->
+    <!--    Start of Scroll View-->
     <ScrollView
         android:layout_below="@+id/header"
         android:layout_width="match_parent"
@@ -67,368 +67,368 @@
 
             >
 
-<!--    start of content-->
+            <!--    start of content-->
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
-            <!--            credentials-->
-            <RelativeLayout
-                android:id="@+id/credentials"
-                android:paddingVertical="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                >
-                <!--                profile picture-->
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/participant_photo"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:maxWidth="50dp"
-                    android:maxHeight="50dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/profile"
-                    app:shapeAppearance="?attr/actionButtonStyle"
-                    app:shapeAppearanceOverlay="@style/imageViewRounded"
-                    app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
-
-                <TextView
-                    android:id="@+id/participant_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/participant_photo"
-                    android:layout_toRightOf="@id/participant_photo"
-                    android:fontFamily="@font/gilroymedium"
-                    android:text="Thirdy Gayares"
-                    android:textColor="@color/text"
-                    android:textSize="20dp"></TextView>
-
-                <TextView
-                    android:id="@+id/date_post"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Oct 10"
-                    android:layout_below="@id/participant_name"
-                    android:textColor="@color/text"
-                    android:fontFamily="@font/gilroylight"
-                    android:textSize="15dp"
-                    android:layout_toRightOf="@id/participant_photo"
-
-                    ></TextView>
-
-
-            </RelativeLayout>
-
-
-            <!--            end of counting views and comments-->
-
-            <!--            desciption-->
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/credentials"
-                android:layout_marginHorizontal="5dp"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/gilroyregular"
-                android:text="Pa check naman to @Novem Lanaban Kung okay lang po "
-                android:textColor="@color/text"
-                android:textSize="15dp"></TextView>
-
-            <!--            end of description-->
-
-
-
-            <!--            List if meron-->
-
-            <LinearLayout
-                android:id="@+id/listContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/description"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <!--               Image Title-->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/list"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="6dp"
-                    android:backgroundTint="@color/grey1"
-                    android:padding="10dp"
-                    app:cardCornerRadius="10dp">
-
-
-                    <TextView
-                        android:id="@+id/listText"
+                    >
+                    <!--            credentials-->
+                    <RelativeLayout
+                        android:id="@+id/credentials"
+                        android:paddingVertical="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingHorizontal="14dp"
-                        android:paddingVertical="5dp"
-                        android:text="List"
-                        android:textColor="@color/black"></TextView>
+                        >
+                        <!--                profile picture-->
 
-                </com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/participant_photo"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:adjustViewBounds="true"
+                            android:background="@android:color/transparent"
+                            android:maxWidth="50dp"
+                            android:maxHeight="50dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/profile"
+                            app:shapeAppearance="?attr/actionButtonStyle"
+                            app:shapeAppearanceOverlay="@style/imageViewRounded"
+                            app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
+
+                        <TextView
+                            android:id="@+id/participant_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/participant_photo"
+                            android:layout_toRightOf="@id/participant_photo"
+                            android:fontFamily="@font/gilroymedium"
+                            android:text="Thirdy Gayares"
+                            android:textColor="@color/text"
+                            android:textSize="20dp"></TextView>
+
+                        <TextView
+                            android:id="@+id/date_post"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Oct 10"
+                            android:layout_below="@id/participant_name"
+                            android:textColor="@color/text"
+                            android:fontFamily="@font/gilroylight"
+                            android:textSize="15dp"
+                            android:layout_toRightOf="@id/participant_photo"
+
+                            ></TextView>
 
 
-                <!--               start of recycler View-->
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/listrecycle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="16dp"
-
-                    ></androidx.recyclerview.widget.RecyclerView>
+                    </RelativeLayout>
 
 
-            </LinearLayout>
+                    <!--            end of counting views and comments-->
+
+                    <!--            desciption-->
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/credentials"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/gilroyregular"
+                        android:text="Pa check naman to @Novem Lanaban Kung okay lang po "
+                        android:textColor="@color/text"
+                        android:textSize="15dp"></TextView>
+
+                    <!--            end of description-->
 
 
-            <!--    end of List-->
+
+                    <!--            List if meron-->
+
+                    <LinearLayout
+                        android:id="@+id/listContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/description"
+                        android:orientation="vertical">
+
+                        <!--               Image Title-->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/list"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="6dp"
+                            android:backgroundTint="@color/grey1"
+                            android:padding="10dp"
+                            app:cardCornerRadius="10dp">
 
 
-            <!--            Images if meron-->
+                            <TextView
+                                android:id="@+id/listText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingHorizontal="14dp"
+                                android:paddingVertical="5dp"
+                                android:text="List"
+                                android:textColor="@color/black"></TextView>
 
-           <LinearLayout
-               android:id="@+id/imagecontainer"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_below="@+id/listContainer"
-               android:orientation="vertical">
-
-<!--               Image Title-->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/Image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="6dp"
-                android:backgroundTint="@color/grey1"
-                android:padding="10dp"
-                app:cardCornerRadius="10dp"
-                >
+                        </com.google.android.material.card.MaterialCardView>
 
 
-                <TextView
-                    android:id="@+id/files_count"
-                    android:textColor="@color/black"
-                    android:paddingVertical="5dp"
-                    android:paddingHorizontal="14dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Image"
-                    ></TextView>
+                        <!--               start of recycler View-->
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/listrecycle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="16dp"
+
+                            ></androidx.recyclerview.widget.RecyclerView>
+
+
+                    </LinearLayout>
+
+
+                    <!--    end of List-->
+
+
+                    <!--            Images if meron-->
+
+                    <LinearLayout
+                        android:id="@+id/imagecontainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/listContainer"
+                        android:orientation="vertical">
+
+                        <!--               Image Title-->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/Image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="6dp"
+                            android:backgroundTint="@color/grey1"
+                            android:padding="10dp"
+                            app:cardCornerRadius="10dp"
+                            >
+
+
+                            <TextView
+                                android:id="@+id/files_count"
+                                android:textColor="@color/black"
+                                android:paddingVertical="5dp"
+                                android:paddingHorizontal="14dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Image"
+                                ></TextView>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                        <!--               start of recycler View-->
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/imageslides"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="16dp"
+
+                            ></androidx.recyclerview.widget.RecyclerView>
+
+
+                    </LinearLayout>
+
+
+                    <!--    end of Images-->
+
+
+
+
+
+                    <!--            Files if meron-->
+
+                    <LinearLayout
+                        android:id="@+id/filesContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/imagecontainer"
+                        android:orientation="vertical">
+
+                        <!--               Image Title-->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/files"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="6dp"
+                            android:backgroundTint="@color/grey1"
+                            android:padding="10dp"
+                            app:cardCornerRadius="10dp"
+                            >
+
+
+                            <TextView
+                                android:id="@+id/filesText"
+                                android:textColor="@color/black"
+                                android:paddingVertical="5dp"
+                                android:paddingHorizontal="14dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Files"
+                                ></TextView>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                        <!--               start of recycler View-->
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/filesrecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginHorizontal="5dp"></androidx.recyclerview.widget.RecyclerView>
+
+
+                    </LinearLayout>
+
+
+                    <!--    end of Files-->
+
+
+
+
+                    <!--            Links if meron-->
+
+                    <LinearLayout
+                        android:id="@+id/LinksContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/filesContainer"
+                        android:orientation="vertical">
+
+                        <!--               Links Title-->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/links"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="6dp"
+                            android:backgroundTint="@color/grey1"
+                            android:padding="10dp"
+                            app:cardCornerRadius="10dp"
+                            >
+
+
+                            <TextView
+                                android:id="@+id/LinksText"
+                                android:textColor="@color/black"
+                                android:paddingVertical="5dp"
+                                android:paddingHorizontal="14dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Links"
+                                ></TextView>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!--               start of recycler View-->
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/linkrecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:layout_marginHorizontal="5dp"
+                            ></androidx.recyclerview.widget.RecyclerView>
+
+                    </LinearLayout>
+
+
+                    <!--    end of Links-->
+
+
+                    <!--            buttons : like dislike save-->
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:id="@+id/navigatorlikes"
+                        android:layout_below="@+id/LinksContainer"
+                        android:layout_alignStart="@+id/imagecontainer"
+                        android:layout_marginVertical="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        >
+
+                        <!--                button of like-->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonLikes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_baseline_thumb_up_24"
+                            android:fontFamily="@font/gilroymedium"
+                            android:stateListAnimator="@null"
+                            android:text="12"
+                            android:textAllCaps="false"
+                            android:textColor="@color/text"></com.google.android.material.button.MaterialButton>
+
+                        <!--                button of dislike-->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttondislike"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_baseline_thumb_down_24"
+                            android:fontFamily="@font/gilroymedium"
+                            android:stateListAnimator="@null"
+                            android:text="4"
+                            android:textAllCaps="false"
+                            android:textColor="@color/text"></com.google.android.material.button.MaterialButton>
+
+
+                        <!--                button of comments-->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonComments"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_baseline_comment_24"
+                            android:drawableTint="#B7B7B7"
+                            android:fontFamily="@font/gilroymedium"
+                            android:stateListAnimator="@null"
+                            android:text="5"
+                            android:textAllCaps="false"
+                            android:textColor="@color/text"></com.google.android.material.button.MaterialButton>
+
+
+
+                        <!--                button of save-->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonsave"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_baseline_save"
+                            android:fontFamily="@font/gilroymedium"
+                            android:stateListAnimator="@null"
+                            android:text="Save"
+                            android:textAllCaps="false"
+                            android:textColor="@color/text"></com.google.android.material.button.MaterialButton>
+
+
+                    </LinearLayout>
+                    <!--          end of  buttons : like dislike save-->
+
+                </RelativeLayout>
 
             </com.google.android.material.card.MaterialCardView>
-
-
-<!--               start of recycler View-->
-
-               <androidx.recyclerview.widget.RecyclerView
-                   android:id="@+id/imageslides"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_marginVertical="16dp"
-
-                   ></androidx.recyclerview.widget.RecyclerView>
-
-
-           </LinearLayout>
-
-
-            <!--    end of Images-->
-
-
-
-
-
-            <!--            Files if meron-->
-
-            <LinearLayout
-                android:id="@+id/filesContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imagecontainer"
-                android:orientation="vertical">
-
-                <!--               Image Title-->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/files"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="6dp"
-                    android:backgroundTint="@color/grey1"
-                    android:padding="10dp"
-                    app:cardCornerRadius="10dp"
-                    >
-
-
-                    <TextView
-                        android:id="@+id/filesText"
-                        android:textColor="@color/black"
-                        android:paddingVertical="5dp"
-                        android:paddingHorizontal="14dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Files"
-                        ></TextView>
-
-                </com.google.android.material.card.MaterialCardView>
-
-
-                <!--               start of recycler View-->
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/filesrecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:layout_marginHorizontal="5dp"></androidx.recyclerview.widget.RecyclerView>
-
-
-            </LinearLayout>
-
-
-            <!--    end of Files-->
-
-
-
-
-            <!--            Links if meron-->
-
-            <LinearLayout
-                android:id="@+id/LinksContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/filesContainer"
-                android:orientation="vertical">
-
-                <!--               Links Title-->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/links"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="6dp"
-                    android:backgroundTint="@color/grey1"
-                    android:padding="10dp"
-                    app:cardCornerRadius="10dp"
-                    >
-
-
-                    <TextView
-                        android:id="@+id/LinksText"
-                        android:textColor="@color/black"
-                        android:paddingVertical="5dp"
-                        android:paddingHorizontal="14dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Links"
-                        ></TextView>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <!--               start of recycler View-->
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/linkrecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:layout_marginHorizontal="5dp"
-                    ></androidx.recyclerview.widget.RecyclerView>
-
-            </LinearLayout>
-
-
-            <!--    end of Links-->
-
-
-            <!--            buttons : like dislike save-->
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:id="@+id/navigatorlikes"
-                android:layout_below="@+id/LinksContainer"
-                android:layout_alignStart="@+id/imagecontainer"
-                android:layout_marginVertical="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                >
-
-                <!--                button of like-->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttonLikes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_baseline_thumb_up_24"
-                    android:fontFamily="@font/gilroymedium"
-                    android:stateListAnimator="@null"
-                    android:text="12"
-                    android:textAllCaps="false"
-                    android:textColor="@color/text"></com.google.android.material.button.MaterialButton>
-
-                <!--                button of dislike-->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttondislike"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_baseline_thumb_down_24"
-                    android:fontFamily="@font/gilroymedium"
-                    android:stateListAnimator="@null"
-                    android:text="4"
-                    android:textAllCaps="false"
-                    android:textColor="@color/text"></com.google.android.material.button.MaterialButton>
-
-
-                <!--                button of comments-->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttonComments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_baseline_comment_24"
-                    android:drawableTint="#B7B7B7"
-                    android:fontFamily="@font/gilroymedium"
-                    android:stateListAnimator="@null"
-                    android:text="5"
-                    android:textAllCaps="false"
-                    android:textColor="@color/text"></com.google.android.material.button.MaterialButton>
-
-
-
-                <!--                button of save-->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttonsave"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_baseline_save"
-                    android:fontFamily="@font/gilroymedium"
-                    android:stateListAnimator="@null"
-                    android:text="Save"
-                    android:textAllCaps="false"
-                    android:textColor="@color/text"></com.google.android.material.button.MaterialButton>
-
-
-            </LinearLayout>
-            <!--          end of  buttons : like dislike save-->
-
-        </RelativeLayout>
-
-    </com.google.android.material.card.MaterialCardView>
 
 
         </LinearLayout>

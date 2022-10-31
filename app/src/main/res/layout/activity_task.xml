@@ -1,9 +1,455 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".group.Task">
+    tools:context=".task.Task">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!--    header-->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:background="@color/white"
+        android:layout_width="wrap_content"
+        android:padding="6dp"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content">
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:maxWidth="50dp"
+            android:maxHeight="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/profile"
+            app:shapeAppearance="?attr/actionButtonStyle"
+            app:shapeAppearanceOverlay="@style/imageViewRounded"
+            app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
+
+        <TextView
+            android:id="@+id/nameofgroup"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_alignTop="@+id/logo"
+
+            android:layout_toRightOf="@+id/logo"
+            android:fontFamily="@font/gilroymedium"
+            android:text="Thirdy Gayares"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+
+        <!--        menu icon gone muna di ko alam san siya gagamitin ang menu-->
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/menu"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_baseline_menu_24" />
+
+    </RelativeLayout>
+
+
+
+
+    <ScrollView
+        android:layout_below="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+
+
+                <!--            dashboard-->
+
+                <LinearLayout
+                    android:id="@+id/dashboard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="5dp"
+                    >
+
+                    <!--                Scroll view in left and right-->
+
+                    <HorizontalScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none"
+                        >
+
+                        <LinearLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardBackgroundColor="@color/gray0"
+                                app:cardCornerRadius="15dp"
+                                android:layout_marginHorizontal="5dp"
+
+                                >
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingHorizontal="20dp"
+                                    android:paddingVertical="10dp">
+
+                                    <TextView
+                                        android:id="@+id/textAll"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:fontFamily="@font/gilroysemibold"
+                                        android:text="ALL"
+                                        android:textColor="@color/white"
+                                        android:textSize="15dp"></TextView>
+
+                                    <TextView
+                                        android:id="@+id/all"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/textAll"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="35"
+                                        android:textColor="@color/white"
+                                        android:textSize="35dp"></TextView>
+
+                                </RelativeLayout>
+
+
+                            </androidx.cardview.widget.CardView>
+
+
+
+                            <!--                        TODOTEXT-->
+
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardBackgroundColor="@color/container"
+                                app:cardCornerRadius="15dp"
+                                android:layout_marginHorizontal="5dp"
+
+                                >
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingHorizontal="20dp"
+                                    android:paddingVertical="10dp">
+
+                                    <TextView
+                                        android:id="@+id/textTodo"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:fontFamily="@font/gilroysemibold"
+                                        android:text="TODO"
+                                        android:textColor="@color/todo"
+                                        android:textSize="15dp"></TextView>
+
+                                    <TextView
+                                        android:id="@+id/todo"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/textTodo"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="5"
+                                        android:textColor="@color/black"
+                                        android:textSize="35dp"></TextView>
+
+                                </RelativeLayout>
+
+
+                            </androidx.cardview.widget.CardView>
+
+
+                            <!--                        INPROGRESS-->
+
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardBackgroundColor="@color/container"
+                                app:cardCornerRadius="15dp"
+                                android:layout_marginHorizontal="5dp"
+
+                                >
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingHorizontal="20dp"
+                                    android:paddingVertical="10dp">
+
+                                    <TextView
+                                        android:id="@+id/textinprogress"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:fontFamily="@font/gilroysemibold"
+                                        android:text="WORKING"
+                                        android:textColor="@color/working"
+                                        android:textSize="15dp"></TextView>
+
+                                    <TextView
+                                        android:id="@+id/inprogress"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/textinprogress"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="10"
+                                        android:textColor="@color/black"
+                                        android:textSize="35dp"></TextView>
+
+                                </RelativeLayout>
+
+
+                            </androidx.cardview.widget.CardView>
+
+
+
+                            <!--                        Ready-->
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardBackgroundColor="@color/container"
+                                app:cardCornerRadius="15dp"
+                                android:layout_marginHorizontal="5dp"
+
+                                >
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingHorizontal="20dp"
+                                    android:paddingVertical="10dp">
+
+                                    <TextView
+                                        android:id="@+id/textready"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:fontFamily="@font/gilroysemibold"
+                                        android:text="READY"
+                                        android:textColor="@color/ready"
+                                        android:textSize="15dp"></TextView>
+                                    <TextView
+                                        android:id="@+id/ready"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/textready"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="10"
+                                        android:textColor="@color/black"
+                                        android:textSize="35dp"></TextView>
+                                </RelativeLayout>
+
+
+                            </androidx.cardview.widget.CardView>
+
+
+
+                            <!--                        Ready-->
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardBackgroundColor="@color/container"
+                                app:cardCornerRadius="15dp"
+                                android:layout_marginHorizontal="5dp"
+
+                                >
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingHorizontal="20dp"
+                                    android:paddingVertical="10dp">
+                                    <TextView
+                                        android:id="@+id/donetext"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:fontFamily="@font/gilroysemibold"
+                                        android:text="DONE"
+                                        android:textColor="@color/done"
+                                        android:textSize="15dp"></TextView>
+                                    <TextView
+                                        android:id="@+id/done"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/donetext"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="10"
+                                        android:textColor="@color/black"
+                                        android:textSize="35dp"></TextView>
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <!--                        Due Date-->
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardBackgroundColor="@color/container"
+                                app:cardCornerRadius="15dp"
+                                android:layout_marginHorizontal="5dp"
+
+                                >
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingHorizontal="20dp"
+                                    android:paddingVertical="10dp">
+                                    <TextView
+                                        android:id="@+id/duetext"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:fontFamily="@font/gilroysemibold"
+                                        android:text="DUE"
+                                        android:textColor="@color/duedate"
+                                        android:textSize="15dp"></TextView>
+                                    <TextView
+                                        android:id="@+id/due"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/duetext"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="10"
+                                        android:textColor="@color/black"
+                                        android:textSize="35dp"></TextView>
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+
+
+                        </LinearLayout>
+
+                    </HorizontalScrollView>
+
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_alignParentRight="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:id="@+id/addtableanddisplaymode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_below="@+id/dashboard"
+                    android:layout_marginVertical="10dp"
+                    >
+
+
+                    <RelativeLayout
+                        android:id="@+id/displayMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <!--                    icon of dispalay mode-->
+                        <ImageView
+                            android:id="@+id/icondisplay"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/displaylistview"></ImageView>
+
+                        <TextView
+                            android:id="@+id/display_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/icondisplay"
+                            android:fontFamily="@font/gilroyregular"
+                            android:text="List View"
+                            android:textColor="@color/black"
+                            android:textSize="15dp"></TextView>
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/firstGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/addtableanddisplaymode"
+                    >
+
+                    <RelativeLayout
+                        android:id="@+id/firstTable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        >
+
+
+
+
+                    </RelativeLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/taskRecycler"
+                        android:layout_marginHorizontal="2dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/firstTable"
+                        android:layout_marginTop="5dp" />
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

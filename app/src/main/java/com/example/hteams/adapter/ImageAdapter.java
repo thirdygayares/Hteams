@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,13 +17,13 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder> {
 
-    private final Interface interfaces;
+    private final ViewUpdateInterface interfaces;
 
 
     Context context;
     ArrayList<ImageModel> imagemodels;
 
-    public ImageAdapter(Context context, ArrayList<ImageModel> imagemodels, Interface interfaces){
+    public ImageAdapter(Context context, ArrayList<ImageModel> imagemodels, ViewUpdateInterface interfaces){
         this.context = context;
         this.imagemodels = imagemodels;
         this.interfaces = interfaces;
@@ -58,7 +56,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
         ImageView imageholder;
 
 
-        public MyViewHolder(@NonNull View itemView, Interface interfaces) {
+        public MyViewHolder(@NonNull View itemView, ViewUpdateInterface interfaces) {
             super(itemView);
             imageholder = itemView.findViewById(R.id.imageholder);
 

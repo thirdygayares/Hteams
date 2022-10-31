@@ -42,7 +42,7 @@
             android:name=".group.CreateGroup2"
             android:exported="false" />
         <activity
-            android:name=".group.ViewUpdates"
+            android:name=".Comments"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
@@ -53,7 +53,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".Comments"
+            android:name=".group.ViewUpdates"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

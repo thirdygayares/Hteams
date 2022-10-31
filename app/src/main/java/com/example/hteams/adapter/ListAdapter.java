@@ -1,19 +1,10 @@
 package com.example.hteams.adapter;
 
-import static android.graphics.BlendMode.COLOR;
-
-import static androidx.appcompat.content.res.AppCompatResources.getColorStateList;
-
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,19 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hteams.R;
 import com.example.hteams.model.ListModel;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> {
 
-    private final Interface interfaces;
+    private final ViewUpdateInterface interfaces;
 
 
     Context context;
     ArrayList<ListModel> listModels;
 
-    public ListAdapter(Context context, ArrayList<ListModel> listModels, Interface interfaces){
+    public ListAdapter(Context context, ArrayList<ListModel> listModels, ViewUpdateInterface interfaces){
         this.context = context;
         this.listModels = listModels;
         this.interfaces = interfaces;
@@ -73,7 +62,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
         CheckBox statusicon;
 
 
-        public MyViewHolder(@NonNull View itemView, Interface interfaces) {
+        public MyViewHolder(@NonNull View itemView, ViewUpdateInterface interfaces) {
             super(itemView);
             statusicon = itemView.findViewById(R.id.statusicon);
 
