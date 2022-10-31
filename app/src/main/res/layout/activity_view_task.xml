@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".group.ViewTask">
+
+
+<!--    header-->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:paddingStart="10dp"
+        android:background="@color/white">
+        <!--        Title Name-->
+        <TextView
+            android:id="@+id/taskName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gilroybold"
+            android:text="Statement of the problem"
+            android:textColor="@color/black"
+            android:textSize="20dp"></TextView>
+
+        <TextView
+            android:id="@+id/groupName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/taskName"
+            android:fontFamily="@font/gilroymedium"
+            android:text="FireTera"
+            android:textColor="@color/black"
+            android:textSize="18dp"></TextView>
+
+
+        <TextView
+            android:id="@+id/greaterthan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/taskName"
+            android:layout_toRightOf="@+id/groupName"
+            android:fontFamily="@font/gilroymedium"
+            android:paddingHorizontal="5dp"
+            android:text=">"
+            android:textColor="@color/primary"
+            android:textSize="18dp"></TextView>
+
+
+        <TextView
+            android:id="@+id/tableName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/taskName"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@+id/greaterthan"
+            android:fontFamily="@font/gilroymedium"
+
+            android:text="Requirements Engineering"
+            android:textColor="@color/primary"
+            android:textSize="12dp"
+
+            ></TextView>
+
+
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_more_vert_24"></ImageView>
+
+    </RelativeLayout>
+
+<!--    end of header-->
+
+<!--start of scroll bar-->
+    <ScrollView
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                >
+
+<!--    assigned to row-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/assigneeRow"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        app:cardCornerRadius="0dp"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <RelativeLayout
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/primary"
+                ></RelativeLayout>
+
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                >
+
+
+<!--                button of choosing asignee-->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_asignee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/gilroymedium"
+                    android:paddingLeft="50dp"
+                    android:stateListAnimator="@null"
+                    android:text="Thirdy Gayares"
+                    android:textAllCaps="false"
+                    android:textColor="#887C7C"></com.google.android.material.button.MaterialButton>
+
+
+<!--                Image of assignee-->
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/participant_photo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignStart="@+id/button_asignee"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/profile"
+                    app:shapeAppearance="?attr/actionButtonStyle"
+                    app:shapeAppearanceOverlay="@style/imageViewRounded"
+                    app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
+
+
+<!--            assigned to text-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="15dp"
+                    android:fontFamily="@font/gilroymedium"
+                    android:text="Assigned To"
+                    android:textColor="@color/black"></TextView>
+
+<!--               gap-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/participant_photo"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/gray0"></LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+<!--end of assign row-->
+
+
+    <!--    start of status row-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/statusRow"
+        android:layout_marginHorizontal="10dp"
+        android:layout_below="@+id/assigneeRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <RelativeLayout
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/primary"
+                ></RelativeLayout>
+
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                >
+
+                <!--                button of choosing status, TODO working. done in progress-->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:backgroundTint="@color/working"
+                    android:drawableLeft="@drawable/ic_baseline_work_outline_24"
+                    android:fontFamily="@font/gilroymedium"
+                    android:stateListAnimator="@null"
+                    android:text="Working"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"></com.google.android.material.button.MaterialButton>
+
+
+                <!--            status text-->
+                <TextView
+                    android:id="@id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="15dp"
+                    android:fontFamily="@font/gilroymedium"
+                    android:text="Status"
+                    android:textColor="@color/black"></TextView>
+
+
+                <!--                gap-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/status"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/gray0"
+                    android:orientation="horizontal"></LinearLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+<!--    end status row-->
+
+
+    <!--    start of deadline row-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/statusDeadlime"
+        android:layout_marginHorizontal="10dp"
+        android:layout_below="@+id/statusRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <RelativeLayout
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/primary"
+                ></RelativeLayout>
+
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                >
+
+                <!--          button of choosing status, TODO working. done in progress-->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonDeadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:fontFamily="@font/gilroymedium"
+                    android:stateListAnimator="@null"
+                    android:text="Oct 10, 10:00am"
+                    android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
+                    android:textAllCaps="false"
+                    android:textColor="#A69D9D"></com.google.android.material.button.MaterialButton>
+
+
+                <!--            deadline text-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="15dp"
+                    android:fontFamily="@font/gilroymedium"
+                    android:text="Deadline"
+                    android:textColor="@color/black"></TextView>
+
+
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <!--    end deadline row-->
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Updates"
+        android:layout_below="@+id/statusDeadlime"
+        android:fontFamily="@font/gilroymedium"
+        android:textColor="@color/primary"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        ></TextView>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/postButton"
+                    style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/statusDeadlime"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:drawableLeft="@drawable/ic_baseline_add_24"
+                    android:drawableTint="@color/primary"
+                    android:fontFamily="@font/gilroyregular"
+                    android:stateListAnimator="@null"
+                    android:text="Post"
+                    android:textAllCaps="false"
+                    android:textColor="@color/primary"
+                    app:backgroundTint="@android:color/transparent"
+                    app:cornerRadius="8dp"
+                    app:rippleColor="@color/primary"
+                    app:strokeColor="@color/primary"
+                    app:strokeWidth="1dp"></com.google.android.material.button.MaterialButton>
+
+
+    <LinearLayout
+        android:layout_below="@+id/postButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey1"
+         >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/viewtaskposting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            ></androidx.recyclerview.widget.RecyclerView>
+
+
+
+
+    </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>
