@@ -8,15 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.hteams.Comments;
 import com.example.hteams.R;
-import com.example.hteams.adapter.GroupPageAdapater;
 import com.example.hteams.adapter.ViewTaskAdapter;
 import com.example.hteams.adapter.ViewTaskInterface;
-import com.example.hteams.model.GroupPageModel;
-import com.example.hteams.model.GroupPageModel2;
 import com.example.hteams.model.ViewTaskModel;
 
 import java.util.ArrayList;
@@ -52,7 +47,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewTask.this, Comments.class);
+                Intent intent = new Intent(ViewTask.this, Updates.class);
                 startActivity(intent);
             }
         });

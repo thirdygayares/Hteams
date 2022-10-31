@@ -42,14 +42,14 @@
             android:name=".group.CreateGroup2"
             android:exported="false" />
         <activity
-            android:name=".Comments"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-        <activity
             android:name=".group.ViewTask"
             android:exported="false" />
         <activity
             android:name=".group.ViewUpdates"
+            android:exported="false" />
+
+        <activity
+            android:name=".group.Updates"
             android:exported="false" />
 
         <activity

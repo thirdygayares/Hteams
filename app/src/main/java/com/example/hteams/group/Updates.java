@@ -1,4 +1,4 @@
-package com.example.hteams;
+package com.example.hteams.group;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -14,18 +14,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hteams.R;
 import com.example.hteams.adapter.DisplaySiteAdapter;
 import com.example.hteams.adapter.SiteAdapter;
 import com.example.hteams.adapter.SiteInterface;
-import com.example.hteams.group.ViewTask;
 import com.example.hteams.model.DisplaySiteModel;
 import com.example.hteams.model.SiteModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 
-public class Comments extends AppCompatActivity implements SiteInterface {
+public class Updates extends AppCompatActivity implements SiteInterface {
 
     BottomSheetDialog linkdialog;
     BottomSheetDialog sitelistdialog;
@@ -67,7 +66,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
 
         sitesRecycler = findViewById(R.id.sitesRecycler);
         displaySites = findViewById(R.id.displayrecyleview); // for display
-        adapter = new DisplaySiteAdapter(Comments.this,displaySiteModels,this);
+        adapter = new DisplaySiteAdapter(Updates.this,displaySiteModels,this);
         setupdatafordisplaySites();
 
         Button links = findViewById(R.id.linkbtn);
@@ -93,7 +92,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         {
             @Override
             public void onClick (View v){
-                Toast.makeText(Comments.this, "List Clicked".toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Updates.this, "List Clicked".toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -104,7 +103,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
             @Override
             public void onClick (View v){
 
-                Toast.makeText(Comments.this, "Capture Clicked".toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Updates.this, "Capture Clicked".toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -112,7 +111,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         records.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                Toast.makeText(Comments.this, "Record Clicked".toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Updates.this, "Record Clicked".toString(), Toast.LENGTH_SHORT).show();
             }
         });
         // end of records
@@ -121,7 +120,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         files.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                Toast.makeText(Comments.this, "Files  Clicked".toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Updates.this, "Files  Clicked".toString(), Toast.LENGTH_SHORT).show();
             }
         });
         //comment button
@@ -129,7 +128,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-              Intent intentupdate = new Intent(Comments.this, ViewTask.class);
+                Intent intentupdate = new Intent(Updates.this, ViewTask.class);
                 startActivity(intentupdate);
             }
         });
@@ -138,10 +137,10 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                Toast.makeText(Comments.this, "Comment cancelled ".toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Updates.this, "Comment cancelled ".toString(), Toast.LENGTH_SHORT).show();
             }
         });
-       }
+    }
 
 
 
@@ -157,9 +156,9 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         EditText sitelink = view.findViewById(R.id.linkfield);
 
 
-            submit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
 
                  /*
@@ -172,8 +171,8 @@ public class Comments extends AppCompatActivity implements SiteInterface {
 
                   */
 
-                        //  TODO : error handling pag walang input dapat maglalabas ng error sa gilid na required-status: done
-                        //sitename array store yung name na text sa editText
+                //  TODO : error handling pag walang input dapat maglalabas ng error sa gilid na required-status: done
+                //sitename array store yung name na text sa editText
               /*    site_name = (ArrayList<String>) sitenamefield.getText();
                     if(site_name == null){
                             Toast.makeText(getBaseContext(),"Site Name is Empty ",Toast.LENGTH_LONG).show();
@@ -181,7 +180,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
                     else{
 
                */
-                        site_name.add(sitenamefield.getText().toString());
+                site_name.add(sitenamefield.getText().toString());
 
 
              /*       custom_name = (ArrayList<String>) name.getText();
@@ -189,7 +188,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
                           Toast.makeText(getBaseContext(),"Custom name should not be empty",Toast.LENGTH_LONG).show();
                       }
                       else { */
-                          custom_name.add(name.getText().toString());
+                custom_name.add(name.getText().toString());
 
 
              /*        web_link = (ArrayList<String>) sitelink.getText();
@@ -198,36 +197,36 @@ public class Comments extends AppCompatActivity implements SiteInterface {
                       }
                       else {
                       */
-                          web_link.add(sitelink.getText().toString());
+                web_link.add(sitelink.getText().toString());
 
-                        // Toast.makeText(Comments.this,custom_name.toString(),Toast.LENGTH_SHORT).show();
-                        // to add in the model and maread sa array
-                        displaySiteModels.add(new DisplaySiteModel(name.getText().toString(), sitenamefield.getText().toString()));
+                // Toast.makeText(Comments.this,custom_name.toString(),Toast.LENGTH_SHORT).show();
+                // to add in the model and maread sa array
+                displaySiteModels.add(new DisplaySiteModel(name.getText().toString(), sitenamefield.getText().toString()));
 
-                        //to update the content of adapter
-                        adapter.notifyItemInserted(custom_name.size() - 1);
-                        displaySites.scrollToPosition(custom_name.size());
+                //to update the content of adapter
+                adapter.notifyItemInserted(custom_name.size() - 1);
+                displaySites.scrollToPosition(custom_name.size());
 
-                        //to show the indicator link title
-                        link.setVisibility(View.VISIBLE);
+                //to show the indicator link title
+                link.setVisibility(View.VISIBLE);
 
-                        //to hide the linkdialog
-                        linkdialog.dismiss();
-                    }
+                //to hide the linkdialog
+                linkdialog.dismiss();
+            }
 
-            });
+        });
 
         sitelistdialog = new BottomSheetDialog(this);
         createsitesDialog();
         sitenamefield.setText(NameSite);
         sitenamefield.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    sitelistdialog.show();
-                    //para maghide yung link dialig
-                    linkdialog.hide();
-                }
-            });
+            @Override
+            public void onClick(View v) {
+                sitelistdialog.show();
+                //para maghide yung link dialig
+                linkdialog.hide();
+            }
+        });
         // dito ko nilipat
         link = findViewById(R.id.link);
         if (custom_name.isEmpty()){
@@ -246,9 +245,9 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         View view = getLayoutInflater().inflate(R.layout.sitesbottomsheet,null, false);
         sitesRecycler  = view.findViewById(R.id.sitesRecycler);
         setupdataforsites();
-        SiteAdapter adapter = new SiteAdapter(Comments.this,siteModels,this);
+        SiteAdapter adapter = new SiteAdapter(Updates.this,siteModels,this);
         sitesRecycler.setAdapter(adapter);
-        sitesRecycler.setLayoutManager(new LinearLayoutManager(Comments.this));
+        sitesRecycler.setLayoutManager(new LinearLayoutManager(Updates.this));
 
         //para lumabas
         sitelistdialog.setContentView(view);
@@ -269,7 +268,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
 
     private void setupdatafordisplaySites() {
         displaySites.setAdapter(adapter);
-        displaySites.setLayoutManager(new LinearLayoutManager(Comments.this)); // important
+        displaySites.setLayoutManager(new LinearLayoutManager(Updates.this)); // important
     }
 
 
@@ -287,7 +286,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
 
         switch (tag){
             case "displaysite":
-                Toast.makeText(Comments.this, "Display adapter",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Updates.this, "Display adapter",Toast.LENGTH_SHORT).show();
                 break;
 
             case "siteadapter":
@@ -304,7 +303,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
 
                 break;
             default:
-                Toast.makeText(Comments.this, "default",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Updates.this, "default",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -320,4 +319,3 @@ public class Comments extends AppCompatActivity implements SiteInterface {
 
     }
 }
-
