@@ -78,7 +78,7 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
                 if (siteInterfaces != null) {
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
-                        siteInterfaces.onItemClick(pos);
+                        siteInterfaces.onItemClick(pos, "siteadapter");
                     }
 
                 }

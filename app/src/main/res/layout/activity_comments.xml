@@ -53,38 +53,78 @@
         android:textSize="15sp" />
 
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="10dp">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:layout_below="@id/comment_updatebtn"
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/cmntfield"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             android:fontFamily="@font/gilroyregular"
             android:hint="With your comments and suggestions we can work more efficient"
             android:padding="10dp"
             android:textSize="16sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/displayview"
-                android:layout_width="match_parent"
+
+
+        <!--               link Title-->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:backgroundTint="#E0F1F4"
+            android:padding="10dp"
+            android:layout_marginVertical="5dp"
+            app:cardCornerRadius="10dp"
+            >
+
+            <TextView
+                android:id="@+id/linktext"
+                android:textColor="@color/working"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="14dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cmntfield" />
+                android:text="Link"
+                ></TextView>
 
-        </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
 
-    </ScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/displayrecyleview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             />
+    </LinearLayout>
+
+<!--        <RelativeLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content">-->
+
+
+<!--            <EditText-->
+<!--                android:id="@+id/cmntfield"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@color/white"-->
+<!--                android:fontFamily="@font/gilroyregular"-->
+<!--                android:hint="With your comments and suggestions we can work more efficient"-->
+<!--                android:padding="10dp"-->
+<!--                android:textSize="16sp" />-->
+
+<!--      -->
+<!--        </RelativeLayout>-->
+
+
 
 
     <HorizontalScrollView

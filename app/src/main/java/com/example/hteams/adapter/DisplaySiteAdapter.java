@@ -1,76 +1,90 @@
 package com.example.hteams.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 
-import com.example.hteams.Comments;
 import com.example.hteams.R;
 import com.example.hteams.model.DisplaySiteModel;
 
-public class DisplaySiteAdapter extends RecyclerView.Adapter <DisplaySiteAdapter.MyViewHolder> {
+import java.util.ArrayList;
 
-    private final SiteInterface SiteInterface;
+public class DisplaySiteAdapter extends RecyclerView.Adapter<DisplaySiteAdapter.MyViewHolder> {
+
+    private final SiteInterface siteInterfaces;
 
 
     Context context;
-    ArrayList<DisplaySiteModel>  dislaySiteModels;
-    public DisplaySiteAdapter(Context context, ArrayList<DisplaySiteModel> displaySiteModels, Comments SiteInterface){
+    ArrayList<DisplaySiteModel> displaySiteModels;
+
+    public DisplaySiteAdapter(Context context, ArrayList<DisplaySiteModel> displaySiteModels, SiteInterface siteInterfaces){
         this.context = context;
-        this.dislaySiteModels = displaySiteModels;
-        this.SiteInterface = SiteInterface;
+        this.displaySiteModels = displaySiteModels;
+        this.siteInterfaces = siteInterfaces;
     }
 
     @NonNull
     @Override
-    public DisplaySiteAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DisplaySiteAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType  ) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recyclerdisplaysite, parent, false);
 
-        return new DisplaySiteAdapter.MyViewHolder(view,SiteInterface);
+        return new DisplaySiteAdapter.MyViewHolder(view, siteInterfaces);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DisplaySiteAdapter.MyViewHolder holder, int position) {
-        holder.displaysiteicon.setImageResource(dislaySiteModels.get(position).getSiteicon());
-        holder.sitecustomname.setText(dislaySiteModels.get(position).getCustomsitename());
+
+//        condition changing icon
+        //example if google meet pinili syempre lalabas google meet icon
+        String iconName = displaySiteModels.get(position).getSiteName();
+
+        if(iconName.equalsIgnoreCase("Google Meet")){
+            holder.display_site_icon.setImageResource(R.drawable.googlemeet);
+        } else if(iconName.equalsIgnoreCase("Github")){
+            holder.display_site_icon.setImageResource(R.drawable.github);
+        } else if(iconName.equalsIgnoreCase("Google Drive")){
+            holder.display_site_icon.setImageResource(R.drawable.drive);
+        }
+
+
+        holder.display_sitename.setText(displaySiteModels.get(position).getCustomsitename());
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+
+        return displaySiteModels.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        EditText sitecustomname;
-        ImageView displaysiteicon, cancel ;
+        ImageView display_site_icon,display_cancel;
+        TextView display_sitename;
 
-        public MyViewHolder(@NonNull View itemView, SiteInterface SiteInterface) {
+        public MyViewHolder(@NonNull View itemView, SiteInterface siteInterfaces) {
             super(itemView);
-
-            sitecustomname = itemView.findViewById(R.id.display_sitename);
-            displaysiteicon = itemView.findViewById(R.id.display_site_icon);
-            cancel = itemView.findViewById(R.id.display_cancel);
+            display_site_icon = itemView.findViewById(R.id.display_site_icon);
+            display_sitename = itemView.findViewById(R.id.display_sitename);
+            display_cancel = itemView.findViewById(R.id.display_cancel);
 
             itemView.setOnClickListener(view -> {
-                if(SiteInterface != null){
-                    int pos =getAdapterPosition();
-                    if(pos !=RecyclerView.NO_POSITION){
-                        SiteInterface.onItemClick(pos);
+                if(siteInterfaces != null ){
+                    int pos = getAdapterPosition();
+                    if(pos!= RecyclerView.NO_POSITION){
+                        siteInterfaces.onItemClick(pos, "displaysite");
                     }
-                }
 
+                }
             });
         }
     }
