@@ -237,8 +237,6 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 //        ArrayList<String> salesId = new ArrayList<>();
 //        ArrayList<String> Time = new ArrayList<>();
 //        ArrayList<String> TotalPrice = new ArrayList<>();
-
-
         for(int i=0; i<Title2.length; i++){
             groupPageModels2.add(new GroupPageModel2(Title2[i],Status2[i],Deadline2[i]
             ));

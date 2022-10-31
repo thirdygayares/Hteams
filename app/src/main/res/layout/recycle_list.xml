@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:paddingHorizontal="5dp"
+    android:layout_height="wrap_content">
+
+
+<!--    Option 1-->
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/statusicon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Task 1"
+        android:fontFamily="@font/gilroymedium"
+        android:textSize="18dp"
+        android:textColor="@color/text"
+        android:buttonTint="@color/primary"
+        android:backgroundTintMode="@color/primary"
+        ></com.google.android.material.checkbox.MaterialCheckBox>
+
+
+<!--    Option 2-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/statusicon"-->
+<!--        android:layout_width="24dp"-->
+<!--        android:layout_height="24dp"-->
+<!--        android:src="@drawable/ic_baseline_check_box_outline_blank_24"-->
+<!--        ></ImageView>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/listname"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Task 1"-->
+<!--        android:fontFamily="@font/gilroysemibold"-->
+<!--        android:textSize="20dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:paddingLeft="5dp"-->
+<!--        ></TextView>-->
+
+</LinearLayout>
