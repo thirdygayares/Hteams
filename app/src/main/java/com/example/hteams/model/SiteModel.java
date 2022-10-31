@@ -6,7 +6,7 @@ public class SiteModel {
     String sitename;
 
 
-    public SiteModel(int meeticon, String sitename) {
+    public SiteModel(int siteicon, String sitename) {
         this.siteicon = siteicon;
         this.sitename = sitename;
     }

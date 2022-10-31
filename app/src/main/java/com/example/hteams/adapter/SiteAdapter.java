@@ -46,7 +46,7 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
         holder.siteName.setText(siteModels.get(position).getSitename());
         String nameGetter = siteModels.get(position).getSitename();
 
-        holder.cancelbtn.setOnClickListener(new View.OnClickListener() {
+        holder.starsite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), nameGetter, Toast.LENGTH_SHORT).show();
@@ -65,13 +65,13 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView siteName;
-        ImageView siteIcon, cancelbtn;
+        ImageView siteIcon, starsite;
 
         public MyViewHolder(@NonNull View itemView, SiteInterface siteInterfaces) {
             super(itemView);
             siteIcon = itemView.findViewById(R.id.site_icon);
             siteName = itemView.findViewById(R.id.sitename);
-            cancelbtn = itemView.findViewById(R.id.cancelsite);
+             starsite= itemView.findViewById(R.id.star_site);
 
 
             itemView.setOnClickListener(view -> {

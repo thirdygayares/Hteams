@@ -7,13 +7,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hteams.adapter.DisplaySiteAdapter;
 import com.example.hteams.adapter.SiteAdapter;
 import com.example.hteams.adapter.SiteInterface;
+import com.example.hteams.model.DisplaySiteModel;
 import com.example.hteams.model.SiteModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -30,22 +34,28 @@ public class Comments extends AppCompatActivity implements SiteInterface {
     Button update;
     TextView cancel;
     RecyclerView sitesRecycler;
-    EditText sitenamefield;
-    Button sitebtnemmbedd; // para pag click nung edit text madetect
+    Button sitenamefield;
+    RecyclerView displaySites; // para pag click nung edit text madetect
 
     //store in sitename
     String NameSite = "Site Name";
 
     ArrayList<SiteModel> siteModels = new ArrayList<>();
+    ArrayList<DisplaySiteModel> displaySiteModels  = new ArrayList<>();
 
     //name of site
     ArrayList<String> siteName = new ArrayList<>();
-    ArrayList<String> cmntsitelist = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
+
+
+        sitesRecycler = findViewById(R.id.sitesRecycler);
+        displaySites = findViewById(R.id.displayview); // for display
+        setupdatafordisplaySites();
 
         Button links = findViewById(R.id.linkbtn);
         linkdialog = new BottomSheetDialog(this);
@@ -57,7 +67,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
             @Override
             public void onClick(View v) {
                 linkdialog.show();
-                cmntsitelist.add(NameSite);
+
             }
         });
 
@@ -138,10 +148,23 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         });
     }
 
+    private void setupdatafordisplaySites() {
+        DisplaySiteAdapter adapter = new DisplaySiteAdapter(Comments.this,displaySiteModels,this);
+        displaySites.setAdapter(adapter);
+        displaySites.setLayoutManager(new LinearLayoutManager(Comments.this)); // important
+
+        int[] siteicondisplay = {R.drawable.meetlogo, R.drawable.githublogo};
+        String[] customnamedisplay = {"Coordination Meeting","Repository Hteams" };
 
 
-    //comment
-    private void setupData() {
+
+        for(int i = 0; i<siteicondisplay.length;i++){
+            displaySiteModels.add(new DisplaySiteModel (siteicondisplay[i],customnamedisplay[i]));
+        }
+    }
+
+
+    private void setupdataforsites() { // para sa mga sites sa dialog
         int[] siteicon = {R.drawable.meetlogo, R.drawable.githublogo,R.drawable.drivelogo};
         String[] sitename = {"Google Meet","Github","Google Drive","facebook"};
 
@@ -152,6 +175,9 @@ public class Comments extends AppCompatActivity implements SiteInterface {
     }
 
 
+
+
+
 //pag pinindot ang link dialog
     private void createlinksDialog() {     // for bottomsheet
 
@@ -160,15 +186,18 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         sitenamefield = view.findViewById(R.id.sitenamefield); // call createsitedialog
         EditText name = findViewById(R.id.customenamefield);
         EditText sitelink = findViewById(R.id.linkfield);
-        sitebtnemmbedd = findViewById(R.id.sitenamebtn);
+
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                linkdialog.dismiss();
 
-
+               setupdatafordisplaySites();
             }
         });
+
+
 
         sitelistdialog = new BottomSheetDialog(this);
         createsitesDialog();
@@ -176,7 +205,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
 
         sitenamefield.setText(NameSite);
 
-       sitebtnemmbedd.setOnClickListener(new View.OnClickListener() {    // first click bottom dialog call
+        sitenamefield.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sitelistdialog.show();
@@ -197,7 +226,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
     private void createsitesDialog() {
         View view = getLayoutInflater().inflate(R.layout.sitesbottomsheet,null, false);
         sitesRecycler  = view.findViewById(R.id.sitesRecycler);
-        setupData();
+        setupdataforsites();
         SiteAdapter adapter = new SiteAdapter(Comments.this,siteModels,this);
         sitesRecycler.setAdapter(adapter);
         sitesRecycler.setLayoutManager(new LinearLayoutManager(Comments.this));
