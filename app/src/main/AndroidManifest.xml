@@ -49,11 +49,11 @@
             android:name=".group.ViewTask"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".group.ViewUpdates"
             android:exported="false" />
 
         <activity
-            android:name=".group.ViewUpdates"
+            android:name=".Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

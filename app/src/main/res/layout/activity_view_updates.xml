@@ -168,7 +168,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="6dp"
-                            android:backgroundTint="@color/grey1"
+                            android:backgroundTint="@color/grey2"
                             android:padding="10dp"
                             app:cardCornerRadius="10dp">
 
@@ -180,7 +180,7 @@
                                 android:paddingHorizontal="14dp"
                                 android:paddingVertical="5dp"
                                 android:text="List"
-                                android:textColor="@color/black"></TextView>
+                                android:textColor="@color/working"></TextView>
 
                         </com.google.android.material.card.MaterialCardView>
 
@@ -217,7 +217,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="6dp"
-                            android:backgroundTint="@color/grey1"
+                            android:backgroundTint="@color/grey2"
                             android:padding="10dp"
                             app:cardCornerRadius="10dp"
                             >
@@ -225,7 +225,7 @@
 
                             <TextView
                                 android:id="@+id/files_count"
-                                android:textColor="@color/black"
+                                android:textColor="@color/working"
                                 android:paddingVertical="5dp"
                                 android:paddingHorizontal="14dp"
                                 android:layout_width="wrap_content"
@@ -323,7 +323,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="6dp"
-                            android:backgroundTint="@color/grey1"
+                            android:backgroundTint="@color/grey2"
                             android:padding="10dp"
                             app:cardCornerRadius="10dp"
                             >
@@ -331,7 +331,7 @@
 
                             <TextView
                                 android:id="@+id/LinksText"
-                                android:textColor="@color/black"
+                                android:textColor="@color/working"
                                 android:paddingVertical="5dp"
                                 android:paddingHorizontal="14dp"
                                 android:layout_width="wrap_content"

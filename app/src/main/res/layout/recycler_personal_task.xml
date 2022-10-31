@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <RelativeLayout
+                android:id="@+id/blueline"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/primary"
+                ></RelativeLayout>
+
+
+            <RelativeLayout
+                android:paddingRight="10dp"
+                android:paddingTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                >
+
+
+                <TextView
+                    android:id="@+id/taskName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:fontFamily="@font/gilroymedium"
+                    android:paddingHorizontal="10dp"
+                    android:text="Pangalan ng Task"
+                    android:textColor="@color/black"
+                    android:textSize="17dp"></TextView>
+
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/groupPhoto"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/taskName"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:adjustViewBounds="true"
+
+                    android:background="@android:color/transparent"
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/profile"
+                    app:shapeAppearance="?attr/actionButtonStyle"
+                    app:shapeAppearanceOverlay="@style/imageViewRounded"
+                    app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
+
+
+<!--                Name Of the Group-->
+                <TextView
+                    android:id="@+id/groupname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/groupPhoto"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/groupPhoto"
+                    android:fontFamily="@font/gilroymedium"
+                    android:text="Firetera"></TextView>
+
+
+
+                <!--            icon status-->
+                <ImageView
+                    android:id="@+id/iconstatus"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_toLeftOf="@id/status"
+                    android:src="@drawable/inprogress"></ImageView>
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="@font/gilroymedium"
+                    android:text="Working On It"
+                    android:textColor="@color/primary"
+                    android:textSize="14dp"></TextView>
+
+
+                <!--    Timestamp-->
+                <TextView
+                    android:id="@+id/timestamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/status"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/gilroymedium"
+                    android:text="2hr 12mins"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="12dp"></TextView>
+
+                <!--            Timestamp icon-->
+
+                <ImageView
+                    android:id="@+id/timestapicon"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:visibility="gone"
+
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_below="@+id/iconstatus"
+                    android:layout_toLeftOf="@id/timestamp"
+                    android:src="@drawable/play"></ImageView>
+
+
+                <!--            Duedate-->
+                <TextView
+                    android:id="@+id/duedate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/timestamp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/gilroymedium"
+                    android:text="Oct 16, 10PM"
+                    android:textColor="@color/black"
+                    android:textSize="12dp"></TextView>
+
+
+                <!--            Duedate icon-->
+
+                <ImageView
+                    android:id="@+id/calendaricon"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_below="@+id/timestapicon"
+                    android:layout_toLeftOf="@id/duedate"
+                    android:src="@drawable/calendar"></ImageView>
+
+
+                <!--            gap-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/groupPhoto"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/gray0"></LinearLayout>
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
