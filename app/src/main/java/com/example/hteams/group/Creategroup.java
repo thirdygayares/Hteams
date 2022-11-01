@@ -74,8 +74,12 @@ public class Creategroup extends AppCompatActivity {
         //next button
         next();
         //firebase
+        //TODO palagay ng bottomsheet and subject
+         subjectBottomSheet();
 
     }
+
+
 
     private void firebase() {
 
@@ -140,7 +144,17 @@ public class Creategroup extends AppCompatActivity {
         professor = findViewById(R.id.input_professor);
         descrip = findViewById(R.id.input_description);
 
+    }
 
+
+    private void subjectBottomSheet() {
+        //TODO palagay yung bottomsheet
+        subject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO start to code
+            }
+        });
 
     }
 

@@ -19,7 +19,6 @@
         android:src="@drawable/arrowpointingleft" />
 
     <TextView
-
         android:layout_width="120dp"
         android:layout_height="30dp"
         android:layout_marginLeft="60dp"
@@ -122,6 +121,7 @@
             android:textSize="12sp" />
 
         <com.google.android.material.button.MaterialButton
+
             android:layout_marginTop="5dp"
             android:id="@+id/subject"
             android:layout_width="match_parent"
