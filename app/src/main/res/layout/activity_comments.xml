@@ -29,14 +29,14 @@
 
     <Button
         android:id="@+id/comment_updatebtn"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="75dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:layout_toStartOf="@id/comment_cancelbtn"
+
         android:backgroundTint="@color/primary"
         android:fontFamily="@font/gilroymedium"
-        android:text="Update"
+        android:text="Comment"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="15sp" />

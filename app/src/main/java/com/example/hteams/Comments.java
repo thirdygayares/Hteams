@@ -8,10 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +32,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
     Button capture;
     Button files;
     Button records;
-    Button update;
+    Button comment;
     TextView cancel;
     RecyclerView sitesRecycler;
     Button sitenamefield;
@@ -54,9 +52,6 @@ public class Comments extends AppCompatActivity implements SiteInterface {
     ArrayList <String> custom_name = new ArrayList<String>();
     //link ex.www.google.com
     ArrayList <String> web_link = new ArrayList<String>();
-
-
-
     ArrayList<SiteModel> siteModels = new ArrayList<>();
     ArrayList<DisplaySiteModel> displaySiteModels  = new ArrayList<>();
 
@@ -79,13 +74,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
         createlinksDialog();
 
 //        condition to hide link material button if no laman
-        link = findViewById(R.id.link);
-        if (custom_name.isEmpty()){
-            link.setVisibility(View.GONE);
-        }else{
-            link.setVisibility(View.VISIBLE);
-        }
-
+//        paste here if error
 
 
         //links button
@@ -97,8 +86,6 @@ public class Comments extends AppCompatActivity implements SiteInterface {
             }
         });
 
-
-
         list = findViewById(R.id.listbtn);
         list.setOnClickListener(new View.OnClickListener()
 
@@ -108,9 +95,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
                 Toast.makeText(Comments.this, "List Clicked".toString(), Toast.LENGTH_SHORT).show();
             }
         });
-        // end of list
 
-        //capture start
         capture = findViewById(R.id.capturebtn);
         capture.setOnClickListener(new View.OnClickListener()
 
@@ -122,10 +107,6 @@ public class Comments extends AppCompatActivity implements SiteInterface {
             }
         });
 
-        // end of capture
-
-
-//        start of record
         records = findViewById(R.id.recordbtn);
         records.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,14 +123,9 @@ public class Comments extends AppCompatActivity implements SiteInterface {
                 Toast.makeText(Comments.this, "Files  Clicked".toString(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        // end of files
-
-
-
         //comment button
-        update = findViewById(R.id.comment_updatebtn);
-        update.setOnClickListener(new View.OnClickListener() {
+        comment = findViewById(R.id.comment_updatebtn);
+        comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
               Intent intentupdate = new Intent(Comments.this, ViewTask.class);
@@ -157,7 +133,6 @@ public class Comments extends AppCompatActivity implements SiteInterface {
             }
         });
         // end of comment button
-
         cancel = findViewById(R.id.comment_cancelbtn);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,19 +140,16 @@ public class Comments extends AppCompatActivity implements SiteInterface {
                 Toast.makeText(Comments.this, "Comment cancelled ".toString(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
+       }
 
-    private void setupdatafordisplaySites() {
-        displaySites.setAdapter(adapter);
-        displaySites.setLayoutManager(new LinearLayoutManager(Comments.this)); // important
-    }
+
 
     //TODO : Pasequence nung mga method
 
     //pag pinindot ang link dialog
-    private void createlinksDialog() {     // for bottomsheet
+    private void createlinksDialog() { // for bottomsheet
 
-        View view = getLayoutInflater().inflate(R.layout.bottomsheet, null, false);
+        View view = getLayoutInflater().inflate(R.layout.linkbottomsheet_comments, null, false);
         Button submit = view.findViewById(R.id.submitbtn);
         sitenamefield = view.findViewById(R.id.sitenamefield); // call createsitedialog
         EditText name = view.findViewById(R.id.customenamefield);
@@ -188,29 +160,60 @@ public class Comments extends AppCompatActivity implements SiteInterface {
                 @Override
                 public void onClick(View v) {
 
-                    //  TODO : error handling pag walang input dapat maglalabas ng error sa gilid na required
 
-                    //sitename array store yung name na text sa editText
-                    site_name.add(sitenamefield.getText().toString());
-                    //add custom name example "Wactch this"
-                    custom_name.add(name.getText().toString());
-                    //array of web link saved
-                    web_link.add(sitelink.getText().toString());
+                 /*
+                    else if (custom_name == null || custom_name.equals("")){
+                        Toast.makeText(getBaseContext(),"Custom Name is empty",Toast.LENGTH_LONG).show();
+                    }
+                    else if (web_link == null || web_link.equals(" ")){
+                        Toast.makeText(getBaseContext(),"Link is required",Toast.LENGTH_LONG).show();
+                    }
 
-                    // Toast.makeText(Comments.this,custom_name.toString(),Toast.LENGTH_SHORT).show();
-                    // to add in the model and maread sa array
-                    displaySiteModels.add(new DisplaySiteModel(name.getText().toString(), sitenamefield.getText().toString()));
+                  */
 
-                    //to update the content of adapter
-                    adapter.notifyItemInserted(custom_name.size()-1);
-                    displaySites.scrollToPosition(custom_name.size());
+                        //  TODO : error handling pag walang input dapat maglalabas ng error sa gilid na required-status: done
+                        //sitename array store yung name na text sa editText
+              /*    site_name = (ArrayList<String>) sitenamefield.getText();
+                    if(site_name == null){
+                            Toast.makeText(getBaseContext(),"Site Name is Empty ",Toast.LENGTH_LONG).show();
+                        }
+                    else{
 
-                    //to show the indicator link title
-                    link.setVisibility(View.VISIBLE);
+               */
+                        site_name.add(sitenamefield.getText().toString());
 
-                    //to hide the linkdialog
-                    linkdialog.dismiss();
-                }
+
+             /*       custom_name = (ArrayList<String>) name.getText();
+                      if(custom_name == null){
+                          Toast.makeText(getBaseContext(),"Custom name should not be empty",Toast.LENGTH_LONG).show();
+                      }
+                      else { */
+                          custom_name.add(name.getText().toString());
+
+
+             /*        web_link = (ArrayList<String>) sitelink.getText();
+                      if (web_link == null){
+                          Toast.makeText(getBaseContext(),"Link is required",Toast.LENGTH_LONG).show();
+                      }
+                      else {
+                      */
+                          web_link.add(sitelink.getText().toString());
+
+                        // Toast.makeText(Comments.this,custom_name.toString(),Toast.LENGTH_SHORT).show();
+                        // to add in the model and maread sa array
+                        displaySiteModels.add(new DisplaySiteModel(name.getText().toString(), sitenamefield.getText().toString()));
+
+                        //to update the content of adapter
+                        adapter.notifyItemInserted(custom_name.size() - 1);
+                        displaySites.scrollToPosition(custom_name.size());
+
+                        //to show the indicator link title
+                        link.setVisibility(View.VISIBLE);
+
+                        //to hide the linkdialog
+                        linkdialog.dismiss();
+                    }
+
             });
 
         sitelistdialog = new BottomSheetDialog(this);
@@ -224,8 +227,13 @@ public class Comments extends AppCompatActivity implements SiteInterface {
                     linkdialog.hide();
                 }
             });
-
-
+        // dito ko nilipat
+        link = findViewById(R.id.link);
+        if (custom_name.isEmpty()){
+            link.setVisibility(View.GONE);
+        }else{
+            link.setVisibility(View.VISIBLE);
+        }
 
 
         linkdialog.setContentView(view);
@@ -246,6 +254,8 @@ public class Comments extends AppCompatActivity implements SiteInterface {
 
     }
 
+
+
     private void setupdataforsites() { // para sa mga sites sa dialog
         int[] siteicon = {R.drawable.meetlogo, R.drawable.githublogo,R.drawable.drivelogo};
         String[] sitename = {"Google Meet","Github","Google Drive","facebook"};
@@ -254,6 +264,11 @@ public class Comments extends AppCompatActivity implements SiteInterface {
             siteModels.add(new SiteModel(siteicon[i],sitename[i]));
         }
 
+    }
+
+    private void setupdatafordisplaySites() {
+        displaySites.setAdapter(adapter);
+        displaySites.setLayoutManager(new LinearLayoutManager(Comments.this)); // important
     }
 
 

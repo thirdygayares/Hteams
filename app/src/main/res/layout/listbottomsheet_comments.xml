@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+
+        android:id="@+id/list_icon_cmnt"
+        android:src="@drawable/lists"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="15dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/list_icon_cmnt"
+        android:layout_marginTop="20dp"
+        android:text="List"
+        android:fontFamily="@font/gilroymedium"
+        android:textSize="20sp"
+        android:textColor="@color/gray0"
+        />
+
+      <ImageView
+          android:src="@drawable/question_icon"
+          android:id="@+id/question_btn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:layout_margin="20dp"
+          />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/list_icon_cmnt"/>
+
+
+</RelativeLayout>
