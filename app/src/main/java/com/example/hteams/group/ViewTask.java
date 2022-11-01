@@ -90,10 +90,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface {
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(ViewTask.this, "click", Toast.LENGTH_SHORT).show();
-//        Intent intent = new Intent(GroupPage.this, GroupPage.class);
-//        intent.putExtra("salesId", historyDataModels.get(position).getSalesID());
-//        intent.putExtra("Total", historyDataModels.get(position).getTotalPrice());
-//        startActivity(intent);
+        Intent intent = new Intent(ViewTask.this, ViewUpdates.class);
+        startActivity(intent);
     }
 }

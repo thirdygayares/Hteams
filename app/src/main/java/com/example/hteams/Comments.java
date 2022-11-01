@@ -1,6 +1,7 @@
 package com.example.hteams;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +40,7 @@ public class Comments extends AppCompatActivity implements SiteInterface {
     RecyclerView displaySites; // para pag click nung edit text madetect
 
     //ito yung card view na indicator title ng link
-    MaterialCardView link;
+    CardView link;
 
     //    Link array, saving local sitename,custom name,link
 

@@ -5,7 +5,10 @@
       <map>
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/bottom_navigation_selector.xml" value="0.2265" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_archive_24.xml" value="0.3015" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_event_note_24.xml" value="0.235" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_group_24.xml" value="0.235" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.188" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_thumb_up_24.xml" value="0.235" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_home.xml" value="0.2265" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_notification.xml" value="0.2265" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_profile.xml" value="0.2265" />
@@ -15,36 +18,43 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_comments.xml" value="0.3322884012539185" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_creategroup.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_creategroup2.xml" value="0.5" />
-        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_group_page.xml" value="0.25" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_group_page.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_groupspace.xml" value="0.32135416666666666" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_list_of_classmate.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_main2.xml" value="0.234375" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_notification.xml" value="0.1796875" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_profile.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_sample.xml" value="0.3458333333333333" />
-        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_task.xml" value="0.1796875" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_task.xml" value="0.33" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_task2.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_testingfirebase.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_userprofile.xml" value="0.33" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_view_task.xml" value="0.33" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_view_updates.xml" value="0.2850498338870432" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/bottomsheet.xml" value="0.5" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/listviewclassmateinvite.xml" value="0.5" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/login_loading.xml" value="0.35989583333333336" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycle_list.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_group.xml" value="0.5" />
-        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_group1.xml" value="0.33" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_group1.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_grouppage2.xml" value="0.234375" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_image.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_invite.xml" value="0.25" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_personal_task.xml" value="0.33" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_view_task.xml" value="0.33" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recyclerdisplaysite.xml" value="0.259375" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recyclerlink.xml" value="0.234375" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recyclersites.xml" value="0.234375" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recylcer_files.xml" value="0.23333333333333334" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/sitesbottomsheet.xml" value="0.5" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/time.xml" value="0.31614583333333335" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/menu/bottom_navigation.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/menu/displaymode.xml" value="0.24791666666666667" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/menu/grouppagemenu.xml" value="0.24791666666666667" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/menu/home_menu.xml" value="0.2755208333333333" />
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_star_outline_24.xml" value="0.2005" />
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_comments.xml" value="0.25" />
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_sites.xml" value="0.33" />
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_view_updates.xml" value="0.33" />
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/bottomsheet.xml" value="0.33" />
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/listbottomsheet_comments.xml" value="0.22" />
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/recyclerdisplaysite.xml" value="0.209375" />
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/recyclersites.xml" value="0.33" />
-        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/sitesbottomsheet.xml" value="0.25" />
       </map>
     </option>
   </component>

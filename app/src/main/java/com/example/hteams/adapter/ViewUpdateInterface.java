@@ -1,5 +1,5 @@
 package com.example.hteams.adapter;
 
-public interface Interface {
+public interface ViewUpdateInterface {
     void onItemClick(int pos);
 }
