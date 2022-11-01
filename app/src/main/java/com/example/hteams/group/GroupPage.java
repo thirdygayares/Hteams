@@ -47,8 +47,6 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_page);
 
-
-
 //        inititalization
         displayMode =  findViewById(R.id.displayMode);
         Addtask2 = findViewById(R.id.Addtask2);
@@ -77,7 +75,6 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 
         //fill data [frontend and backend work for 1st table
         setupGroupData2();
-
 
         Addtask1.setOnClickListener(new View.OnClickListener() {
             @Override

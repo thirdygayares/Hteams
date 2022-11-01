@@ -112,7 +112,7 @@
                             android:layout_toRightOf="@id/participant_photo"
                             android:fontFamily="@font/gilroymedium"
                             android:text="Thirdy Gayares"
-                            android:textColor="@color/text"
+                            android:textColor="@color/black"
                             android:textSize="20dp"></TextView>
 
                         <TextView

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/todo"
+        android:icon="@drawable/ic_todo"
+        android:title="TODO"
+        android:iconTint="@color/black"
+        />
+
+
+    <item
+        android:id="@+id/working"
+        android:icon="@drawable/ic_baseline_work_outline_24"
+        android:iconTint="@color/working"
+        android:title="Working"
+        />
+
+    <item
+        android:id="@+id/ready"
+        android:icon="@drawable/ic_ready"
+        android:iconTint="@color/ready"
+        android:title="Ready"
+        />
+
+    <item
+        android:id="@+id/done"
+        android:icon="@drawable/ic_baseline_done_24"
+        android:iconTint="@color/done"
+        android:title="Done"
+        />
+
+</menu>

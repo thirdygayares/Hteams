@@ -1,9 +1,11 @@
 package com.example.hteams.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,6 +46,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
         holder.group_description.setText(groupmodels.get(position).getShortDescription());
         holder.teacher.setText(groupmodels.get(position).getProfessor());
         holder.subject.setText(groupmodels.get(position).getSubject());
+        holder.group_image.setImageResource(groupmodels.get(position).getGroupImage());
 
 
     }
@@ -57,14 +60,15 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView groupName, group_description, teacher, subject;
+        ImageView group_image;
 
         public MyViewHolder(@NonNull View itemView, GroupInterface groupInterface) {
             super(itemView);
-            groupName = itemView.findViewById(R.id.groupName);
-            group_description = itemView.findViewById(R.id.group_description);
-            teacher = itemView.findViewById(R.id.teacher);
-            subject = itemView.findViewById(R.id.subject);
-
+            groupName = (TextView) itemView.findViewById(R.id.groupName);
+            group_description = (TextView) itemView.findViewById(R.id.group_description);
+            teacher = (TextView) itemView.findViewById(R.id.teacher);
+            subject = (TextView) itemView.findViewById(R.id.subject);
+            group_image =(ImageView) itemView.findViewById(R.id.group_image);
 
 
             itemView.setOnClickListener(view -> {

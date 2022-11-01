@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/background"
     android:background="@color/grey3"
     android:padding="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -79,6 +80,7 @@
 
 <!--horizontal Menu-->
     <ImageView
+        android:id="@+id/notificationmenu"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"

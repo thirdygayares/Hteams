@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/mark"
+        android:icon="@drawable/ic_baseline_remove_red_eye_24"
+        android:title="Mark as Read"
+        />
+
+
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_baseline_delete_outline_24"
+        android:iconTint="@color/duedate"
+        android:title="Delete this"
+        />
+
+</menu>

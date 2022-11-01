@@ -1,6 +1,7 @@
 package com.example.hteams.model;
 
 public class GroupModel {
+    int groupImage;
     String groupTitle;
     String shortDescription;
     String professor;
@@ -11,6 +12,18 @@ public class GroupModel {
         this.shortDescription = shortDescription;
         this.professor = professor;
         this.subject = subject;
+    }
+
+    public GroupModel(int groupImage, String groupTitle, String shortDescription, String professor, String subject) {
+        this.groupImage = groupImage;
+        this.groupTitle = groupTitle;
+        this.shortDescription = shortDescription;
+        this.professor = professor;
+        this.subject = subject;
+    }
+
+    public int getGroupImage() {
+        return groupImage;
     }
 
     public String getGroupTitle() {

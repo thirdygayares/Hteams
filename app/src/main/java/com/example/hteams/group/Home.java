@@ -75,8 +75,7 @@ public class Home extends Fragment implements GroupInterface {
         String[] Description = {"this is short Description", "this is short Description", "this is short Description", "this is short Description", "this is short Description", "this is short Description" };
         String[] Prof = {"Prof Thirdy Gayares", "Prof Novem Lanaban", "Prof Angel Locsin", "Prof Marian Rivera", "Prof. Alex Castro", "Prof. Jonny Sagloria" };
         String[] subject = {"Elective 1", "Softeng", "Discrete", "Modsimu", "HCI", "Algocom" };
-
-
+        Integer[] image = {R.drawable.profile,R.drawable.avatar1, R.drawable.groupavatar2,R.drawable.groupavatar3, R.drawable.groupavatar4, R.drawable.groupavatar5};
 
 
         //from database data
@@ -86,7 +85,7 @@ public class Home extends Fragment implements GroupInterface {
 
 
         for(int i=0; i<Title.length; i++){
-            groupModels.add(new GroupModel(Title[i],Description[i],Prof[i],subject[i]
+            groupModels.add(new GroupModel(image[i],Title[i],Description[i],Prof[i],subject[i]
             ));
         }
 
