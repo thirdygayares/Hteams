@@ -49,11 +49,11 @@
             android:exported="false" />
 
         <activity
-            android:name=".group.Updates"
+            android:name=".group.Creategroup"
             android:exported="false" />
 
         <activity
-            android:name=".group.Creategroup"
+            android:name=".group.Updates"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

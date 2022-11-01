@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:padding="10dp"
     android:layout_height="match_parent">
 
     <ImageView
 
         android:id="@+id/list_icon_cmnt"
-        android:src="@drawable/lists"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_margin="15dp"
-        />
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/lists" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/list_icon_cmnt"
         android:layout_marginTop="20dp"
-        android:text="List"
+        android:layout_toRightOf="@id/list_icon_cmnt"
         android:fontFamily="@font/gilroymedium"
-        android:textSize="20sp"
-        android:textColor="@color/gray0"
-        />
+        android:text="List"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
       <ImageView
           android:src="@drawable/question_icon"
@@ -36,21 +41,70 @@
         android:id="@+id/create_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/list_icon_cmnt"/>
+        android:layout_below="@id/list_icon_cmnt" />
+
+
+<!--    start of new list-->
+    <RelativeLayout
+        android:id="@+id/adding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_list"
+        android:padding="10dp">
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checked_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:backgroundTintMode="@color/primary"
+            android:buttonTint="@color/primary"
+            android:fontFamily="@font/gilroymedium"
+            android:textColor="@color/text"
+            android:textSize="18dp">
+
+        </com.google.android.material.checkbox.MaterialCheckBox>
+
+        <EditText
+            android:id="@+id/newlist_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="45dp"
+            android:layout_toRightOf="@id/checked_icon"
+            android:background="@color/white"
+            android:hint="New List"
+            android:paddingVertical="10dp"
+            android:paddingRight="10dp" />
+
+
+        <ImageView
+            android:id="@+id/addbtn"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/grey3"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_add_24"
+            app:tint="@color/primary"></ImageView>
+    </RelativeLayout>
+
 
     <Button
         android:id="@+id/submitlist_btn"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/create_list"
-        android:layout_margin="10dp"
+        android:layout_below="@id/adding"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="70dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="40dp"
         android:backgroundTint="@color/primarybutton"
-        android:text="SUBMIT"
-        android:textStyle="bold"
-        android:textSize="20dp"
         android:fontFamily="@font/gilroybold"
+        android:text="SUBMIT"
         android:textColor="@color/white"
-        />
+        android:textSize="20dp"
+        android:textStyle="bold" />
 </RelativeLayout>
