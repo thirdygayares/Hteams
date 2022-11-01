@@ -1,22 +1,60 @@
 package com.example.hteams.group;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.hteams.R;
+import com.example.hteams.adapter.AsigneeAdapter;
+import com.example.hteams.adapter.ViewTaskInterface;
+import com.example.hteams.model.AssigneeModel;
+import com.example.hteams.model.GroupPageModel;
 
-import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class AddTask extends AppCompatActivity implements ViewTaskInterface,DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    EditText date;
+    //arraylist of assignee model
+    ArrayList<AssigneeModel> assigneeModels = new ArrayList<>();
+    ArrayList<GroupPageModel> groupPageModels = new ArrayList<>();
+    //Global variable of dialog box
+    AlertDialog.Builder alert;
+    AlertDialog alertDialog;
+    //global variable of AsigneeAdapter adapter
+    AsigneeAdapter adapter1;
 
+    //global variable in final date
+    //TODO sa firebase kasama year ah
+    String finalDate ="";
+    String participantName ="";
+    String taskName = "";
+    String status = "TODO";
+    int classmatePhoto = R.drawable.groupavatar3;
+
+    //GLobal variable for time
+    int day, month, year, hour, minute;
+    int myday, myMonth, myYear, myHour, myMinute;
+
+    //pm or am
+    static  String pmam = "am";
+
+    Button date, participant,addTask;
+    EditText input_task;
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
 
@@ -25,35 +63,260 @@ public class AddTask extends AppCompatActivity implements DatePickerDialog.OnDat
             setContentView(R.layout.activity_add_task);
             initxml();
 
+
+            //set adapter
+        adapter1 = new AsigneeAdapter(AddTask.this, assigneeModels, this);
+            //setup data for participants
+            setupAssigne();
+
             date.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Please note that use your package name here
-                    com.example.hteams.group.DatePicker mDatePickerDialogFragment;
-                    mDatePickerDialogFragment = new com.example.hteams.group.DatePicker();
-                    mDatePickerDialogFragment.show(getSupportFragmentManager(), "DATE PICK");
+                    Calendar calendar = Calendar.getInstance();
+                    year = calendar.get(Calendar.YEAR);
+                    month = calendar.get(Calendar.MONTH);
+                    day = calendar.get(Calendar.DAY_OF_MONTH);
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(AddTask.this, AddTask.this,year, month,day);
+
+                    // set maximum date to be selected as today
+                    datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+                    datePickerDialog.show();
                 }
             });
+
+            //whem click the select a particpant
+        participant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //remove incase the error
+
+
+                alert = new AlertDialog.Builder(AddTask.this);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_assigned, null);
+
+//                initialize cancel in xml
+                TextView cancel = (TextView) mView.findViewById(R.id.cancel);
+//                initialize recycler view in xml
+                RecyclerView participant = (RecyclerView) mView.findViewById(R.id.recyler_assigned);
+                //setting adapter and model
+                //assigned Recycler View
+                participant.setAdapter(adapter1);
+                participant.setLayoutManager(new LinearLayoutManager(AddTask.this));
+
+
+                alert.setView(mView);
+                alertDialog = alert.create();
+                //user can touch in outside
+                alertDialog.setCanceledOnTouchOutside(true);
+                //set cancel on dialog box
+                cancel.setOnClickListener(view -> alertDialog.dismiss());
+                alertDialog.show();
+            }
+        });
+
+
+        addTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(input_task.length()==0){
+                    input_task.setError("Required");
+                }else{
+                    taskName = input_task.getText().toString();
+                    groupPageModels.add(new GroupPageModel(taskName,status,finalDate,classmatePhoto));
+                    Toast.makeText(AddTask.this, String.valueOf(groupPageModels.size()), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(AddTask.this, GroupPage.class);
+                    startActivity(intent);
+
+                }
+            }
+        });
+
         }
 
+    @Override
+    public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+        myYear = year;
+        myday = day;
+        myMonth = month;
+        Calendar c = Calendar.getInstance();
+        hour = c.get(Calendar.HOUR);
+        minute = c.get(Calendar.MINUTE);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(AddTask.this, AddTask.this, hour, minute, DateFormat.is24HourFormat(this));
+        timePickerDialog.show();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        myHour = hourOfDay;
+        myMinute = minute;
+        //TODO dapat same yung date sa local and firebase para maayos ang display
+        //complete set para masave sa fireabase kahit di na view yung year masasave pa rin sa firevase
+        //buttonDeadline.setText("Year: " + myYear + " " + "Month: " + myMonth + " " + "Day: " + myday + " " + "Hour: " + myHour + " " + "Minute: " + myMinute);
+
+        finalDate = String.valueOf(dateConverter(myMonth)) + " " + myday + ", " + timeConverter(myHour) + ":" + minute + " " + pmam;
+
+        date.setText(finalDate);
+
+    }
+
+    static String dateConverter(int month){
+        String MonthConverter = "";
+        if(month == 0){
+            MonthConverter = "Jan";
+        }else if (month == 1) {
+            MonthConverter = "Feb";
+        }else if (month == 2) {
+            MonthConverter = "Mar";
+        }else if (month == 3) {
+            MonthConverter = "Apr";
+        }else if (month == 4) {
+            MonthConverter = "May";
+        }else if (month == 5) {
+            MonthConverter = "Jun";
+        }else if (month == 6) {
+            MonthConverter = "Jul";
+        }else if (month == 7) {
+            MonthConverter = "Aug";
+        }else if (month == 8) {
+            MonthConverter = "Sep";
+        }else if (month == 9) {
+            MonthConverter = "Oct";
+        }else if (month == 10) {
+            MonthConverter = "Nov";
+        }else if (month == 11) {
+            MonthConverter = "Dec";
+        }
+
+        return MonthConverter;
+    }
+
+
+    static int timeConverter(int time){
+        if(time == 1){
+            time = 1;
+            pmam = "am";
+        }else if(time == 2){
+            time = 2;
+            pmam = "am";
+        }else if(time == 3){
+            time = 3;
+            pmam = "am";
+        }else if(time == 4){
+            time = 4;
+            pmam = "am";
+        }else if(time == 5){
+            time = 5;
+            pmam = "am";
+        }else if(time == 6){
+            time = 6;
+            pmam = "am";
+        }else if(time == 7){
+            time = 7;
+            pmam = "am";
+        }else if(time == 8){
+            time = 8;
+            pmam = "am";
+        }else if(time == 9){
+            time = 9;
+            pmam = "am";
+        }else if(time == 10){
+            time = 10;
+            pmam = "am";
+        }else if(time == 11){
+            time = 11;
+            pmam = "am";
+        }else if(time == 12){
+            time = 12;
+            pmam = "pm";
+        }else if(time == 13){
+            time = 1;
+            pmam = "pm";
+        }else if(time == 14){
+            time = 2;
+            pmam = "pm";
+        }else if(time == 15){
+            time = 3;
+            pmam = "pm";
+        }else if(time == 16){
+            time = 4;
+            pmam = "pm";
+        }else if(time == 17){
+            time = 5;
+            pmam = "pm";
+        }else if(time == 18){
+            time = 6;
+            pmam = "pm";
+        }else if(time == 19){
+            time = 7;
+            pmam = "pm";
+        }else if(time == 20){
+            time = 8;
+            pmam = "pm";
+        }else if(time == 21){
+            time = 9;
+            pmam = "pm";
+        }else if(time == 22){
+            time = 10;
+            pmam = "pm";
+        }else if(time == 23){
+            time = 11;
+            pmam = "pm";
+        }else if(time == 0){
+            time = 12;
+            pmam = "am";
+        }else{
+            pmam = "error";
+        }
+
+        return time;
+    }
 
 
 
+    //set up data for assignee
+    //TODO firebase manipulation (UPDATE)
+    private void setupAssigne() {
+        //                TODO: if the user is current leader it indicator or show you
+        ArrayList<Integer> profilePhoto = new ArrayList<Integer>();
+        profilePhoto.add(R.drawable.profile);
+        profilePhoto.add(R.drawable.marielle);
+        profilePhoto.add(R.drawable.novem);
+
+        ArrayList<String> classmateName = new ArrayList<String>();
+        classmateName.add("Thirdy Gayares");
+        classmateName.add("Marielle Zabala");
+        classmateName.add("Novem Lanaban");
+
+        for(int i=0; i<classmateName.size();i++){
+            assigneeModels.add(new AssigneeModel(profilePhoto.get(i), classmateName.get(i)));
+        }
+
+    }
 
 
 
     private void initxml() {
-        date =findViewById(R.id.date);
+        date = (Button) findViewById(R.id.date);
+        participant = (Button) findViewById(R.id.participant);
+        addTask  = (Button) findViewById(R.id.addTask);
+        input_task = (EditText) findViewById(R.id.input_task);
     }
 
 
     @Override
-    public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar mCalendar = Calendar.getInstance();
-        mCalendar.set(Calendar.YEAR, year);
-        mCalendar.set(Calendar.MONTH, month);
-        mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mCalendar.getTime());
-        date.setText(selectedDate);
+    public void onItemClick(int pos, String assignee_adapter) {
+        switch (assignee_adapter) {
+            case "AssigneeAdapter":
+                participant.setText(assigneeModels.get(pos).getName());
+                participantName = assigneeModels.get(pos).getName();
+                classmatePhoto = assigneeModels.get(pos).getImage();
+
+//                to set a photo
+               // participant_photo.setImageResource(assigneeModels.get(position).getImage());
+                alertDialog.dismiss();
+                break;
+
+        }
     }
 }

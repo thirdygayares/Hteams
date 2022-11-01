@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFAFA"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+
+    <LinearLayout
+        android:id="@+id/title"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src ="@drawable/ic_baseline_add_24"
+            app:tint="@color/primary"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Table"
+            android:textColor="@color/primary"
+            android:fontFamily="@font/gilroysemibold"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:paddingTop="8dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fields"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/title"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:id="@+id/tableName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:background="@color/white"
+            android:fontFamily="@font/gilroymedium"
+            android:hint="Table Name"
+            android:padding="20dp"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nextbtn"
+        style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fields"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="300dp"
+        android:fontFamily="@font/gilroyregular"
+        android:stateListAnimator="@null"
+        android:text="Next"
+        android:textAllCaps="false"
+        android:textColor="@color/primary"
+        app:backgroundTint="@android:color/transparent"
+        app:cornerRadius="8dp"
+        app:rippleColor="@color/primary"
+        app:strokeColor="@color/primary"
+        app:strokeWidth="1dp"></com.google.android.material.button.MaterialButton>
+
+
+    </RelativeLayout>
+

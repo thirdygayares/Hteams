@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hteams.MainActivity;
@@ -34,7 +35,9 @@ public class Creategroup extends AppCompatActivity {
 
     Button nextbtn ;
     ImageButton backbtn;
-    EditText grpname, subject,professor,descrip;
+    EditText grpname ,descrip;
+    TextView professor;
+    Button subject;
     static int ctrl = 0;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
@@ -51,7 +54,6 @@ public class Creategroup extends AppCompatActivity {
         //to know the email and uid
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
-
 
         String cname = firebaseAuth.getCurrentUser().getUid();
         DocumentReference documentReference2 = firestore.collection("students").document(cname);
@@ -134,7 +136,7 @@ public class Creategroup extends AppCompatActivity {
         nextbtn = findViewById(R.id.nextbtn);
 
         grpname = findViewById(R.id.input_name);
-        subject = findViewById(R.id.input_subject);
+        subject = findViewById(R.id.subject);
         professor = findViewById(R.id.input_professor);
         descrip = findViewById(R.id.input_description);
 

@@ -14,41 +14,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/logo"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:maxWidth="50dp"
+            android:maxHeight="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/avatar1"
+            app:shapeAppearance="?attr/actionButtonStyle"
+            app:shapeAppearanceOverlay="@style/imageViewRounded"
+            app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
+
+
+        <TextView
+            android:id="@+id/nameofgroup"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="22dp"
+            android:layout_toRightOf="@+id/logo"
+            android:fontFamily="@font/gilroymedium"
+            android:text="Name of Group"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/white"
-            android:src="@drawable/avatar1" />
-
-    <TextView
-        android:id="@+id/nameofgroup"
-        android:layout_width="120dp"
-        android:layout_height="30dp"
-        android:layout_toRightOf="@+id/logo"
-        android:layout_marginTop="22dp"
-        android:layout_marginLeft="5dp"
-        android:fontFamily="@font/gilroymedium"
-        android:text="Name of Group"
-        android:textAlignment="center"
-        android:textSize="16sp" />
-
-
-    <ImageView
-        android:id="@+id/menu"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/ic_baseline_menu_24" />
+            android:src="@drawable/ic_baseline_menu_24" />
 
 </RelativeLayout>
 
@@ -80,7 +87,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_below="@+id/logo"
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="5dp"
                 >
@@ -362,15 +368,16 @@
 
         <LinearLayout
             android:layout_alignParentRight="true"
-            android:layout_marginHorizontal="10dp"
             android:id="@+id/addtableanddisplaymode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dashboard"
             android:layout_marginVertical="10dp"
+            android:paddingHorizontal="20dp"
             >
 
             <RelativeLayout
+                android:id="@+id/addTable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 >
@@ -430,6 +437,54 @@
 
 
         </LinearLayout>
+
+
+
+<!--            image visible if task in particular group is empty-->
+            <RelativeLayout
+                android:id="@+id/emptyContainer"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/dashboard"
+                android:layout_marginVertical="80dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/emptyImage"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/empty"
+                    ></ImageView>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addfirsttaskbutton"
+                    style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/emptyImage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:drawableLeft="@drawable/ic_baseline_add_24"
+                    android:drawableTint="@color/primary"
+                    android:fontFamily="@font/gilroyregular"
+                    android:stateListAnimator="@null"
+                    android:text="Create First Task"
+                    android:textAllCaps="false"
+                    android:textColor="@color/primary"
+                    app:backgroundTint="@android:color/transparent"
+                    app:cornerRadius="8dp"
+                    app:rippleColor="@color/primary"
+                    app:strokeColor="@color/primary"
+                    app:strokeWidth="1dp"></com.google.android.material.button.MaterialButton>
+
+            </RelativeLayout>
+
 
 <!--            start of first Table-->
             <RelativeLayout

@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/bottom_navigation_selector.xml" value="0.2265" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/bottomsheet.xml" value="0.2355" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_archive_24.xml" value="0.3015" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_delete_outline_24.xml" value="0.235" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_event_note_24.xml" value="0.235" />
@@ -36,8 +37,11 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_view_task.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_view_updates.xml" value="0.2850498338870432" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/bottomsheet.xml" value="0.5" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/bottomsheet_adding_table.xml" value="0.35885416666666664" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/dialog_assigned.xml" value="0.35885416666666664" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/dialog_deadline.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/linkbottomsheet_comments.xml" value="0.35989583333333336" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/listbottomsheet_comments.xml" value="0.35435897435897434" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/listviewclassmateinvite.xml" value="0.5" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/login_loading.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycle_list.xml" value="0.33" />

@@ -24,7 +24,7 @@
             android:name=".group.ViewTask"
             android:exported="false" />
         <activity
-            android:name=".group.AddTask"
+            android:name=".group.GroupPage"
             android:exported="false" />
         <activity
             android:name=".Testingfirebase"
@@ -36,7 +36,7 @@
             android:name=".Sample"
             android:exported="false" /> <!-- Group -->
         <activity
-            android:name=".group.Creategroup"
+            android:name=".group.AddTask"
             android:exported="false" />
         <activity
             android:name=".group.CreateGroup2"
@@ -53,7 +53,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".group.GroupPage"
+            android:name=".group.Creategroup"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

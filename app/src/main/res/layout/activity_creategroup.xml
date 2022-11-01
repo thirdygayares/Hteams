@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white1"
     tools:context=".group.Creategroup">
 
     <ImageButton
@@ -14,7 +15,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/white1"
         android:src="@drawable/arrowpointingleft" />
 
     <TextView
@@ -28,13 +29,25 @@
         android:textAlignment="center"
         android:textSize="16sp" />
 
-    <ImageView
+    <!-- Image of groupPage-->
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/user_pic"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginRight="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/ic_group" />
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:maxWidth="50dp"
+        android:maxHeight="50dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/profile"
+        app:shapeAppearance="?attr/actionButtonStyle"
+        app:shapeAppearanceOverlay="@style/imageViewRounded"
+        app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
+
 
     <TextView
         android:id="@+id/upload_pic"
@@ -44,18 +57,18 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/gilroymedium"
-        android:text="Upload"
+        android:text="Choose Group Avatar"
         android:textAlignment="center" />
 
 
     <LinearLayout
         android:id="@+id/info_container"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/upload_pic"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:paddingHorizontal="20dp">
+        android:paddingHorizontal="10dp">
 
         <TextView
             android:id="@+id/name_text"
@@ -70,44 +83,10 @@
             android:id="@+id/input_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:fontFamily="@font/gilroymedium"
             android:hint="Enter Your Group Name"
-            android:textSize="18sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/gilroysemibold"
-            android:text="Subject"
-            android:textAlignment="center"
-            android:textColor="@color/primary"
-            android:textSize="12sp" />
-
-        <EditText
-            android:id="@+id/input_subject"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/gilroymedium"
-            android:hint="Select Course or subject"
-            android:textSize="18sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/gilroysemibold"
-            android:text="Professor"
-            android:textAlignment="center"
-            android:textColor="@color/primary"
-            android:textSize="12sp" />
-
-        <EditText
-            android:id="@+id/input_professor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/gilroymedium"
-            android:hint="Enter Professor Name"
+            android:padding="13dp"
             android:textSize="18sp" />
 
         <TextView
@@ -124,9 +103,60 @@
             android:id="@+id/input_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@color/white"
             android:fontFamily="@font/gilroymedium"
             android:hint="Brief description about your group "
+            android:padding="13dp"
             android:textSize="18sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/gilroysemibold"
+            android:text="Subject"
+            android:textAlignment="center"
+            android:textColor="@color/primary"
+            android:textSize="12sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginTop="5dp"
+            android:id="@+id/subject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gilroymedium"
+            android:padding="13dp"
+            android:stateListAnimator="@null"
+            android:text="Select Subject"
+            android:textSize="18sp"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="#A69D9D"></com.google.android.material.button.MaterialButton>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/gilroysemibold"
+            android:text="Professor"
+            android:textAlignment="center"
+            android:textColor="@color/primary"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:id="@+id/input_professor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:fontFamily="@font/gilroymedium"
+            android:padding="13dp"
+            android:text="thirdy gayares"
+            android:textSize="18sp" />
+
 
     </LinearLayout>
 

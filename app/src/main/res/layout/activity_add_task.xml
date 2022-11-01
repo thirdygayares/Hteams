@@ -3,17 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white1"
     android:layout_height="match_parent"
     tools:context=".group.AddTask">
 
-    <ImageView
+
+    <!-- Image of groupPage-->
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/back_option"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="20dp"
-        android:layout_alignParentLeft="true"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/ic_group" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:maxWidth="50dp"
+        android:maxHeight="50dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/profile"
+        app:shapeAppearance="?attr/actionButtonStyle"
+        app:shapeAppearanceOverlay="@style/imageViewRounded"
+        app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
+
 
     <TextView
         android:id="@+id/nameofgroup"
@@ -30,12 +43,13 @@
     <LinearLayout
 
         android:id="@+id/info_container"
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/nameofgroup"
+        android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="10dp"
         android:orientation="vertical"
-        android:paddingHorizontal="20dp">
+        android:paddingHorizontal="5dp">
 
         <TextView
             android:id="@+id/name_text"
@@ -47,73 +61,88 @@
             android:textSize="12sp" />
 
         <EditText
-            android:id="@+id/input_name"
+            android:id="@+id/input_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:fontFamily="@font/gilroymedium"
             android:hint="Task Name"
+            android:padding="13dp"
             android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/gilroysemibold"
             android:text="Assigned to"
             android:textAlignment="center"
             android:textColor="@color/primary"
             android:textSize="12sp" />
 
-        <EditText
-            android:id="@+id/input_subject"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/participant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gilroymedium"
-            android:hint="Role"
-            android:textSize="18sp" />
+            android:padding="13dp"
+            android:stateListAnimator="@null"
+            android:text="Select a participant"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="#A69D9D"></com.google.android.material.button.MaterialButton>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/gilroysemibold"
             android:text="Date"
             android:textAlignment="center"
             android:textColor="@color/primary"
             android:textSize="12sp" />
 
-        <EditText
-
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
             android:fontFamily="@font/gilroymedium"
-            android:hint="Deadline"
-            android:inputType="none"
-            android:textSize="18sp"
-            android:enabled="true"
-            />
-
+            android:padding="13dp"
+            android:stateListAnimator="@null"
+            android:text="Due Date"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="#A69D9D"></com.google.android.material.button.MaterialButton>
 
 
     </LinearLayout>
 
 
-    <Button
-        android:id="@+id/nextbtn"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addTask"
+        style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        android:paddingVertical="20dp"
-        android:paddingHorizontal="80dp"
-        android:backgroundTint="@color/primary"
-        android:fontFamily="@font/gilroybold"
         android:layout_centerHorizontal="true"
-        android:text="ADD"
-        android:textColor="@color/white"
-        android:textSize="28dp" />
-
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/ic_baseline_add_24"
+        android:drawableTint="@color/primary"
+        android:fontFamily="@font/gilroyregular"
+        android:padding="10dp"
+        android:stateListAnimator="@null"
+        android:text="Add Task"
+        android:textAllCaps="false"
+        android:textColor="@color/primary"
+        app:backgroundTint="@android:color/transparent"
+        app:cornerRadius="8dp"
+        app:rippleColor="@color/primary"
+        app:strokeColor="@color/primary"
+        app:strokeWidth="1dp"></com.google.android.material.button.MaterialButton>
 
 
 

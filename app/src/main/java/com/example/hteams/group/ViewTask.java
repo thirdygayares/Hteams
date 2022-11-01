@@ -256,7 +256,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         button_asignee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 alert = new AlertDialog.Builder(ViewTask.this);
+                alert = new AlertDialog.Builder(ViewTask.this);
                 View mView = getLayoutInflater().inflate(R.layout.dialog_assigned, null);
 
 //                initialize cancel in xml

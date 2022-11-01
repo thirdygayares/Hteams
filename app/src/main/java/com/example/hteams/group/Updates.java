@@ -76,7 +76,6 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 //        condition to hide link material button if no laman
 //        paste here if error
 
-
         //links button
         links.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -274,6 +273,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
     @Override
     public void onItemClick(int pos, String tag) {
+//        TODO: Check if pwede nang burahin
 //        Toast.makeText(Comments.this,"Clicked an Item",Toast.LENGTH_SHORT).show();
 //        sitelistdialog.hide(); //para maghide yung link dialiog
 //        linkdialog.show();
@@ -288,23 +288,18 @@ public class Updates extends AppCompatActivity implements SiteInterface {
             case "displaysite":
                 Toast.makeText(Updates.this, "Display adapter",Toast.LENGTH_SHORT).show();
                 break;
-
             case "siteadapter":
-
                 //to copy the click
                 sitenamefield.setText(siteModels.get(pos).getSitename());
-
                 //to hide the sitelist dialog
                 sitelistdialog.hide();
                 //after to choose the link magpopopup  ulit ang link dialog
                 linkdialog.show();
-
                 break;
             default:
                 Toast.makeText(Updates.this, "default",Toast.LENGTH_SHORT).show();
         }
     }
-
 
     @Override
     protected void onStart() {
