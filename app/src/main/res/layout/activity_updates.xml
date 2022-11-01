@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".group.Comments">
+    tools:context=".group.Updates">
 
     <TextView
         android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
 
 
 
-
+<!--start here-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
@@ -72,9 +72,33 @@
             android:padding="10dp"
             android:textSize="16sp" />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/list_indicate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#E0F1F4"
+            android:layout_marginHorizontal="6dp"
+            android:padding="10dp"
+            android:layout_marginVertical="5dp"
+            app:cardCornerRadius="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="List"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="14dp"
+                android:textColor="@color/working"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/display_updates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 
-        <!--               link Title-->
+
+
         <androidx.cardview.widget.CardView
             android:id="@+id/link"
             android:layout_width="wrap_content"
@@ -98,12 +122,12 @@
 
         </androidx.cardview.widget.CardView>
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/displayrecyleview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
              />
+
     </LinearLayout>
 
 <!--        <RelativeLayout-->

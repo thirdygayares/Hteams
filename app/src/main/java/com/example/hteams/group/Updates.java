@@ -18,8 +18,10 @@ import com.example.hteams.R;
 import com.example.hteams.adapter.DisplaySiteAdapter;
 import com.example.hteams.adapter.SiteAdapter;
 import com.example.hteams.adapter.SiteInterface;
+import com.example.hteams.adapter.UpdateListAdapter;
 import com.example.hteams.model.DisplaySiteModel;
 import com.example.hteams.model.SiteModel;
+import com.example.hteams.model.UpdateListModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
     BottomSheetDialog linkdialog;
     BottomSheetDialog sitelistdialog;
+    BottomSheetDialog listupdatedialog;
     Button list;
     Button capture;
     Button files;
@@ -37,9 +40,12 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     RecyclerView sitesRecycler;
     Button sitenamefield;
     RecyclerView displaySites; // para pag click nung edit text madetect
+    RecyclerView listrecycler;
+    RecyclerView createlistrecycler;
 
     //ito yung card view na indicator title ng link
     CardView link;
+    CardView listindicate;
 
     //    Link array, saving local sitename,custom name,link
 
@@ -54,33 +60,47 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     ArrayList <String> web_link = new ArrayList<String>();
     ArrayList<SiteModel> siteModels = new ArrayList<>();
     ArrayList<DisplaySiteModel> displaySiteModels  = new ArrayList<>();
+    ArrayList<UpdateListModel> updateListModels = new ArrayList<>();
 
     //name of site
     ArrayList<String> siteName = new ArrayList<>();
     DisplaySiteAdapter adapter;
 
+    ArrayList<String> taskname = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comments);
-
+        setContentView(R.layout.activity_updates);
+       // widget casting
+        Button links = findViewById(R.id.linkbtn);
+       // component casting
+        listrecycler = findViewById(R.id.display_updates);
         sitesRecycler = findViewById(R.id.sitesRecycler);
         displaySites = findViewById(R.id.displayrecyleview); // for display
         adapter = new DisplaySiteAdapter(Updates.this,displaySiteModels,this);
-        setupdatafordisplaySites();
-
-        Button links = findViewById(R.id.linkbtn);
+        // Constructor
         linkdialog = new BottomSheetDialog(this);
+        sitelistdialog = new BottomSheetDialog(this);
+        listupdatedialog = new BottomSheetDialog(this);
+
+        // method calls
         createlinksDialog();
+        setupdatafordisplaySites();
+        createlistDialog();
+        createsitesDialog();
+
 
 //        condition to hide link material button if no laman
 //        paste here if error
+
 
         //links button
         links.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 linkdialog.show();
+                createlistDialog();  // del this later if err occurs
 
             }
         });
@@ -91,7 +111,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         {
             @Override
             public void onClick (View v){
-                Toast.makeText(Updates.this, "List Clicked".toString(), Toast.LENGTH_SHORT).show();
+               listupdatedialog.show();
             }
         });
 
@@ -141,14 +161,29 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         });
     }
 
+    private void createlistDialog() {
+
+        View view = getLayoutInflater().inflate(R.layout.listbottomsheet_updates,null , false );
+        Button submitlist = view.findViewById(R.id.submitlist_btn);
+        EditText nameoftask =view.findViewById(R.id.task_name);
+        createlistrecycler = view.findViewById(R.id.create_list);
+        setupdataforlist();
+
+        listupdatedialog.setContentView(view);
+
+    }
+
+    private void setupdataforlist() {
+        // set up data forlist
+        
+    }
 
 
     //TODO : Pasequence nung mga method
-
     //pag pinindot ang link dialog
     private void createlinksDialog() { // for bottomsheet
 
-        View view = getLayoutInflater().inflate(R.layout.linkbottomsheet_comments, null, false);
+        View view = getLayoutInflater().inflate(R.layout.linkbottomsheet_updates, null, false);
         Button submit = view.findViewById(R.id.submitbtn);
         sitenamefield = view.findViewById(R.id.sitenamefield); // call createsitedialog
         EditText name = view.findViewById(R.id.customenamefield);
@@ -158,6 +193,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
 
                  /*
@@ -172,40 +208,17 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
                 //  TODO : error handling pag walang input dapat maglalabas ng error sa gilid na required-status: done
                 //sitename array store yung name na text sa editText
-              /*    site_name = (ArrayList<String>) sitenamefield.getText();
-                    if(site_name == null){
-                            Toast.makeText(getBaseContext(),"Site Name is Empty ",Toast.LENGTH_LONG).show();
-                        }
-                    else{
 
-               */
                 site_name.add(sitenamefield.getText().toString());
-
-
-             /*       custom_name = (ArrayList<String>) name.getText();
-                      if(custom_name == null){
-                          Toast.makeText(getBaseContext(),"Custom name should not be empty",Toast.LENGTH_LONG).show();
-                      }
-                      else { */
                 custom_name.add(name.getText().toString());
-
-
-             /*        web_link = (ArrayList<String>) sitelink.getText();
-                      if (web_link == null){
-                          Toast.makeText(getBaseContext(),"Link is required",Toast.LENGTH_LONG).show();
-                      }
-                      else {
-                      */
                 web_link.add(sitelink.getText().toString());
 
                 // Toast.makeText(Comments.this,custom_name.toString(),Toast.LENGTH_SHORT).show();
                 // to add in the model and maread sa array
                 displaySiteModels.add(new DisplaySiteModel(name.getText().toString(), sitenamefield.getText().toString()));
-
                 //to update the content of adapter
                 adapter.notifyItemInserted(custom_name.size() - 1);
                 displaySites.scrollToPosition(custom_name.size());
-
                 //to show the indicator link title
                 link.setVisibility(View.VISIBLE);
 
@@ -215,8 +228,8 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
         });
 
-        sitelistdialog = new BottomSheetDialog(this);
-        createsitesDialog();
+
+      //  createsitesDialog();
         sitenamefield.setText(NameSite);
         sitenamefield.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,7 +286,6 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
     @Override
     public void onItemClick(int pos, String tag) {
-//        TODO: Check if pwede nang burahin
 //        Toast.makeText(Comments.this,"Clicked an Item",Toast.LENGTH_SHORT).show();
 //        sitelistdialog.hide(); //para maghide yung link dialiog
 //        linkdialog.show();
@@ -288,18 +300,23 @@ public class Updates extends AppCompatActivity implements SiteInterface {
             case "displaysite":
                 Toast.makeText(Updates.this, "Display adapter",Toast.LENGTH_SHORT).show();
                 break;
+
             case "siteadapter":
+
                 //to copy the click
                 sitenamefield.setText(siteModels.get(pos).getSitename());
+
                 //to hide the sitelist dialog
                 sitelistdialog.hide();
                 //after to choose the link magpopopup  ulit ang link dialog
                 linkdialog.show();
+
                 break;
             default:
                 Toast.makeText(Updates.this, "default",Toast.LENGTH_SHORT).show();
         }
     }
+
 
     @Override
     protected void onStart() {
@@ -311,4 +328,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 //        }
 
     }
+
+
+
 }
