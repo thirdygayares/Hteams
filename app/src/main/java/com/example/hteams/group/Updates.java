@@ -299,8 +299,6 @@ public class Updates extends AppCompatActivity implements SiteInterface {
                 //after to choose the link magpopopup  ulit ang link dialog
                 linkdialog.show();
 
-
-
                 break;
             default:
                 Toast.makeText(Updates.this, "default",Toast.LENGTH_SHORT).show();

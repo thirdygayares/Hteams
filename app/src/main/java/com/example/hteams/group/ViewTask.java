@@ -1,39 +1,64 @@
 package com.example.hteams.group;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.hteams.MainActivity;
 import com.example.hteams.R;
+import com.example.hteams.adapter.AsigneeAdapter;
 import com.example.hteams.adapter.ViewTaskAdapter;
 import com.example.hteams.adapter.ViewTaskInterface;
+import com.example.hteams.model.AssigneeModel;
 import com.example.hteams.model.ViewTaskModel;
-import com.google.android.material.button.MaterialButton;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class ViewTask extends AppCompatActivity implements ViewTaskInterface {
+public class ViewTask extends AppCompatActivity implements ViewTaskInterface,DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener  {
+    //array list of view task model
     ArrayList<ViewTaskModel> viewTaskModels = new ArrayList<>();
+    //arraylist of assignee model
+    ArrayList<AssigneeModel> assigneeModels = new ArrayList<>();
+    //Global variable of dialog box
+    AlertDialog.Builder alert;
+    AlertDialog alertDialog;
+    //global variable of AsigneeAdapter adapter
+    AsigneeAdapter adapter1;
+
     RecyclerView viewTask;
-    Button postButton;
-    ImageView menu_viewtask;
-    Button button_status;
+    Button postButton,button_asignee;
+    ImageView menu_viewtask,participant_photo;
+    Button button_status, buttonDeadline;
+
+    //GLobal variable for time
+    int day, month, year, hour, minute;
+    int myday, myMonth, myYear, myHour, myMinute;
+
+
+    //pm or am
+    static  String pmam = "am";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,20 +66,23 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface {
 
         //initializion of id in xml
         initxml();
-
         //button for post update
         post();
-
         //for menu
         menu();
-
         //status button : dropdown the working,done, inready
         statusButton();
-
-
         //Set up posting data
         setUpPostingData();
 
+        adapter1 = new AsigneeAdapter(ViewTask.this, assigneeModels, this);
+        //button_asignee lalabas yung dialog box when click assignee to but only leader make this
+        buttonAssign();
+        //setUpDatafor assignee
+        //TODO FIREBASE MANIPULATION
+        setupAssigne();
+        //TODO deadline
+        deadlineCalendar();
 
     }
 
@@ -71,7 +99,9 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface {
         });
     }
 
-
+    //menu in view task
+//    TODO 1. Remind Participant
+//    TODO 2. delete task
     private void menu() {
         menu_viewtask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,24 +215,13 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface {
             }
         });
         popup.show();
-
     }
-
-
-
 
 
     //end when user click view task menu
 
-    //initialization of xml
-    private void initxml() {
-        viewTask = (RecyclerView) findViewById(R.id.viewtaskposting);
-        postButton = (Button) findViewById(R.id.postButton);
-        menu_viewtask = (ImageView) findViewById(R.id.menu_viewtask);
-        button_status = (Button) findViewById(R.id.button_status);
-    }
-
-
+//    set up data for post or updates
+//    TODO firebase manipulation
     private void setUpPostingData() {
 
         //posting updates Recycler View
@@ -226,16 +245,258 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface {
 //        ArrayList<String> Time = new ArrayList<>();
 //        ArrayList<String> TotalPrice = new ArrayList<>();
 
-
         for(int i=0; i<participant.length; i++){
             viewTaskModels.add(new ViewTaskModel(Profile[i],participant[i],DatePost[i],ViewCount[i],commentCount[i],description[i],filesCount[i],LikeCount[i],Dislike[i]
             ));
         }
     }
 
-    @Override
-    public void onItemClick(int position) {
-        Intent intent = new Intent(ViewTask.this, ViewUpdates.class);
-        startActivity(intent);
+    //method when click assignee button to assign a group members
+    private void buttonAssign() {
+        button_asignee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 alert = new AlertDialog.Builder(ViewTask.this);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_assigned, null);
+
+//                initialize cancel in xml
+                TextView cancel = (TextView) mView.findViewById(R.id.cancel);
+//                initialize recycler view in xml
+                RecyclerView participant = (RecyclerView) mView.findViewById(R.id.recyler_assigned);
+                //setting adapter and model
+                //assigned Recycler View
+                participant.setAdapter(adapter1);
+                participant.setLayoutManager(new LinearLayoutManager(ViewTask.this));
+
+
+
+
+                alert.setView(mView);
+                alertDialog = alert.create();
+                //user can touch in outside
+                alertDialog.setCanceledOnTouchOutside(true);
+                //set cancel on dialog box
+                cancel.setOnClickListener(view -> alertDialog.dismiss());
+                alertDialog.show();
+            }
+        });
     }
+
+    //set up data for assignee
+    //TODO firebase manipulation (UPDATE)
+    private void setupAssigne() {
+        //                TODO: if the user is current leader it indicator or show you
+        ArrayList<Integer> profilePhoto = new ArrayList<Integer>();
+        profilePhoto.add(R.drawable.profile);
+        profilePhoto.add(R.drawable.marielle);
+        profilePhoto.add(R.drawable.novem);
+
+        ArrayList<String> classmateName = new ArrayList<String>();
+        classmateName.add("Thirdy Gayares");
+        classmateName.add("Marielle Zabala");
+        classmateName.add("Novem Lanaban");
+
+        for(int i=0; i<classmateName.size();i++){
+            assigneeModels.add(new AssigneeModel(profilePhoto.get(i), classmateName.get(i)));
+        }
+
+    }
+
+    //due date
+    //TODO firebase manipulation (UPDATE)
+    private void deadlineCalendar() {
+        buttonDeadline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                year = calendar.get(Calendar.YEAR);
+                month = calendar.get(Calendar.MONTH);
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(ViewTask.this, ViewTask.this,year, month,day);
+
+                // set maximum date to be selected as today
+                datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+                datePickerDialog.show();
+            }
+        });
+    }
+
+    @Override
+    public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+        myYear = year;
+        myday = day;
+        myMonth = month;
+        Calendar c = Calendar.getInstance();
+        hour = c.get(Calendar.HOUR);
+        minute = c.get(Calendar.MINUTE);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(ViewTask.this, ViewTask.this, hour, minute, DateFormat.is24HourFormat(this));
+        timePickerDialog.show();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        myHour = hourOfDay;
+        myMinute = minute;
+        //TODO dapat same yung date sa local and firebase para maayos ang display
+        //complete set para masave sa fireabase kahit di na view yung year masasave pa rin sa firevase
+        //buttonDeadline.setText("Year: " + myYear + " " + "Month: " + myMonth + " " + "Day: " + myday + " " + "Hour: " + myHour + " " + "Minute: " + myMinute);
+
+        String MonthCobnvert = String.valueOf(dateConverter(myMonth));
+
+        buttonDeadline.setText( MonthCobnvert + " " + myday + ", " + timeConverter(myHour) + ":" + minute + " " + pmam );
+
+    }
+
+   static String dateConverter(int month){
+        String MonthConverter = "";
+        if(month == 0){
+            MonthConverter = "Jan";
+       }else if (month == 1) {
+            MonthConverter = "Feb";
+        }else if (month == 2) {
+            MonthConverter = "Mar";
+        }else if (month == 3) {
+            MonthConverter = "Apr";
+        }else if (month == 4) {
+            MonthConverter = "May";
+        }else if (month == 5) {
+            MonthConverter = "Jun";
+        }else if (month == 6) {
+            MonthConverter = "Jul";
+        }else if (month == 7) {
+            MonthConverter = "Aug";
+        }else if (month == 8) {
+            MonthConverter = "Sep";
+        }else if (month == 9) {
+            MonthConverter = "Oct";
+        }else if (month == 10) {
+            MonthConverter = "Nov";
+        }else if (month == 11) {
+            MonthConverter = "Dec";
+        }
+
+       return MonthConverter;
+   }
+
+
+   static int timeConverter(int time){
+       if(time == 1){
+           time = 1;
+           pmam = "am";
+       }else if(time == 2){
+           time = 2;
+           pmam = "am";
+       }else if(time == 3){
+           time = 3;
+           pmam = "am";
+       }else if(time == 4){
+           time = 4;
+           pmam = "am";
+       }else if(time == 5){
+           time = 5;
+           pmam = "am";
+       }else if(time == 6){
+           time = 6;
+           pmam = "am";
+       }else if(time == 7){
+           time = 7;
+           pmam = "am";
+       }else if(time == 8){
+           time = 8;
+           pmam = "am";
+       }else if(time == 9){
+           time = 9;
+           pmam = "am";
+       }else if(time == 10){
+           time = 10;
+           pmam = "am";
+       }else if(time == 11){
+           time = 11;
+           pmam = "am";
+       }else if(time == 12){
+           time = 12;
+           pmam = "pm";
+       }else if(time == 13){
+           time = 1;
+           pmam = "pm";
+       }else if(time == 14){
+           time = 2;
+           pmam = "pm";
+       }else if(time == 15){
+           time = 3;
+           pmam = "pm";
+       }else if(time == 16){
+           time = 4;
+           pmam = "pm";
+       }else if(time == 17){
+           time = 5;
+           pmam = "pm";
+       }else if(time == 18){
+           time = 6;
+           pmam = "pm";
+       }else if(time == 19){
+           time = 7;
+           pmam = "pm";
+       }else if(time == 20){
+           time = 8;
+           pmam = "pm";
+       }else if(time == 21){
+           time = 9;
+           pmam = "pm";
+       }else if(time == 22){
+           time = 10;
+           pmam = "pm";
+       }else if(time == 23){
+           time = 11;
+           pmam = "pm";
+       }else if(time == 0){
+           time = 12;
+           pmam = "am";
+       }else{
+           pmam = "error";
+       }
+
+
+
+       return time;
+   }
+
+
+
+
+
+    //clicking the recycler view
+    @Override
+    public void onItemClick(int position, String assignee_adapter) {
+        Intent intent;
+        switch (assignee_adapter){
+            case "AssigneeAdapter":
+                button_asignee.setText(assigneeModels.get(position).getName());
+                participant_photo.setImageResource(assigneeModels.get(position).getImage());
+                alertDialog.dismiss();
+                break;
+
+            case "ViewTaskAdapter":
+                intent = new Intent(ViewTask.this, ViewUpdates.class);
+                startActivity(intent);
+                break;
+            default:
+                Toast.makeText(ViewTask.this, "default",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    //initialization of xml
+    private void initxml() {
+        viewTask = (RecyclerView) findViewById(R.id.viewtaskposting);
+        postButton = (Button) findViewById(R.id.postButton);
+        menu_viewtask = (ImageView) findViewById(R.id.menu_viewtask);
+        participant_photo =  (ImageView) findViewById(R.id.participant_photo);
+        button_status = (Button) findViewById(R.id.button_status);
+        button_asignee = (Button) findViewById(R.id.button_asignee);
+        buttonDeadline = (Button) findViewById(R.id.buttonDeadline);
+    }
+
+
+
 }

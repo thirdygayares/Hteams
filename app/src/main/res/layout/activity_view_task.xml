@@ -228,7 +228,7 @@
                     android:drawableLeft="@drawable/ic_baseline_work_outline_24"
                     android:fontFamily="@font/gilroymedium"
                     android:stateListAnimator="@null"
-                    android:text="Working"
+                    android:text="WORKING"
                     android:textAllCaps="false"
                     android:textColor="@color/white"></com.google.android.material.button.MaterialButton>
 
@@ -297,10 +297,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginHorizontal="10dp"
+                    android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
                     android:fontFamily="@font/gilroymedium"
                     android:stateListAnimator="@null"
                     android:text="Oct 10, 10:00am"
-                    android:drawableLeft="@drawable/ic_baseline_calendar_today_24"
                     android:textAllCaps="false"
                     android:textColor="#A69D9D"></com.google.android.material.button.MaterialButton>
 
