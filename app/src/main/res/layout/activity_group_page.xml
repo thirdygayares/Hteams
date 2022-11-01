@@ -431,7 +431,7 @@
 
         </LinearLayout>
 
-
+<!--            start of first Table-->
             <RelativeLayout
                 android:id="@+id/firstGroup"
                 android:layout_width="wrap_content"
@@ -470,14 +470,12 @@
                 </RelativeLayout>
 
 
-
-
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="5dp"
                     android:id="@+id/taskRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/firstTable" />
+                    android:layout_below="@+id/firstTable"
+                    android:layout_marginTop="5dp" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/Addtask1"
@@ -512,8 +510,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="+ Add Task"
                             android:layout_marginHorizontal="10dp"
+                            android:text="+ Add Task"
                             android:textColor="@color/primary"></TextView>
 
 
@@ -531,25 +529,34 @@
 
 
             </RelativeLayout>
+            <!--            end of first Table-->
 
-
+            <!--  start of second Table-->
             <RelativeLayout
                 android:id="@+id/secondGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/firstGroup"
-                android:layout_margin="2dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="20dp">
+
+                <RelativeLayout
+                    android:id="@+id/table2blue"
+                    android:layout_width="10dp"
+                    android:layout_height="30dp"
+                    android:background="@color/primary"
+                    ></RelativeLayout>
+
 
                 <TextView
                     android:id="@+id/Table1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="3dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/table2blue"
                     android:fontFamily="@font/gilroybold"
                     android:text="User Case"
-                    android:layout_marginLeft="3dp"
                     android:textColor="@color/primary"
                     android:textSize="16sp" />
 
@@ -560,30 +567,59 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Table1" />
 
-                <TextView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/Addtask2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_below="@+id/taskRecycler2"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/gilroyregular"
-                    android:text="+ADD TASK"
-                    android:textAlignment="center"
-                    android:textColor="@color/primary"
-                    android:textSize="16sp" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <RelativeLayout
+                            android:id="@+id/blueline2"
+                            android:layout_width="10dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/primary"
+                            ></RelativeLayout>
+
+
+                        <RelativeLayout
+
+                            android:paddingRight="10dp"
+                            android:paddingTop="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/white"
+                            >
+
+                            <TextView
+                                android:id="@id/addtasktext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginHorizontal="10dp"
+                                android:text="+ Add Task"
+                                android:textColor="@color/primary"></TextView>
+
+
+                            <!--            gap-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_below="@+id/addtasktext"
+                                android:layout_marginTop="17dp"
+                                android:background="@color/gray0"></LinearLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
 
             </RelativeLayout>
+            <!--            end of first Table-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/secondGroup"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:text="+Add Group"
-                android:textColor="@color/primary"
-                android:textSize="20dp"></TextView>
 
         </RelativeLayout>
     </LinearLayout>

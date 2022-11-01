@@ -37,7 +37,7 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 
     ArrayList<GroupPageModel> groupPageModels = new ArrayList<>();
     ArrayList<GroupPageModel2> groupPageModels2 = new ArrayList<>();
-    TextView Addtask2;
+    CardView Addtask2;
     CardView Addtask1;
     RelativeLayout displayMode;
     ImageView menu;
@@ -198,26 +198,36 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 
     }
 
-
-
-
-
-
+    //first Table
     private void setupGroupData() {
         //dummy data
-        String[] Title = {"Placeholder 1","PlaceHolder2","PlaceHolder 3","PlaceHolder 4","PlaceHolder 5","PlaceHolder 6"};
-        String[] Status = {"Working on It", "Done", "Pending", "Working on It", "Done", "Pending"};
-        String[] Deadline = {"Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am" };
+//        String[] Title = {"Placeholder 1","PlaceHolder2","PlaceHolder 3","PlaceHolder 4","PlaceHolder 5","PlaceHolder 6"};
+//        String[] Status = {"Working on It", "Done", "TODO", "TODO", "Ready", "Working on It"};
+//        String[] Deadline = {"Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am" };
+
+        ArrayList<String> Title = new ArrayList<String>();
+        Title.add("User Requirements");
+        Title.add("Use Case Diagram");
+        Title.add("ERD Diagram");
+
+        ArrayList<String> Status = new ArrayList<String>();
+        Status.add("Done");
+        Status.add("Ready");
+        Status.add("Working on It");
+
+        ArrayList<String> Deadline = new ArrayList<String>();
+        Deadline.add("Oct 10, 10:00am");
+        Deadline.add("Nov 2, 8:00pm");
+        Deadline.add("Dec 9, 12:00am");
+
+        ArrayList<Integer> ProfilePhoto = new ArrayList<Integer>();
+        ProfilePhoto.add(R.drawable.profile);
+        ProfilePhoto.add(R.drawable.marielle);
+        ProfilePhoto.add(R.drawable.novem);
 
 
-        //from database data
-//        ArrayList<String> salesId = new ArrayList<>();
-//        ArrayList<String> Time = new ArrayList<>();
-//        ArrayList<String> TotalPrice = new ArrayList<>();
-
-
-        for(int i=0; i<Title.length; i++){
-            groupPageModels.add(new GroupPageModel(Title[i],Status[i],Deadline[i]
+        for(int i=0; i<Title.size(); i++){
+            groupPageModels.add(new GroupPageModel(Title.get(i),Status.get(i),Deadline.get(i),ProfilePhoto.get(i)
             ));
         }
 
@@ -225,17 +235,33 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 
     private void setupGroupData2() {
         //dummy data
-        String[] Title2 = {"Placeholder 1","PlaceHolder2","PlaceHolder 3","PlaceHolder 4","PlaceHolder 5","PlaceHolder 6"};
-        String[] Status2 = {"Working on It", "Done", "Pending", "Working on It", "Done", "Pending"};
-        String[] Deadline2 = {"Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am" };
+//        String[] Title2 = {"Placeholder 1","PlaceHolder2","PlaceHolder 3","PlaceHolder 4","PlaceHolder 5","PlaceHolder 6"};
+//        String[] Status2 = {"Working on It", "Done", "Pending", "Working on It", "Done", "Pending"};
+//        String[] Deadline2 = {"Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am" };
+
+        ArrayList<String> Title = new ArrayList<String>();
+        Title.add("User Requirements");
+        Title.add("Use Case Diagram");
+        Title.add("ERD Diagram");
+
+        ArrayList<String> Status = new ArrayList<String>();
+        Status.add("Done");
+        Status.add("Ready");
+        Status.add("Working on It");
+
+        ArrayList<String> Deadline = new ArrayList<String>();
+        Deadline.add("Oct 10, 10:00am");
+        Deadline.add("Nov 2, 8:00pm");
+        Deadline.add("Dec 9, 12:00am");
+
+        ArrayList<Integer> ProfilePhoto = new ArrayList<Integer>();
+        ProfilePhoto.add(R.drawable.profile);
+        ProfilePhoto.add(R.drawable.marielle);
+        ProfilePhoto.add(R.drawable.novem);
 
 
-        //from database data
-//        ArrayList<String> salesId = new ArrayList<>();
-//        ArrayList<String> Time = new ArrayList<>();
-//        ArrayList<String> TotalPrice = new ArrayList<>();
-        for(int i=0; i<Title2.length; i++){
-            groupPageModels2.add(new GroupPageModel2(Title2[i],Status2[i],Deadline2[i]
+        for(int i=0; i<Title.size(); i++){
+            groupPageModels2.add(new GroupPageModel2(Title.get(i),Status.get(i),Deadline.get(i),ProfilePhoto.get(i)
             ));
         }
     }

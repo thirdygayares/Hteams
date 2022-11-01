@@ -73,7 +73,7 @@
                 android:layout_height="15dp"
                 android:layout_marginRight="4dp"
                 android:layout_toLeftOf="@id/status"
-                android:src="@drawable/inprogress"></ImageView>
+                android:src="@drawable/ic_todo"></ImageView>
 
             <TextView
                 android:id="@+id/status"
@@ -82,8 +82,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:fontFamily="@font/gilroymedium"
-                android:text="Working On It"
-                android:textColor="@color/primary"
+                android:text="TODO"
+                android:textColor="@color/todo"
                 android:textSize="14dp"></TextView>
 
 

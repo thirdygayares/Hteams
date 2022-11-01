@@ -3,13 +3,19 @@ package com.example.hteams.adapter;
 
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -46,35 +52,48 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
         holder.taskName.setText(grouppagemodels.get(position).getNameofTask());
         holder.status.setText(grouppagemodels.get(position).getStatus());
         holder.duedate.setText(grouppagemodels.get(position).getDueDate());
+        holder.participant_photo.setImageResource(grouppagemodels.get(position).getParticipant_photo());
 
-        if(holder.status.getText().toString().equalsIgnoreCase("done")){
-            holder.status.setTextColor(Color.GREEN);
-        }else if(holder.status.getText().toString().equalsIgnoreCase("pending")){
-            holder.status.setTextColor(Color.RED);
+        //check if working on it, pending, ready , done
+       String status_indicatior = holder.status.getText().toString();
+        if(status_indicatior.equalsIgnoreCase("done")){
+            holder.status.setTextColor(Color.parseColor("#3AAB28"));
+            //changing to done icon
+            holder.iconstatus.setImageResource(R.drawable.ic_baseline_done_24);
+            holder.iconstatus.setColorFilter(new PorterDuffColorFilter(0xFF3AAB28,PorterDuff.Mode.MULTIPLY));
+        }else if(status_indicatior.equalsIgnoreCase("working on it")){
+            holder.status.setTextColor(Color.parseColor("#3659D7"));
+            //changing to working icon
+            holder.iconstatus.setImageResource(R.drawable.ic_baseline_work_outline_24);
+            holder.iconstatus.setColorFilter(new PorterDuffColorFilter(0xFF3659D7,PorterDuff.Mode.MULTIPLY));
+        }else if(status_indicatior.equalsIgnoreCase("todo")){
+            holder.status.setTextColor(Color.BLACK);
+        }else if(status_indicatior.equalsIgnoreCase("Ready")){
+            holder.status.setTextColor(Color.parseColor("#73B9EC"));
+            //changing to ready icon
+            holder.iconstatus.setImageResource(R.drawable.ic_ready);
+            holder.iconstatus.setColorFilter(new PorterDuffColorFilter(0xFF73B9EC,PorterDuff.Mode.MULTIPLY));
         }
-
-
 
     }
 
     @Override
     public int getItemCount() {
-
         return grouppagemodels.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView taskName, status, duedate;
+        ImageView participant_photo,iconstatus;
 
         public MyViewHolder(@NonNull View itemView, GroupPageInterface grouppageinterfaces) {
             super(itemView);
-            taskName = itemView.findViewById(R.id.taskName);
-            status = itemView.findViewById(R.id.status);
-            duedate = itemView.findViewById(R.id.duedate);
-
-
-
+            taskName = (TextView) itemView.findViewById(R.id.taskName);
+            status = (TextView) itemView.findViewById(R.id.status);
+            duedate = (TextView) itemView.findViewById(R.id.duedate);
+            participant_photo = (ImageView) itemView.findViewById(R.id.participant_photo);
+            iconstatus = (ImageView) itemView.findViewById(R.id.iconstatus);
 
             itemView.setOnClickListener(view -> {
                 if(grouppageinterfaces != null ){

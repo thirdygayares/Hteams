@@ -22,6 +22,9 @@ public class GroupModel {
         this.subject = subject;
     }
 
+
+
+
     public int getGroupImage() {
         return groupImage;
     }
