@@ -8,18 +8,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hteams.R;
 import com.example.hteams.adapter.DisplaySiteAdapter;
+import com.example.hteams.adapter.ListDisplayAdapter;
 import com.example.hteams.adapter.SiteAdapter;
 import com.example.hteams.adapter.SiteInterface;
 import com.example.hteams.adapter.UpdateListAdapter;
 import com.example.hteams.model.DisplaySiteModel;
+import com.example.hteams.model.ListDisplayModel;
 import com.example.hteams.model.SiteModel;
 import com.example.hteams.model.UpdateListModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -60,13 +66,23 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     ArrayList <String> web_link = new ArrayList<String>();
     ArrayList<SiteModel> siteModels = new ArrayList<>();
     ArrayList<DisplaySiteModel> displaySiteModels  = new ArrayList<>();
+
+    //for array list na gagawa ng list
     ArrayList<UpdateListModel> updateListModels = new ArrayList<>();
+    //eto naman array na sa ididisplay na yung list
+    ArrayList<ListDisplayModel> listDisplayModels = new ArrayList<>();
 
     //name of site
     ArrayList<String> siteName = new ArrayList<>();
     DisplaySiteAdapter adapter;
 
     ArrayList<String> taskname = new ArrayList<>();
+
+    //global variable of ListDisplayAdapter
+    ListDisplayAdapter adapter2;
+
+    //global variable for linearlayout to hide id may laman ba
+    RelativeLayout listContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +91,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
        // widget casting
         Button links = findViewById(R.id.linkbtn);
        // component casting
-        listrecycler = findViewById(R.id.display_updates);
+        listrecycler = findViewById(R.id.display_list_updates);
         sitesRecycler = findViewById(R.id.sitesRecycler);
         displaySites = findViewById(R.id.displayrecyleview); // for display
         adapter = new DisplaySiteAdapter(Updates.this,displaySiteModels,this);
@@ -84,11 +100,19 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         sitelistdialog = new BottomSheetDialog(this);
         listupdatedialog = new BottomSheetDialog(this);
 
+
+        //calling the adapter2
+        adapter2 = new ListDisplayAdapter(Updates.this, listDisplayModels, this);
+
         // method calls
         createlinksDialog();
         setupdatafordisplaySites();
         createlistDialog();
         createsitesDialog();
+        //view the list display
+        viewListDisplay();
+
+
 
 
 //        condition to hide link material button if no laman
@@ -161,20 +185,125 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         });
     }
 
+    //viewing the list in updates class
+    private void viewListDisplay() {
+        //calling adapter and recycler
+
+        listrecycler.setAdapter(adapter2);
+        listrecycler.setLayoutManager(new LinearLayoutManager(Updates.this) );
+
+        //testing data
+
+//        // set up data forlist
+//        String listname = "Thirdy paayos";
+//        //list if checked or unchecked
+//        boolean status = true;
+//        listDisplayModels.add(new ListDisplayModel(status,listname));
+
+        //the list container hide this if wala naman data
+         listContainer = findViewById(R.id.listContainer);
+
+        if(listDisplayModels.isEmpty()){
+            listContainer.setVisibility(View.GONE);
+        }
+    }
+
+
+    //list dialog[checkboc]
     private void createlistDialog() {
 
         View view = getLayoutInflater().inflate(R.layout.listbottomsheet_updates,null , false );
         Button submitlist = view.findViewById(R.id.submitlist_btn);
-        EditText nameoftask =view.findViewById(R.id.task_name);
+        ImageView addbtn = view.findViewById(R.id.addbtn);
+        EditText newlist_edit =view.findViewById(R.id.newlist_edit);
         createlistrecycler = view.findViewById(R.id.create_list);
-        setupdataforlist();
+        CheckBox checked_icon = view.findViewById(R.id.checked_icon);
+
+        //for testing
+//        setupdataforlist();
+
+        UpdateListAdapter adapter = new UpdateListAdapter(Updates.this, updateListModels, this);
+        createlistrecycler.setAdapter(adapter);
+        createlistrecycler.setLayoutManager(new LinearLayoutManager(Updates.this) );
+
+
+        //kunin ang data sa edit Text
+        //get the status if check or unchecked
+        addbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                boolean stats = false;
+                if(checked_icon.isChecked())
+                {
+                    stats = true;
+                    checked_icon.setChecked(false);
+                }else{
+                    stats =false;
+                }
+
+                updateListModels.add(new UpdateListModel(stats,newlist_edit.getText().toString()));
+                adapter.notifyItemInserted(updateListModels.size()-1);
+                displaySites.scrollToPosition(updateListModels.size());
+                newlist_edit.setText("");
+
+            }
+        });
+
+
+        //when cliking the submit button
+        submitlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //erase the content of list
+                // TAGALOG: Buburahin baka maisama kasi magdodoble lamang
+//                listDisplayModels.clear();
+//              option 1
+//                int count = listDisplayModels.size();
+//                listDisplayModels.clear();
+//
+//                for (int x =0; x<=count; x++ ){
+//                    adapter2.notifyItemRemoved(x);
+//                }
+
+
+//                saving data to listdisplay
+
+                for(int i=0;i<updateListModels.size();i++){
+                    listDisplayModels.add(new ListDisplayModel(updateListModels.get(i).getChecked(), updateListModels.get(i).getTaskname()));
+                }
+
+
+                adapter2.notifyItemInserted(listDisplayModels.size()-1);
+                displaySites.scrollToPosition(listDisplayModels.size());
+
+                listContainer.setVisibility(View.VISIBLE);
+                listupdatedialog.dismiss();
+
+                //option 2
+                updateListModels.clear();
+
+            }
+        });
+
 
         listupdatedialog.setContentView(view);
 
     }
 
+
+    //testing na lagyan ng data
+    //nevermind this
     private void setupdataforlist() {
         // set up data forlist
+
+        String listname = "Thirdy paayos";
+        //list if checked or unchecked
+        boolean status = true;
+
+        updateListModels.add(new UpdateListModel(status,listname));
+
+
         
     }
 
@@ -193,7 +322,6 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
 
                  /*
@@ -246,10 +374,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         }else{
             link.setVisibility(View.VISIBLE);
         }
-
-
         linkdialog.setContentView(view);
-
     }
 
     //pag pinindot ang site name lalabas to
@@ -263,10 +388,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
         //para lumabas
         sitelistdialog.setContentView(view);
-
     }
-
-
 
     private void setupdataforsites() { // para sa mga sites sa dialog
         int[] siteicon = {R.drawable.meetlogo, R.drawable.githublogo,R.drawable.drivelogo};
@@ -275,14 +397,12 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         for(int i = 0; i<siteicon.length;i++){
             siteModels.add(new SiteModel(siteicon[i],sitename[i]));
         }
-
     }
 
     private void setupdatafordisplaySites() {
         displaySites.setAdapter(adapter);
         displaySites.setLayoutManager(new LinearLayoutManager(Updates.this)); // important
     }
-
 
     @Override
     public void onItemClick(int pos, String tag) {
@@ -313,7 +433,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
                 break;
             default:
-                Toast.makeText(Updates.this, "default",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Updates.this, "default",Toast.LENGTH_SHORT).show();
         }
     }
 

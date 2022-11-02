@@ -56,6 +56,7 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
     ArrayList<SubjectlistModel> subjectlistModel = new ArrayList<>();
 
     static ArrayList< String > ClassHolder = new ArrayList < > ();
+    static ArrayList< String > id = new ArrayList < > ();
     static String section;
     String SubjectName = "Select Subject";
     @Override
@@ -76,12 +77,11 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
         documentReference2.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                //para san tong section na to
                 section =  value.getString("Section");
 //                Toast.makeText(ListOfClassmate.this, section, Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
 
         initxml();
@@ -99,8 +99,6 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
 
     private void firebase() {
 
-
-
         firestore.collection("students")
                 .whereEqualTo("Section",section)
                 .get()
@@ -113,6 +111,9 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
 //                                Toast.makeText(Creategroup.this, documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
                                 String documentId = documentSnapshot.getString("Name");
                                 ClassHolder.add(documentId);
+                                //setting the id
+                                String participantId = documentSnapshot.getString("id");
+                                id.add(participantId);
                             }
                         }
                     }
@@ -125,12 +126,10 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
             @Override
             public void onClick(View v) {
 
-
                 if(ctrl == 0) {
                     firebase();
                     ctrl++;
                 }
-
 
                 GroupName = grpname.getText().toString();
                 Subject = subject.getText().toString();

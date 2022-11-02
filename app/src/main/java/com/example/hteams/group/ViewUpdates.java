@@ -58,10 +58,10 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
         listrecycle.setAdapter(listAdapter);
         listrecycle.setLayoutManager(new LinearLayoutManager(ViewUpdates.this));
 
-        ArrayList<Integer> status = new ArrayList<Integer>();
-        status.add(1);
-        status.add(1);
-        status.add(1);
+        ArrayList<Boolean> status = new ArrayList<Boolean>();
+        status.add(true);
+        status.add(true);
+        status.add(true);
 
         ArrayList<String> nameTask = new ArrayList<String>();
         nameTask.add("Search the capability");
