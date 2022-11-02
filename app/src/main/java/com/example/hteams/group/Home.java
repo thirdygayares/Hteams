@@ -83,6 +83,9 @@ public class Home extends Fragment implements GroupInterface {
 //        ArrayList<String> Time = new ArrayList<>();
 //        ArrayList<String> TotalPrice = new ArrayList<>();
 
+//        TODO Firebase Manipulation
+
+
 
         for(int i=0; i<Title.length; i++){
             groupModels.add(new GroupModel(image[i],Title[i],Description[i],Prof[i],subject[i]
