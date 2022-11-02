@@ -3,6 +3,8 @@ package com.example.hteams.group;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +17,13 @@ import android.widget.Toast;
 
 import com.example.hteams.MainActivity;
 import com.example.hteams.R;
+import com.example.hteams.adapter.SiteAdapter;
+import com.example.hteams.adapter.SubjectlistAdapter;
+import com.example.hteams.adapter.SubjectlistInterface;
+import com.example.hteams.model.SubjectlistModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,10 +37,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class Creategroup extends AppCompatActivity {
+public class Creategroup extends AppCompatActivity  implements SubjectlistInterface {
     static String GroupName ="", Subject  = "", Professor = "", Description = "";
 
     Button nextbtn ;
+    Button cont;
     ImageButton backbtn;
     EditText grpname ,descrip;
     TextView professor;
@@ -42,9 +50,14 @@ public class Creategroup extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
     String cname;
+    BottomSheetDialog subjectlist;
+
+    RecyclerView subjectrecycler;
+    ArrayList<SubjectlistModel> subjectlistModel = new ArrayList<>();
+
     static ArrayList< String > ClassHolder = new ArrayList < > ();
     static String section;
-
+    String SubjectName = "Select Subject";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +67,9 @@ public class Creategroup extends AppCompatActivity {
         //to know the email and uid
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        subjectlist = new BottomSheetDialog(this);
+
+
 
         String cname = firebaseAuth.getCurrentUser().getUid();
         DocumentReference documentReference2 = firestore.collection("students").document(cname);
@@ -74,8 +90,8 @@ public class Creategroup extends AppCompatActivity {
         //next button
         next();
         //firebase
-        //TODO palagay ng bottomsheet and subject
-         subjectBottomSheet();
+
+        subjectBottomSheet();  // not showing(defective)
 
     }
 
@@ -140,7 +156,6 @@ public class Creategroup extends AppCompatActivity {
         nextbtn = findViewById(R.id.nextbtn);
 
         grpname = findViewById(R.id.input_name);
-        subject = findViewById(R.id.subject);
         professor = findViewById(R.id.input_professor);
         descrip = findViewById(R.id.input_description);
 
@@ -148,19 +163,52 @@ public class Creategroup extends AppCompatActivity {
 
 
     private void subjectBottomSheet() {
-        //TODO palagay yung bottomsheet
-        subject.setOnClickListener(new View.OnClickListener() {
+        View view = getLayoutInflater().inflate(R.layout.bottomsdialog_subject_creategroup,null,false);
+        subjectrecycler = view.findViewById(R.id.subject_recycler);
+
+         subject = view.findViewById(R.id.subject_generate);
+         setupdataforsubjects();
+         SubjectlistAdapter adapter = new SubjectlistAdapter(Creategroup.this,subjectlistModel,this);
+         subjectrecycler.setAdapter(adapter);
+         subjectrecycler.setLayoutManager(new LinearLayoutManager(Creategroup.this));
+         cont = view.findViewById(R.id.continue_btn);
+
+
+         subject.setOnClickListener(new View.OnClickListener() {  // defective method
             @Override
             public void onClick(View v) {
-                //TODO start to code
+                subjectlist.setContentView(view);
+                subjectlist.show();
             }
         });
+    }
+    /*
+    cont.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // subject.setText(SubjectName);
+        }
+    });
 
+     */
+
+    private void setupdataforsubjects() {
+        String[] subjectname = {"Algorithms", "Databases","Programming1"};
+
+          for(int i = 0;i<subjectname.length;i++){
+              subjectlistModel.add(new SubjectlistModel(subjectname[i]));
+          }
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+    }
+
+    @Override
+    public void onItemClick(int pos) {
+
 
     }
 }

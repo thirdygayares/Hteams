@@ -100,7 +100,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
             @Override
             public void onClick(View v) {
                 linkdialog.show();
-                createlistDialog();  // del this later if err occurs
+                  // del this later if err occurs
 
             }
         });
