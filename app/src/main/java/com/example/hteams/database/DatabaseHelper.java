@@ -1,10 +1,16 @@
 package com.example.hteams.database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import com.example.hteams.Testing.SubjectModel;
+import com.example.hteams.Testing.Testing1;
+import com.example.hteams.Testing.Testing1Model;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -54,7 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     //EVENT TABLE
-    public static final String EVENTTABLE = "NOTIFICATIONTABLE";
+    public static final String EVENTTABLE = "EVENTTABLE";
     public static final String ID_EVENT = "ID_EVENT";
 //    public static final String ID_GROUP = "ID_GROUP";
 //    public static final String TYPE = "TYPE";
@@ -144,7 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PHOTOS = "PHOTOS";
 
 
-    public DatabaseHelper(@Nullable Context context) { super(context, "hteams.db", null, 0);
+    public DatabaseHelper(@Nullable Context context) { super(context, "hteams.db", null, 1);
     }
 
     @Override
@@ -154,65 +160,65 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createStudentTable);
 
         //CREATING GROUPTABLE
-        String createGroupTable = "CREATE TABLE " + GROUPTABLE + "(" + ID_GROUP + " INT PRIMARY KEY AUTOINCREMENT , " + GROUPPHOTO + " STRING,  " + GROUPNAME + " STRING, " + SUBJECT + " STRING, " + DESCRIPTION + " STRING ," + PROFESSORS + " STRING ,  " + LEADER_ID  + " STRING,"  + CREATOR + "STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
+        String createGroupTable = "CREATE TABLE " + GROUPTABLE + "(" + ID_GROUP + " INTEGER PRIMARY KEY AUTOINCREMENT , " + GROUPPHOTO + " STRING,  " + GROUPNAME + " STRING, " + SUBJECT + " STRING, " + DESCRIPTION + " STRING ," + PROFESSORS + " STRING ,  " + LEADER_ID  + " STRING,"  + CREATOR + "STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
         db.execSQL(createGroupTable);
 
         //CREATING SUBJECT  TABLE
-        String createSubjectTable = "CREATE TABLE " + SUBJECTTABLE + "(" + ID_SUBJECT + " INT PRIMARY KEY AUTOINCREMENT, " + NAME_SUBJECT + " STRING,  " + TEACHER + " STRING, " + SECTION + " STRING )";
+        String createSubjectTable = "CREATE TABLE " + SUBJECTTABLE + "(" + ID_SUBJECT + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME_SUBJECT + " STRING,  " + TEACHER + " STRING, " + SECTION + " STRING )";
         db.execSQL(createSubjectTable);
 
         //CREATING SAVED TABLE
-        String createSaveTable = "CREATE TABLE " + SAVEDTABLE + "(" + ID_SAVED + " INT PRIMARY KEY AUTOINCREMENT, " + UPDATES_ID + " INT )";
+        String createSaveTable = "CREATE TABLE " + SAVEDTABLE + "(" + ID_SAVED + " INTEGER PRIMARY KEY AUTOINCREMENT, " + UPDATES_ID + " INTEGER )";
         db.execSQL(createSaveTable);
 
         //CREATING NOTIFICATION TABLE
-        String createNotificationTable = "CREATE TABLE " + NOTIFICATIONTABLE + "(" + NOTIFICATION_ID + " INT PRIMARY KEY AUTOINCREMENT, " + TYPE + " STRING,  " + NOTIFICATION_NAME + " STRING, " + STATUS + " BOOLEAN DEFAULT 'false' )";
+        String createNotificationTable = "CREATE TABLE " + NOTIFICATIONTABLE + "(" + NOTIFICATION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TYPE + " STRING,  " + NOTIFICATION_NAME + " STRING, " + STATUS + " BOOLEAN DEFAULT 'false' )";
         db.execSQL(createNotificationTable);
 
         //CREATING EVENT TABLE
-        String createEventTable = "CREATE TABLE " + EVENTTABLE + "(" + ID_EVENT + " INT PRIMARY KEY AUTOINCREMENT, " + ID_GROUP + " INT,  " + LOGNAME + " STRING, " + TIME + " STRING, " + DATE + " STRING )";
+        String createEventTable = "CREATE TABLE " + EVENTTABLE + "(" + ID_EVENT + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_GROUP + " INTEGER,  " + LOGNAME + " STRING, " + TIME + " STRING, " + DATE + " STRING )";
         db.execSQL(createEventTable);
 
         //CREATING PARTICIPANT TABLE
-        String createParticipantTable = "CREATE TABLE " + PARTICIPANTTABLE + "(" + PARTICIPANT_ID + " INT PRIMARY KEY AUTOINCREMENT, " + ID_GROUP + " INT,  " + ID_STUDENTS + " STRING, " + ACCEPTED + " BOOLEAN DEFAULT 'false' )";
+        String createParticipantTable = "CREATE TABLE " + PARTICIPANTTABLE + "(" + PARTICIPANT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_GROUP + " INTEGER,  " + ID_STUDENTS + " STRING, " + ACCEPTED + " BOOLEAN DEFAULT 'false' )";
         db.execSQL(createParticipantTable);
 
         //CREATING TABLETABLE
-        String createTableTable = "CREATE TABLE " + TABLETABLE + "(" + ID_TABLE + " INT PRIMARY KEY AUTOINCREMENT, " + ID_GROUP + " INT,  " + TABLENAME + " STRING )";
+        String createTableTable = "CREATE TABLE " + TABLETABLE + "(" + ID_TABLE + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_GROUP + " INTEGER,  " + TABLENAME + " STRING )";
         db.execSQL(createTableTable);
 
 
         //CREATING TASK TABLE
-        String createTaskTable = "CREATE TABLE " + TASKTABLE + "(" + ID_TASK + " INT PRIMARY KEY AUTOINCREMENT , " + ID_GROUP + " INT,  " + ID_TABLE + " INT, " + ID_STUDENTS + " STRING, " + TASK_NAME + " STRING ," + STATUS + " STRING ,  " + DUE  + " BOOLEAN Default 'false'," + DUEDATE + " STRING," + DUETIME + "STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
+        String createTaskTable = "CREATE TABLE " + TASKTABLE + "(" + ID_TASK + " INTEGER PRIMARY KEY AUTOINCREMENT , " + ID_GROUP + " INTEGER,  " + ID_TABLE + " INTEGER, " + ID_STUDENTS + " STRING, " + TASK_NAME + " STRING ," + STATUS + " STRING ,  " + DUE  + " BOOLEAN Default 'false'," + DUEDATE + " STRING," + DUETIME + "STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
         db.execSQL(createTaskTable);
 
         //CREATING UPDATES TABLE
-        String createupdatestable = "CREATE TABLE " + UPDATESTABLE + "(" + ID_UPDATES + " INT PRIMARY KEY , " + ID_TASK + " INT,  " + ID_GROUP + " INT, " + ID_STUDENTS + " STRING, " + POSTDATE + " DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) ," + VIEWS_COUNT + " INT  )";
+        String createupdatestable = "CREATE TABLE " + UPDATESTABLE + "(" + ID_UPDATES + " INTEGER PRIMARY KEY , " + ID_TASK + " INTEGER,  " + ID_GROUP + " INTEGER, " + ID_STUDENTS + " STRING, " + POSTDATE + " DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) ," + VIEWS_COUNT + " INTEGER  )";
         db.execSQL(createupdatestable);
 
         //CREATING UPDATES_LIKES TABLE
-        String createUpdatesLikeTable = "CREATE TABLE " + UPDATESLIKESTABLE + "(" + ID_LIKES + " INT PRIMARY KEY AUTOINCREMENT, " + ID_UPDATES + " INT,  " + ID_STUDENTS + " STRING )";
+        String createUpdatesLikeTable = "CREATE TABLE " + UPDATESLIKESTABLE + "(" + ID_LIKES + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_UPDATES + " INTEGER,  " + ID_STUDENTS + " STRING )";
         db.execSQL(createUpdatesLikeTable);
 
         //CREATING COMMENTS TABLE
-        String createCommentTable = "CREATE TABLE " + COMMENTSTABLE + "(" + ID_COMMENTS + " INT PRIMARY KEY AUTOINCREMENT, " + ID_STUDENTS + " STRING,  " + COMMENT + " STRING )";
+        String createCommentTable = "CREATE TABLE " + COMMENTSTABLE + "(" + ID_COMMENTS + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_STUDENTS + " STRING,  " + COMMENT + " STRING )";
         db.execSQL(createCommentTable);
 
         //CREATING LINK TABLE
-        String createLinkTable = "CREATE TABLE " + LINKTABLE + "(" + ID_LINK + " INT PRIMARY KEY , " + ID_UPDATES + " INT,  " + ID_GROUP + " INT, " + CUSTOMNAME + " STRING, " + WEBLINK + " STRING, " + SITENAME + " STRING  )";
+        String createLinkTable = "CREATE TABLE " + LINKTABLE + "(" + ID_LINK + " INTEGER PRIMARY KEY , " + ID_UPDATES + " INTEGER,  " + ID_GROUP + " INTEGER, " + CUSTOMNAME + " STRING, " + WEBLINK + " STRING, " + SITENAME + " STRING  )";
         db.execSQL(createLinkTable);
 
         //CREATING LIST TABLE
 
-        String createListTable = "CREATE TABLE " + LISTTABLE + "(" + ID_LIST + " INT PRIMARY KEY , " + ID_GROUP + " INT,  " + ID_UPDATES + " INT, " + LISTNAME + " STRING, " + STATUS + " BOOLEAN DEFAULT 'false'  )";
+        String createListTable = "CREATE TABLE " + LISTTABLE + "(" + ID_LIST + " INTEGER PRIMARY KEY , " + ID_GROUP + " INTEGER,  " + ID_UPDATES + " INTEGER, " + LISTNAME + " STRING, " + STATUS + " BOOLEAN DEFAULT 'false'  )";
         db.execSQL(createListTable);
 
         //CREATING FILES TABLE
-        String createFilesTable = "CREATE TABLE " + FILESTABLE + "(" + ID_FILES + " INT PRIMARY KEY , " + ID_GROUP + " INT,  " + ID_UPDATES + " INT, " + FILES + " STRING)";
+        String createFilesTable = "CREATE TABLE " + FILESTABLE + "(" + ID_FILES + " INTEGER PRIMARY KEY , " + ID_GROUP + " INTEGER,  " + ID_UPDATES + " INTEGER, " + FILES + " STRING)";
         db.execSQL(createFilesTable);
 
         //CREATING PHOTOS TABLE
-        String createPhotoTable = "CREATE TABLE " + PHOTOSTABLE + "(" + ID_PHOTOS + " INT PRIMARY KEY , " + ID_GROUP + " INT,  " + ID_UPDATES + " INT, " + PHOTOS + " STRING)";
+        String createPhotoTable = "CREATE TABLE " + PHOTOSTABLE + "(" + ID_PHOTOS + " INTEGER PRIMARY KEY , " + ID_GROUP + " INTEGER,  " + ID_UPDATES + " INTEGER, " + PHOTOS + " STRING)";
         db.execSQL(createPhotoTable);
 
     }
@@ -238,4 +244,69 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         onCreate(db);
     }
+
+    //TODO START OF ADDING DATA
+
+    //add students
+    public boolean addStudents(Testing1Model testing1Model){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(ID_STUDENTS, testing1Model.getID_STUDENTS());
+        cv.put(STUDENT_IMAGE, testing1Model.getSTUDENTS_IMAGE());
+        cv.put(NAME, testing1Model.getNAME());
+        cv.put(EMAIL, testing1Model.getEMAIL());
+        cv.put(SECTION, testing1Model.getSECTION());
+        cv.put(COURSE, testing1Model.getCOURSE());
+        cv.put(COLLEGE, testing1Model.getCOLLEGE());
+
+        long insert = db.insert(STUDENTSTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //add students
+
+    public boolean addSubject(SubjectModel subjectModel){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(NAME_SUBJECT, subjectModel.getNAME_SUBJECT());
+        cv.put(TEACHER, subjectModel.getTEACHER());
+        cv.put(SECTION, subjectModel.getSECTION());
+
+        long insert = db.insert(SUBJECTTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+    // TODO testing
+
+    public Cursor getListContents(String section){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + STUDENTSTABLE + " WHERE SECTION = ?", new String[] {section});
+        return data;
+    }
+
+
+    public Cursor getAll(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + STUDENTSTABLE , null);
+        return data;
+    }
+
+    public Cursor getSubject(String section){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + SUBJECTTABLE + " WHERE SECTION = ?", new String[] {section});
+        return data;
+    }
+
+
 }
