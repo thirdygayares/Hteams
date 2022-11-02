@@ -153,24 +153,12 @@ public class CreateGroup2 extends AppCompatActivity {
                                 docData.put("listExample", Arrays.asList(1, 2, 3));
                                 docData.put("nullExample", null);
 
-
-                                firestore = FirebaseFirestore.getInstance();
                                 //creating a group participant
-                                firestore.getInstance().collection("groups").document(newCreatedGroup)
-                                        .set(docData)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d(TAG, "DocumentSnapshot successfully written!");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });
+                                //subcollection
+                                //magagamit rin to sa iba
 
+                            groupRef.document(newCreatedGroup).collection("participant")
+                                        .add(docData);
 
                             testingError1 = 1;
                             Toast.makeText(CreateGroup2.this, newCreatedGroup, Toast.LENGTH_SHORT).show();
@@ -182,8 +170,6 @@ public class CreateGroup2 extends AppCompatActivity {
                             Log.d("TAG", e.toString());
                         }
                     });
-
-
 
 
 //                    TODO TESTING
@@ -223,7 +209,6 @@ public class CreateGroup2 extends AppCompatActivity {
                         startActivity(new Intent(CreateGroup2.this, MainActivity.class));
                         }
         });
-
     }
 
     private void add() {
