@@ -26,7 +26,7 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_list_of_classmate.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_login.xml" value="0.25" />
-        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_main2.xml" value="0.234375" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_notification.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_profile.xml" value="0.33" />
@@ -46,6 +46,7 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/bottomsheet_invite.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/dialog_assigned.xml" value="0.35885416666666664" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/dialog_deadline.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/invited.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/linkbottomsheet_comments.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/listbottomsheet_comments.xml" value="0.35435897435897434" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/listbottomsheet_updates.xml" value="0.35989583333333336" />

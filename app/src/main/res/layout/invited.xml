@@ -61,9 +61,8 @@
             android:layout_marginLeft="120dp"
             android:layout_marginTop="145dp"
             android:text="was Invited you to join in"
-            android:textSize="15dp"
-            android:textColor="@color/metallicgreen"
-            ></TextView>
+            android:textColor="@color/primary"
+            android:textSize="15dp"></TextView>
 
         <TextView
             android:layout_width="170dp"
@@ -71,7 +70,7 @@
             android:layout_marginLeft="115dp"
             android:layout_marginTop="170dp"
             android:text="FIRETERA"
-            android:textColor="@color/metallicgreen"
+            android:textColor="@color/primary"
             android:textSize="35dp"></TextView>
 
         <!-- End of Invitation-->

@@ -29,7 +29,7 @@
             android:name=".group.Event"
             android:exported="false" />
         <activity
-            android:name=".group.Creategroup"
+            android:name=".group.CreateGroup2"
             android:exported="false" />
         <activity
             android:name=".group.ViewTask"
@@ -59,7 +59,7 @@
             android:name=".group.AddTask"
             android:exported="false" />
         <activity
-            android:name=".group.CreateGroup2"
+            android:name=".group.Creategroup"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
