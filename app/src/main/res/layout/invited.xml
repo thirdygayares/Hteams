@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <!--    start of arrow-->
+    <ImageButton
+        android:id="@+id/back_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/white1"
+        android:src="@drawable/arrowpointingleft" />
+    <!--    end of arrow-->
+
+    <!-- Start of invitation -->
+    <RelativeLayout
+        android:layout_width="390dp"
+        android:layout_height="250dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="120dp"
+        android:background="@color/grey3"
+        android:orientation="horizontal">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/participant_photo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginHorizontal="150dp"
+            android:layout_marginTop="15dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:maxWidth="50dp"
+            android:maxHeight="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/profile"
+            app:shapeAppearance="?attr/actionButtonStyle"
+            app:shapeAppearanceOverlay="@style/imageViewRounded"
+            app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
+
+        <TextView
+            android:layout_width="240dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="100dp"
+            android:text="Thirdy Gayares"
+            android:textSize="35dp"
+
+            ></TextView>
+
+        <TextView
+            android:layout_width="170dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="145dp"
+            android:text="was Invited you to join in"
+            android:textSize="15dp"
+            android:textColor="@color/metallicgreen"
+            ></TextView>
+
+        <TextView
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="115dp"
+            android:layout_marginTop="170dp"
+            android:text="FIRETERA"
+            android:textColor="@color/metallicgreen"
+            android:textSize="35dp"></TextView>
+
+        <!-- End of Invitation-->
+
+    </RelativeLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addTask"
+        style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/ic_baseline_add_24"
+        android:drawableTint="@color/primary"
+        android:padding="10dp"
+        android:stateListAnimator="@null"
+        android:text="Add Task"
+        android:textAllCaps="false"
+        android:textColor="@color/primary"
+        app:backgroundTint="@android:color/transparent"
+        app:cornerRadius="8dp"
+        app:rippleColor="@color/primary"
+        app:strokeColor="@color/primary"
+        app:strokeWidth="1dp"></com.google.android.material.button.MaterialButton>
+
+ 
+
+
+</RelativeLayout>

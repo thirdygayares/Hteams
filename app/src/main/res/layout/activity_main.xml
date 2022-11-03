@@ -1,29 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation">
-    </FrameLayout>
+    <!--    start of header-->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        >
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        <ImageButton
+            android:id="@+id/back_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/white1"
+            android:src="@drawable/arrowpointingleft" />
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="20dp"
+            android:text="Participant"
+            android:textColor="@color/black"
+            android:textSize="20dp"></TextView>
+
+
+    </RelativeLayout>
+    <!--    end of header-->
+
+    <!--    start of Notifcation container-->
+    <!--    TODO Recycler View-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginVertical="5dp"
+        android:id="@+id/notication_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:background="@color/white"
-        android:elevation="10dp"
-        app:itemTextColor="@drawable/bottom_navigation_selector"
-        app:labelVisibilityMode="labeled"
-        app:itemIconTint="@drawable/bottom_navigation_selector"
-        app:menu="@menu/bottom_navigation" />
 
-</RelativeLayout>
+        ></androidx.recyclerview.widget.RecyclerView>
+
+
+
+</LinearLayout>
