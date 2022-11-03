@@ -289,6 +289,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // TODO testing
 
+    public Cursor checkifmaylaman(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + STUDENTSTABLE , null);
+        return data;
+    }
+
+
     public Cursor getListContents(String section){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + STUDENTSTABLE + " WHERE SECTION = ?", new String[] {section});
@@ -304,7 +311,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getSubject(String section){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + SUBJECTTABLE + " WHERE SECTION = ?", new String[] {section});
+        Cursor data = db.      rawQuery("SELECT * FROM " + SUBJECTTABLE + " WHERE SECTION = ?", new String[] {section});
+        return data;
+    }
+
+    public Cursor getSection(String uid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT  SECTION FROM " + STUDENTSTABLE + " WHERE ID_STUDENTS = ?", new String[] {uid});
+        return data;
+    }
+
+//    getting professor name by cliking the bottomsheetdialog
+    public Cursor getProfessor(String subjectId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT TEACHER, SECTION FROM " + SUBJECTTABLE + " WHERE ID_SUBJECT = ?", new String[] {subjectId});
         return data;
     }
 

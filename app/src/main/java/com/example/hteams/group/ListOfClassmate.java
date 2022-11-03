@@ -76,27 +76,14 @@ public class ListOfClassmate extends AppCompatActivity {
         //cyrrent name
         String cname = firebaseAuth.getCurrentUser().getUid();
 
-        DocumentReference documentReference = firestore.collection("students").document(cname);
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                section =  value.getString("Section");
-//                Toast.makeText(ListOfClassmate.this, section, Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
 
 
-
-
-//        Classmate.add(holder.get(0));
-        //when click to listview
         choosing();
 
 
         MainActivity xx = new MainActivity();
-
 
         CustomAdapter customAdapter = new CustomAdapter();
         classmateList.setAdapter(customAdapter);
@@ -173,27 +160,6 @@ public class ListOfClassmate extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-//        firestore.collection("students")
-//                .whereEqualTo("Section",section)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-//                        if(task.isSuccessful()){
-//                            //Toast.makeText(ListOfClassmate.this, "Successful", Toast.LENGTH_SHORT).show();
-//
-//                            for(QueryDocumentSnapshot documentSnapshot :  task.getResult()){
-//                                Toast.makeText(ListOfClassmate.this, documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
-//                                String documentId = documentSnapshot.getString("Name");
-//                                Classmate.add(documentId);
-//                            }
-//
-//                        }
-//                    }
-//                });
-
-
-
 
 
     }

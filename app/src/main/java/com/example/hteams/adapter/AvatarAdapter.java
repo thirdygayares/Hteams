@@ -4,27 +4,28 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hteams.R;
-import com.example.hteams.model.SubjectlistModel;
+import com.example.hteams.model.AvatarModel;
 
 
 import java.util.ArrayList;
 
-public class SubjectlistAdapter extends RecyclerView.Adapter<SubjectlistAdapter.MyViewHolder> {
+public class AvatarAdapter extends RecyclerView.Adapter<AvatarAdapter.MyViewHolder> {
 
     private final SubjectlistInterface subjectlistInterface;
 
     Context context;
-    ArrayList<SubjectlistModel> subjectlistModel;
+    ArrayList<AvatarModel> avatarModels;
 
-    public SubjectlistAdapter(Context context, ArrayList<SubjectlistModel> subjectlistModel, SubjectlistInterface subjectlistInterface) {
+    public AvatarAdapter(Context context, ArrayList<AvatarModel> avatarModels, SubjectlistInterface subjectlistInterface) {
         this.context = context;
-        this.subjectlistModel = subjectlistModel;
+        this.avatarModels = avatarModels;
         this.subjectlistInterface = subjectlistInterface;
 
 
@@ -32,36 +33,36 @@ public class SubjectlistAdapter extends RecyclerView.Adapter<SubjectlistAdapter.
 
     @NonNull
     @Override
-    public SubjectlistAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType  ) {
+    public AvatarAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType  ) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.recycler_subjects_creategroup, parent, false);
-        return new SubjectlistAdapter.MyViewHolder(view,subjectlistInterface);
+        View view = inflater.inflate(R.layout.recycler_avatar, parent, false);
+        return new AvatarAdapter.MyViewHolder(view,subjectlistInterface);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.subjectname.setText(subjectlistModel.get(position).getSubjectname());
+        holder.avatar.setImageResource(avatarModels.get(position).getImageSource());
 
     }
 
     @Override
     public int getItemCount() {
-        return subjectlistModel.size();
+        return avatarModels.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView subjectname;
+        ImageView avatar;
 
         public MyViewHolder(View itemview, SubjectlistInterface subjectlistInterface) {
             super(itemview);
-            subjectname = itemview.findViewById(R.id.subject_name);
+            avatar = itemview.findViewById(R.id.avatar);
 
             itemView.setOnClickListener(view -> {
                 if(subjectlistInterface != null ){
                     int pos = getAdapterPosition();
                     if(pos!= RecyclerView.NO_POSITION){
-                        subjectlistInterface.onItemClick(pos, "subject");
+                        subjectlistInterface.onItemClick(pos, "avatar");
                     }
 
                 }

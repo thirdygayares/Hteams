@@ -1,15 +1,18 @@
 package com.example.hteams.Testing;
 
+import java.util.ArrayList;
+
 public class Testing1Model {
     String ID_STUDENTS;
-    String STUDENTS_IMAGE;
+    byte[] STUDENTS_IMAGE;
     String NAME;
     String EMAIL;
     String SECTION;
     String COURSE;
     String COLLEGE;
 
-    public Testing1Model(String ID_STUDENTS, String STUDENTS_IMAGE, String NAME, String EMAIL, String SECTION, String COURSE, String COLLEGE) {
+
+    public Testing1Model(String ID_STUDENTS, byte[] STUDENTS_IMAGE, String NAME, String EMAIL, String SECTION, String COURSE, String COLLEGE) {
         this.ID_STUDENTS = ID_STUDENTS;
         this.STUDENTS_IMAGE = STUDENTS_IMAGE;
         this.NAME = NAME;
@@ -19,12 +22,12 @@ public class Testing1Model {
         this.COLLEGE = COLLEGE;
     }
 
-    public String getID_STUDENTS() {
-        return ID_STUDENTS;
+    public byte[] getSTUDENTS_IMAGE() {
+        return STUDENTS_IMAGE;
     }
 
-    public String getSTUDENTS_IMAGE() {
-        return STUDENTS_IMAGE;
+    public String getID_STUDENTS() {
+        return ID_STUDENTS;
     }
 
     public String getNAME() {

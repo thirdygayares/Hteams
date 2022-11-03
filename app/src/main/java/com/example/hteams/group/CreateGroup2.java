@@ -90,24 +90,6 @@ public class CreateGroup2 extends AppCompatActivity {
         //cyrrent name
          cname = firebaseAuth.getCurrentUser().getUid();
 
-         //current name in choosing a group
-        //so kung ikaw yung creator nasa unahan ka ng list
-    DocumentReference documentReference = firestore.collection("students").document(cname);
-    documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-        @Override
-        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-            currentName.setText(value.getString("Name"));
-        }
-    });
-
-        DocumentReference documentReference2 = firestore.collection("students").document(cname);
-        documentReference2.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                section =  value.getString("Section");
-//                Toast.makeText(ListOfClassmate.this, section, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         //add when click
         add();
@@ -136,75 +118,7 @@ public class CreateGroup2 extends AppCompatActivity {
                     //kukunin na yung data
                     String groupname = creategroup.GroupName, Subject = creategroup.Subject, Professor = creategroup.Professor, Description = creategroup.Description;
 
-                    Classmate.add(currentName.getText().toString());
-                    FirebaseCreateGroup firebaseCreateGroup = new FirebaseCreateGroup(groupname,Subject, Professor,Description, Classmate);
 
-                    //addimh the group details
-                    groupRef.add(firebaseCreateGroup).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            newCreatedGroup = documentReference.getId();
-
-                                Map<String, Object> docData = new HashMap<>();
-                                docData.put("stringExample", "Hello world!");
-                                docData.put("booleanExample", true);
-                                docData.put("numberExample", 3.14159265);
-                                docData.put("dateExample", new Timestamp(new Date()));
-                                docData.put("listExample", Arrays.asList(1, 2, 3));
-                                docData.put("nullExample", null);
-
-                                //creating a group participant
-                                //subcollection
-                                //magagamit rin to sa iba
-
-                            groupRef.document(newCreatedGroup).collection("participant")
-                                        .add(docData);
-
-                            testingError1 = 1;
-                            Toast.makeText(CreateGroup2.this, newCreatedGroup, Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(CreateGroup2.this, "Error", Toast.LENGTH_SHORT).show();
-                            Log.d("TAG", e.toString());
-                        }
-                    });
-
-
-//                    TODO TESTING
-//
-//                Map<String, Object> docData = new HashMap<>();
-//                docData.put("stringExample", "Hello world!");
-//                docData.put("booleanExample", true);
-//                docData.put("numberExample", 3.14159265);
-//                docData.put("dateExample", new Timestamp(new Date()));
-//                docData.put("listExample", Arrays.asList(1, 2, 3));
-//                docData.put("nullExample", null);
-//
-//
-//
-//                Map<String, Object> nestedData = new HashMap<>();
-//                nestedData.put("a", 5);
-//                nestedData.put("b", true);
-//                docData.put("objectExample", nestedData);
-//
-//              groupParticipantRef.add(docData)
-//                      .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                          @Override
-//                          public void onSuccess(DocumentReference documentReference) {
-//                              testingError1 = 1;
-//                              Toast.makeText(CreateGroup2.this, "Success ", Toast.LENGTH_SHORT).show();
-//                          }
-//                      }).addOnFailureListener(new OnFailureListener() {
-//                          @Override
-//                          public void onFailure(@NonNull Exception e) {
-//                              Toast.makeText(CreateGroup2.this, "Error", Toast.LENGTH_SHORT).show();
-//                              Log.d("TAG", e.toString());
-//                          }
-//                      });
-
-//END TESTING
                 Classmate.clear();
                         startActivity(new Intent(CreateGroup2.this, MainActivity.class));
                         }
