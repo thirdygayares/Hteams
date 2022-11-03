@@ -41,16 +41,13 @@
             android:name=".Testingfirebase"
             android:exported="false" />
         <activity
-            android:name=".group.ListOfClassmate"
-            android:exported="false" />
-        <activity
             android:name=".Sample"
             android:exported="false" /> <!-- Group -->
         <activity
             android:name=".Testing.Testing1"
             android:exported="false" />
         <activity
-            android:name=".group.CreateGroup2"
+            android:name=".Login"
             android:exported="false" />
         <activity
             android:name=".group.Updates"
@@ -62,7 +59,7 @@
             android:name=".group.AddTask"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".group.CreateGroup2"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

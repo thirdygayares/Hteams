@@ -320,14 +320,73 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
 
                     case "avatar":
                         //to retrieve the image choices of user
-                        String choicesAvatar = "R.drawable." + avatarModels.get(pos).getAvatarName();
+                        String choicesAvatar = avatarModels.get(pos).getAvatarName();
 
-                        int imagetry = getResources().getIdentifier("projectPackageName:drawable/" + choicesAvatar, null, null);
                         //set the avatar
 
-                        Toast.makeText(Creategroup.this, String.valueOf(imagetry), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Creategroup.this, choicesAvatar, Toast.LENGTH_SHORT).show();
 
-                        choose_avatar.setImageResource(imagetry);
+                        if(choicesAvatar.equalsIgnoreCase("chooseavatar")){
+                            Toast.makeText(Creategroup.this, "Coming Soon", Toast.LENGTH_SHORT).show();
+                        }else if(choicesAvatar.equalsIgnoreCase("avatar1")){
+                            choose_avatar.setImageResource(R.drawable.avatar1);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar2")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar2);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar3")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar3);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar4")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar2);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar4")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar2);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar5")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar5);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar6")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar2);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar6")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar2);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar7")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar2);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar7")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar2);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar8")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar2);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar8")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar2);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar9")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar2);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar9")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar2);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar10")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar10);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar11")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar11);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar12")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar12);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar13")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar13);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar14")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar14);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar15")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar15);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar16")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar16);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar17")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar17);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar18")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar18);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar19")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar19);
+                        }else if(choicesAvatar.equalsIgnoreCase("groupavatar20")){
+                            choose_avatar.setImageResource(R.drawable.groupavatar20);
+                        }
+
+
+
+
+//                        choose_avatar.setImageResource(imagetry);
+
+
+
                         chooseavatarbtmsheet.dismiss();
                         break;
 

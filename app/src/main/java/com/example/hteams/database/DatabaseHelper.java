@@ -253,7 +253,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
 
         cv.put(ID_STUDENTS, testing1Model.getID_STUDENTS());
-        cv.put(STUDENT_IMAGE, testing1Model.getSTUDENTS_IMAGE());
+        cv.put(STUDENT_IMAGE, testing1Model.getSTUDENTS_IMAGE_STRING());
         cv.put(NAME, testing1Model.getNAME());
         cv.put(EMAIL, testing1Model.getEMAIL());
         cv.put(SECTION, testing1Model.getSECTION());
@@ -288,7 +288,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // TODO testing
-
     public Cursor checkifmaylaman(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + STUDENTSTABLE , null);
@@ -296,6 +295,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    //testing
     public Cursor getListContents(String section){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + STUDENTSTABLE + " WHERE SECTION = ?", new String[] {section});
@@ -309,17 +309,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    //get Id stidents , students image , name
+    public Cursor getData(String SECTION){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT ID_STUDENTS,NAME,STUDENT_IMAGE FROM " + STUDENTSTABLE + " WHERE SECTION = ? " , new String[] {SECTION});
+        return data;
+    }
+
+
+    //get subject of a one srcion
     public Cursor getSubject(String section){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.      rawQuery("SELECT * FROM " + SUBJECTTABLE + " WHERE SECTION = ?", new String[] {section});
         return data;
     }
 
+
+    //find section or participant
     public Cursor getSection(String uid){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT  SECTION FROM " + STUDENTSTABLE + " WHERE ID_STUDENTS = ?", new String[] {uid});
+        Cursor data = db.rawQuery("SELECT SECTION FROM " + STUDENTSTABLE + " WHERE ID_STUDENTS = ?", new String[] {uid});
         return data;
     }
+
+    //find name of current User
+    public Cursor getCurrentName(String uid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT NAME FROM " + STUDENTSTABLE + " WHERE ID_STUDENTS = ?", new String[] {uid});
+        return data;
+    }
+
+    //find image of current User
+    public Cursor getImageCurrentsUser(String uid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT STUDENT_IMAGE FROM " + STUDENTSTABLE + " WHERE ID_STUDENTS = ?", new String[] {uid});
+        return data;
+    }
+
+
 
 //    getting professor name by cliking the bottomsheetdialog
     public Cursor getProfessor(String subjectId){

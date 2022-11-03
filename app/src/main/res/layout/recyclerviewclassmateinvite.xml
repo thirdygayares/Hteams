@@ -16,29 +16,41 @@ android:layout_height="wrap_content">
     >
     <RelativeLayout
         android:paddingVertical="10dp"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="1dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         >
-
-        <ImageView
+        <!--                Image of assignee-->
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/classmate_image"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/classmate"></ImageView>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:maxWidth="50dp"
+            android:maxHeight="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/profile"
+            app:shapeAppearance="?attr/actionButtonStyle"
+            app:shapeAppearanceOverlay="@style/imageViewRounded"
+            app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
 
         <TextView
             android:id="@+id/classmate_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="40dp"
             android:layout_toRightOf="@+id/classmate_image"
             android:fontFamily="@font/gilroymedium"
-            android:paddingHorizontal="10dp"
+            android:paddingHorizontal="5dp"
             android:text="Thirdy Gayares"
             android:textColor="@color/black"
-            android:textSize="15dp"></TextView>
+            android:textSize="18dp"></TextView>
 
 
         <TextView

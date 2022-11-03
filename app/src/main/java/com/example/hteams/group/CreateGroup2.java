@@ -5,20 +5,29 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hteams.MainActivity;
 import com.example.hteams.R;
+import com.example.hteams.Testing.SetProfile;
+import com.example.hteams.adapter.AvatarAdapter;
+import com.example.hteams.adapter.ChooseParcticipant;
+import com.example.hteams.adapter.ChooseParticipantAdapter;
 import com.example.hteams.adapter.InviteAdapter;
+import com.example.hteams.database.DatabaseHelper;
+import com.example.hteams.model.ChooseParticipantModel;
 import com.example.hteams.model.FireBaseParticipant;
 import com.example.hteams.model.FirebaseCreateGroup;
 import com.example.hteams.model.GroupModel;
@@ -27,6 +36,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -47,34 +57,44 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreateGroup2 extends AppCompatActivity {
+public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipant {
 //    ArrayList<FireBaseParticipant> fireBaseParticipants = new ArrayList<>();
-    static String section;
+
+
+    //id of current user
     String cname;
-    //chek kumh error
-    static int testingError1 = 0;
-    int testingError2 = 0;
-    TextView currentName;
+    String SECTION;
+    String newCreatedGroup;
+
+    //array lost
+    //model
     ArrayList<InviteModel> inviteModels = new ArrayList<>();
     static ArrayList <String> Classmate = new ArrayList<String>(); //Create
-    String newCreatedGroup;
-    //getting the ID 
+    ArrayList<ChooseParticipantModel> chooseParticipantModels = new ArrayList<>();
 
+
+    // Image of leader
+    ImageView profile_leader;
     TextView add;
     Button createbtn;
-    //database
-    private FirebaseFirestore Database = FirebaseFirestore.getInstance();
-    //adding to the group table in firebase
-    private CollectionReference groupRef = Database.collection("groups");
+    TextView currentName;
+    RecyclerView recyclerView;
+    //bottomsheet
+   // -> bottom sheet when click the add participant
+    BottomSheetDialog invite_btmsht;
 
-    //adding to the group -> participant
-    private DocumentReference groupParticipantRef = Database.collection("groups").document("participant");
 
-    private CollectionReference participantRef = Database.collection("aaa");
+    //Adapter ginlobal variable ko siya para mahide
+    ChooseParticipantAdapter chooseParticipantAdapter;
+    InviteAdapter inviteAdapteradapter;
+
+    //firebase Auth
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
-    private DocumentReference db = Database.document("groups/Participants");
-    private DocumentSnapshot lastResult;
+
+    //SQLITE DB
+    DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +110,49 @@ public class CreateGroup2 extends AppCompatActivity {
         //cyrrent name
          cname = firebaseAuth.getCurrentUser().getUid();
 
+        //calling the adapter
+        inviteAdapteradapter = new InviteAdapter(this, inviteModels);
+
+
+        //calling sqlite database
+        databaseHelper = new DatabaseHelper(CreateGroup2.this);
+         //method current user
+         //sqlite find name of current User
+        Cursor getnameofUser = databaseHelper.getCurrentName(cname);
+        Cursor getCurrentImage = databaseHelper.getImageCurrentsUser(cname);
+
+        try {
+            getnameofUser.moveToNext();
+            currentName.setText(getnameofUser.getString(0));
+
+            //change profile of current user
+            getCurrentImage.moveToNext();
+
+            //get the class of setProfile
+            SetProfile setProfile = new SetProfile();
+            profile_leader.setImageResource(setProfile.profileImage(getCurrentImage.getString(0)));
+
+        }catch (Exception e){
+            Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+
+
+        //getting section
+
+        //lagyan section name yung dialog para may guide
+        Cursor cursor = databaseHelper.getSection(cname);
+
+        try {
+            cursor.moveToNext();
+            SECTION = cursor.getString(0);
+        }catch (Exception e){
+            Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+
+        //TODO CHANGE IMAGE []
+
 
         //add when click
         add();
@@ -97,10 +160,9 @@ public class CreateGroup2 extends AppCompatActivity {
         //uploading to firebase
         createGroup();
         //Recycler view of invite classmate
-        RecyclerView recyclerView = findViewById(R.id.inviteRecycler);
+        recyclerView = findViewById(R.id.inviteRecycler);
         setupInviteModel();
-        InviteAdapter adapter = new InviteAdapter(this, inviteModels);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(inviteAdapteradapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -118,39 +180,79 @@ public class CreateGroup2 extends AppCompatActivity {
                     //kukunin na yung data
                     String groupname = creategroup.GroupName, Subject = creategroup.Subject, Professor = creategroup.Professor, Description = creategroup.Description;
 
-
-                Classmate.clear();
+                     Classmate.clear();
                         startActivity(new Intent(CreateGroup2.this, MainActivity.class));
                         }
         });
     }
 
+
+    // method of adding the participant
+    //bottomsheet will if add button is click
     private void add() {
+
+        //call the setup data pag nasa loobn kasi kada click sa  add nag aad eh
+        setUpChoosingGroup();
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CreateGroup2.this, ListOfClassmate.class));
+
+
+                //bottomsheet start
+                invite_btmsht = new BottomSheetDialog(CreateGroup2.this);
+
+                View view = getLayoutInflater().inflate(R.layout.bottomsheet_invite,null,false);
+                TextView college = view.findViewById(R.id.college); //baka magamit
+                TextView section = view.findViewById(R.id.section);
+
+                RecyclerView classmateList = view.findViewById(R.id.classmateList);
+
+                //section text
+                section.setText(SECTION);
+                chooseParticipantAdapter = new ChooseParticipantAdapter(CreateGroup2.this,chooseParticipantModels,CreateGroup2.this);
+                classmateList.setAdapter(chooseParticipantAdapter);
+                classmateList.setLayoutManager(new LinearLayoutManager(CreateGroup2.this));
+
+                invite_btmsht.setContentView(view);
+                invite_btmsht.show();
+
             }
         });
     }
+
+    private void setUpChoosingGroup() {
+
+        //TODO find section of current user - done
+        //TODO get name , id, and image as a whole section ex. kung III-ACDS - lalabas lang mga 3 acds
+        //lagyan section name yung dialog para may guide
+
+
+        Cursor getData = databaseHelper.getData(SECTION);
+
+        try {
+           while(getData.moveToNext()){
+               chooseParticipantModels.add(new ChooseParticipantModel(getData.getString(0), getData.getString(1),getData.getString(2)));
+           }
+        }catch (Exception e){
+            Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void initxml() {
         add = findViewById(R.id.add);
         createbtn = findViewById(R.id.createbtn);
         currentName = findViewById(R.id.currentName);
+        profile_leader = (ImageView) findViewById(R.id.profile_leader);
     }
 
 
     //adding data in invite classmate interface
     private void setupInviteModel() {
         //dummy datasaasdadw
-
-
         //from database data
-//        ArrayList<String> salesId = new ArrayList<>();
-//        ArrayList<String> Time = new ArrayList<>();
-//        ArrayList<String> TotalPrice = new ArrayList<>();
-
+//        Classmate.add("Thirdy Gayares");
 
         for(int i=0; i<Classmate.size(); i++){
             inviteModels.add(new InviteModel(Classmate.get(i)
@@ -159,4 +261,19 @@ public class CreateGroup2 extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemClick(int pos) {
+
+        //saved id of participants
+        chooseParticipantModels.get(pos).getID();
+
+        //retrieve image of thei classmate
+
+
+        inviteModels.add(new InviteModel(chooseParticipantModels.get(pos).getIMAGE(),chooseParticipantModels.get(pos).getNAME()));
+        inviteAdapteradapter.notifyItemInserted(inviteModels.size() - 1);
+        recyclerView.scrollToPosition(Classmate.size());
+
+        invite_btmsht.dismiss();
+    }
 }

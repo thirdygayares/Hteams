@@ -268,9 +268,6 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
             }
         });
         popup.show();
-
-
-
     }
 
     //first Table
@@ -279,42 +276,6 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 //        String[] Title = {"Placeholder 1","PlaceHolder2","PlaceHolder 3","PlaceHolder 4","PlaceHolder 5","PlaceHolder 6"};
 //        String[] Status = {"Working on It", "Done", "TODO", "TODO", "Ready", "Working on It"};
 //        String[] Deadline = {"Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am" };
-
-        ArrayList<String> Title = new ArrayList<String>();
-//        Title.add("User Requirements");
-//        Title.add("Use Case Diagram");
-//        Title.add("ERD Diagram");
-
-        ArrayList<String> Status = new ArrayList<String>();
-//        Status.add("Done");
-//        Status.add("Ready");
-//        Status.add("Working on It");
-
-        ArrayList<String> Deadline = new ArrayList<String>();
-//        Deadline.add("Oct 10, 10:00am");
-//        Deadline.add("Nov 2, 8:00pm");
-//        Deadline.add("Dec 9, 12:00am");
-
-        ArrayList<Integer> ProfilePhoto = new ArrayList<Integer>();
-//        ProfilePhoto.add(R.drawable.profile);
-//        ProfilePhoto.add(R.drawable.marielle);
-//        ProfilePhoto.add(R.drawable.novem);
-
-
-        for(int i=0; i<Title.size(); i++){
-            groupPageModels.add(new GroupPageModel(Title.get(i),Status.get(i),Deadline.get(i),ProfilePhoto.get(i)
-            ));
-        }
-
-//        groupPageModels.clear();
-
-    }
-
-    private void setupGroupData2() {
-        //dummy data
-//        String[] Title2 = {"Placeholder 1","PlaceHolder2","PlaceHolder 3","PlaceHolder 4","PlaceHolder 5","PlaceHolder 6"};
-//        String[] Status2 = {"Working on It", "Done", "Pending", "Working on It", "Done", "Pending"};
-//        String[] Deadline2 = {"Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am" };
 
         ArrayList<String> Title = new ArrayList<String>();
         Title.add("User Requirements");
@@ -338,10 +299,46 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 
 
         for(int i=0; i<Title.size(); i++){
+            groupPageModels.add(new GroupPageModel(Title.get(i),Status.get(i),Deadline.get(i),ProfilePhoto.get(i)
+            ));
+        }
+
+//        groupPageModels.clear();
+
+    }
+
+    private void setupGroupData2() {
+        //dummy data
+//        String[] Title2 = {"Placeholder 1","PlaceHolder2","PlaceHolder 3","PlaceHolder 4","PlaceHolder 5","PlaceHolder 6"};
+//        String[] Status2 = {"Working on It", "Done", "Pending", "Working on It", "Done", "Pending"};
+//        String[] Deadline2 = {"Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am" };
+
+        ArrayList<String> Title = new ArrayList<String>();
+        Title.add("User Updates");
+        Title.add("Flow Chart");
+        Title.add("ERD Diagram");
+
+        ArrayList<String> Status = new ArrayList<String>();
+        Status.add("Done");
+        Status.add("Ready");
+        Status.add("Working on It");
+
+        ArrayList<String> Deadline = new ArrayList<String>();
+        Deadline.add("Oct 10, 10:00am");
+        Deadline.add("Nov 2, 8:00pm");
+        Deadline.add("Dec 9, 12:00am");
+
+        ArrayList<Integer> ProfilePhoto = new ArrayList<Integer>();
+        ProfilePhoto.add(R.drawable.profile);
+        ProfilePhoto.add(R.drawable.marielle);
+        ProfilePhoto.add(R.drawable.novem);
+
+
+        for(int i=0; i<Title.size(); i++){
             groupPageModels2.add(new GroupPageModel2(Title.get(i),Status.get(i),Deadline.get(i),ProfilePhoto.get(i)
             ));
 
-            groupPageModels2.clear();
+//            groupPageModels2.clear();
         }
     }
 

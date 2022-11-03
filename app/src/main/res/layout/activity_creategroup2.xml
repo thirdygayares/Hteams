@@ -11,26 +11,27 @@
         android:id="@+id/createbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_above="@+id/imageDivider"
+        android:layout_centerHorizontal="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="@color/primary"
         android:fontFamily="@font/gilroybold"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="2dp"
+        android:paddingHorizontal="25dp"
+        android:paddingVertical="15dp"
         android:text="Create"
         android:textColor="@color/white"
-        android:textSize="18dp" />
-
+        android:textSize="23dp" />
 
 
     <ImageView
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"
+        android:id="@+id/imageDivider"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
         android:src="@drawable/indicator2"
 
         ></ImageView>
@@ -39,7 +40,7 @@
         android:id="@+id/txt_invite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/createbtn"
+
         android:layout_margin="15dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
@@ -54,14 +55,24 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txt_invite"
         android:layout_marginHorizontal="15dp"
-        android:background="#FEFAFA"
+        android:background="@color/white"
         android:padding="10dp">
 
-        <ImageView
+        <!-- Image of groupPage-->
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profile_leader"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/classmate"></ImageView>
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:maxWidth="50dp"
+            android:maxHeight="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/profile"
+            app:shapeAppearance="?attr/actionButtonStyle"
+            app:shapeAppearanceOverlay="@style/imageViewRounded"
+            app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
+
 
         <TextView
             android:id="@+id/currentName"
@@ -71,7 +82,7 @@
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/profile_leader"
             android:fontFamily="@font/gilroymedium"
-            android:text=""
+            android:text="Thirdy Gayares"
             android:textColor="@color/black"
             android:textSize="20dp"></TextView>
 
@@ -81,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-          android:layout_marginRight="20dp"
+            android:layout_marginRight="20dp"
             android:fontFamily="@font/gilroymedium"
             android:text="Creator"
             android:textSize="10dp"></TextView>
@@ -96,7 +107,7 @@
         android:layout_below="@+id/leader_container"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="100dp" />
+        android:layout_marginBottom="200dp" />
 
     <TextView
         android:id="@+id/add"
@@ -104,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/inviteRecycler"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="-90dp"
+        android:layout_marginTop="-190dp"
         android:fontFamily="@font/gilroybold"
         android:text="+Add"
         android:textColor="@color/primary"

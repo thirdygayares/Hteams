@@ -47,11 +47,7 @@ public class MainActivity extends AppCompatActivity {
     int startingSubjectCDS = 1; //change 1 if okay na naiput na
     int startingSubjectACSAD = 1; //change 1 if okay na naiput na
 
-
-
     //bitmap
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -270,67 +266,8 @@ public class MainActivity extends AppCompatActivity {
                 studentImage.add("acsad_taruc");
                 studentImage.add("acsad_vitug");
 
-                Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(),R.drawable.acsad_catindig);
-                ByteArrayOutputStream byteArray1 = new ByteArrayOutputStream();
-                bitmap1.compress(Bitmap.CompressFormat.PNG, 75,byteArray1);
-                byte[] img1 = byteArray1.toByteArray();
 
 
-                Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(),R.drawable.acsad_dantes);
-                ByteArrayOutputStream byteArray2 = new ByteArrayOutputStream();
-                bitmap2.compress(Bitmap.CompressFormat.PNG, 75,byteArray2);
-                byte[] img2 = byteArray2.toByteArray();
-
-                Bitmap bitmap3 = BitmapFactory.decodeResource(getResources(),R.drawable.acsad_despujol);
-                ByteArrayOutputStream byteArray3 = new ByteArrayOutputStream();
-                bitmap3.compress(Bitmap.CompressFormat.PNG, 75,byteArray3);
-                byte[] img3 = byteArray3.toByteArray();
-
-                Bitmap bitmap4 = BitmapFactory.decodeResource(getResources(),R.drawable.acsad_esquivas);
-                ByteArrayOutputStream byteArray4 = new ByteArrayOutputStream();
-                bitmap4.compress(Bitmap.CompressFormat.PNG, 75,byteArray4);
-                byte[] img4 = byteArray4.toByteArray();
-
-                Bitmap bitmap5 = BitmapFactory.decodeResource(getResources(),R.drawable.acsad_euyoropa);
-                ByteArrayOutputStream byteArray5 = new ByteArrayOutputStream();
-                bitmap5.compress(Bitmap.CompressFormat.PNG, 75,byteArray5);
-                byte[] img5 = byteArray5.toByteArray();
-
-                Bitmap bitmap6 = BitmapFactory.decodeResource(getResources(),R.drawable.acsad_macaraeg);
-                ByteArrayOutputStream byteArray6 = new ByteArrayOutputStream();
-                bitmap6.compress(Bitmap.CompressFormat.PNG, 75,byteArray6);
-                byte[] img6 = byteArray6.toByteArray();
-
-            Bitmap bitmap7 = BitmapFactory.decodeResource(getResources(),R.drawable.acsad_millares);
-            ByteArrayOutputStream byteArray7 = new ByteArrayOutputStream();
-            bitmap7.compress(Bitmap.CompressFormat.PNG, 75,byteArray7);
-            byte[] img7 = byteArray7.toByteArray();
-
-            Bitmap bitmap8 = BitmapFactory.decodeResource(getResources(),R.drawable.acsad_nallos);
-            ByteArrayOutputStream byteArray8 = new ByteArrayOutputStream();
-            bitmap8.compress(Bitmap.CompressFormat.PNG, 75,byteArray8);
-            byte[] img8 = byteArray8.toByteArray();
-
-            Bitmap bitmap9 = BitmapFactory.decodeResource(getResources(),R.drawable.acsad_taruc);
-            ByteArrayOutputStream byteArray9 = new ByteArrayOutputStream();
-            bitmap9.compress(Bitmap.CompressFormat.PNG, 75,byteArray9);
-            byte[] img9 = byteArray9.toByteArray();
-
-            Bitmap bitmap10 = BitmapFactory.decodeResource(getResources(),R.drawable.acsad_vitug);
-            ByteArrayOutputStream byteArray10 = new ByteArrayOutputStream();
-            bitmap10.compress(Bitmap.CompressFormat.PNG, 75,byteArray10);
-            byte[] img10 = byteArray10.toByteArray();
-
-            studentProfile.add(img1);
-            studentProfile.add(img2);
-            studentProfile.add(img3);
-            studentProfile.add(img4);
-            studentProfile.add(img5);
-            studentProfile.add(img6);
-            studentProfile.add(img7);
-            studentProfile.add(img8);
-            studentProfile.add(img9);
-            studentProfile.add(img10);
 
             name.add("Johnny Catindig");
                 name.add("Hernandes Dantes");
@@ -358,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
                 try{
                     Testing1Model test;
                     for(int i=0; i<id.size();i++){
-                        test = new Testing1Model(id.get(i), studentProfile.get(i),name.get(i),email.get(i),section,course,college );
+                        test = new Testing1Model(id.get(i), studentImage.get(i),name.get(i),email.get(i),section,course,college );
                         DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
                         boolean success = databaseHelper.addStudents(test);
                     }
@@ -435,138 +372,6 @@ public class MainActivity extends AppCompatActivity {
             studentImage.add("acds_zabala");
 
 
-            Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_abrugar);
-            ByteArrayOutputStream byteArray1 = new ByteArrayOutputStream();
-            bitmap1.compress(Bitmap.CompressFormat.PNG, 75,byteArray1);
-            byte[] img1 = byteArray1.toByteArray();
-
-
-            Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_acosta);
-            ByteArrayOutputStream byteArray2 = new ByteArrayOutputStream();
-            bitmap2.compress(Bitmap.CompressFormat.PNG, 75,byteArray2);
-            byte[] img2 = byteArray2.toByteArray();
-
-            Bitmap bitmap3 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_andres);
-            ByteArrayOutputStream byteArray3 = new ByteArrayOutputStream();
-            bitmap3.compress(Bitmap.CompressFormat.PNG, 75,byteArray3);
-            byte[] img3 = byteArray3.toByteArray();
-
-            Bitmap bitmap4 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_bayquen);
-            ByteArrayOutputStream byteArray4 = new ByteArrayOutputStream();
-            bitmap4.compress(Bitmap.CompressFormat.PNG, 75,byteArray4);
-            byte[] img4 = byteArray4.toByteArray();
-
-            Bitmap bitmap5 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_carlos);
-            ByteArrayOutputStream byteArray5 = new ByteArrayOutputStream();
-            bitmap5.compress(Bitmap.CompressFormat.PNG, 75,byteArray5);
-            byte[] img5 = byteArray5.toByteArray();
-
-            Bitmap bitmap6 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_carunungan);
-            ByteArrayOutputStream byteArray6 = new ByteArrayOutputStream();
-            bitmap6.compress(Bitmap.CompressFormat.PNG, 75,byteArray6);
-            byte[] img6 = byteArray6.toByteArray();
-
-            Bitmap bitmap7 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_dedil);
-            ByteArrayOutputStream byteArray7 = new ByteArrayOutputStream();
-            bitmap7.compress(Bitmap.CompressFormat.PNG, 75,byteArray7);
-            byte[] img7 = byteArray7.toByteArray();
-
-            Bitmap bitmap8 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_ersolada);
-            ByteArrayOutputStream byteArray8 = new ByteArrayOutputStream();
-            bitmap8.compress(Bitmap.CompressFormat.PNG, 75,byteArray8);
-            byte[] img8 = byteArray8.toByteArray();
-
-
-            Bitmap bitmap100 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_gasidan);
-            ByteArrayOutputStream byteArray100 = new ByteArrayOutputStream();
-            bitmap100.compress(Bitmap.CompressFormat.PNG, 75,byteArray100);
-            byte[] img9 = byteArray100.toByteArray();
-
-
-            Bitmap bitmap10 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_gayares);
-            ByteArrayOutputStream byteArray10 = new ByteArrayOutputStream();
-            bitmap10.compress(Bitmap.CompressFormat.PNG, 75,byteArray10);
-            byte[] img10 = byteArray10.toByteArray();
-
-
-            Bitmap bitmap11 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_guillergan);
-            ByteArrayOutputStream byteArray11 = new ByteArrayOutputStream();
-            bitmap11.compress(Bitmap.CompressFormat.PNG, 75,byteArray11);
-            byte[] img11 = byteArray11.toByteArray();
-
-
-            Bitmap bitmap12 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_lanaban);
-            ByteArrayOutputStream byteArray12 = new ByteArrayOutputStream();
-            bitmap12.compress(Bitmap.CompressFormat.PNG, 75,byteArray12);
-            byte[] img12 = byteArray12.toByteArray();
-
-            Bitmap bitmap13 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_legaspi);
-            ByteArrayOutputStream byteArray13 = new ByteArrayOutputStream();
-            bitmap13.compress(Bitmap.CompressFormat.PNG, 75,byteArray13);
-            byte[] img13 = byteArray13.toByteArray();
-
-            Bitmap bitmap14 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_lizardo);
-            ByteArrayOutputStream byteArray14 = new ByteArrayOutputStream();
-            bitmap14.compress(Bitmap.CompressFormat.PNG, 75,byteArray14);
-            byte[] img14 = byteArray14.toByteArray();
-
-            Bitmap bitmap15 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_macatuhay);
-            ByteArrayOutputStream byteArray15 = new ByteArrayOutputStream();
-            bitmap15.compress(Bitmap.CompressFormat.PNG, 75,byteArray15);
-            byte[] img15 = byteArray15.toByteArray();
-
-            Bitmap bitmap16 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_ochoa);
-            ByteArrayOutputStream byteArray16 = new ByteArrayOutputStream();
-            bitmap6.compress(Bitmap.CompressFormat.PNG, 75,byteArray16);
-            byte[] img16 = byteArray16.toByteArray();
-
-            Bitmap bitmap17 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_pelayo);
-            ByteArrayOutputStream byteArray17 = new ByteArrayOutputStream();
-            bitmap17.compress(Bitmap.CompressFormat.PNG, 75,byteArray17);
-            byte[] img17 = byteArray17.toByteArray();
-
-            Bitmap bitmap18 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_robles);
-            ByteArrayOutputStream byteArray18 = new ByteArrayOutputStream();
-            bitmap18.compress(Bitmap.CompressFormat.PNG, 75,byteArray18);
-            byte[] img18 = byteArray18.toByteArray();
-
-
-            Bitmap bitmap19 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_roldan);
-            ByteArrayOutputStream byteArray19 = new ByteArrayOutputStream();
-            bitmap19.compress(Bitmap.CompressFormat.PNG, 75,byteArray19);
-            byte[] img19 = byteArray19.toByteArray();
-
-
-            Bitmap bitmap20 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_sagloria);
-            ByteArrayOutputStream byteArray20 = new ByteArrayOutputStream();
-            bitmap20.compress(Bitmap.CompressFormat.PNG, 75,byteArray20);
-            byte[] img20 = byteArray20.toByteArray();
-
-
-            Bitmap bitmap21 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_santiago);
-            ByteArrayOutputStream byteArray21 = new ByteArrayOutputStream();
-            bitmap21.compress(Bitmap.CompressFormat.PNG, 75,byteArray21);
-            byte[] img21 = byteArray21.toByteArray();
-
-            Bitmap bitmap22 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_valenzuela);
-            ByteArrayOutputStream byteArray22 = new ByteArrayOutputStream();
-            bitmap22.compress(Bitmap.CompressFormat.PNG, 75,byteArray22);
-            byte[] img22 = byteArray22.toByteArray();
-
-
-            Bitmap bitmap23 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_vinoya);
-            ByteArrayOutputStream byteArray23 = new ByteArrayOutputStream();
-            bitmap23.compress(Bitmap.CompressFormat.PNG, 75,byteArray23);
-            byte[] img23 = byteArray23.toByteArray();
-
-
-            Bitmap bitmap24 = BitmapFactory.decodeResource(getResources(),R.drawable.acds_zabala);
-            ByteArrayOutputStream byteArray24 = new ByteArrayOutputStream();
-            bitmap24.compress(Bitmap.CompressFormat.PNG, 75,byteArray24);
-            byte[] img24 = byteArray24.toByteArray();
-
-
-
             name.add("Ronabel Abrugar");
             name.add("Ryan Jay Acosta");
             name.add("Ron Francis Andres");
@@ -624,7 +429,7 @@ public class MainActivity extends AppCompatActivity {
             try{
                 Testing1Model test;
                 for(int i=0; i<id.size();i++){
-                    test = new Testing1Model(id.get(i), studentProfile.get(i),name.get(i),email.get(i),section,course,college );
+                    test = new Testing1Model(id.get(i), studentImage.get(i),name.get(i),email.get(i),section,course,college );
                     DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
                     boolean success = databaseHelper.addStudents(test);
                 }

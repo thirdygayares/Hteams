@@ -303,8 +303,6 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
         updateListModels.add(new UpdateListModel(status,listname));
 
-
-        
     }
 
 
