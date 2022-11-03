@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/capture"
+        android:src="@drawable/camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/capture"
+        android:text="Capture"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/gilroymedium"/>
+
+    <Button
+        android:id="@+id/open_cam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="50dp"
+        android:drawableTop="@drawable/phonecapture"
+        android:drawablePadding="5dp"
+        android:text="Open Camera"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/gilroymedium"
+        android:textColor="@color/gray0"
+        android:textAllCaps="false"
+
+        />
+
+    <Button
+        android:id="@+id/from_photos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="50dp"
+        android:drawableTop="@drawable/phonephotos"
+        android:drawablePadding="10dp"
+        android:text="From Photos"
+        android:textAllCaps="false"
+        android:fontFamily="@font/gilroymedium"
+        android:textColor="@color/gray0"
+        android:backgroundTint="@color/white"
+        android:shadowColor="@color/white"/>
+
+
+
+
+
+
+
+
+</RelativeLayout>

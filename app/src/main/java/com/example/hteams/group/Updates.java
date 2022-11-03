@@ -31,6 +31,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     BottomSheetDialog linkdialog;
     BottomSheetDialog sitelistdialog;
     BottomSheetDialog listupdatedialog;
+    BottomSheetDialog capturedialog;
     Button list;
     Button capture;
     Button files;
@@ -83,12 +84,14 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         linkdialog = new BottomSheetDialog(this);
         sitelistdialog = new BottomSheetDialog(this);
         listupdatedialog = new BottomSheetDialog(this);
+        capturedialog = new BottomSheetDialog(this);
 
         // method calls
         createlinksDialog();
         setupdatafordisplaySites();
         createlistDialog();
         createsitesDialog();
+        createcaptureDiialog();
 
 
 //        condition to hide link material button if no laman
@@ -121,6 +124,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         {
             @Override
             public void onClick (View v){
+                capturedialog.show();
 
                 Toast.makeText(Updates.this, "Capture Clicked".toString(), Toast.LENGTH_SHORT).show();
             }
@@ -161,6 +165,15 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         });
     }
 
+    private void createcaptureDiialog() {
+
+        View view = getLayoutInflater().inflate(R.layout.bottomsheet_capture,null,false);
+        Button opencam = view.findViewById(R.id.open_cam);
+        Button fromphotos = view.findViewById(R.id.from_photos);
+        capturedialog.setContentView(view);
+        // stopped here
+    }
+
     private void createlistDialog() {
 
         View view = getLayoutInflater().inflate(R.layout.listbottomsheet_updates,null , false );
@@ -196,34 +209,36 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
 
 
-                 /*
-                    else if (custom_name == null || custom_name.equals("")){
-                        Toast.makeText(getBaseContext(),"Custom Name is empty",Toast.LENGTH_LONG).show();
-                    }
-                    else if (web_link == null || web_link.equals(" ")){
-                        Toast.makeText(getBaseContext(),"Link is required",Toast.LENGTH_LONG).show();
-                    }
 
-                  */
 
                 //  TODO : error handling pag walang input dapat maglalabas ng error sa gilid na required-status: done
-                //sitename array store yung name na text sa editText
+               if(sitenamefield.length()==0){
+                   sitenamefield.setError("Required");
+               }
+               else if( name.length()==0){
+                   name.setError("Required");
+               }
 
-                site_name.add(sitenamefield.getText().toString());
-                custom_name.add(name.getText().toString());
-                web_link.add(sitelink.getText().toString());
+               else if (sitelink.length()==0){
+                   sitelink.setError("Required");
+               }
+               else {
+                   site_name.add(sitenamefield.getText().toString());
+                   custom_name.add(name.getText().toString());
+                   web_link.add(sitelink.getText().toString());
 
-                // Toast.makeText(Comments.this,custom_name.toString(),Toast.LENGTH_SHORT).show();
-                // to add in the model and maread sa array
-                displaySiteModels.add(new DisplaySiteModel(name.getText().toString(), sitenamefield.getText().toString()));
-                //to update the content of adapter
-                adapter.notifyItemInserted(custom_name.size() - 1);
-                displaySites.scrollToPosition(custom_name.size());
-                //to show the indicator link title
-                link.setVisibility(View.VISIBLE);
+                   // Toast.makeText(Comments.this,custom_name.toString(),Toast.LENGTH_SHORT).show();
+                   // to add in the model and maread sa array
+                   displaySiteModels.add(new DisplaySiteModel(name.getText().toString(), sitenamefield.getText().toString()));
+                   //to update the content of adapter
+                   adapter.notifyItemInserted(custom_name.size() - 1);
+                   displaySites.scrollToPosition(custom_name.size());
+                   //to show the indicator link title
+                   link.setVisibility(View.VISIBLE);
 
-                //to hide the linkdialog
-                linkdialog.dismiss();
+                   //to hide the linkdialog
+                   linkdialog.dismiss();
+               }
             }
 
         });
@@ -243,12 +258,12 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         link = findViewById(R.id.link);
         if (custom_name.isEmpty()){
             link.setVisibility(View.GONE);
+            linkdialog.setContentView(view);
         }else{
             link.setVisibility(View.VISIBLE);
+            linkdialog.setContentView(view);
         }
 
-
-        linkdialog.setContentView(view);
 
     }
 
