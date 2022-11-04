@@ -105,7 +105,7 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 
         //set group image and Name;
         Cursor getDisplayGroupandImage = databaseHelper.DisplayGroupDetails(getGroupID);
-        try {getDisplayGroupandImage.moveToLast();
+        try {getDisplayGroupandImage.moveToNext();
             String setGroupavatar = getDisplayGroupandImage.getString(0);
             String setGRoupName = getDisplayGroupandImage.getString(1);
             SetAvatar setAvatar = new SetAvatar();

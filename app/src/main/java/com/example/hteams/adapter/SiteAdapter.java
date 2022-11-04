@@ -18,6 +18,7 @@ import com.example.hteams.R;
 import com.example.hteams.model.SiteModel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> implements Filterable {
 
@@ -81,13 +82,13 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
             }
             else {
                 for(SiteModel sites : siteModelsAll){
-                    if(sites.toLowerCase().contains(constraint.toString().toLowerCase())){
-                        filteredSites.add(sites);
-                    siteModels.clear();
-                    sitesModels.addAll((Collection<? extends String) filterResults .value);
-                    notifyDataSetChanged();
-
-                    }
+//                    if(sites.toLowerCase().contains(constraint.toString().toLowerCase())){
+////                        filteredSites.add(sites);
+//                    siteModels.clear();
+////                    siteModels.addAll((Collection<? extends String>) filterResults.value);
+//                    notifyDataSetChanged();
+//
+//                    }
                 }
             }
             FilterResults filterResults = new FilterResults();

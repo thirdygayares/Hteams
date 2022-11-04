@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.hteams.MainActivity;
 import com.example.hteams.R;
+import com.example.hteams.Testing.SetProfile;
 import com.example.hteams.adapter.AsigneeAdapter;
 import com.example.hteams.adapter.ViewTaskAdapter;
 import com.example.hteams.adapter.ViewTaskInterface;
@@ -286,18 +287,24 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     //TODO firebase manipulation (UPDATE)
     private void setupAssigne() {
         //                TODO: if the user is current leader it indicator or show you
-        ArrayList<Integer> profilePhoto = new ArrayList<Integer>();
-        profilePhoto.add(R.drawable.profile);
-        profilePhoto.add(R.drawable.marielle);
-        profilePhoto.add(R.drawable.novem);
+        ArrayList<String> profilePhoto = new ArrayList<String>();
+        profilePhoto.add("acds_gayares");
+        profilePhoto.add("acds_zabala");
+        profilePhoto.add("acds_lanaban");
 
         ArrayList<String> classmateName = new ArrayList<String>();
         classmateName.add("Thirdy Gayares");
         classmateName.add("Marielle Zabala");
         classmateName.add("Novem Lanaban");
 
-        for(int i=0; i<classmateName.size();i++){
-            assigneeModels.add(new AssigneeModel(profilePhoto.get(i), classmateName.get(i)));
+        ArrayList<String> students_id = new ArrayList<String>();
+        students_id.add("T");
+        students_id.add("Marielle Zabala");
+        students_id.add("Novem Lanaban");
+
+
+         for(int i=0; i<classmateName.size();i++){
+            assigneeModels.add(new AssigneeModel(classmateName.get(i), students_id.get(i), profilePhoto.get(i)));
         }
 
     }
@@ -472,7 +479,8 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         switch (assignee_adapter){
             case "AssigneeAdapter":
                 button_asignee.setText(assigneeModels.get(position).getName());
-                participant_photo.setImageResource(assigneeModels.get(position).getImage());
+                SetProfile setProfiles = new SetProfile();
+                participant_photo.setImageResource(setProfiles.profileImage(assigneeModels.get(position).getImgsrc()));
                 alertDialog.dismiss();
                 break;
 
