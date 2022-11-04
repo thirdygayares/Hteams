@@ -37,7 +37,7 @@
 
         android:backgroundTint="@color/primary"
         android:fontFamily="@font/gilroymedium"
-        android:text="Comment"
+        android:text="Update"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="15sp" />

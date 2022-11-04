@@ -11,12 +11,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:src = "@drawable/groupavatar16"
         android:id="@+id/group_avatar"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_margin="10dp"
+        android:background="@android:color/transparent"
+        android:maxWidth="50dp"
+        android:maxHeight="50dp"
+        android:scaleType="fitXY"
         />
 
     <TextView

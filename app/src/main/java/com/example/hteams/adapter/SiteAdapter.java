@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,17 +19,19 @@ import com.example.hteams.model.SiteModel;
 
 import java.util.ArrayList;
 
-public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> {
+public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> implements Filterable {
 
     private final SiteInterface siteInterfaces;
 
 
     Context context;
     ArrayList<SiteModel> siteModels;
+    ArrayList<SiteModel> siteModelsAll;
 
     public SiteAdapter(Context context, ArrayList<SiteModel> siteModels, SiteInterface siteInterfaces) {
         this.context = context;
         this.siteModels = siteModels;
+        this.siteModelsAll = new ArrayList<>(siteModels);
         this.siteInterfaces = siteInterfaces;
     }
 
@@ -61,6 +65,41 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
 
         return siteModels.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return null;
+    }
+
+    Filter filter = new Filter() {
+        @Override   // sa background thread
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<ArrayList<SiteModel>> filteredSites =  new ArrayList<>();
+
+            if(constraint.toString().isEmpty()){
+                filteredSites.add(siteModelsAll);
+            }
+            else {
+                for(SiteModel sites : siteModelsAll){
+                    if(sites.toLowerCase().contains(constraint.toString().toLowerCase())){
+                        filteredSites.add(sites);
+                    siteModels.clear();
+                    sitesModels.addAll((Collection<? extends String) filterResults .value);
+                    notifyDataSetChanged();
+
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredSites;
+            return filterResults;
+        }
+
+        @Override  // sa ui thread
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+        }
+    };
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 

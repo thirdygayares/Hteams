@@ -18,4 +18,8 @@ public class SiteModel {
     public String getSitename() {
         return sitename;
     }
+
+    public boolean toLowerCase() {
+
+    }
 }
