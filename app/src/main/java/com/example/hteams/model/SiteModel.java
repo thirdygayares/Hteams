@@ -19,7 +19,5 @@ public class SiteModel {
         return sitename;
     }
 
-    public boolean toLowerCase() {
 
-    }
 }

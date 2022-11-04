@@ -306,8 +306,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     }
 
 
-    //TODO : Pasequence nung mga method
-    //pag pinindot ang link dialog
+
     private void createlinksDialog() { // for bottomsheet
 
         View view = getLayoutInflater().inflate(R.layout.linkbottomsheet_updates, null, false);

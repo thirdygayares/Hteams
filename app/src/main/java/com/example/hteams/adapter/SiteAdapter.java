@@ -19,7 +19,7 @@ import com.example.hteams.model.SiteModel;
 
 import java.util.ArrayList;
 
-public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> implements Filterable {
+public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> {
 
     private final SiteInterface siteInterfaces;
 
@@ -65,7 +65,7 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
 
         return siteModels.size();
     }
-
+     /*
     @Override
     public Filter getFilter() {
         return null;
@@ -88,8 +88,12 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
                     notifyDataSetChanged();
 
                     }
+
+
                 }
             }
+
+
             FilterResults filterResults = new FilterResults();
             filterResults.values = filteredSites;
             return filterResults;
@@ -100,6 +104,8 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.MyViewHolder> 
 
         }
     };
+
+      */
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
