@@ -1,9 +1,11 @@
 package com.example.hteams.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.hteams.R;
+import com.example.hteams.Testing.SetProfile;
 import com.example.hteams.model.InviteModel;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.MyViewHolder> {
-
-
 
     Context context;
     ArrayList<InviteModel> invitemodels;
@@ -41,6 +44,10 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.MyViewHold
     public void onBindViewHolder(@NonNull InviteAdapter.MyViewHolder holder, int position) {
         holder.classmateName.setText(invitemodels.get(position).getName());
 
+        SetProfile setProfile = new SetProfile();
+        holder.classmate_image.setImageResource(setProfile.profileImage(invitemodels.get(position).getImage()));
+
+
     }
 
     @Override
@@ -52,11 +59,12 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.MyViewHold
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView classmateName;
+        ImageView classmate_image;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            classmateName = itemView.findViewById(R.id.classmate_name);
-
+            classmateName = (TextView) itemView.findViewById(R.id.classmate_name);
+            classmate_image = (ImageView) itemView.findViewById(R.id.classmate_image);
 
         }
     }

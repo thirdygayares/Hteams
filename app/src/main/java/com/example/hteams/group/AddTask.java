@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -20,8 +21,12 @@ import android.widget.Toast;
 import com.example.hteams.R;
 import com.example.hteams.adapter.AsigneeAdapter;
 import com.example.hteams.adapter.ViewTaskInterface;
+import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.AssigneeModel;
 import com.example.hteams.model.GroupPageModel;
+import com.example.hteams.model.SQLITEADDTASKMODEL;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,6 +60,21 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
 
     Button date, participant,addTask;
     EditText input_task;
+
+
+    //firebase Auth
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firestore;
+
+    //SQLITE DB
+    DatabaseHelper databaseHelper;
+    String currentId;
+    String getGroupID;
+    String getTableId;
+
+    //for getting the uid when clikc the choose participant
+    String participantID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
 
@@ -63,11 +83,36 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
             setContentView(R.layout.activity_add_task);
             initxml();
 
+        //to know the email and uid
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
-            //set adapter
+        //calling database sqlite
+        databaseHelper = new DatabaseHelper(AddTask.this);
+
+        //cyrrent id
+        currentId = firebaseAuth.getCurrentUser().getUid();
+
+        // set Group id
+        //getGroupID = String.valueOf(getIntent().getStringExtra("GROUP_ID"));
+
+        //for testing
+        getGroupID = "1";
+
+//        getTableId = String.valueOf(getIntent().getStringExtra("TABLE_ID"));
+
+        //fore testing
+        getTableId = "1";
+
+//        Toast.makeText(AddTask.this, getGroupID + " " + getTableId, Toast.LENGTH_SHORT).show();
+
+
+
+
+        //set adapter
         adapter1 = new AsigneeAdapter(AddTask.this, assigneeModels, this);
-            //setup data for participants
-            setupAssigne();
+        //setup data for participants
+        setupAssigne();
 
             date.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -103,8 +148,6 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                 //assigned Recycler View
                 participant.setAdapter(adapter1);
                 participant.setLayoutManager(new LinearLayoutManager(AddTask.this));
-
-
                 alert.setView(mView);
                 alertDialog = alert.create();
                 //user can touch in outside
@@ -124,10 +167,30 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                 }else{
                     taskName = input_task.getText().toString();
                     groupPageModels.add(new GroupPageModel(taskName,status,finalDate,classmatePhoto));
-                    Toast.makeText(AddTask.this, String.valueOf(groupPageModels.size()), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(AddTask.this, GroupPage.class);
-                    startActivity(intent);
 
+                    try{
+
+
+                    SQLITEADDTASKMODEL sqliteaddtaskmodels = null;
+                    //GET TIME AND DATE
+                    //dateConverter(myMonth)) + " " + myday + ", " + timeConverter(myHour)
+//                        public SQLITEADDTASKMODEL(int ID_GROUP, int ID_TABLE, String ID_STUDENTS, String TASK_NAME, String STATUS, String dueDate, String dueTime)
+                    String duedate = dateConverter(myMonth) + " " + myday;
+                    String dueTIme = String.valueOf(timeConverter(myHour));
+                    sqliteaddtaskmodels = new SQLITEADDTASKMODEL(Integer.parseInt(getGroupID),Integer.parseInt(getTableId),participantID,taskName,status, duedate , dueTIme);
+                   boolean success = databaseHelper.addTask(sqliteaddtaskmodels);
+                        if(success == true){
+                            Toast.makeText(AddTask.this, "success", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(AddTask.this, GroupPage.class);
+                            intent.putExtra("setGroupId", getGroupID);
+                            startActivity(intent);
+
+                        }else{
+                            Toast.makeText(AddTask.this, "failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e){
+                        Toast.makeText(AddTask.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -277,23 +340,33 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
     //set up data for assignee
     //TODO firebase manipulation (UPDATE)
     private void setupAssigne() {
-        //                TODO: if the user is current leader it indicator or show you
-        ArrayList<Integer> profilePhoto = new ArrayList<Integer>();
-        profilePhoto.add(R.drawable.profile);
-        profilePhoto.add(R.drawable.marielle);
-        profilePhoto.add(R.drawable.novem);
+        //TODO: if the user is current leader it indicator or show you
 
-        ArrayList<String> classmateName = new ArrayList<String>();
-        classmateName.add("Thirdy Gayares");
-        classmateName.add("Marielle Zabala");
-        classmateName.add("Novem Lanaban");
+        try {
+                ArrayList<String> profilePhoto = new ArrayList<String>();
+                ArrayList<String> classmateName = new ArrayList<String>();
+                ArrayList<String> Id_Student = new ArrayList<String>();
 
-        for(int i=0; i<classmateName.size();i++){
-            assigneeModels.add(new AssigneeModel(profilePhoto.get(i), classmateName.get(i)));
+                //Paano lumabas lang yung mga partcipant na nag accept lang
+                //first get to the student ID by finding by getGroupID
+                Cursor getOnlyParticipant = databaseHelper.getParticipant(getGroupID);
+                while(getOnlyParticipant.moveToNext()){
+                        Id_Student.add(getOnlyParticipant.getString(0));
+
+                        //(2) get name and image of participant
+                        Cursor getNameandIamge = databaseHelper.getNameImageParticipant(getOnlyParticipant.getString(0));
+                            getNameandIamge.moveToNext();
+                            profilePhoto.add(getNameandIamge.getString(0));
+                            classmateName.add(getNameandIamge.getString(1));
+                }
+                for (int i = 0; i < classmateName.size(); i++) {
+                        assigneeModels.add(new AssigneeModel(classmateName.get(i) , Id_Student.get(i),profilePhoto.get(i)));
+                }
+        }catch (Exception e){
+            Toast.makeText(AddTask.this, e.toString(),Toast.LENGTH_SHORT ).show();
         }
 
     }
-
 
 
     private void initxml() {
@@ -311,8 +384,10 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                 participant.setText(assigneeModels.get(pos).getName());
                 participantName = assigneeModels.get(pos).getName();
                 classmatePhoto = assigneeModels.get(pos).getImage();
+                participantID = assigneeModels.get(pos).getSTUDENT_ID();
 
-//                to set a photo
+
+                // to set a photo
                // participant_photo.setImageResource(assigneeModels.get(position).getImage());
                 alertDialog.dismiss();
                 break;

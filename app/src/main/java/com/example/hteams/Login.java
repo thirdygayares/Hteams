@@ -248,12 +248,11 @@ public class Login extends AppCompatActivity {
         //sa button
             }
         });
-
     }
+
 
     private void updateUI(FirebaseUser user) {
     }
-
 
     private void initxml() {
         input_userid = findViewById(R.id.input_studentId);
@@ -267,7 +266,6 @@ public class Login extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-
         super.onStop();
     }
 

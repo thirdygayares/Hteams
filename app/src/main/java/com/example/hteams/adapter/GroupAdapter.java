@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.hteams.R;
+import com.example.hteams.Testing.SetAvatar;
 import com.example.hteams.model.GroupModel;
 
 import java.util.ArrayList;
@@ -46,9 +47,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
         holder.group_description.setText(groupmodels.get(position).getShortDescription());
         holder.teacher.setText(groupmodels.get(position).getProfessor());
         holder.subject.setText(groupmodels.get(position).getSubject());
-        holder.group_image.setImageResource(groupmodels.get(position).getGroupImage());
-
-
+        SetAvatar setAvatar = new SetAvatar();
+        holder.group_image.setImageResource(setAvatar.setAvatar(groupmodels.get(position).getGroupImage()));
     }
 
     @Override

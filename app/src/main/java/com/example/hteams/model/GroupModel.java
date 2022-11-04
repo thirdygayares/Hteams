@@ -1,20 +1,15 @@
 package com.example.hteams.model;
 
 public class GroupModel {
-    int groupImage;
+    String GROUPID;
+    String groupImage;
     String groupTitle;
     String shortDescription;
     String professor;
     String subject;
 
-    public GroupModel(String groupTitle, String shortDescription, String professor, String subject) {
-        this.groupTitle = groupTitle;
-        this.shortDescription = shortDescription;
-        this.professor = professor;
-        this.subject = subject;
-    }
-
-    public GroupModel(int groupImage, String groupTitle, String shortDescription, String professor, String subject) {
+    public GroupModel(String GROUPID, String groupImage, String groupTitle, String shortDescription, String professor, String subject) {
+        this.GROUPID = GROUPID;
         this.groupImage = groupImage;
         this.groupTitle = groupTitle;
         this.shortDescription = shortDescription;
@@ -22,10 +17,11 @@ public class GroupModel {
         this.subject = subject;
     }
 
+    public String getGROUPID() {
+        return GROUPID;
+    }
 
-
-
-    public int getGroupImage() {
+    public String getGroupImage() {
         return groupImage;
     }
 

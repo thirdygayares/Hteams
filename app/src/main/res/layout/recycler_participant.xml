@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/background"
+    android:background="@color/grey3"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Image of participant -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/participant_photo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:maxWidth="50dp"
+        android:maxHeight="50dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/profile"
+        app:shapeAppearance="?attr/actionButtonStyle"
+        app:shapeAppearanceOverlay="@style/imageViewRounded"
+        app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
+
+    <!-- end of image of participant -->
+
+
+    <!--    Start of name-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/participant_photo"
+        android:layout_marginRight="50dp"
+        android:layout_toRightOf="@+id/participant_photo"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/notification_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thirdy Gayares "
+            android:textColor="@color/black"
+            android:textSize="25dp"></TextView>
+
+    </LinearLayout>
+    <!--    End of name-->
+
+    <!--    Start of Name of position-->
+    <RelativeLayout
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="280dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/position"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="15dp"
+            android:text="LEADER"
+            android:textColor="@color/done"
+            android:textSize="12dp"> </TextView>
+
+    </RelativeLayout>
+    <!--    End of Name of position-->
+
+
+</RelativeLayout>
+
+
+
+

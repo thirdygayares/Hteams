@@ -5,11 +5,14 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Hteams"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -18,13 +21,13 @@
         tools:targetApi="31">
         <activity
 
-            android:name=".Event"
-
-            android:name=".Login"
-
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".group.Event"
+            android:exported="false" />
+        <activity
+            android:name=".group.CreateGroup2"
             android:exported="false" />
         <activity
             android:name=".group.ViewTask"
@@ -36,16 +39,13 @@
             android:name=".Testingfirebase"
             android:exported="false" />
         <activity
-            android:name=".group.ListOfClassmate"
-            android:exported="false" />
-        <activity
             android:name=".Sample"
             android:exported="false" /> <!-- Group -->
         <activity
-            android:name=".group.AddTask"
+            android:name=".Testing.Testing1"
             android:exported="false" />
         <activity
-            android:name=".group.CreateGroup2"
+            android:name=".group.Creategroup"
             android:exported="false" />
         <activity
             android:name=".group.Updates"
@@ -54,10 +54,10 @@
             android:name=".group.ViewUpdates"
             android:exported="false" />
         <activity
-            android:name=".group.Creategroup"
+            android:name=".Login"
             android:exported="false" />
         <activity
-            android:name=".Testing.Testing1"
+            android:name=".group.AddTask"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

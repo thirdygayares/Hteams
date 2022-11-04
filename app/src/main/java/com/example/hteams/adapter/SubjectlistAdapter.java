@@ -61,7 +61,7 @@ public class SubjectlistAdapter extends RecyclerView.Adapter<SubjectlistAdapter.
                 if(subjectlistInterface != null ){
                     int pos = getAdapterPosition();
                     if(pos!= RecyclerView.NO_POSITION){
-                        subjectlistInterface.onItemClick(pos);
+                        subjectlistInterface.onItemClick(pos, "subject");
                     }
 
                 }

@@ -11,6 +11,11 @@ import androidx.annotation.Nullable;
 import com.example.hteams.Testing.SubjectModel;
 import com.example.hteams.Testing.Testing1;
 import com.example.hteams.Testing.Testing1Model;
+import com.example.hteams.model.ChooseParticipantModel;
+import com.example.hteams.model.InviteModel;
+import com.example.hteams.model.SQLITEADDTASKMODEL;
+import com.example.hteams.model.SQLITECREATEGROUPMODEL;
+import com.example.hteams.model.SQLITEPARTICIPANTMODEL;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -160,7 +165,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createStudentTable);
 
         //CREATING GROUPTABLE
-        String createGroupTable = "CREATE TABLE " + GROUPTABLE + "(" + ID_GROUP + " INTEGER PRIMARY KEY AUTOINCREMENT , " + GROUPPHOTO + " STRING,  " + GROUPNAME + " STRING, " + SUBJECT + " STRING, " + DESCRIPTION + " STRING ," + PROFESSORS + " STRING ,  " + LEADER_ID  + " STRING,"  + CREATOR + "STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
+        String createGroupTable = "CREATE TABLE " + GROUPTABLE + "(" + ID_GROUP + " INTEGER PRIMARY KEY AUTOINCREMENT , " + GROUPPHOTO + " STRING,  " + GROUPNAME + " STRING, " + SUBJECT + " STRING, " + DESCRIPTION + " STRING ," + PROFESSORS + " STRING ,  " + LEADER_ID  + " STRING,"  + CREATOR + " STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
         db.execSQL(createGroupTable);
 
         //CREATING SUBJECT  TABLE
@@ -180,7 +185,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createEventTable);
 
         //CREATING PARTICIPANT TABLE
-        String createParticipantTable = "CREATE TABLE " + PARTICIPANTTABLE + "(" + PARTICIPANT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_GROUP + " INTEGER,  " + ID_STUDENTS + " STRING, " + ACCEPTED + " BOOLEAN DEFAULT 'false' )";
+        String createParticipantTable = "CREATE TABLE " + PARTICIPANTTABLE + "(" + PARTICIPANT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_GROUP + " INTEGER,  " + ID_STUDENTS + " STRING, " + ACCEPTED + " BOOLEAN DEFAULT 0 )";
         db.execSQL(createParticipantTable);
 
         //CREATING TABLETABLE
@@ -189,7 +194,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         //CREATING TASK TABLE
-        String createTaskTable = "CREATE TABLE " + TASKTABLE + "(" + ID_TASK + " INTEGER PRIMARY KEY AUTOINCREMENT , " + ID_GROUP + " INTEGER,  " + ID_TABLE + " INTEGER, " + ID_STUDENTS + " STRING, " + TASK_NAME + " STRING ," + STATUS + " STRING ,  " + DUE  + " BOOLEAN Default 'false'," + DUEDATE + " STRING," + DUETIME + "STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
+        String createTaskTable = "CREATE TABLE " + TASKTABLE + "(" + ID_TASK + " INTEGER PRIMARY KEY AUTOINCREMENT , " + ID_GROUP + " INTEGER,  " + ID_TABLE + " INTEGER, " + ID_STUDENTS + " STRING, " + TASK_NAME + " STRING ," + STATUS + " STRING ,  " + DUE  + " BOOLEAN Default 'false'," + DUEDATE + " STRING," + DUETIME + " STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
         db.execSQL(createTaskTable);
 
         //CREATING UPDATES TABLE
@@ -246,14 +251,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //TODO START OF ADDING DATA
-
     //add students
     public boolean addStudents(Testing1Model testing1Model){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(ID_STUDENTS, testing1Model.getID_STUDENTS());
-        cv.put(STUDENT_IMAGE, testing1Model.getSTUDENTS_IMAGE());
+        cv.put(STUDENT_IMAGE, testing1Model.getSTUDENTS_IMAGE_STRING());
         cv.put(NAME, testing1Model.getNAME());
         cv.put(EMAIL, testing1Model.getEMAIL());
         cv.put(SECTION, testing1Model.getSECTION());
@@ -287,14 +291,94 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    // TODO testing
+    //add Groups
+    public boolean addGroups(SQLITECREATEGROUPMODEL sqlitecreategroupmodel){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
 
+        cv.put(GROUPPHOTO, sqlitecreategroupmodel.getGROUPPHOTO());
+        cv.put(GROUPNAME, sqlitecreategroupmodel.getGROUPNAME());
+        cv.put(SUBJECT, sqlitecreategroupmodel.getSUBJECT());
+        cv.put(DESCRIPTION, sqlitecreategroupmodel.getDESCRIPTION());
+        cv.put(PROFESSORS, sqlitecreategroupmodel.getPROFESSORS());
+        cv.put(LEADER_ID, sqlitecreategroupmodel.getLEADER_ID());
+        cv.put(CREATOR, sqlitecreategroupmodel.getCREATOR());
+
+        long insert = db.insert(GROUPTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //add participant
+    public boolean addParticipant(SQLITEPARTICIPANTMODEL sqliteparticipantmodel){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(ID_GROUP, sqliteparticipantmodel.getID_GROUP());
+        cv.put(ID_STUDENTS, sqliteparticipantmodel.getID());
+        cv.put(ACCEPTED, sqliteparticipantmodel.getACCEPTED());
+
+        long insert = db.insert(PARTICIPANTTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //add table
+    public boolean addTable(String Table, int group_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(TABLENAME, Table);
+        cv.put(ID_GROUP, group_id);
+
+        long insert = db.insert(TABLETABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //add table
+    public boolean addTask(SQLITEADDTASKMODEL sqliteaddtaskmodel){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(ID_GROUP, sqliteaddtaskmodel.getID_GROUP());
+        cv.put(ID_TABLE, sqliteaddtaskmodel.getID_TABLE());
+        cv.put(ID_STUDENTS, sqliteaddtaskmodel.getID_STUDENTS());
+        cv.put(TASK_NAME, sqliteaddtaskmodel.getTASK_NAME());
+        cv.put(STATUS, sqliteaddtaskmodel.getSTATUS());
+        cv.put(DUEDATE, sqliteaddtaskmodel.getDueDate());
+        cv.put(DUETIME, sqliteaddtaskmodel.getDueTime());
+
+        long insert = db.insert(TASKTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    // TODO testing
+    public Cursor checkifmaylaman(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + STUDENTSTABLE , null);
+        return data;
+    }
+
+    //testing
     public Cursor getListContents(String section){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + STUDENTSTABLE + " WHERE SECTION = ?", new String[] {section});
         return data;
     }
-
 
     public Cursor getAll(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -302,11 +386,96 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public Cursor getSubject(String section){
+    //get Id stidents , students image , name
+    public Cursor getData(String SECTION){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + SUBJECTTABLE + " WHERE SECTION = ?", new String[] {section});
+        Cursor data = db.rawQuery("SELECT ID_STUDENTS,NAME,STUDENT_IMAGE FROM " + STUDENTSTABLE + " WHERE SECTION = ? " , new String[] {SECTION});
         return data;
     }
 
+    //get subject of a one srcion
+    public Cursor getSubject(String section){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.      rawQuery("SELECT * FROM " + SUBJECTTABLE + " WHERE SECTION = ?", new String[] {section});
+        return data;
+    }
+
+    //find section or participant
+    public Cursor getSection(String uid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT SECTION FROM " + STUDENTSTABLE + " WHERE ID_STUDENTS = ?", new String[] {uid});
+        return data;
+    }
+
+    //find name of current User
+    public Cursor getCurrentName(String uid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT NAME FROM " + STUDENTSTABLE + " WHERE ID_STUDENTS = ?", new String[] {uid});
+        return data;
+    }
+
+    //find image of current User
+    public Cursor getImageCurrentsUser(String uid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT STUDENT_IMAGE FROM " + STUDENTSTABLE + " WHERE ID_STUDENTS = ?", new String[] {uid});
+        return data;
+    }
+
+    //getting professor name by cliking the bottomsheetdialog
+    public Cursor getProfessor(String subjectId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT TEACHER, SECTION FROM " + SUBJECTTABLE + " WHERE ID_SUBJECT = ?", new String[] {subjectId});
+        return data;
+    }
+
+    //getting the max id of group table to insert participant
+    public  Cursor selectLastIdGroupTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT max(" + ID_GROUP + ") FROM " + GROUPTABLE, null );
+        return  data;
+        }
+
+        //getting all the group of current user and accepted
+    public  Cursor selectMyGroups(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + ID_GROUP + " FROM " + PARTICIPANTTABLE + " where " + ID_STUDENTS + " = ? AND " + ACCEPTED + " = 1" , new String[] {id} );
+        return  data;
+    }
+
+    //this method ay alam na niya na nakuha niya yung id at accepted na ng user
+    public  Cursor myGroup(String myGroups){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + GROUPTABLE + " where " + ID_GROUP + " = ? ", new String[] {myGroups} );
+        return  data;
+    }
+
+    //get Image and group name
+    public  Cursor DisplayGroupDetails(String myGroups){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + GROUPPHOTO + "," + GROUPNAME + " FROM " + GROUPTABLE + " where " + ID_GROUP + " = ? ", new String[] {myGroups} );
+        return  data;
+    }
+
+    //getting the max id of task table to insert task
+    public  Cursor selectLastTaskTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT max(" + ID_TABLE + ") FROM " + TABLETABLE, null );
+        return  data;
+    }
+
+    //getting only the partcipant in a group
+    //ex. if the leader the role of a member di niya makikita ang ibang section
+    public  Cursor getParticipant(String myGroups){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + ID_STUDENTS + " FROM " + PARTICIPANTTABLE  + " WHERE " + ID_GROUP + " = ? AND " + ACCEPTED + " = 1" ,  new String[] {myGroups}  );
+        return  data;
+    }
+
+    // Kung mayron na makita lang by section : ito naman kung sino lang kasali sa grupo
+    public Cursor getNameImageParticipant(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + STUDENT_IMAGE + ", " + NAME + "  FROM " + STUDENTSTABLE + " WHERE " + ID_STUDENTS + " = ? ", new String[] {id});
+        return data;
+    }
 
 }

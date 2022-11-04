@@ -8,8 +8,6 @@ import com.example.hteams.R;
 
 public class Event extends AppCompatActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
