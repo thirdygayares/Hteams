@@ -366,8 +366,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
-
     // TODO testing
     public Cursor checkifmaylaman(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -375,14 +373,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-
     //testing
     public Cursor getListContents(String section){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + STUDENTSTABLE + " WHERE SECTION = ?", new String[] {section});
         return data;
     }
-
 
     public Cursor getAll(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -397,14 +393,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-
     //get subject of a one srcion
     public Cursor getSubject(String section){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.      rawQuery("SELECT * FROM " + SUBJECTTABLE + " WHERE SECTION = ?", new String[] {section});
         return data;
     }
-
 
     //find section or participant
     public Cursor getSection(String uid){
@@ -427,9 +421,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-
-
-//    getting professor name by cliking the bottomsheetdialog
+    //getting professor name by cliking the bottomsheetdialog
     public Cursor getProfessor(String subjectId){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT TEACHER, SECTION FROM " + SUBJECTTABLE + " WHERE ID_SUBJECT = ?", new String[] {subjectId});
@@ -437,13 +429,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //getting the max id of group table to insert participant
-
     public  Cursor selectLastIdGroupTable(){
         SQLiteDatabase db = this.getWritableDatabase();
-
         Cursor data = db.rawQuery("SELECT max(" + ID_GROUP + ") FROM " + GROUPTABLE, null );
         return  data;
-
         }
 
         //getting all the group of current user and accepted
@@ -461,7 +450,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //get Image and group name
-
     public  Cursor DisplayGroupDetails(String myGroups){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT " + GROUPPHOTO + "," + GROUPNAME + " FROM " + GROUPTABLE + " where " + ID_GROUP + " = ? ", new String[] {myGroups} );
@@ -475,12 +463,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return  data;
     }
 
+    //getting only the partcipant in a group
+    //ex. if the leader the role of a member di niya makikita ang ibang section
+    public  Cursor getParticipant(String myGroups){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + ID_STUDENTS + " FROM " + PARTICIPANTTABLE  + " WHERE " + ID_GROUP + " = ? AND " + ACCEPTED + " = 1" ,  new String[] {myGroups}  );
+        return  data;
+    }
 
-
-
-
-
-
-
+    // Kung mayron na makita lang by section : ito naman kung sino lang kasali sa grupo
+    public Cursor getNameImageParticipant(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + STUDENT_IMAGE + ", " + NAME + "  FROM " + STUDENTSTABLE + " WHERE " + ID_STUDENTS + " = ? ", new String[] {id});
+        return data;
+    }
 
 }

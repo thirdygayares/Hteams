@@ -173,7 +173,6 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
             secondGroup.setVisibility(View.GONE);
         }
 
-
     }
 
     //TODO BOTTOM SHEET add table
