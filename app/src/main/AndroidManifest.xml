@@ -20,7 +20,7 @@
         android:theme="@style/Theme.Hteams"
         tools:targetApi="31">
         <activity
-            android:name=".AudioRecording"
+            android:name=".group.AudioRecording"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
