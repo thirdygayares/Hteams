@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.hteams.MainActivity;
 import com.example.hteams.R;
 import com.example.hteams.Testing.SetProfile;
+import com.example.hteams.Testing.Testing1Model;
 import com.example.hteams.adapter.AvatarAdapter;
 import com.example.hteams.adapter.ChooseParcticipant;
 import com.example.hteams.adapter.ChooseParticipantAdapter;
@@ -32,6 +33,8 @@ import com.example.hteams.model.FireBaseParticipant;
 import com.example.hteams.model.FirebaseCreateGroup;
 import com.example.hteams.model.GroupModel;
 import com.example.hteams.model.InviteModel;
+import com.example.hteams.model.SQLITECREATEGROUPMODEL;
+import com.example.hteams.model.SQLITEPARTICIPANTMODEL;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -94,6 +97,8 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
 
     //SQLITE DB
     DatabaseHelper databaseHelper;
+    Cursor getnameofUser,getCurrentImage;
+    String currentUserString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,13 +123,13 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         databaseHelper = new DatabaseHelper(CreateGroup2.this);
          //method current user
          //sqlite find name of current User
-        Cursor getnameofUser = databaseHelper.getCurrentName(cname);
-        Cursor getCurrentImage = databaseHelper.getImageCurrentsUser(cname);
+         getnameofUser = databaseHelper.getCurrentName(cname);
+         getCurrentImage = databaseHelper.getImageCurrentsUser(cname);
 
         try {
             getnameofUser.moveToNext();
             currentName.setText(getnameofUser.getString(0));
-
+            currentUserString =getnameofUser.getString(0);
             //change profile of current user
             getCurrentImage.moveToNext();
 
@@ -169,7 +174,6 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
 
     //method for creating a group
     private void createGroup() {
-
         createbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,9 +182,49 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                     Creategroup creategroup = new Creategroup();
                     //generating variables
                     //kukunin na yung data
-                    String groupname = creategroup.GroupName, Subject = creategroup.Subject, Professor = creategroup.Professor, Description = creategroup.Description;
+                    String groupname = creategroup.GroupName, Subject = creategroup.Subject, Professor = creategroup.Professor, Description = creategroup.Description, GroupPhoto = creategroup.choicesAvatar;
 
-                     Classmate.clear();
+                SQLITECREATEGROUPMODEL sqlitecreategroupmodel = null;
+                SQLITEPARTICIPANTMODEL sqliteparticipantmodel;
+                try{
+    //                    entering data to Group Table
+                        sqlitecreategroupmodel = new SQLITECREATEGROUPMODEL(GroupPhoto,groupname,Subject,Description,Professor,cname,cname);
+    //                    test = new Testing1Model(id.get(i), studentImage.get(i),name.get(i),email.get(i),section,course,college );
+    //                    DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
+                         boolean success = databaseHelper.addGroups(sqlitecreategroupmodel);
+                         if(success == true){
+    //                         kapag pumasok ang data sa group table
+
+                                    //get the group id that created
+                                     Cursor selectLastIdGroupTable = databaseHelper.selectLastIdGroupTable();
+                                     selectLastIdGroupTable.moveToNext();
+                                     int groupId = selectLastIdGroupTable.getInt(0);
+
+//                                     add the leader and accepted = true
+                             sqliteparticipantmodel = new SQLITEPARTICIPANTMODEL(cname, groupId, true);
+                                     boolean participant_added = databaseHelper.addParticipant(sqliteparticipantmodel);
+
+
+                                     //for loop ginamit what if the participant is marami
+                                     //add participant
+
+
+                                     for(int i = 0; i < inviteModels.size(); i++){
+                                         sqliteparticipantmodel = new SQLITEPARTICIPANTMODEL(inviteModels.get(i).getId(), groupId, false);
+                                         participant_added = databaseHelper.addParticipant(sqliteparticipantmodel);
+                                                     }
+
+
+
+                         }else{
+    //                         kapag hindi pumasok ang data sa group  table
+                             Toast.makeText(CreateGroup2.this, "some error occured", Toast.LENGTH_SHORT).show();
+                         }
+                    Toast.makeText(CreateGroup2.this,"Group added successfully", Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
+                }
+
                         startActivity(new Intent(CreateGroup2.this, MainActivity.class));
                         }
         });
@@ -226,8 +270,6 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         //TODO find section of current user - done
         //TODO get name , id, and image as a whole section ex. kung III-ACDS - lalabas lang mga 3 acds
         //lagyan section name yung dialog para may guide
-
-
         Cursor getData = databaseHelper.getData(SECTION);
 
         try {
@@ -254,23 +296,23 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         //from database data
 //        Classmate.add("Thirdy Gayares");
 
-        for(int i=0; i<Classmate.size(); i++){
-            inviteModels.add(new InviteModel(Classmate.get(i)
-            ));
-        }
+//        for(int i=0; i<Classmate.size(); i++){
+//            inviteModels.add(new InviteModel(Classmate.get(i)
+//            ));
+//        }
     }
 
 
     @Override
     public void onItemClick(int pos) {
-
         //saved id of participants
-        chooseParticipantModels.get(pos).getID();
+        String thisistheirID = chooseParticipantModels.get(pos).getID();
 
+        // add id in invitemodle
+        //inviteModels.add(new InviteModel(thisistheirID));
+                //Toast.makeText(CreateGroup2.this,thisistheirID, Toast.LENGTH_SHORT).show();
         //retrieve image of thei classmate
-
-
-        inviteModels.add(new InviteModel(chooseParticipantModels.get(pos).getIMAGE(),chooseParticipantModels.get(pos).getNAME()));
+        inviteModels.add(new InviteModel(chooseParticipantModels.get(pos).getIMAGE(),chooseParticipantModels.get(pos).getNAME(), chooseParticipantModels.get(pos).getID()));
         inviteAdapteradapter.notifyItemInserted(inviteModels.size() - 1);
         recyclerView.scrollToPosition(Classmate.size());
 

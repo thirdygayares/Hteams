@@ -11,6 +11,10 @@ import androidx.annotation.Nullable;
 import com.example.hteams.Testing.SubjectModel;
 import com.example.hteams.Testing.Testing1;
 import com.example.hteams.Testing.Testing1Model;
+import com.example.hteams.model.ChooseParticipantModel;
+import com.example.hteams.model.InviteModel;
+import com.example.hteams.model.SQLITECREATEGROUPMODEL;
+import com.example.hteams.model.SQLITEPARTICIPANTMODEL;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -160,7 +164,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createStudentTable);
 
         //CREATING GROUPTABLE
-        String createGroupTable = "CREATE TABLE " + GROUPTABLE + "(" + ID_GROUP + " INTEGER PRIMARY KEY AUTOINCREMENT , " + GROUPPHOTO + " STRING,  " + GROUPNAME + " STRING, " + SUBJECT + " STRING, " + DESCRIPTION + " STRING ," + PROFESSORS + " STRING ,  " + LEADER_ID  + " STRING,"  + CREATOR + "STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
+        String createGroupTable = "CREATE TABLE " + GROUPTABLE + "(" + ID_GROUP + " INTEGER PRIMARY KEY AUTOINCREMENT , " + GROUPPHOTO + " STRING,  " + GROUPNAME + " STRING, " + SUBJECT + " STRING, " + DESCRIPTION + " STRING ," + PROFESSORS + " STRING ,  " + LEADER_ID  + " STRING,"  + CREATOR + " STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
         db.execSQL(createGroupTable);
 
         //CREATING SUBJECT  TABLE
@@ -180,7 +184,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createEventTable);
 
         //CREATING PARTICIPANT TABLE
-        String createParticipantTable = "CREATE TABLE " + PARTICIPANTTABLE + "(" + PARTICIPANT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_GROUP + " INTEGER,  " + ID_STUDENTS + " STRING, " + ACCEPTED + " BOOLEAN DEFAULT 'false' )";
+        String createParticipantTable = "CREATE TABLE " + PARTICIPANTTABLE + "(" + PARTICIPANT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_GROUP + " INTEGER,  " + ID_STUDENTS + " STRING, " + ACCEPTED + " BOOLEAN DEFAULT 0 )";
         db.execSQL(createParticipantTable);
 
         //CREATING TABLETABLE
@@ -246,7 +250,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //TODO START OF ADDING DATA
-
     //add students
     public boolean addStudents(Testing1Model testing1Model){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -279,6 +282,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(SECTION, subjectModel.getSECTION());
 
         long insert = db.insert(SUBJECTTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+    //add Groups
+    public boolean addGroups(SQLITECREATEGROUPMODEL sqlitecreategroupmodel){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(GROUPPHOTO, sqlitecreategroupmodel.getGROUPPHOTO());
+        cv.put(GROUPNAME, sqlitecreategroupmodel.getGROUPNAME());
+        cv.put(SUBJECT, sqlitecreategroupmodel.getSUBJECT());
+        cv.put(DESCRIPTION, sqlitecreategroupmodel.getDESCRIPTION());
+        cv.put(PROFESSORS, sqlitecreategroupmodel.getPROFESSORS());
+        cv.put(LEADER_ID, sqlitecreategroupmodel.getLEADER_ID());
+        cv.put(CREATOR, sqlitecreategroupmodel.getCREATOR());
+
+        long insert = db.insert(GROUPTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //add participant
+    public boolean addParticipant(SQLITEPARTICIPANTMODEL sqliteparticipantmodel){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(ID_GROUP, sqliteparticipantmodel.getID_GROUP());
+        cv.put(ID_STUDENTS, sqliteparticipantmodel.getID());
+        cv.put(ACCEPTED, sqliteparticipantmodel.getACCEPTED());
+
+        long insert = db.insert(PARTICIPANTTABLE, null, cv);
         if (insert == -1){
             return false;
         }else{
@@ -354,6 +396,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor data = db.rawQuery("SELECT TEACHER, SECTION FROM " + SUBJECTTABLE + " WHERE ID_SUBJECT = ?", new String[] {subjectId});
         return data;
     }
+
+    //getting the max id of group table to insert participant
+
+    public  Cursor selectLastIdGroupTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor data = db.rawQuery("SELECT max(" + ID_GROUP + ") FROM " + GROUPTABLE, null );
+        return  data;
+
+        }
+
 
 
 }

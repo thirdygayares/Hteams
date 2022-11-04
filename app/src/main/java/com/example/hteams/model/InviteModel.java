@@ -3,7 +3,7 @@ package com.example.hteams.model;
 public class InviteModel {
     String image;
     String name;
-
+   String id;
     public InviteModel(String name) {
         this.name = name;
     }
@@ -11,6 +11,17 @@ public class InviteModel {
     public InviteModel(String image, String name) {
         this.image = image;
         this.name = name;
+    }
+
+
+    public InviteModel(String image, String name, String id) {
+        this.image = image;
+        this.name = name;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getImage() {
@@ -21,11 +32,7 @@ public class InviteModel {
         return name;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
+
 }

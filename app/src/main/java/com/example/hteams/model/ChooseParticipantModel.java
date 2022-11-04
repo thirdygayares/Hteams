@@ -12,6 +12,7 @@ public class ChooseParticipantModel {
     }
 
 
+
     public String getID() {
         return ID;
     }
@@ -23,4 +24,34 @@ public class ChooseParticipantModel {
     public String getIMAGE() {
         return IMAGE;
     }
+
+
+    //for sqlite purposes and firebase
+    //gamitin natong class para di sayang yung MOdel
+
+    int ID_GROUP;
+    Boolean ACCEPTED;
+
+    public ChooseParticipantModel(String ID, int ID_GROUP) {
+        this.ID = ID;
+        this.ID_GROUP = ID_GROUP;
+
+    }
+
+    public ChooseParticipantModel(String ID, int ID_GROUP, Boolean ACCEPTED) {
+        this.ID = ID;
+        this.ID_GROUP = ID_GROUP;
+        this.ACCEPTED = ACCEPTED;
+    }
+
+    public Boolean getACCEPTED() {
+        return ACCEPTED;
+    }
+
+    public int getID_GROUP() {
+        return ID_GROUP;
+    }
+
+
+
 }

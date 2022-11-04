@@ -140,9 +140,8 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
             public void onClick(View v) {
 
                 GroupName = grpname.getText().toString();
-                Subject = subject.getText().toString();
-                Professor = professor.getText().toString();
                 Description = descrip.getText().toString();
+
 
                 startActivity(new Intent(Creategroup.this, CreateGroup2.class));
             }
@@ -300,12 +299,15 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
                     //showing the professor
                     LinearLayout prof_container = findViewById(R.id.prof_container);
                     prof_container.setVisibility(View.VISIBLE);
+
+                    //to get the current professor
                     cursor = databaseHelper.getProfessor(subjectlistModel.get(pos).getSubjectId());
 
                     try {
                         while (cursor.moveToNext()) {
                             //professor.setText("test");
-                            professor.setText("Prof. " + cursor.getString(0));
+                            Professor =  cursor.getString(0);
+                            professor.setText("Prof. " + Professor);
 
                         }
 
@@ -314,7 +316,8 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
                     }
 
                     //chaging the value of nuttontext
-                    subject.setText(subjectlistModel.get(pos).getSubjectname());
+                    Subject = subjectlistModel.get(pos).getSubjectname();
+                    subject.setText(Subject);
                     subject.setTextColor(Color.BLACK);
 
                     //bottom sheet dialog will hide
