@@ -8,9 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Filterable;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -211,8 +215,8 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
 
 
-                //  TODO : error handling pag walang input dapat maglalabas ng error sa gilid na required-status: done
-               if(sitenamefield.length()==0){
+
+               if(sitenamefield.getText()== NameSite){
                    sitenamefield.setError("Required");
                }
                else if( name.length()==0){
@@ -271,6 +275,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     private void createsitesDialog() {
         View view = getLayoutInflater().inflate(R.layout.sitesbottomsheet,null, false);
         sitesRecycler  = view.findViewById(R.id.sitesRecycler);
+
         setupdataforsites();
         SiteAdapter adapter = new SiteAdapter(Updates.this,siteModels,this);
         sitesRecycler.setAdapter(adapter);
@@ -279,9 +284,32 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         //para lumabas
         sitelistdialog.setContentView(view);
 
+
+
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.site_search,menu);
+        MenuItem item = menu.findItem(R.id.search_func);
+        SearchView searchView = (SearchView) item.getActionView();
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Filterable siteAdapter;
+
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
 
     private void setupdataforsites() { // para sa mga sites sa dialog
         int[] siteicon = {R.drawable.meetlogo, R.drawable.githublogo,R.drawable.drivelogo};
