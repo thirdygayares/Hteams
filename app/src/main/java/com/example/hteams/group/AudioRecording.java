@@ -13,7 +13,7 @@ public class AudioRecording extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_recording);
 
-
+        //push moto gagao ka
         //gfgfdgdfddfd
 
         //tangina
