@@ -207,10 +207,8 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
 
                                      //for loop ginamit what if the participant is marami
                                      //add participant
-
-
                                      for(int i = 0; i < inviteModels.size(); i++){
-                                         sqliteparticipantmodel = new SQLITEPARTICIPANTMODEL(inviteModels.get(i).getId(), groupId, false);
+                                         sqliteparticipantmodel = new SQLITEPARTICIPANTMODEL(inviteModels.get(i).getId(), groupId, true);
                                          participant_added = databaseHelper.addParticipant(sqliteparticipantmodel);
                                                      }
 

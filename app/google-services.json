@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:193416192754:android:42a40f48cc2270c8bf266b",
         "android_client_info": {
-          "package_name": "com.example.hteams"
+          "package_name": "com.umak.hteams"
         }
       },
       "oauth_client": [
@@ -64,5 +64,5 @@
       }
     }
   ],
-  "configuration_version": "1"
+  "configuration_version": "2"
 }

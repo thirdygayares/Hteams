@@ -20,8 +20,12 @@ import android.widget.Toast;
 import com.example.hteams.R;
 import com.example.hteams.adapter.AsigneeAdapter;
 import com.example.hteams.adapter.ViewTaskInterface;
+import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.AssigneeModel;
 import com.example.hteams.model.GroupPageModel;
+import com.example.hteams.model.SQLITEADDTASKMODEL;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,6 +59,19 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
 
     Button date, participant,addTask;
     EditText input_task;
+
+
+    //firebase Auth
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firestore;
+
+    //SQLITE DB
+    DatabaseHelper databaseHelper;
+    String currentId;
+    String getGroupID;
+    String getTableId;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
 
@@ -63,11 +80,29 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
             setContentView(R.layout.activity_add_task);
             initxml();
 
+        //to know the email and uid
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
-            //set adapter
+        //calling database sqlite
+        databaseHelper = new DatabaseHelper(AddTask.this);
+
+        //cyrrent id
+        currentId = firebaseAuth.getCurrentUser().getUid();
+
+        // set Group id
+        getGroupID = String.valueOf(getIntent().getStringExtra("GROUP_ID"));
+
+        getTableId = String.valueOf(getIntent().getStringExtra("TABLE_ID"));
+        Toast.makeText(AddTask.this, getGroupID + " " + getTableId, Toast.LENGTH_SHORT).show();
+
+
+
+
+        //set adapter
         adapter1 = new AsigneeAdapter(AddTask.this, assigneeModels, this);
-            //setup data for participants
-            setupAssigne();
+        //setup data for participants
+        setupAssigne();
 
             date.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -124,9 +159,31 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                 }else{
                     taskName = input_task.getText().toString();
                     groupPageModels.add(new GroupPageModel(taskName,status,finalDate,classmatePhoto));
-                    Toast.makeText(AddTask.this, String.valueOf(groupPageModels.size()), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(AddTask.this, GroupPage.class);
-                    startActivity(intent);
+
+                    try{
+
+
+                    SQLITEADDTASKMODEL sqliteaddtaskmodels = null;
+                    //GET TIME AND DATE
+                    //dateConverter(myMonth)) + " " + myday + ", " + timeConverter(myHour)
+//                        public SQLITEADDTASKMODEL(int ID_GROUP, int ID_TABLE, String ID_STUDENTS, String TASK_NAME, String STATUS, String dueDate, String dueTime)
+                    String duedate = dateConverter(myMonth) + " " + myday;
+                    String dueTIme = String.valueOf(timeConverter(myHour));
+                    sqliteaddtaskmodels = new SQLITEADDTASKMODEL(Integer.parseInt(getGroupID),Integer.parseInt(getTableId),participant.getText().toString(),taskName,status,duedate , dueTIme);
+                   boolean success = databaseHelper.addTask(sqliteaddtaskmodels);
+                        if(success == true){
+                            Toast.makeText(AddTask.this, "success", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(AddTask.this, GroupPage.class);
+                            intent.putExtra("setGroupId", getGroupID);
+                            startActivity(intent);
+
+                        }else{
+                            Toast.makeText(AddTask.this, "failed", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }catch (Exception e){
+                        Toast.makeText(AddTask.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             }
@@ -278,18 +335,23 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
     //TODO firebase manipulation (UPDATE)
     private void setupAssigne() {
         //                TODO: if the user is current leader it indicator or show you
-        ArrayList<Integer> profilePhoto = new ArrayList<Integer>();
-        profilePhoto.add(R.drawable.profile);
-        profilePhoto.add(R.drawable.marielle);
-        profilePhoto.add(R.drawable.novem);
 
-        ArrayList<String> classmateName = new ArrayList<String>();
-        classmateName.add("Thirdy Gayares");
-        classmateName.add("Marielle Zabala");
-        classmateName.add("Novem Lanaban");
+        try {
 
-        for(int i=0; i<classmateName.size();i++){
-            assigneeModels.add(new AssigneeModel(profilePhoto.get(i), classmateName.get(i)));
+            ArrayList<Integer> profilePhoto = new ArrayList<Integer>();
+            ArrayList<String> classmateName = new ArrayList<String>();
+                classmateName.add("Thirdy Gayares");
+                classmateName.add("Marielle Zabala");
+                classmateName.add("Novem Lanaban");
+
+            ArrayList<String> Id_Student = new ArrayList<String>();
+
+
+            for (int i = 0; i < classmateName.size(); i++) {
+                assigneeModels.add(new AssigneeModel(profilePhoto.get(i), classmateName.get(i)));
+            }
+        }catch (Exception e){
+            Toast.makeText(AddTask.this, e.toString(),Toast.LENGTH_SHORT ).show();
         }
 
     }

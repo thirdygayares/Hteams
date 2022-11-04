@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,16 +22,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hteams.R;
+import com.example.hteams.Testing.SetAvatar;
+import com.example.hteams.Testing.SetProfile;
 import com.example.hteams.adapter.GroupAdapter;
 import com.example.hteams.adapter.GroupInterface;
 import com.example.hteams.adapter.GroupPageAdapater;
 
 import com.example.hteams.adapter.GroupPageAdapter2;
 import com.example.hteams.adapter.GroupPageInterface;
+import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.GroupModel;
 import com.example.hteams.model.GroupPageModel;
 import com.example.hteams.model.GroupPageModel2;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -45,13 +51,42 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
     CardView Addtask2;
     CardView Addtask1;
     RelativeLayout displayMode,emptyContainer,firstGroup,secondGroup,addTables;
-    ImageView menu;
+    TextView nameofgroup ;
+    ImageView menu,logo;
     Button addfirsttaskbutton;
+
+
+    //firebase Auth
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firestore;
+
+    //SQLITE DB
+    DatabaseHelper databaseHelper;
+    String currentId;
+    String getGroupID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_page);
+
+
+        //to know the email and uid
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+
+        //calling database sqlite
+        databaseHelper = new DatabaseHelper(GroupPage.this);
+
+        //cyrrent id
+        currentId = firebaseAuth.getCurrentUser().getUid();
+
+        // set Group id
+         getGroupID = String.valueOf(getIntent().getStringExtra("setGroupId"));
+
+//        Toast.makeText(GroupPage.this, getGroupID, Toast.LENGTH_SHORT).show();
+
 
 //        inititalization
         displayMode =  (RelativeLayout)findViewById(R.id.displayMode);
@@ -63,9 +98,23 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
         secondGroup = (RelativeLayout)findViewById(R.id.secondGroup);
 //        adding button in first Task
         addfirsttaskbutton = (Button)findViewById(R.id.addfirsttaskbutton) ;
+        logo  = (ImageView)findViewById(R.id.logo);
         //add table button
         addTables = (RelativeLayout)findViewById(R.id.addTable);
+        nameofgroup = (TextView) findViewById(R.id.nameofgroup) ;
 
+        //set group image and Name;
+        Cursor getDisplayGroupandImage = databaseHelper.DisplayGroupDetails(getGroupID);
+        try {getDisplayGroupandImage.moveToLast();
+            String setGroupavatar = getDisplayGroupandImage.getString(0);
+            String setGRoupName = getDisplayGroupandImage.getString(1);
+            SetAvatar setAvatar = new SetAvatar();
+            logo.setImageResource(setAvatar.setAvatar(setGroupavatar));
+            nameofgroup.setText(setGRoupName);
+        }
+        catch(Exception e){
+//            Toast.makeText(GroupPage.this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
 //        display choices [grid or list view]
         displayMode();
 //      menu button
@@ -139,6 +188,7 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
         addTable = new BottomSheetDialog(this);
 
 
+
         nextbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,9 +198,30 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
                     tableName.setError("Required");
                     return;
                 }else{
-                    addTable.hide();
-                    Intent intent = new Intent(GroupPage.this, AddTask.class);
-                    startActivity(intent);
+                    try {
+                        String tablename = tableName.getText().toString();
+                       // Boolean addtable = databaseHelper.addTable(tableName.getText().toString(), getGroupID);
+                        boolean success = databaseHelper.addTable(tablename, Integer.parseInt(getGroupID));
+                        if(success == true){
+                            Toast.makeText(GroupPage.this,"success", Toast.LENGTH_SHORT).show();
+                            addTable.hide();
+
+                            //getting the table ID
+                            Cursor gettingTableID = databaseHelper.selectLastTaskTable();
+                            gettingTableID.moveToNext();
+                            Intent intent = new Intent(GroupPage.this, AddTask.class);
+                            intent.putExtra("GROUP_ID", getGroupID);
+                            intent.putExtra("TABLE_ID", gettingTableID.getString(0));
+                            startActivity(intent);
+
+
+                        }else{
+                            Toast.makeText(GroupPage.this,"failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e){
+                        Toast.makeText(GroupPage.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
         });
@@ -302,42 +373,34 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
             groupPageModels.add(new GroupPageModel(Title.get(i),Status.get(i),Deadline.get(i),ProfilePhoto.get(i)
             ));
         }
-
 //        groupPageModels.clear();
-
     }
 
     private void setupGroupData2() {
-        //dummy data
-//        String[] Title2 = {"Placeholder 1","PlaceHolder2","PlaceHolder 3","PlaceHolder 4","PlaceHolder 5","PlaceHolder 6"};
-//        String[] Status2 = {"Working on It", "Done", "Pending", "Working on It", "Done", "Pending"};
-//        String[] Deadline2 = {"Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am" };
 
         ArrayList<String> Title = new ArrayList<String>();
         Title.add("User Updates");
-        Title.add("Flow Chart");
-        Title.add("ERD Diagram");
+//        Title.add("Flow Chart");
+//        Title.add("ERD Diagram");
 
         ArrayList<String> Status = new ArrayList<String>();
         Status.add("Done");
-        Status.add("Ready");
-        Status.add("Working on It");
+//        Status.add("Ready");
+//        Status.add("Working on It");
 
         ArrayList<String> Deadline = new ArrayList<String>();
         Deadline.add("Oct 10, 10:00am");
-        Deadline.add("Nov 2, 8:00pm");
-        Deadline.add("Dec 9, 12:00am");
+//        Deadline.add("Nov 2, 8:00pm");
+//        Deadline.add("Dec 9, 12:00am");
 
         ArrayList<Integer> ProfilePhoto = new ArrayList<Integer>();
-        ProfilePhoto.add(R.drawable.profile);
+//        ProfilePhoto.add(R.drawable.profile);
         ProfilePhoto.add(R.drawable.marielle);
         ProfilePhoto.add(R.drawable.novem);
-
 
         for(int i=0; i<Title.size(); i++){
             groupPageModels2.add(new GroupPageModel2(Title.get(i),Status.get(i),Deadline.get(i),ProfilePhoto.get(i)
             ));
-
 //            groupPageModels2.clear();
         }
     }

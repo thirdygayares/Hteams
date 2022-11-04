@@ -13,6 +13,7 @@ import com.example.hteams.Testing.Testing1;
 import com.example.hteams.Testing.Testing1Model;
 import com.example.hteams.model.ChooseParticipantModel;
 import com.example.hteams.model.InviteModel;
+import com.example.hteams.model.SQLITEADDTASKMODEL;
 import com.example.hteams.model.SQLITECREATEGROUPMODEL;
 import com.example.hteams.model.SQLITEPARTICIPANTMODEL;
 
@@ -193,7 +194,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         //CREATING TASK TABLE
-        String createTaskTable = "CREATE TABLE " + TASKTABLE + "(" + ID_TASK + " INTEGER PRIMARY KEY AUTOINCREMENT , " + ID_GROUP + " INTEGER,  " + ID_TABLE + " INTEGER, " + ID_STUDENTS + " STRING, " + TASK_NAME + " STRING ," + STATUS + " STRING ,  " + DUE  + " BOOLEAN Default 'false'," + DUEDATE + " STRING," + DUETIME + "STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
+        String createTaskTable = "CREATE TABLE " + TASKTABLE + "(" + ID_TASK + " INTEGER PRIMARY KEY AUTOINCREMENT , " + ID_GROUP + " INTEGER,  " + ID_TABLE + " INTEGER, " + ID_STUDENTS + " STRING, " + TASK_NAME + " STRING ," + STATUS + " STRING ,  " + DUE  + " BOOLEAN Default 'false'," + DUEDATE + " STRING," + DUETIME + " STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
         db.execSQL(createTaskTable);
 
         //CREATING UPDATES TABLE
@@ -328,6 +329,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //add table
+    public boolean addTable(String Table, int group_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(TABLENAME, Table);
+        cv.put(ID_GROUP, group_id);
+
+        long insert = db.insert(TABLETABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //add table
+    public boolean addTask(SQLITEADDTASKMODEL sqliteaddtaskmodel){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(ID_GROUP, sqliteaddtaskmodel.getID_GROUP());
+        cv.put(ID_TABLE, sqliteaddtaskmodel.getID_TABLE());
+        cv.put(ID_STUDENTS, sqliteaddtaskmodel.getID_STUDENTS());
+        cv.put(TASK_NAME, sqliteaddtaskmodel.getTASK_NAME());
+        cv.put(STATUS, sqliteaddtaskmodel.getSTATUS());
+        cv.put(DUEDATE, sqliteaddtaskmodel.getDueDate());
+        cv.put(DUETIME, sqliteaddtaskmodel.getDueTime());
+
+        long insert = db.insert(TASKTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
 
     // TODO testing
     public Cursor checkifmaylaman(){
@@ -406,6 +445,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return  data;
 
         }
+
+        //getting all the group of current user and accepted
+    public  Cursor selectMyGroups(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + ID_GROUP + " FROM " + PARTICIPANTTABLE + " where " + ID_STUDENTS + " = ? AND " + ACCEPTED + " = 1" , new String[] {id} );
+        return  data;
+    }
+
+    //this method ay alam na niya na nakuha niya yung id at accepted na ng user
+    public  Cursor myGroup(String myGroups){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + GROUPTABLE + " where " + ID_GROUP + " = ? ", new String[] {myGroups} );
+        return  data;
+    }
+
+    //get Image and group name
+
+    public  Cursor DisplayGroupDetails(String myGroups){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + GROUPPHOTO + "," + GROUPNAME + " FROM " + GROUPTABLE + " where " + ID_GROUP + " = ? ", new String[] {myGroups} );
+        return  data;
+    }
+
+    //getting the max id of task table to insert task
+    public  Cursor selectLastTaskTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT max(" + ID_TABLE + ") FROM " + TABLETABLE, null );
+        return  data;
+    }
+
+
+
+
+
+
 
 
 

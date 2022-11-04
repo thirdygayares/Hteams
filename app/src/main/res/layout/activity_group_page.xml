@@ -41,7 +41,7 @@
             android:layout_toRightOf="@+id/logo"
             android:fontFamily="@font/gilroymedium"
             android:text="Name of Group"
-            android:textAlignment="center"
+
             android:textSize="16sp" />
 
 
