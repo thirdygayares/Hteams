@@ -17,7 +17,11 @@
         android:theme="@style/Theme.Hteams"
         tools:targetApi="31">
         <activity
+
             android:name=".Event"
+
+            android:name=".Login"
+
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -44,16 +48,16 @@
             android:name=".group.CreateGroup2"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".group.Updates"
             android:exported="false" />
         <activity
             android:name=".group.ViewUpdates"
             android:exported="false" />
         <activity
-            android:name=".group.Updates"
+            android:name=".group.Creategroup"
             android:exported="false" />
         <activity
-            android:name=".group.Creategroup"
+            android:name=".Testing.Testing1"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

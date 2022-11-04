@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".group.Updates">
 
     <TextView
@@ -57,10 +58,10 @@
 <!--start here-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:layout_below="@id/comment_updatebtn"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/cmntfield"
@@ -72,61 +73,64 @@
             android:padding="10dp"
             android:textSize="16sp" />
 
+<!--        Container for List-->
+        <RelativeLayout
+            android:id="@+id/listContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
         <androidx.cardview.widget.CardView
             android:id="@+id/list_indicate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#E0F1F4"
             android:layout_marginHorizontal="6dp"
-            android:padding="10dp"
             android:layout_marginVertical="5dp"
-            app:cardCornerRadius="10dp"
-            >
+            android:backgroundTint="#E0F1F4"
+            android:padding="10dp"
+            app:cardCornerRadius="10dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="List"
-                android:paddingVertical="5dp"
                 android:paddingHorizontal="14dp"
-                android:textColor="@color/working"/>
+                android:paddingVertical="5dp"
+                android:text="List"
+                android:textColor="@color/working" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/display_updates"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-
-
+        <!--        recyclerview list updates -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/display_list_updates"
+                android:layout_below="@+id/list_indicate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="6dp"
+            android:layout_marginVertical="5dp"
             android:backgroundTint="#E0F1F4"
             android:padding="10dp"
-            android:layout_marginVertical="5dp"
-            app:cardCornerRadius="10dp"
-            >
+            app:cardCornerRadius="10dp">
 
             <TextView
                 android:id="@+id/linktext"
-                android:textColor="@color/working"
-                android:paddingVertical="5dp"
-                android:paddingHorizontal="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="5dp"
                 android:text="Link"
-                ></TextView>
+                android:textColor="@color/working"></TextView>
 
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/displayrecyleview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -155,6 +159,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:scrollbars="none"
         android:layout_centerHorizontal="true">
 
         <LinearLayout
@@ -175,6 +180,7 @@
                     android:backgroundTint="@color/white"
                     android:drawableTop="@drawable/camera"
                     android:fontFamily="@font/gilroyregular"
+                    android:stateListAnimator="@null"
                     android:text="Capture"
                     android:textAllCaps="false" />
 
@@ -194,6 +200,7 @@
                     android:drawableTop="@drawable/attach"
                     android:fontFamily="@font/gilroyregular"
                     android:text="Files"
+                    android:stateListAnimator="@null"
                     android:textAllCaps="false" />
 
 
@@ -211,6 +218,7 @@
                     android:drawableTop="@drawable/microphone"
                     android:fontFamily="@font/gilroyregular"
                     android:text="Record"
+                    android:stateListAnimator="@null"
                     android:textAllCaps="false" />
 
 
@@ -228,6 +236,7 @@
                     android:drawableTop="@drawable/lists"
                     android:fontFamily="@font/gilroyregular"
                     android:text="List"
+                    android:stateListAnimator="@null"
                     android:textAllCaps="false" />
 
 
@@ -245,6 +254,7 @@
                     android:drawableTop="@drawable/addlink"
                     android:fontFamily="@font/gilroyregular"
                     android:text="Link"
+                    android:stateListAnimator="@null"
                     android:textAllCaps="false" />
 
 

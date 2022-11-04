@@ -2,15 +2,15 @@ package com.example.hteams.model;
 
 public class UpdateListModel {
 
-    int checked;
+    boolean checked;
     String taskname;
 
- public UpdateListModel (int checked, String taskname)   {
+ public UpdateListModel (boolean checked, String taskname)   {
     this.checked = checked;
     this.taskname = taskname;
  }
 
-    public int getChecked() {
+    public boolean getChecked() {
      return checked;
     }
 

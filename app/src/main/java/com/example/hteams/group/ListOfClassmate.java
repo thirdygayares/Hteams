@@ -52,10 +52,6 @@ public class ListOfClassmate extends AppCompatActivity {
     FirebaseFirestore firestore;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,16 +97,6 @@ public class ListOfClassmate extends AppCompatActivity {
 
         MainActivity xx = new MainActivity();
 
-//        Classmate.add("Jonny Sagloria");
-//        Classmate.add("Novem Lanaban");
-//        Classmate.add("Jose Renan Gasidan");
-//        Classmate.add("Angel Macatuhay");
-//        Classmate.add("Marielle Zabala");
-//        Classmate.add("Justine Louise Carunungan");
-//        Classmate.add("Raiden Guillergan");
-//        Classmate.add("Christie Pelayo");
-//        Classmate.add("Joricel Roldan");
-
 
         CustomAdapter customAdapter = new CustomAdapter();
         classmateList.setAdapter(customAdapter);
@@ -134,10 +120,10 @@ public class ListOfClassmate extends AppCompatActivity {
                 String link = String.valueOf(xx.ClassHolder.get(position));
 //                Toast.makeText(MainActivity.this,link , Toast.LENGTH_SHORT).show();
 
+                Toast.makeText(ListOfClassmate.this,String.valueOf(xx.id.get(position)), Toast.LENGTH_SHORT).show();
 
-                //test1
-                //inviteModels.add(new InviteModel(link));
 
+                //passing data to group2  class
                 CreateGroup2 createGroup2 = new CreateGroup2();
                 createGroup2.Classmate.add(link);
 

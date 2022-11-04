@@ -11,49 +11,49 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hteams.R;
 import com.example.hteams.group.Updates;
-import com.example.hteams.model.UpdateListModel;
+import com.example.hteams.model.ListDisplayModel;
 
 import java.util.ArrayList;
 
-public class UpdateListAdapter extends RecyclerView.Adapter<UpdateListAdapter.MyViewHolder> {
+public class ListDisplayAdapter extends RecyclerView.Adapter<ListDisplayAdapter.MyViewHolder> {
 
     private final Updates updateListInterface;
     Context context;
-    ArrayList<UpdateListModel> updateListModels;
+    ArrayList<ListDisplayModel> listDisplayModels;
 
-    public UpdateListAdapter(Context context, ArrayList<UpdateListModel> updateListModels, Updates updateListInterface) {
+    public ListDisplayAdapter(Context context, ArrayList<ListDisplayModel> listDisplayModels, Updates updateListInterface) {
         this.context = context;
-        this.updateListModels = updateListModels;
+        this.listDisplayModels = listDisplayModels;
         this.updateListInterface = updateListInterface;
     }
 
 
     @NonNull
     @Override
-    public UpdateListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListDisplayAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recyclerlist_updates, parent, false);
 
-        return new UpdateListAdapter.MyViewHolder(view, updateListInterface);
+        return new ListDisplayAdapter.MyViewHolder(view, updateListInterface);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        boolean checked = updateListModels.get(position).getChecked();
+        boolean checked = listDisplayModels.get(position).getChecked();
 
-          if (checked == true){
-              holder.checkedicon.setChecked(true);
-          }
+        if (checked == true){
+            holder.checkedicon.setChecked(true);
+        }
 
-          holder.checkedicon.setText(updateListModels.get(position).getTaskname());
+        holder.checkedicon.setText(listDisplayModels.get(position).getTaskname());
 
 
     }
 
     @Override
     public int getItemCount() {
-        return updateListModels.size();
+        return listDisplayModels.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
