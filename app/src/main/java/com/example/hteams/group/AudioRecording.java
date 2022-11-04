@@ -15,7 +15,7 @@ public class AudioRecording extends AppCompatActivity {
 
         //push moto gagao ka
         //gfgfdgdfddfd
-
+        //mama mo push
         //tangina
     }
 }
