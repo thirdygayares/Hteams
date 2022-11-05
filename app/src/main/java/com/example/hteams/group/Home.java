@@ -2,31 +2,22 @@ package com.example.hteams.group;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.example.hteams.MainActivity;
 import com.example.hteams.R;
-import com.example.hteams.Sample;
 import com.example.hteams.adapter.GroupAdapter;
 import com.example.hteams.adapter.GroupInterface;
 import com.example.hteams.database.DatabaseHelper;
@@ -147,7 +138,7 @@ public class Home extends Fragment implements GroupInterface {
 
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position, String taskView) {
 
         Intent intent = new Intent(getActivity(), GroupPage.class);
         intent.putExtra("setGroupId", groupModels.get(position).getGROUPID());

@@ -1,7 +1,6 @@
 package com.example.hteams.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +74,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
                 if(groupInterface != null ){
                     int pos = getAdapterPosition();
                     if(pos!= RecyclerView.NO_POSITION){
-                        groupInterface.onItemClick(pos);
+                        groupInterface.onItemClick(pos, "taskView");
                     }
 
                 }

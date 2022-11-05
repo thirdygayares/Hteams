@@ -201,7 +201,7 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                     //dateConverter(myMonth)) + " " + myday + ", " + timeConverter(myHour)
 //                        public SQLITEADDTASKMODEL(int ID_GROUP, int ID_TABLE, String ID_STUDENTS, String TASK_NAME, String STATUS, String dueDate, String dueTime)
                     String duedate = dateConverter(myMonth) + " " + myday;
-                    String dueTIme = String.valueOf(timeConverter(myHour));
+                    String dueTIme = timeConverter(myHour) +   ":" + myMinute + " " + pmam;
                         //ganto logic niyan pag dumaan sa add task hindi magbabago posisyon niya
                         //pero pag dumaan sa add table magbabago position
                         Cursor getCounttable = databaseHelper.getCountAllTable(getGroupID);

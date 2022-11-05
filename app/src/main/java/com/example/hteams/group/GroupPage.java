@@ -410,4 +410,16 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 //     wwwwwwent.putExtra("salesId", historyDataModels.get(position).getSalesID());
 //    w   intent.putExtra("Total", historyDataModels.get(position).getTotalPrice());
         startActivity(intent);
-    }}
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(isFinishing()){
+            if (addTable!= null) {
+                addTable.dismiss();
+                addTable= null;
+            }
+        }
+    }
+}

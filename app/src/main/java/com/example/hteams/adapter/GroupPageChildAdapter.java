@@ -23,21 +23,22 @@ import com.example.hteams.model.GroupPageModel;
 
 import java.util.ArrayList;
 
-public class GroupPageChildAdapter extends RecyclerView.Adapter<GroupPageChildAdapter.MyViewHolder> {
+public class GroupPageChildAdapter extends RecyclerView.Adapter<GroupPageChildAdapter.MyViewHolder>  {
 
     GroupInterface groupInterface;
 
     ArrayList<GroupPageModel> grouppagemodels;
 
-    public GroupPageChildAdapter(ArrayList<GroupPageModel> grouppagemodels){
+    public GroupPageChildAdapter(ArrayList<GroupPageModel> grouppagemodels, GroupInterface groupInterface){
         this.grouppagemodels = grouppagemodels;
+        this.groupInterface = groupInterface;
     }
 
     @NonNull
     @Override
     public GroupPageChildAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType  ) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_group1,parent,false);
-        return new GroupPageChildAdapter.MyViewHolder(view);
+        return new GroupPageChildAdapter.MyViewHolder(view, groupInterface);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class GroupPageChildAdapter extends RecyclerView.Adapter<GroupPageChildAd
 
         holder.taskName.setText(groupPage.getNameofTask());
         holder.status.setText(groupPage.getStatus());
-        holder.duedate.setText(groupPage.getDueDate());
+        holder.duedate.setText(groupPage.getDueDate() + " " );
 
         SetProfile setProfiles = new SetProfile();
         holder.participant_photo.setImageResource(setProfiles.profileImage(grouppagemodels.get(position).getParticipant_src_photo()));
@@ -84,7 +85,7 @@ public class GroupPageChildAdapter extends RecyclerView.Adapter<GroupPageChildAd
         TextView taskName, status, duedate;
         ImageView participant_photo,iconstatus;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView,GroupInterface groupInterface) {
             super(itemView);
             taskName = (TextView) itemView.findViewById(R.id.taskName);
             status = (TextView) itemView.findViewById(R.id.status);
@@ -92,8 +93,14 @@ public class GroupPageChildAdapter extends RecyclerView.Adapter<GroupPageChildAd
             participant_photo = (ImageView) itemView.findViewById(R.id.participant_photo);
             iconstatus = (ImageView) itemView.findViewById(R.id.iconstatus);
 
-
-
+            itemView.setOnClickListener(view -> {
+                if(groupInterface != null ){
+                    int pos = getAdapterPosition();
+                    if(pos!= RecyclerView.NO_POSITION){
+                        groupInterface.onItemClick(pos, "taskView");
+                    }
+                }
+            });
         }
     }
 

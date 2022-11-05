@@ -34,12 +34,13 @@ import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.group.AddTask;
 import com.example.hteams.group.GroupPage;
 import com.example.hteams.group.Home;
+import com.example.hteams.group.ViewTask;
 import com.example.hteams.model.GroupPageModel;
 import com.example.hteams.model.GroupPageParentModel;
 
 import java.util.ArrayList;
 
-public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.MyViewHolder> {
+public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.MyViewHolder> implements GroupInterface {
 
 
     Context context;
@@ -48,6 +49,7 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
     DatabaseHelper databaseHelper;
     private String tag;
     String imgsrc = "";
+
 
     public GroupPageAdapater(Context context,  ArrayList<GroupPageParentModel> groupPageParentModels){
         this.context = context;
@@ -78,12 +80,11 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
         }else{
             holder.touchme.setBackgroundColor(Color.parseColor("#FFFAFA"));
             holder.arrow.setVisibility(View.VISIBLE);
-
         }
 
       holder.TableName.setText(groupPageParentModels.get(position).getTableName());
 
-        GroupPageChildAdapter groupPageChildAdapter = new GroupPageChildAdapter(grouppagemodels);
+        GroupPageChildAdapter groupPageChildAdapter = new GroupPageChildAdapter(grouppagemodels, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         holder.taskRecycler.setAdapter(groupPageChildAdapter);
         holder.taskRecycler.setLayoutManager(linearLayoutManager);
@@ -105,32 +106,23 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
 
         Cursor countTable = databaseHelper.getCountAllTable(groupid);
          countTable.moveToNext();
-//         testing
-         //Toast.makeText(context, "count" + countTable.getString(0), Toast.LENGTH_SHORT ).show();
-
-//        for(int i = 1; i<=Integer.parseInt(countTable.getString(0)); i++){
-//            Toast.makeText(context, "Group ID ay" + groupid, Toast.LENGTH_SHORT ).show();
          Cursor getTask = databaseHelper.getTaskTable(String.valueOf(position + 1), groupid);
-//        Toast.makeText(context, "countid a " + String.valueOf(position + 1), Toast.LENGTH_SHORT ).show();
-//        Toast.makeText(context, "countid na " + groupid, Toast.LENGTH_SHORT ).show();
           try{
               while(getTask.moveToNext()){
                   Cursor getImage = databaseHelper.getImageCurrentsUser(getTask.getString(3));
                   while(getImage.moveToNext()){
                       imgsrc = getImage.getString(0);
                   }
-                  grouppagemodels.add(new GroupPageModel(getTask.getString(4), getTask.getString(5),getTask.getString(7), imgsrc, getTask.getInt(9)));
+                  grouppagemodels.add(new GroupPageModel(getTask.getInt(0),getTask.getInt(1),getTask.getInt(2),getTask.getString(4), getTask.getString(5),getTask.getString(7) + " " + getTask.getString(8), imgsrc, getTask.getInt(9)));
                    //find picture
               }
           }catch (Exception e){
               Toast.makeText(context, "error" + e, Toast.LENGTH_SHORT ).show();
           }
 
-//        }
+
             //check kung nareread ang group ID
             //Toast.makeText(context, groupPage.getGroupID, Toast.LENGTH_SHORT ).show();
-
-
             //hide and view of a task
             holder.touchme.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,16 +131,6 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
                     model.setExpandable(!model.isExpandable());
 //                    grouppagemodels = model.getNestedList();
                     notifyItemChanged(holder.getAdapterPosition());
-//                    if(nakaopen == false){
-//                        holder.taskRecycler.setVisibility(View.GONE);
-//                        holder.addTaskContainer.setVisibility(View.GONE);
-//                        nakaopen = true;
-//                    } else{
-//                        holder.taskRecycler.setVisibility(View.VISIBLE);
-//                        holder.addTaskContainer.setVisibility(View.VISIBLE);
-//                        nakaopen = false;
-//                    }
-
                 }
             });
 
@@ -176,6 +158,29 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
         return groupPageParentModels.size();
     }
 
+    @Override
+    public void onItemClick(int position, String taskView) {
+        switch(taskView){
+            case "taskView":
+                try{
+                View v;
+                Log.d("TAG","TABLE ID: " + grouppagemodels.get(position).getTableId());
+                Log.d("TAG","TASK ID: " + grouppagemodels.get(position).getTaskId());
+                Log.d("TAG","GROUP ID: " + grouppagemodels.get(position).getGroupId());
+
+
+                    Intent intent = new Intent(context, ViewTask.class);
+                    intent.putExtra("TABLE_ID", grouppagemodels.get(position).getTableId());
+                    intent.putExtra("TASK_ID", grouppagemodels.get(position).getTaskId());
+                    intent.putExtra("GROUP_ID", grouppagemodels.get(position).getGroupId());
+                   context.startActivity(intent);
+
+                }catch (Exception e){
+                    Log.d("TAG","clicking task: " + e);
+                }
+                break;
+        }
+    }
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
