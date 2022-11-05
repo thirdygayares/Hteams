@@ -20,7 +20,7 @@
     <color name = "primarybutton">#819BF8</color>
     <color name = "todo">#FF000000</color>
     <color name = "working">#3659D7</color>
-    <color name = "ready">#73B9EC</color>
+    <color name = "ready">#FF9500</color>
     <color name = "done">#3AAB28</color>
     <color name = "duedate">#CE0606</color>
     <color name = "container">#F5F3F3</color>

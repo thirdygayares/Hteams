@@ -172,7 +172,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:fontFamily="@font/gilroysemibold"
-                                    android:text="TODO"
+                                    android:text="TO DO"
                                     android:textColor="@color/todo"
                                     android:textSize="15dp"></TextView>
 
@@ -486,197 +486,21 @@
             </RelativeLayout>
 
 
-<!--            start of first Table-->
-            <RelativeLayout
-                android:id="@+id/firstGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/addtableanddisplaymode"
-                >
-
-                <RelativeLayout
-                    android:id="@+id/firstTable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    >
-
-                    <RelativeLayout
-                        android:id="@+id/titlehigh"
-                        android:layout_width="10dp"
-                        android:layout_height="30dp"
-                        android:background="@color/primary"
-                        ></RelativeLayout>
 
 
-                    <TextView
-                        android:id="@+id/Table"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@+id/titlehigh"
-                        android:fontFamily="@font/gilroybold"
-                        android:text="Reseach Design"
-                        android:textAlignment="center"
-                        android:textColor="@color/primary"
-                        android:textSize="16sp" />
 
-                </RelativeLayout>
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/taskRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/firstTable"
-                    android:layout_marginTop="5dp" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/Addtask1"
-                    android:layout_below="@+id/taskRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
-                    <RelativeLayout
-                        android:id="@+id/blueline"
-                        android:layout_width="10dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/primary"
-                        ></RelativeLayout>
-
-
-                    <RelativeLayout
-
-                        android:paddingRight="10dp"
-                        android:paddingTop="20dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
-                        >
-
-                        <TextView
-                            android:id="@id/addtasktext"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginHorizontal="10dp"
-                            android:text="+ Add Task"
-                            android:textColor="@color/primary"></TextView>
-
-
-                        <!--            gap-->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_below="@+id/addtasktext"
-                            android:layout_marginTop="17dp"
-                            android:background="@color/gray0"></LinearLayout>
-                    </RelativeLayout>
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-
-            </RelativeLayout>
-            <!--            end of first Table-->
-
-            <!--  start of second Table-->
-            <RelativeLayout
-                android:id="@+id/secondGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/firstGroup"
-                android:layout_marginTop="20dp">
-
-                <RelativeLayout
-                    android:id="@+id/table2blue"
-                    android:layout_width="10dp"
-                    android:layout_height="30dp"
-                    android:background="@color/primary"
-                    ></RelativeLayout>
-
-
-                <TextView
-                    android:id="@+id/Table1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_toRightOf="@+id/table2blue"
-                    android:fontFamily="@font/gilroybold"
-                    android:text="User Case"
-                    android:textColor="@color/primary"
-                    android:textSize="16sp" />
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/taskRecycler2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/Table1" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/Addtask2"
-                    android:layout_below="@+id/taskRecycler2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
-                        <RelativeLayout
-                            android:id="@+id/blueline2"
-                            android:layout_width="10dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/primary"
-                            ></RelativeLayout>
-
-
-                        <RelativeLayout
-
-                            android:paddingRight="10dp"
-                            android:paddingTop="20dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            >
-
-                            <TextView
-                                android:id="@id/addtasktext"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginHorizontal="10dp"
-                                android:text="+ Add Task"
-                                android:textColor="@color/primary"></TextView>
-
-
-                            <!--            gap-->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_below="@+id/addtasktext"
-                                android:layout_marginTop="17dp"
-                                android:background="@color/gray0"></LinearLayout>
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-            </RelativeLayout>
-            <!--            end of first Table-->
 
 
         </RelativeLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/taskRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            ></androidx.recyclerview.widget.RecyclerView>
+
     </LinearLayout>
     </ScrollView>
 

@@ -49,6 +49,8 @@ public class Home extends Fragment implements GroupInterface {
     DatabaseHelper databaseHelper;
     String currentId;
 
+    public static String GroupId;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -149,6 +151,7 @@ public class Home extends Fragment implements GroupInterface {
 
         Intent intent = new Intent(getActivity(), GroupPage.class);
         intent.putExtra("setGroupId", groupModels.get(position).getGROUPID());
+        GroupId = groupModels.get(position).getGROUPID();
 //        intent.putExtra("Total", historyDataModels.get(position).getTotalPrice());
         startActivity(intent);
     }

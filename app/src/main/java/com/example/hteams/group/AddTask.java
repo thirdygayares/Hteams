@@ -48,7 +48,7 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
     String finalDate ="";
     String participantName ="";
     String taskName = "";
-    String status = "TODO";
+    String status = "TO DO";
     int classmatePhoto = R.drawable.groupavatar3;
 
     //GLobal variable for time
@@ -71,6 +71,9 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
     String currentId;
     String getGroupID;
     String getTableId;
+    String newTable = "false";
+
+    int position;
 
     //for getting the uid when clikc the choose participant
     String participantID;
@@ -79,9 +82,9 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
     protected void onCreate(Bundle savedInstanceState)  {
 
 
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_add_task);
-            initxml();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_task);
+        initxml();
 
         //to know the email and uid
         firebaseAuth = FirebaseAuth.getInstance();
@@ -94,15 +97,20 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
         currentId = firebaseAuth.getCurrentUser().getUid();
 
         // set Group id
-        //getGroupID = String.valueOf(getIntent().getStringExtra("GROUP_ID"));
+        getGroupID = String.valueOf(getIntent().getStringExtra("GROUP_ID"));
 
         //for testing
-        getGroupID = "1";
+//        getGroupID = "1";
 
-//        getTableId = String.valueOf(getIntent().getStringExtra("TABLE_ID"));
+        getTableId = String.valueOf(getIntent().getStringExtra("TABLE_ID"));
+
+        //check if dumaan sa new table
+        newTable = String.valueOf(getIntent().getStringExtra("NEW_TABLE"));
+
+
 
         //fore testing
-        getTableId = "1";
+//        getTableId = "1";
 
 //        Toast.makeText(AddTask.this, getGroupID + " " + getTableId, Toast.LENGTH_SHORT).show();
 
@@ -133,13 +141,9 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
         participant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //remove incase the error
-
-
                 alert = new AlertDialog.Builder(AddTask.this);
                 View mView = getLayoutInflater().inflate(R.layout.dialog_assigned, null);
-
 //                initialize cancel in xml
                 TextView cancel = (TextView) mView.findViewById(R.id.cancel);
 //                initialize recycler view in xml
@@ -177,7 +181,23 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
 //                        public SQLITEADDTASKMODEL(int ID_GROUP, int ID_TABLE, String ID_STUDENTS, String TASK_NAME, String STATUS, String dueDate, String dueTime)
                     String duedate = dateConverter(myMonth) + " " + myday;
                     String dueTIme = String.valueOf(timeConverter(myHour));
-                    sqliteaddtaskmodels = new SQLITEADDTASKMODEL(Integer.parseInt(getGroupID),Integer.parseInt(getTableId),participantID,taskName,status, duedate , dueTIme);
+                        //ganto logic niyan pag dumaan sa add task hindi magbabago posisyon niya
+                        //pero pag dumaan sa add table magbabago position
+                        Cursor getCounttable = databaseHelper.getCountAllTable(getGroupID);
+                        getCounttable.moveToNext();
+                        //Toast.makeText(AddTask.this, String.valueOf(getCounttable.getInt(0) + 1),Toast.LENGTH_SHORT).show();
+
+                        if(newTable.equalsIgnoreCase("false")) {
+                            // Toast.makeText(AddTask.this, "false", Toast.LENGTH_SHORT).show();
+                            position = getCounttable.getInt(0);
+                            Toast.makeText(AddTask.this, String.valueOf(getCounttable.getInt(0)), Toast.LENGTH_SHORT).show();
+
+                        }else if(newTable.equalsIgnoreCase("true")){
+                            //Toast.makeText(AddTask.this, "false", Toast.LENGTH_SHORT).show();
+                            position = getCounttable.getInt(0) + 1;
+                            Toast.makeText(AddTask.this, String.valueOf(getCounttable.getInt(0) + 1), Toast.LENGTH_SHORT).show();
+                        }
+                    sqliteaddtaskmodels = new SQLITEADDTASKMODEL(Integer.parseInt(getGroupID),Integer.parseInt(getTableId),participantID,taskName,status, duedate , dueTIme,position);
                    boolean success = databaseHelper.addTask(sqliteaddtaskmodels);
                         if(success == true){
                             Toast.makeText(AddTask.this, "success", Toast.LENGTH_SHORT).show();
@@ -189,7 +209,7 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                             Toast.makeText(AddTask.this, "failed", Toast.LENGTH_SHORT).show();
                         }
                     }catch (Exception e){
-                        Toast.makeText(AddTask.this, e.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddTask.this, "eto ba yun" + e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -353,7 +373,8 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                 while(getOnlyParticipant.moveToNext()){
                         Id_Student.add(getOnlyParticipant.getString(0));
 
-                        //(2) get name and image of participant
+
+                    //(2) get name and image of participant
                         Cursor getNameandIamge = databaseHelper.getNameImageParticipant(getOnlyParticipant.getString(0));
                             getNameandIamge.moveToNext();
                             profilePhoto.add(getNameandIamge.getString(0));

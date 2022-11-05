@@ -20,7 +20,10 @@
         android:theme="@style/Theme.Hteams"
         tools:targetApi="31">
         <activity
-            android:name=".AudioRecording"
+            android:name=".Testing.NestedRecycler"
+            android:exported="false" />
+        <activity
+            android:name=".group.AudioRecording"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -43,6 +46,7 @@
         <activity
             android:name=".Sample"
             android:exported="false" /> <!-- Group -->
+
         <activity
             android:name=".Testing.Testing1"
             android:exported="false" />

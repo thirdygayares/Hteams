@@ -190,7 +190,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                 if(id == R.id.todo){
 //                    Toast.makeText(ViewTask.this,"Todo",Toast.LENGTH_SHORT).show();
                     button_status.setBackgroundColor(Color.BLACK);
-                    button_status.setText("TODO");
+                    button_status.setText("TO DO");
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
 
@@ -205,7 +205,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
                 }else if (id == R.id.ready){
-                    button_status.setBackgroundColor(Color.parseColor("#73B9EC"));
+                    button_status.setBackgroundColor(Color.parseColor("#FF9500"));
                     button_status.setText("READY");
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);

@@ -30,10 +30,12 @@ import com.example.hteams.adapter.GroupPageAdapater;
 
 import com.example.hteams.adapter.GroupPageAdapter2;
 import com.example.hteams.adapter.GroupPageInterface;
+import com.example.hteams.adapter.GroupPageParentInterface;
 import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.GroupModel;
 import com.example.hteams.model.GroupPageModel;
 import com.example.hteams.model.GroupPageModel2;
+import com.example.hteams.model.GroupPageParentModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -45,8 +47,12 @@ import java.util.ArrayList;
 public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 
     BottomSheetDialog addTable;
-
+    //child
     ArrayList<GroupPageModel> groupPageModels = new ArrayList<>();
+    //parent
+    ArrayList<GroupPageParentModel> groupPageParentModels = new ArrayList<>();
+
+
     ArrayList<GroupPageModel2> groupPageModels2 = new ArrayList<>();
     CardView Addtask2;
     CardView Addtask1;
@@ -63,7 +69,7 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
     //SQLITE DB
     DatabaseHelper databaseHelper;
     String currentId;
-    String getGroupID;
+    public static String getGroupID;
 
 
     @Override
@@ -90,12 +96,11 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 
 //        inititalization
         displayMode =  (RelativeLayout)findViewById(R.id.displayMode);
-        Addtask2 = (CardView) findViewById(R.id.Addtask2);
+
         Addtask1 = (CardView)findViewById(R.id.Addtask1);
         menu= findViewById(R.id.menu);
         emptyContainer = (RelativeLayout)findViewById(R.id.emptyContainer);
-        firstGroup = (RelativeLayout)findViewById(R.id.firstGroup);
-        secondGroup = (RelativeLayout)findViewById(R.id.secondGroup);
+
 //        adding button in first Task
         addfirsttaskbutton = (Button)findViewById(R.id.addfirsttaskbutton) ;
         logo  = (ImageView)findViewById(R.id.logo);
@@ -126,52 +131,28 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 
         //first Recycler View
         RecyclerView recyclerView = findViewById(R.id.taskRecycler);
-        GroupPageAdapater adapter = new GroupPageAdapater(GroupPage.this, groupPageModels, this);
+        GroupPageAdapater adapter = new GroupPageAdapater(GroupPage.this, groupPageParentModels);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(GroupPage.this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
         //fill data [frontend and backend work for 1st table
         setupGroupData();
 
-        //second Recycler View
-        RecyclerView recyclerView2 = findViewById(R.id.taskRecycler2);
-        GroupPageAdapter2 adapter2 = new GroupPageAdapter2(GroupPage.this, groupPageModels2, this);
-        recyclerView2.setAdapter(adapter2);
-        recyclerView2.setLayoutManager(new LinearLayoutManager(GroupPage.this));
+
+//        //second Recycler View
+//        RecyclerView recyclerView2 = findViewById(R.id.taskRecycler2);
+//        GroupPageAdapter2 adapter2 = new GroupPageAdapter2(GroupPage.this, groupPageModels2, this);
+//        recyclerView2.setAdapter(adapter2);
+//        recyclerView2.setLayoutManager(new LinearLayoutManager(GroupPage.this));
 
         //fill data [frontend and backend work for 1st table
-        setupGroupData2();
+//        setupGroupData2();
 
-        Addtask1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GroupPage.this, AddTask.class);
-                startActivity(intent);
-            }
-        });
-
-        Addtask2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GroupPage.this, AddTask.class);
-                startActivity(intent);
-            }
-        });
 
         //if empty the mnodel the expty container will show
         //pag bago palang yung wala pang task nangyayare.
-        if(groupPageModels.isEmpty()){
-            emptyContainer.setVisibility(View.VISIBLE);
-            firstGroup.setVisibility(View.GONE);
-            secondGroup.setVisibility(View.GONE);
-        }else{
-            emptyContainer.setVisibility(View.GONE);
-            firstGroup.setVisibility(View.VISIBLE);
-        }
 
-        if(groupPageModels2.isEmpty()){
-            secondGroup.setVisibility(View.GONE);
-        }
 
     }
 
@@ -188,6 +169,7 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 
 
 
+
         nextbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,7 +182,14 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
                     try {
                         String tablename = tableName.getText().toString();
                        // Boolean addtable = databaseHelper.addTable(tableName.getText().toString(), getGroupID);
-                        boolean success = databaseHelper.addTable(tablename, Integer.parseInt(getGroupID));
+
+                        //getting the count of table para sa position sa group page maayos
+
+                        //checking
+
+
+
+                        boolean success = databaseHelper.addTable(tablename, Integer.parseInt(getGroupID),0);
                         if(success == true){
                             Toast.makeText(GroupPage.this,"success", Toast.LENGTH_SHORT).show();
                             addTable.hide();
@@ -209,6 +198,7 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
                             Cursor gettingTableID = databaseHelper.selectLastTaskTable();
                             gettingTableID.moveToNext();
                             Intent intent = new Intent(GroupPage.this, AddTask.class);
+                            intent.putExtra("NEW_TABLE", "true");
                             intent.putExtra("GROUP_ID", getGroupID);
                             intent.putExtra("TABLE_ID", gettingTableID.getString(0));
                             startActivity(intent);
@@ -340,62 +330,54 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
         popup.show();
     }
 
+
     //first Table
     private void setupGroupData() {
-        //dummy data
-//        String[] Title = {"Placeholder 1","PlaceHolder2","PlaceHolder 3","PlaceHolder 4","PlaceHolder 5","PlaceHolder 6"};
-//        String[] Status = {"Working on It", "Done", "TODO", "TODO", "Ready", "Working on It"};
-//        String[] Deadline = {"Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am", "Oct 5 , 10:00 am" };
 
-        ArrayList<String> Title = new ArrayList<String>();
-        Title.add("User Requirements");
-        Title.add("Use Case Diagram");
-        Title.add("ERD Diagram");
+        try{
+            //get All table from SQLITE
+            Cursor getAllTable = databaseHelper.getAllTable(getGroupID);
+            ArrayList<String> TableName = new ArrayList<String>();
+            ArrayList<String> TableID = new ArrayList<String>();
+            while(getAllTable.moveToNext()){
+                TableID.add(getAllTable.getString(0));
+                TableName.add(getAllTable.getString(2));
+            }
+            for(int i=0; i<TableName.size(); i++){
+                groupPageParentModels.add(new GroupPageParentModel(TableID.get(i),TableName.get(i)
+                ));
+            }
 
-        ArrayList<String> Status = new ArrayList<String>();
-        Status.add("Done");
-        Status.add("Ready");
-        Status.add("Working on It");
-
-        ArrayList<String> Deadline = new ArrayList<String>();
-        Deadline.add("Oct 10, 10:00am");
-        Deadline.add("Nov 2, 8:00pm");
-        Deadline.add("Dec 9, 12:00am");
-
-        ArrayList<Integer> ProfilePhoto = new ArrayList<Integer>();
-        ProfilePhoto.add(R.drawable.profile);
-        ProfilePhoto.add(R.drawable.marielle);
-        ProfilePhoto.add(R.drawable.novem);
-
-
-        for(int i=0; i<Title.size(); i++){
-            groupPageModels.add(new GroupPageModel(Title.get(i),Status.get(i),Deadline.get(i),ProfilePhoto.get(i)
-            ));
+            Toast.makeText(GroupPage.this, "click" + TableName.get(0), Toast.LENGTH_SHORT).show();
+        }catch(Exception e){
+            emptyContainer.setVisibility(View.VISIBLE);
         }
+
+
 //        groupPageModels.clear();
     }
 
     private void setupGroupData2() {
 
         ArrayList<String> Title = new ArrayList<String>();
-        Title.add("User Updates");
+//        Title.add("User Updates");
 //        Title.add("Flow Chart");
 //        Title.add("ERD Diagram");
 
         ArrayList<String> Status = new ArrayList<String>();
-        Status.add("Done");
+//        Status.add("Done");
 //        Status.add("Ready");
 //        Status.add("Working on It");
 
         ArrayList<String> Deadline = new ArrayList<String>();
-        Deadline.add("Oct 10, 10:00am");
+//        Deadline.add("Oct 10, 10:00am");
 //        Deadline.add("Nov 2, 8:00pm");
 //        Deadline.add("Dec 9, 12:00am");
 
         ArrayList<Integer> ProfilePhoto = new ArrayList<Integer>();
 //        ProfilePhoto.add(R.drawable.profile);
-        ProfilePhoto.add(R.drawable.marielle);
-        ProfilePhoto.add(R.drawable.novem);
+//        ProfilePhoto.add(R.drawable.marielle);
+//        ProfilePhoto.add(R.drawable.novem);
 
         for(int i=0; i<Title.size(); i++){
             groupPageModels2.add(new GroupPageModel2(Title.get(i),Status.get(i),Deadline.get(i),ProfilePhoto.get(i)
