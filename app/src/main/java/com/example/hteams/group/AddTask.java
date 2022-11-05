@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,6 +72,7 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
     String currentId;
     String getGroupID;
     String getTableId;
+    int getPosition;
     String newTable = "false";
 
     int position;
@@ -103,9 +105,28 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
 //        getGroupID = "1";
 
         getTableId = String.valueOf(getIntent().getStringExtra("TABLE_ID"));
+        Log.d("TAG", "Table ID " + getTableId);
 
         //check if dumaan sa new table
         newTable = String.valueOf(getIntent().getStringExtra("NEW_TABLE"));
+        Log.d("TAG", "new Table " + newTable);
+
+
+
+        //check if position
+        if(newTable.equalsIgnoreCase("false")) {
+            Log.d("TAG", "pnag add task sa particular table");
+            getPosition = Integer.parseInt(getIntent().getStringExtra("POSITION"));
+            Log.d("TAG", "position " + getPosition);
+
+        }else if(newTable.equalsIgnoreCase("true")){
+            //getPosition = String.valueOf(getIntent().getStringExtra("NEW_POSITION"));
+            GroupPage groupPage = new GroupPage();
+            getPosition = groupPage.lastposition;
+            Log.d("TAG", "position " + groupPage.lastposition);
+        }//delete this if else later
+
+
 
 
 
@@ -187,29 +208,21 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                         getCounttable.moveToNext();
                         //Toast.makeText(AddTask.this, String.valueOf(getCounttable.getInt(0) + 1),Toast.LENGTH_SHORT).show();
 
-                        if(newTable.equalsIgnoreCase("false")) {
-                            // Toast.makeText(AddTask.this, "false", Toast.LENGTH_SHORT).show();
-                            position = getCounttable.getInt(0);
-                            Toast.makeText(AddTask.this, String.valueOf(getCounttable.getInt(0)), Toast.LENGTH_SHORT).show();
-
-                        }else if(newTable.equalsIgnoreCase("true")){
-                            //Toast.makeText(AddTask.this, "false", Toast.LENGTH_SHORT).show();
-                            position = getCounttable.getInt(0) + 1;
-                            Toast.makeText(AddTask.this, String.valueOf(getCounttable.getInt(0) + 1), Toast.LENGTH_SHORT).show();
-                        }
-                    sqliteaddtaskmodels = new SQLITEADDTASKMODEL(Integer.parseInt(getGroupID),Integer.parseInt(getTableId),participantID,taskName,status, duedate , dueTIme,position);
+                    sqliteaddtaskmodels = new SQLITEADDTASKMODEL(Integer.parseInt(getGroupID),Integer.parseInt(getTableId),participantID,taskName,status, duedate , dueTIme,getPosition);
                    boolean success = databaseHelper.addTask(sqliteaddtaskmodels);
                         if(success == true){
                             Toast.makeText(AddTask.this, "success", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(AddTask.this, GroupPage.class);
+                            //to pass group id to a group page class
                             intent.putExtra("setGroupId", getGroupID);
                             startActivity(intent);
-
+                            finish();
                         }else{
                             Toast.makeText(AddTask.this, "failed", Toast.LENGTH_SHORT).show();
                         }
                     }catch (Exception e){
-                        Toast.makeText(AddTask.this, "eto ba yun" + e.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddTask.this,  e.toString(), Toast.LENGTH_SHORT).show();
+                        Log.d("TAG",e.toString());
                     }
                 }
             }

@@ -463,9 +463,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //getting the max id of task table to insert task
     public  Cursor selectLastTaskTable(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT max(" + ID_TABLE + ") FROM " + TABLETABLE, null );
+        Cursor data = db.rawQuery("SELECT max(" + ID_TABLE + "), "+ POSITION +" FROM " + TABLETABLE, null );
         return  data;
     }
+
+    //getting the position of a task by group
+    public  Cursor selectPosition(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT max(" + ID_TABLE + "), "+ POSITION +" FROM " + TABLETABLE, null );
+        return  data;
+    }
+
+    //getting the position of a task by group
+    public  Cursor getpositionbyfindinggroupandtable(String groupid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + POSITION   +" FROM " + TABLETABLE +" WHERE "+ ID_GROUP  + " = ? ORDER BY " + POSITION + " DESC LIMIT 1" , new String[] {groupid} );
+        return  data;
+    }
+
+
 
     //getting only the partcipant in a group
     //ex. if the leader the role of a member di niya makikita ang ibang section

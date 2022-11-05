@@ -6,7 +6,7 @@ public class GroupPageModel {
     String DueDate;
     int participant_photo;
     String participant_src_photo;
-
+    int Position;
 
     public GroupPageModel(String nameofTask, String status, String dueDate) {
         NameofTask = nameofTask;
@@ -28,6 +28,18 @@ public class GroupPageModel {
         this.participant_src_photo = participant_src_photo;
     }
 
+    public GroupPageModel(String nameofTask, String status, String dueDate, String participant_src_photo, int position) {
+        NameofTask = nameofTask;
+        Status = status;
+        DueDate = dueDate;
+        this.participant_photo = participant_photo;
+        this.participant_src_photo = participant_src_photo;
+        Position = position;
+    }
+
+    public int getPosition() {
+        return Position;
+    }
 
     public String getParticipant_src_photo() {
         return participant_src_photo;

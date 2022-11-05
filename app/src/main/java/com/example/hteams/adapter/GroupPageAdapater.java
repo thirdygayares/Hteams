@@ -119,7 +119,7 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
                   while(getImage.moveToNext()){
                       imgsrc = getImage.getString(0);
                   }
-                  grouppagemodels.add(new GroupPageModel(getTask.getString(4), getTask.getString(5),getTask.getString(7), imgsrc));
+                  grouppagemodels.add(new GroupPageModel(getTask.getString(4), getTask.getString(5),getTask.getString(7), imgsrc, getTask.getInt(9)));
                    //find picture
               }
           }catch (Exception e){
@@ -159,6 +159,8 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
                 Intent intent = new Intent(v.getContext(), AddTask.class);
                 intent.putExtra("GROUP_ID", groupid);
                 intent.putExtra("TABLE_ID", String.valueOf(holder.getAdapterPosition() + 1));
+                intent.putExtra("POSITION", String.valueOf(groupPageParentModels.get(holder.getAdapterPosition()).getPosition()));
+                Log.d("TAG","The value of position in group page adapter" + groupPageParentModels.get(holder.getAdapterPosition()).getPosition());
                 intent.putExtra("NEW_TABLE", "false");
                 v.getContext().startActivity(intent);
 

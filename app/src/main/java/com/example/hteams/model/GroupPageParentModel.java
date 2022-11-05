@@ -4,6 +4,7 @@ public class GroupPageParentModel {
     String TableId;
     String TableName;
     private boolean isExpandable;
+    int Position;
 
     public GroupPageParentModel(String tableId, String tableName) {
         TableId = tableId;
@@ -11,8 +12,19 @@ public class GroupPageParentModel {
         isExpandable = true;
     }
 
+    public GroupPageParentModel(String tableId, String tableName, int position) {
+        TableId = tableId;
+        TableName = tableName;
+        Position = position;
+        isExpandable = true;
+    }
+
     public void setExpandable(boolean expandable) {
         isExpandable = expandable;
+    }
+
+    public int getPosition() {
+        return Position;
     }
 
     public GroupPageParentModel(boolean isExpandable) {

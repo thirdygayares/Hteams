@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,7 +53,6 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
     //parent
     ArrayList<GroupPageParentModel> groupPageParentModels = new ArrayList<>();
 
-
     ArrayList<GroupPageModel2> groupPageModels2 = new ArrayList<>();
     CardView Addtask2;
     CardView Addtask1;
@@ -60,7 +60,6 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
     TextView nameofgroup ;
     ImageView menu,logo;
     Button addfirsttaskbutton;
-
 
     //firebase Auth
     FirebaseAuth firebaseAuth;
@@ -70,7 +69,10 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
     DatabaseHelper databaseHelper;
     String currentId;
     public static String getGroupID;
+    public static  int lastposition;
+    String tableid;
 
+    String TAG = "TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,33 +184,45 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
                     try {
                         String tablename = tableName.getText().toString();
                        // Boolean addtable = databaseHelper.addTable(tableName.getText().toString(), getGroupID);
-
                         //getting the count of table para sa position sa group page maayos
+                        //checking the last of table table
 
-                        //checking
-
-
-
-                        boolean success = databaseHelper.addTable(tablename, Integer.parseInt(getGroupID),0);
+                        Cursor getpositionbyfindinggroupandtable = databaseHelper.getpositionbyfindinggroupandtable(getGroupID);
+                        if(getpositionbyfindinggroupandtable.getCount() == 0){
+                           lastposition = 1;
+                            Toast.makeText(GroupPage.this, "this is new table", Toast.LENGTH_SHORT).show();
+                        }else {
+                            while (getpositionbyfindinggroupandtable.moveToNext()) {
+                                lastposition = getpositionbyfindinggroupandtable.getInt(0) + 1;
+                                Toast.makeText(GroupPage.this, "new position: " + lastposition, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        //boolean success = true;
+                        boolean success = databaseHelper.addTable(tablename, Integer.parseInt(getGroupID),lastposition);
                         if(success == true){
                             Toast.makeText(GroupPage.this,"success", Toast.LENGTH_SHORT).show();
                             addTable.hide();
 
                             //getting the table ID
                             Cursor gettingTableID = databaseHelper.selectLastTaskTable();
-                            gettingTableID.moveToNext();
+                            while (gettingTableID.moveToNext()){
+                                Toast.makeText(GroupPage.this,"thiryd balot" + gettingTableID.getString(0), Toast.LENGTH_SHORT).show();
+                                tableid = gettingTableID.getString(0);
+                            }
+                           // gettingTableID.moveToNext();
                             Intent intent = new Intent(GroupPage.this, AddTask.class);
                             intent.putExtra("NEW_TABLE", "true");
                             intent.putExtra("GROUP_ID", getGroupID);
-                            intent.putExtra("TABLE_ID", gettingTableID.getString(0));
+                            intent.putExtra("TABLE_ID", tableid);
+
+                            Log.d("TAG", "lastposition in grouppage" +  lastposition);
                             startActivity(intent);
-
-
                         }else{
                             Toast.makeText(GroupPage.this,"failed", Toast.LENGTH_SHORT).show();
                         }
                     }catch (Exception e){
-                        Toast.makeText(GroupPage.this, e.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GroupPage.this,"checko" +  e.toString(), Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, e.toString());
                     }
 
                 }
@@ -339,12 +353,14 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
             Cursor getAllTable = databaseHelper.getAllTable(getGroupID);
             ArrayList<String> TableName = new ArrayList<String>();
             ArrayList<String> TableID = new ArrayList<String>();
+            ArrayList<Integer> Position = new ArrayList<Integer>();
             while(getAllTable.moveToNext()){
                 TableID.add(getAllTable.getString(0));
                 TableName.add(getAllTable.getString(2));
+                Position.add(getAllTable.getInt(3));
             }
             for(int i=0; i<TableName.size(); i++){
-                groupPageParentModels.add(new GroupPageParentModel(TableID.get(i),TableName.get(i)
+                groupPageParentModels.add(new GroupPageParentModel(TableID.get(i),TableName.get(i),Position.get(i)
                 ));
             }
 
