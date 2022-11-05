@@ -87,6 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String ID_TABLE = "ID_TABLE";
     //public static final String ID_GROUP = "ID_GROUP";
     public static final String TABLENAME = "TABLENAME";
+//    public static final String POSITION = "POSITION";
 
     //TASKTABLE
     public static final String TASKTABLE = "TASKTABLE";
@@ -99,6 +100,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DUE = "DUE";
     public static final String DUEDATE = "DUEDATE";
     public static final String DUETIME = "DUETIME";
+    public static final String POSITION = "POSITION";
+
 
     //UPDATESTABLE
     public static final String UPDATESTABLE = "UPDATESTABLE";
@@ -189,16 +192,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createParticipantTable);
 
         //CREATING TABLETABLE
-        String createTableTable = "CREATE TABLE " + TABLETABLE + "(" + ID_TABLE + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_GROUP + " INTEGER,  " + TABLENAME + " STRING )";
+        String createTableTable = "CREATE TABLE " + TABLETABLE + "(" + ID_TABLE + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_GROUP + " INTEGER,  " + TABLENAME + " STRING, " + POSITION +" INTEGER, "+ CREATED + " DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW'))  )";
         db.execSQL(createTableTable);
 
 
         //CREATING TASK TABLE
-        String createTaskTable = "CREATE TABLE " + TASKTABLE + "(" + ID_TASK + " INTEGER PRIMARY KEY AUTOINCREMENT , " + ID_GROUP + " INTEGER,  " + ID_TABLE + " INTEGER, " + ID_STUDENTS + " STRING, " + TASK_NAME + " STRING ," + STATUS + " STRING ,  " + DUE  + " BOOLEAN Default 'false'," + DUEDATE + " STRING," + DUETIME + " STRING," + CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
+        String createTaskTable = "CREATE TABLE " + TASKTABLE + "(" + ID_TASK + " INTEGER PRIMARY KEY AUTOINCREMENT , " + ID_GROUP + " INTEGER,  " + ID_TABLE + " INTEGER, " + ID_STUDENTS + " STRING, " + TASK_NAME + " STRING ," + STATUS + " STRING Default 'TO DO',  " + DUE  + " BOOLEAN Default 'false'," + DUEDATE + " STRING," + DUETIME + " STRING,"  + POSITION + " INT, "+ CREATED + "  DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
         db.execSQL(createTaskTable);
 
         //CREATING UPDATES TABLE
-        String createupdatestable = "CREATE TABLE " + UPDATESTABLE + "(" + ID_UPDATES + " INTEGER PRIMARY KEY , " + ID_TASK + " INTEGER,  " + ID_GROUP + " INTEGER, " + ID_STUDENTS + " STRING, " + POSTDATE + " DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) ," + VIEWS_COUNT + " INTEGER  )";
+        String createupdatestable = "CREATE TABLE " + UPDATESTABLE + "(" + ID_UPDATES + " INTEGER PRIMARY KEY , " + ID_TASK + " INTEGER,  " + ID_GROUP + " INTEGER, " + ID_STUDENTS + " STRING, " + POSTDATE + " DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) ," + VIEWS_COUNT + " INTEGER," + CREATED + " DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) )";
         db.execSQL(createupdatestable);
 
         //CREATING UPDATES_LIKES TABLE
@@ -210,11 +213,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createCommentTable);
 
         //CREATING LINK TABLE
-        String createLinkTable = "CREATE TABLE " + LINKTABLE + "(" + ID_LINK + " INTEGER PRIMARY KEY , " + ID_UPDATES + " INTEGER,  " + ID_GROUP + " INTEGER, " + CUSTOMNAME + " STRING, " + WEBLINK + " STRING, " + SITENAME + " STRING  )";
+        String createLinkTable = "CREATE TABLE " + LINKTABLE + "(" + ID_LINK + " INTEGER PRIMARY KEY , " + ID_UPDATES + " INTEGER,  " + ID_GROUP + " INTEGER, " + CUSTOMNAME + " STRING, " + WEBLINK + " STRING, " + SITENAME + " STRING," + CREATED + " DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')))";
         db.execSQL(createLinkTable);
 
         //CREATING LIST TABLE
-
         String createListTable = "CREATE TABLE " + LISTTABLE + "(" + ID_LIST + " INTEGER PRIMARY KEY , " + ID_GROUP + " INTEGER,  " + ID_UPDATES + " INTEGER, " + LISTNAME + " STRING, " + STATUS + " BOOLEAN DEFAULT 'false'  )";
         db.execSQL(createListTable);
 
@@ -330,12 +332,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //add table
-    public boolean addTable(String Table, int group_id){
+    public boolean addTable(String Table, int group_id, int position){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(TABLENAME, Table);
         cv.put(ID_GROUP, group_id);
+        cv.put(POSITION, position);
+
 
         long insert = db.insert(TABLETABLE, null, cv);
         if (insert == -1){
@@ -357,7 +361,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(STATUS, sqliteaddtaskmodel.getSTATUS());
         cv.put(DUEDATE, sqliteaddtaskmodel.getDueDate());
         cv.put(DUETIME, sqliteaddtaskmodel.getDueTime());
-
+        cv.put(POSITION, sqliteaddtaskmodel.getPosition());
         long insert = db.insert(TASKTABLE, null, cv);
         if (insert == -1){
             return false;
@@ -366,8 +370,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
-
     // TODO testing
     public Cursor checkifmaylaman(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -375,14 +377,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-
     //testing
     public Cursor getListContents(String section){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + STUDENTSTABLE + " WHERE SECTION = ?", new String[] {section});
         return data;
     }
-
 
     public Cursor getAll(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -397,14 +397,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-
     //get subject of a one srcion
     public Cursor getSubject(String section){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.      rawQuery("SELECT * FROM " + SUBJECTTABLE + " WHERE SECTION = ?", new String[] {section});
         return data;
     }
-
 
     //find section or participant
     public Cursor getSection(String uid){
@@ -427,9 +425,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-
-
-//    getting professor name by cliking the bottomsheetdialog
+    //getting professor name by cliking the bottomsheetdialog
     public Cursor getProfessor(String subjectId){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT TEACHER, SECTION FROM " + SUBJECTTABLE + " WHERE ID_SUBJECT = ?", new String[] {subjectId});
@@ -437,13 +433,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //getting the max id of group table to insert participant
-
     public  Cursor selectLastIdGroupTable(){
         SQLiteDatabase db = this.getWritableDatabase();
-
         Cursor data = db.rawQuery("SELECT max(" + ID_GROUP + ") FROM " + GROUPTABLE, null );
         return  data;
-
         }
 
         //getting all the group of current user and accepted
@@ -461,7 +454,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //get Image and group name
-
     public  Cursor DisplayGroupDetails(String myGroups){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT " + GROUPPHOTO + "," + GROUPNAME + " FROM " + GROUPTABLE + " where " + ID_GROUP + " = ? ", new String[] {myGroups} );
@@ -471,15 +463,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //getting the max id of task table to insert task
     public  Cursor selectLastTaskTable(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT max(" + ID_TABLE + ") FROM " + TABLETABLE, null );
+        Cursor data = db.rawQuery("SELECT max(" + ID_TABLE + "), "+ POSITION +" FROM " + TABLETABLE, null );
+        return  data;
+    }
+
+    //getting the position of a task by group
+    public  Cursor selectPosition(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT max(" + ID_TABLE + "), "+ POSITION +" FROM " + TABLETABLE, null );
+        return  data;
+    }
+
+    //getting the position of a task by group
+    public  Cursor getpositionbyfindinggroupandtable(String groupid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + POSITION   +" FROM " + TABLETABLE +" WHERE "+ ID_GROUP  + " = ? ORDER BY " + POSITION + " DESC LIMIT 1" , new String[] {groupid} );
         return  data;
     }
 
 
 
+    //getting only the partcipant in a group
+    //ex. if the leader the role of a member di niya makikita ang ibang section
+    public  Cursor getParticipant(String myGroups){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + ID_STUDENTS + " FROM " + PARTICIPANTTABLE  + " WHERE " + ID_GROUP + " = ? AND " + ACCEPTED + " = 1" ,  new String[] {myGroups}  );
+        return  data;
+    }
 
+    // Kung mayron na makita lang by section : ito naman kung sino lang kasali sa grupo
+    public Cursor getNameImageParticipant(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + STUDENT_IMAGE + ", " + NAME + "  FROM " + STUDENTSTABLE + " WHERE " + ID_STUDENTS + " = ? ", new String[] {id});
+        return data;
+    }
 
+    // Kung mayron na makita lang by section : ito naman kung sino lang kasali sa grupo
+    public Cursor getAllTable(String groupID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLETABLE + " WHERE " + ID_GROUP + " = ? ", new String[] {groupID});
+        return data;
+    }
 
+    // sa group page iretrieve na yung data ng mga task
+    public Cursor getTaskTable(String position, String groupID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TASKTABLE + " WHERE " + POSITION + " = ? AND " + ID_GROUP + " = ? ", new String[] {position,groupID});
+        return data;
+    }
+
+    // sa group page iretrieve na yung data
+    // bibilangin ang group Table na table para mabilang kung ilan
+    public Cursor getCountAllTable(String groupID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT COUNT (*) FROM " + TABLETABLE + " WHERE " + ID_GROUP + " = ? ", new String[] {groupID});
+        return data;
+    }
 
 
 

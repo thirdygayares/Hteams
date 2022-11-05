@@ -88,9 +88,9 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_updates);
-       // widget casting
+        // widget casting
         Button links = findViewById(R.id.linkbtn);
-       // component casting
+        // component casting
         listrecycler = findViewById(R.id.display_list_updates);
         sitesRecycler = findViewById(R.id.sitesRecycler);
         displaySites = findViewById(R.id.displayrecyleview); // for display
@@ -124,7 +124,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
             @Override
             public void onClick(View v) {
                 linkdialog.show();
-                  // del this later if err occurs
+                // del this later if err occurs
 
             }
         });
@@ -135,7 +135,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         {
             @Override
             public void onClick (View v){
-               listupdatedialog.show();
+                listupdatedialog.show();
             }
         });
 
@@ -201,7 +201,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 //        listDisplayModels.add(new ListDisplayModel(status,listname));
 
         //the list container hide this if wala naman data
-         listContainer = findViewById(R.id.listContainer);
+        listContainer = findViewById(R.id.listContainer);
 
         if(listDisplayModels.isEmpty()){
             listContainer.setVisibility(View.GONE);
@@ -355,7 +355,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         });
 
 
-      //  createsitesDialog();
+        //  createsitesDialog();
         sitenamefield.setText(NameSite);
         sitenamefield.setOnClickListener(new View.OnClickListener() {
             @Override

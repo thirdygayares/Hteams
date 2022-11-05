@@ -9,8 +9,9 @@ public class SQLITEADDTASKMODEL {
 //    Boolean DUE;
     String DueDate;
     String DueTime;
+    int Position;
 
-    public SQLITEADDTASKMODEL(int ID_GROUP, int ID_TABLE, String ID_STUDENTS, String TASK_NAME, String STATUS, String dueDate, String dueTime) {
+    public SQLITEADDTASKMODEL(int ID_GROUP, int ID_TABLE, String ID_STUDENTS, String TASK_NAME, String STATUS, String dueDate, String dueTime, int position) {
         this.ID_GROUP = ID_GROUP;
         this.ID_TABLE = ID_TABLE;
         this.ID_STUDENTS = ID_STUDENTS;
@@ -18,6 +19,11 @@ public class SQLITEADDTASKMODEL {
         this.STATUS = STATUS;
         DueDate = dueDate;
         DueTime = dueTime;
+        Position = position;
+    }
+
+    public int getPosition() {
+        return Position;
     }
 
     public int getID_GROUP() {

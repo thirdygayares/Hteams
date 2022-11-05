@@ -3,107 +3,201 @@ package com.example.hteams.adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.hteams.MainActivity;
 import com.example.hteams.R;
+import com.example.hteams.database.DatabaseHelper;
+import com.example.hteams.group.AddTask;
+import com.example.hteams.group.GroupPage;
+import com.example.hteams.group.Home;
 import com.example.hteams.model.GroupPageModel;
+import com.example.hteams.model.GroupPageParentModel;
 
 import java.util.ArrayList;
 
 public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.MyViewHolder> {
 
-    private final GroupPageInterface grouppageinterfaces;
-
 
     Context context;
-    ArrayList<GroupPageModel> grouppagemodels;
+    ArrayList<GroupPageModel> grouppagemodels = new ArrayList<>();
+    ArrayList<GroupPageParentModel> groupPageParentModels;
+    DatabaseHelper databaseHelper;
+    private String tag;
+    String imgsrc = "";
 
-    public GroupPageAdapater(Context context, ArrayList<GroupPageModel> grouppagemodels, GroupPageInterface grouppageinterfaces){
+    public GroupPageAdapater(Context context,  ArrayList<GroupPageParentModel> groupPageParentModels){
         this.context = context;
-        this.grouppagemodels = grouppagemodels;
-        this.grouppageinterfaces = grouppageinterfaces;
+        this.groupPageParentModels = groupPageParentModels;
+
     }
 
     @NonNull
     @Override
     public GroupPageAdapater.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType  ) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.recycler_group1, parent, false);
-
-        return new GroupPageAdapater.MyViewHolder(view, grouppageinterfaces);
+        View view = inflater.inflate(R.layout.recycler_group_page_parent, parent, false);
+        return new GroupPageAdapater.MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull GroupPageAdapater.MyViewHolder holder, int position) {
-        holder.taskName.setText(grouppagemodels.get(position).getNameofTask());
-        holder.status.setText(grouppagemodels.get(position).getStatus());
-        holder.duedate.setText(grouppagemodels.get(position).getDueDate());
-        holder.participant_photo.setImageResource(grouppagemodels.get(position).getParticipant_photo());
 
-        //check if working on it, pending, ready , done
-       String status_indicatior = holder.status.getText().toString();
-        if(status_indicatior.equalsIgnoreCase("done")){
-            holder.status.setTextColor(Color.parseColor("#3AAB28"));
-            //changing to done icon
-            holder.iconstatus.setImageResource(R.drawable.ic_baseline_done_24);
-            holder.iconstatus.setColorFilter(new PorterDuffColorFilter(0xFF3AAB28,PorterDuff.Mode.MULTIPLY));
-        }else if(status_indicatior.equalsIgnoreCase("working on it")){
-            holder.status.setTextColor(Color.parseColor("#3659D7"));
-            //changing to working icon
-            holder.iconstatus.setImageResource(R.drawable.ic_baseline_work_outline_24);
-            holder.iconstatus.setColorFilter(new PorterDuffColorFilter(0xFF3659D7,PorterDuff.Mode.MULTIPLY));
-        }else if(status_indicatior.equalsIgnoreCase("todo")){
-            holder.status.setTextColor(Color.BLACK);
-        }else if(status_indicatior.equalsIgnoreCase("Ready")){
-            holder.status.setTextColor(Color.parseColor("#73B9EC"));
-            //changing to ready icon
-            holder.iconstatus.setImageResource(R.drawable.ic_ready);
-            holder.iconstatus.setColorFilter(new PorterDuffColorFilter(0xFF73B9EC,PorterDuff.Mode.MULTIPLY));
+        GroupPageParentModel model = groupPageParentModels.get(position);
+
+        boolean isExpandable = model.isExpandable();
+        holder.taskRecycler.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
+        holder.addTaskContainer.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
+
+        if (isExpandable){
+            holder.touchme.setBackgroundColor(Color.parseColor("#ffffff"));
+            holder.arrow.setVisibility(View.GONE);
+        }else{
+            holder.touchme.setBackgroundColor(Color.parseColor("#FFFAFA"));
+            holder.arrow.setVisibility(View.VISIBLE);
+
         }
 
-    }
+      holder.TableName.setText(groupPageParentModels.get(position).getTableName());
 
-    @Override
-    public int getItemCount() {
-        return grouppagemodels.size();
-    }
+        GroupPageChildAdapter groupPageChildAdapter = new GroupPageChildAdapter(grouppagemodels);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        holder.taskRecycler.setAdapter(groupPageChildAdapter);
+        holder.taskRecycler.setLayoutManager(linearLayoutManager);
+        //what if yung table id is 1;
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+        int crt = position, database = 1;
+        database = database -1;
 
-        TextView taskName, status, duedate;
-        ImageView participant_photo,iconstatus;
+            ArrayList<String> x = new ArrayList<String>();
+//        to erase the model
+        grouppagemodels.clear();
 
-        public MyViewHolder(@NonNull View itemView, GroupPageInterface grouppageinterfaces) {
-            super(itemView);
-            taskName = (TextView) itemView.findViewById(R.id.taskName);
-            status = (TextView) itemView.findViewById(R.id.status);
-            duedate = (TextView) itemView.findViewById(R.id.duedate);
-            participant_photo = (ImageView) itemView.findViewById(R.id.participant_photo);
-            iconstatus = (ImageView) itemView.findViewById(R.id.iconstatus);
+        Home home = new Home();
+        String groupid = home.GroupId;
+//       Toast.makeText(context, "countid na " + groupid, Toast.LENGTH_SHORT ).show();
+        // retreieveing the task
+        databaseHelper = new DatabaseHelper(context);
+        //for loop try natin[1]
 
-            itemView.setOnClickListener(view -> {
-                if(grouppageinterfaces != null ){
-                    int pos = getAdapterPosition();
-                    if(pos!= RecyclerView.NO_POSITION){
-                        grouppageinterfaces.onItemClick(pos);
-                    }
+        Cursor countTable = databaseHelper.getCountAllTable(groupid);
+         countTable.moveToNext();
+//         testing
+         //Toast.makeText(context, "count" + countTable.getString(0), Toast.LENGTH_SHORT ).show();
+
+//        for(int i = 1; i<=Integer.parseInt(countTable.getString(0)); i++){
+//            Toast.makeText(context, "Group ID ay" + groupid, Toast.LENGTH_SHORT ).show();
+         Cursor getTask = databaseHelper.getTaskTable(String.valueOf(position + 1), groupid);
+//        Toast.makeText(context, "countid a " + String.valueOf(position + 1), Toast.LENGTH_SHORT ).show();
+//        Toast.makeText(context, "countid na " + groupid, Toast.LENGTH_SHORT ).show();
+          try{
+              while(getTask.moveToNext()){
+                  Cursor getImage = databaseHelper.getImageCurrentsUser(getTask.getString(3));
+                  while(getImage.moveToNext()){
+                      imgsrc = getImage.getString(0);
+                  }
+                  grouppagemodels.add(new GroupPageModel(getTask.getString(4), getTask.getString(5),getTask.getString(7), imgsrc, getTask.getInt(9)));
+                   //find picture
+              }
+          }catch (Exception e){
+              Toast.makeText(context, "error" + e, Toast.LENGTH_SHORT ).show();
+          }
+
+//        }
+            //check kung nareread ang group ID
+            //Toast.makeText(context, groupPage.getGroupID, Toast.LENGTH_SHORT ).show();
+
+
+            //hide and view of a task
+            holder.touchme.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean nakaopen = false;
+                    model.setExpandable(!model.isExpandable());
+//                    grouppagemodels = model.getNestedList();
+                    notifyItemChanged(holder.getAdapterPosition());
+//                    if(nakaopen == false){
+//                        holder.taskRecycler.setVisibility(View.GONE);
+//                        holder.addTaskContainer.setVisibility(View.GONE);
+//                        nakaopen = true;
+//                    } else{
+//                        holder.taskRecycler.setVisibility(View.VISIBLE);
+//                        holder.addTaskContainer.setVisibility(View.VISIBLE);
+//                        nakaopen = false;
+//                    }
 
                 }
             });
+
+          //when add task
+        holder.addTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AddTask.class);
+                intent.putExtra("GROUP_ID", groupid);
+                intent.putExtra("TABLE_ID", String.valueOf(holder.getAdapterPosition() + 1));
+                intent.putExtra("POSITION", String.valueOf(groupPageParentModels.get(holder.getAdapterPosition()).getPosition()));
+                Log.d("TAG","The value of position in group page adapter" + groupPageParentModels.get(holder.getAdapterPosition()).getPosition());
+                intent.putExtra("NEW_TABLE", "false");
+                v.getContext().startActivity(intent);
+
+
+            }
+        });
+
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return groupPageParentModels.size();
+    }
+
+
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
+
+        TextView TableName;
+        Button addTaskButton;
+        RecyclerView taskRecycler;
+        LinearLayout addTaskContainer;
+        RelativeLayout touchme;
+        ImageView arrow;
+
+        public MyViewHolder(@NonNull View itemView ) {
+            super(itemView);
+
+            TableName = (TextView) itemView.findViewById(R.id.Table) ;
+            addTaskButton =(Button) itemView.findViewById(R.id.addtask);
+            taskRecycler = (RecyclerView) itemView.findViewById(R.id.taskRecycler);
+            touchme = (RelativeLayout) itemView.findViewById(R.id.touchme);
+            addTaskContainer = (LinearLayout) itemView.findViewById(R.id.addTaskContainer);
+            arrow = (ImageView) itemView.findViewById(R.id.arrow);
+
+
         }
     }
 

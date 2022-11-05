@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.hteams.R;
+import com.example.hteams.Testing.SetProfile;
 import com.example.hteams.model.AssigneeModel;
 
 import java.util.ArrayList;
@@ -39,15 +40,15 @@ public class AsigneeAdapter extends RecyclerView.Adapter<AsigneeAdapter.MyViewHo
         holder.name.setText(assigneeModels.get(position).getName());
 
 //        TODO if leader is current user it indicates you is visible
-        if(assigneeModels.get(position).getName().equalsIgnoreCase("Thirdy Gayares")){
-            holder.you.setVisibility(View.VISIBLE);
-        }
-        holder.profilephoto.setImageResource(assigneeModels.get(position).getImage());
+//        if(assigneeModels.get(position).getName().equalsIgnoreCase("Thirdy Gayares")){
+//            holder.you.setVisibility(View.VISIBLE);
+//        }
+        SetProfile setProfiles = new SetProfile();
+        holder.profilephoto.setImageResource(setProfiles.profileImage(assigneeModels.get(position).getImgsrc()));
     }
 
     @Override
     public int getItemCount() {
-
         return assigneeModels.size();
     }
 

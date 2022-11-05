@@ -171,6 +171,9 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
         subjectrecycler = view.findViewById(R.id.subject_recycler);
          subject = findViewById(R.id.subject_generate);
 
+
+         subject = findViewById(R.id.subject_generate);
+
          setupdataforsubjects();
          SubjectlistAdapter adapter = new SubjectlistAdapter(Creategroup.this,subjectlistModel,this);
          subjectrecycler.setAdapter(adapter);

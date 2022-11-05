@@ -63,10 +63,10 @@ public class GroupPageAdapter2 extends RecyclerView.Adapter<GroupPageAdapter2.My
             //changing to working icon
             holder.iconstatus.setImageResource(R.drawable.ic_baseline_work_outline_24);
             holder.iconstatus.setColorFilter(new PorterDuffColorFilter(0xFF3659D7,PorterDuff.Mode.MULTIPLY));
-        }else if(status_indicatior.equalsIgnoreCase("todo")){
+        }else if(status_indicatior.equalsIgnoreCase("to do")){
             holder.status.setTextColor(Color.BLACK);
         }else if(status_indicatior.equalsIgnoreCase("Ready")){
-            holder.status.setTextColor(Color.parseColor("#73B9EC"));
+            holder.status.setTextColor(Color.parseColor("#FF9500"));
             //changing to ready icon
             holder.iconstatus.setImageResource(R.drawable.ic_ready);
             holder.iconstatus.setColorFilter(new PorterDuffColorFilter(0xFF73B9EC,PorterDuff.Mode.MULTIPLY));

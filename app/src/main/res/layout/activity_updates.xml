@@ -37,7 +37,7 @@
 
         android:backgroundTint="@color/primary"
         android:fontFamily="@font/gilroymedium"
-        android:text="Comment"
+        android:text="Update"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="15sp" />
@@ -55,7 +55,7 @@
 
 
 
-<!--start here-->
+    <!--start here-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,32 +73,32 @@
             android:padding="10dp"
             android:textSize="16sp" />
 
-<!--        Container for List-->
+        <!--        Container for List-->
         <RelativeLayout
             android:id="@+id/listContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-        <androidx.cardview.widget.CardView
-            android:id="@+id/list_indicate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginVertical="5dp"
-            android:backgroundTint="#E0F1F4"
-            android:padding="10dp"
-            app:cardCornerRadius="10dp">
-
-            <TextView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/list_indicate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="14dp"
-                android:paddingVertical="5dp"
-                android:text="List"
-                android:textColor="@color/working" />
-        </androidx.cardview.widget.CardView>
+                android:layout_marginHorizontal="6dp"
+                android:layout_marginVertical="5dp"
+                android:backgroundTint="#E0F1F4"
+                android:padding="10dp"
+                app:cardCornerRadius="10dp">
 
-        <!--        recyclerview list updates -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="5dp"
+                    android:text="List"
+                    android:textColor="@color/working" />
+            </androidx.cardview.widget.CardView>
+
+            <!--        recyclerview list updates -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/display_list_updates"
                 android:layout_below="@+id/list_indicate"
@@ -134,23 +134,23 @@
 
     </LinearLayout>
 
-<!--        <RelativeLayout-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content">-->
+    <!--        <RelativeLayout-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content">-->
 
 
-<!--            <EditText-->
-<!--                android:id="@+id/cmntfield"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:background="@color/white"-->
-<!--                android:fontFamily="@font/gilroyregular"-->
-<!--                android:hint="With your comments and suggestions we can work more efficient"-->
-<!--                android:padding="10dp"-->
-<!--                android:textSize="16sp" />-->
+    <!--            <EditText-->
+    <!--                android:id="@+id/cmntfield"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:background="@color/white"-->
+    <!--                android:fontFamily="@font/gilroyregular"-->
+    <!--                android:hint="With your comments and suggestions we can work more efficient"-->
+    <!--                android:padding="10dp"-->
+    <!--                android:textSize="16sp" />-->
 
-<!--      -->
-<!--        </RelativeLayout>-->
+    <!--      -->
+    <!--        </RelativeLayout>-->
 
 
 

@@ -14,6 +14,7 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_home.xml" value="0.2265" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_notification.xml" value="0.2265" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_profile.xml" value="0.2265" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_ready.xml" value="0.1975" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_subject.xml" value="0.2315" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_teacher.xml" value="0.2315" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_add_task.xml" value="0.25" />
@@ -28,6 +29,7 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_main2.xml" value="0.234375" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_nested_recyler.xml" value="0.221875" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_notification.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_profile.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_sample.xml" value="0.3458333333333333" />
@@ -47,18 +49,22 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/dialog_assigned.xml" value="0.35885416666666664" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/dialog_deadline.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/invited.xml" value="0.33" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/layout_item.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/layout_sub_item.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/linkbottomsheet_comments.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/listbottomsheet_comments.xml" value="0.35435897435897434" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/listbottomsheet_updates.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/listviewclassmateinvite.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/login_loading.xml" value="0.35989583333333336" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/nestedrecycler.xml" value="0.209375" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycle_list.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_assigned_to.xml" value="0.35885416666666664" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_avatar.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_events.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_files.xml" value="0.35989583333333336" />
-        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_group.xml" value="0.5" />
-        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_group1.xml" value="0.5" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_group.xml" value="0.33" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_group1.xml" value="0.33" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_group_page_parent.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_grouppage2.xml" value="0.234375" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_image.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_invite.xml" value="0.25" />
@@ -79,8 +85,31 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/menu/grouppagemenu.xml" value="0.24791666666666667" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/menu/home_menu.xml" value="0.2755208333333333" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/menu/notification.xml" value="0.234375" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/menu/site_search.xml" value="0.2171875" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/menu/status.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/menu/viewtask.xml" value="0.3671875" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_star_outline_24.xml" value="0.2005" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_comments.xml" value="0.25" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_creategroup.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_event.xml" value="0.33" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_sites.xml" value="0.33" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_updates.xml" value="0.5" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_view_updates.xml" value="0.33" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/bottomsdialog_subject_creategroup.xml" value="0.25" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/bottomsheet.xml" value="0.33" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/bottomsheet_capture.xml" value="0.25" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/linkbottomsheet_updates.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/listbottomsheet_comments.xml" value="0.22" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/listbottomsheet_updates.xml" value="0.25" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycle_list.xml" value="0.19375" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_events.xml" value="0.67" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/recycler_subjects_creategroup.xml" value="0.25" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/recyclerdisplaysite.xml" value="0.209375" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/recyclerlink.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/recyclerlist_updates.xml" value="0.25" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/recyclersites.xml" value="0.33" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/layout/sitesbottomsheet.xml" value="0.1" />
+        <entry key="..\:/Users/novem/AndroidStudioProjects/Hteams/app/src/main/res/menu/site_search.xml" value="0.15989583333333332" />
       </map>
     </option>
   </component>
