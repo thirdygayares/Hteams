@@ -29,8 +29,11 @@ import com.example.hteams.Testing.SetProfile;
 import com.example.hteams.adapter.AsigneeAdapter;
 import com.example.hteams.adapter.ViewTaskAdapter;
 import com.example.hteams.adapter.ViewTaskInterface;
+import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.AssigneeModel;
 import com.example.hteams.model.ViewTaskModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -57,6 +60,16 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     int day, month, year, hour, minute;
     int myday, myMonth, myYear, myHour, myMinute;
 
+    //firebase Auth
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firestore;
+
+    //SQLITE DB
+    DatabaseHelper databaseHelper;
+    String currentId;
+    String getGroupID;
+    String getTaskID;
+    String getTableID;
 
     //pm or am
     static  String pmam = "am";
@@ -64,6 +77,24 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_task);
+
+        //to know the email and uid
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+
+        //calling database sqlite
+        databaseHelper = new DatabaseHelper(ViewTask.this);
+
+        //cyrrent id
+        currentId = firebaseAuth.getCurrentUser().getUid();
+
+        // set Group id
+        getGroupID = String.valueOf(getIntent().getStringExtra("GROUP_ID"));
+        //set Task ID
+        getTaskID = String.valueOf(getIntent().getStringExtra("TASK_ID"));
+        //set Table ID
+        getTableID = String.valueOf(getIntent().getStringExtra("TABLE_ID"));
+
 
         //initializion of id in xml
         initxml();
@@ -84,9 +115,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         setupAssigne();
         //TODO deadline
         deadlineCalendar();
-
     }
-
 
 
     //when you click post button
