@@ -10,10 +10,12 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -55,6 +57,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     Button postButton,button_asignee;
     ImageView menu_viewtask,participant_photo;
     Button button_status, buttonDeadline;
+    TextView taskName,groupName,tableName;
 
     //GLobal variable for time
     int day, month, year, hour, minute;
@@ -95,9 +98,14 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         //set Table ID
         getTableID = String.valueOf(getIntent().getStringExtra("TABLE_ID"));
 
-
         //initializion of id in xml
         initxml();
+
+        //header
+        //toretrieve the name of the group, task name, and what is the table of thos
+        header();
+
+
         //button for post update
         post();
         //for menu
@@ -115,6 +123,26 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         setupAssigne();
         //TODO deadline
         deadlineCalendar();
+    }
+
+
+    private void header() {
+        Log.d("TAG", "table name in header" + getTaskID);
+        Cursor getTaskName = databaseHelper.getTaskName(getTaskID);
+        try{
+            if(getTaskName.getCount() == 0){
+                Log.d("TAG", getTaskName.getString(4));
+                Log.d("TAG", "walang laman");
+            }
+            while(getTaskName.moveToNext()){
+            taskName.setText(getTaskName.getString(4));
+                Log.d("TAG", getTaskName.getString(4));
+            }
+
+        }catch (Exception e){
+            Log.d("TAG", "getting taskName in View Task" + e );
+        }
+
     }
 
 
@@ -499,8 +527,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
 
 
-
-
     //clicking the recycler view
     @Override
     public void onItemClick(int position, String assignee_adapter) {
@@ -532,6 +558,9 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         button_status = (Button) findViewById(R.id.button_status);
         button_asignee = (Button) findViewById(R.id.button_asignee);
         buttonDeadline = (Button) findViewById(R.id.buttonDeadline);
+        taskName = (TextView) findViewById(R.id.taskName);
+        groupName = (TextView) findViewById(R.id.groupName);
+        tableName = (TextView) findViewById(R.id.tableName);
     }
 
 

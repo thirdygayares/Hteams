@@ -482,7 +482,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
     //getting only the partcipant in a group
     //ex. if the leader the role of a member di niya makikita ang ibang section
     public  Cursor getParticipant(String myGroups){
@@ -519,6 +518,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor data = db.rawQuery(" SELECT COUNT (*) FROM " + TABLETABLE + " WHERE " + ID_GROUP + " = ? ", new String[] {groupID});
         return data;
     }
+
+
+    // retrieve the taskName via task ID
+    public Cursor getTaskName(String taskID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TASKTABLE + " WHERE " + ID_TASK + " = ? ", new String[] {taskID});
+        return data;
+    }
+
 
 
 
