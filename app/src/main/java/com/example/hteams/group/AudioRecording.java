@@ -14,8 +14,5 @@ public class AudioRecording extends AppCompatActivity {
         setContentView(R.layout.activity_audio_recording);
 
 
-        //gfgfdgdfddfd
-
-        //tangina
     }
 }
