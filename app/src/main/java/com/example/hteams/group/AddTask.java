@@ -221,7 +221,7 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                             Toast.makeText(AddTask.this, "failed", Toast.LENGTH_SHORT).show();
                         }
                     }catch (Exception e){
-                        Toast.makeText(AddTask.this,  e.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddTask.this,  "etor: " + e, Toast.LENGTH_SHORT).show();
                         Log.d("TAG",e.toString());
                     }
                 }
@@ -233,7 +233,7 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
         myYear = year;
-        myday = day;
+        myday = dayOfMonth;
         myMonth = month;
         Calendar c = Calendar.getInstance();
         hour = c.get(Calendar.HOUR);

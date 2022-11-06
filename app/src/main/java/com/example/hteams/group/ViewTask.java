@@ -29,6 +29,7 @@ import com.example.hteams.MainActivity;
 import com.example.hteams.R;
 import com.example.hteams.Testing.SetProfile;
 import com.example.hteams.adapter.AsigneeAdapter;
+import com.example.hteams.adapter.GroupPageAdapater;
 import com.example.hteams.adapter.ViewTaskAdapter;
 import com.example.hteams.adapter.ViewTaskInterface;
 import com.example.hteams.database.DatabaseHelper;
@@ -70,9 +71,9 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     //SQLITE DB
     DatabaseHelper databaseHelper;
     String currentId;
-    String getGroupID;
-    String getTaskID;
-    String getTableID;
+    int getGroupID;
+    int getTaskID;
+    int getTableID;
 
     //pm or am
     static  String pmam = "am";
@@ -91,12 +92,15 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         //cyrrent id
         currentId = firebaseAuth.getCurrentUser().getUid();
 
+        //creatng object to get the value of Group Id, table Id, and task ID
+        GroupPageAdapater groupPageAdapater = new GroupPageAdapater();
+
         // set Group id
-        getGroupID = String.valueOf(getIntent().getStringExtra("GROUP_ID"));
+        getGroupID = groupPageAdapater.getIntGroupID;
         //set Task ID
-        getTaskID = String.valueOf(getIntent().getStringExtra("TASK_ID"));
+        getTaskID =  groupPageAdapater.getTaskID;
         //set Table ID
-        getTableID = String.valueOf(getIntent().getStringExtra("TABLE_ID"));
+        getTableID =  groupPageAdapater.getTableID;
 
         //initializion of id in xml
         initxml();
@@ -127,11 +131,11 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
 
     private void header() {
-        Log.d("TAG", "table name in header" + getTaskID);
+//        Log.d("TAG", "task id in header" + getTaskID);
         Cursor getTaskName = databaseHelper.getTaskName(getTaskID);
         try{
             if(getTaskName.getCount() == 0){
-                Log.d("TAG", getTaskName.getString(4));
+//                Log.d("TAG", getTaskName.getString(4));
                 Log.d("TAG", "walang laman");
             }
             while(getTaskName.moveToNext()){
@@ -140,7 +144,37 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
             }
 
         }catch (Exception e){
-            Log.d("TAG", "getting taskName in View Task" + e );
+            Log.d("TAG", "getting taskid in View Task" + e );
+        }
+
+        //getting group name from sqlite
+        Cursor getGroupName = databaseHelper.myGroup(String.valueOf(getGroupID));
+        try{
+            if(getGroupName.getCount() == 0){
+                Log.d("TAG", "walang laman");
+            }
+            while(getGroupName.moveToNext()){
+                groupName.setText(getGroupName.getString(2));
+            }
+
+        }catch (Exception e){
+            Log.d("TAG", "getting groupid in View Task" + e );
+        }
+
+
+        //getting table name from sqlite
+        Cursor getTableName = databaseHelper.getTableName(getTableID);
+        Log.d("TAG", "table id in view task" + getTableID);
+        try{
+            if(getTableName.getCount() == 0){
+                Log.d("TAG", "walang laman");
+            }
+            while(getTableName.moveToNext()){
+                tableName.setText(getTableName.getString(2));
+            }
+
+        }catch (Exception e){
+            Log.d("TAG", "getting groupid in View Task" + e );
         }
 
     }

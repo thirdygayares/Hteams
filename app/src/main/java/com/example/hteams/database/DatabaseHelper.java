@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -521,9 +522,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // retrieve the taskName via task ID
-    public Cursor getTaskName(String taskID){
+    public Cursor getTaskName(int taskID){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TASKTABLE + " WHERE " + ID_TASK + " = ? ", new String[] {taskID});
+        Cursor data = db.rawQuery("SELECT * FROM " + TASKTABLE + " WHERE " + ID_TASK + " = ? ", new String[] {String.valueOf(taskID)});
+        return data;
+    }
+
+    // retrieve the taskName via task ID
+    public Cursor getTableName(int tableid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLETABLE + " WHERE " + ID_TABLE + " = ? ", new String[] {String.valueOf(tableid)});
+        Log.d("TAG", "in table db " + tableid );
         return data;
     }
 

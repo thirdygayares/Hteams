@@ -133,7 +133,7 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
 
         //first Recycler View
         RecyclerView recyclerView = findViewById(R.id.taskRecycler);
-        GroupPageAdapater adapter = new GroupPageAdapater(GroupPage.this, groupPageParentModels);
+        GroupPageAdapater adapter = new GroupPageAdapater(GroupPage.this, groupPageParentModels, this);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -405,11 +405,10 @@ public class GroupPage extends AppCompatActivity implements GroupPageInterface {
     @Override
     public void onItemClick(int position) {
         Toast.makeText(GroupPage.this, "click", Toast.LENGTH_SHORT).show();
+        Log.d("TAG","you touch me " + position);
+//        Intent intent = new Intent(GroupPage.this, ViewTask.class);
+//        startActivity(intent);
 
-        Intent intent = new Intent(GroupPage.this, ViewTask.class);
-//     wwwwwwent.putExtra("salesId", historyDataModels.get(position).getSalesID());
-//    w   intent.putExtra("Total", historyDataModels.get(position).getTotalPrice());
-        startActivity(intent);
     }
 
     @Override
