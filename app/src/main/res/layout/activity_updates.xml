@@ -241,8 +241,8 @@
                     android:backgroundTint="@color/white"
                     android:drawableTop="@drawable/ic_baseline_check_box_24"
                     android:drawableTint="@color/black"
-                    android:padding="18dp"
                     android:fontFamily="@font/gilroyregular"
+                    android:padding="18dp"
                     android:stateListAnimator="@null"
                     android:text="List"
                     android:textAllCaps="false" />

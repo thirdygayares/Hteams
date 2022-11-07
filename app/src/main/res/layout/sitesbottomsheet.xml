@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <TextView
@@ -14,7 +15,7 @@
 
     <LinearLayout
         android:id="@+id/searhcontainer"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         android:layout_centerHorizontal="true"
@@ -27,35 +28,39 @@
         android:layout_marginTop="12dp"/>
 
         <EditText
-            android:layout_width="300dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
             android:hint="Search"
             android:background="@color/white"/>
     </LinearLayout>
 
     <TextView
+        android:layout_marginTop="5dp"
         android:id="@+id/allbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="All"
-        android:textSize="14sp"
         android:layout_below="@id/searhcontainer"
         android:layout_marginLeft="40dp"
-        />
+        android:text="All"
+        android:textSize="14sp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Favorites"
-        android:layout_toRightOf="@id/allbtn"
         android:layout_below="@id/searhcontainer"
         android:layout_marginLeft="10dp"
-        />
+        android:layout_toRightOf="@id/allbtn"
+        android:layout_marginTop="5dp"
+        android:text="Favorites" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sitesRecycler"
         android:layout_width="match_parent"
-        android:layout_margin="15dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/allbtn"/>
+        android:layout_below="@id/allbtn"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp" />
 
 
 

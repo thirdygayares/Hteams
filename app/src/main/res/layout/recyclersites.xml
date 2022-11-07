@@ -7,13 +7,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
         >
 
     <ImageView
         android:id="@+id/site_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/meetlogo" />
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginRight="10dp"
+        android:maxHeight="34dp"
+        android:maxWidth="34dp"
+        android:src="@drawable/messenger" />
 
     <TextView
         android:id="@+id/sitename"

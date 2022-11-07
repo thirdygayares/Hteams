@@ -278,55 +278,37 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         submitlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //erase the content of list
-                // TAGALOG: Buburahin baka maisama kasi magdodoble lamang
-//                listDisplayModels.clear();
-//              option 1
-//                int count = listDisplayModels.size();
-//                listDisplayModels.clear();
-//
-//                for (int x =0; x<=count; x++ ){
-//                    adapter2.notifyItemRemoved(x);
-//                }
 
+                if(updateListModels.isEmpty()){
+                    newlist_edit.setError("Required");
+                }else{
 
-//                saving data to listdisplay
+                    //  saving data to listdisplay
 
-                for(int i=0;i<updateListModels.size();i++){
-                    listDisplayModels.add(new ListDisplayModel(updateListModels.get(i).getChecked(), updateListModels.get(i).getTaskname()));
+                    for(int i=0;i<updateListModels.size();i++){
+                        listDisplayModels.add(new ListDisplayModel(updateListModels.get(i).getChecked(), updateListModels.get(i).getTaskname()));
+                    }
+
+                    adapter2.notifyItemInserted(listDisplayModels.size()-1);
+                    displaySites.scrollToPosition(listDisplayModels.size());
+
+                    listContainer.setVisibility(View.VISIBLE);
+                    listupdatedialog.dismiss();
+
+                    //option 2
+                    updateListModels.clear();
+
                 }
-
-
-                adapter2.notifyItemInserted(listDisplayModels.size()-1);
-                displaySites.scrollToPosition(listDisplayModels.size());
-
-                listContainer.setVisibility(View.VISIBLE);
-                listupdatedialog.dismiss();
-
-                //option 2
-                updateListModels.clear();
 
             }
         });
+
 
 
         listupdatedialog.setContentView(view);
 
     }
 
-
-    //testing na lagyan ng data
-    //nevermind this
-    private void setupdataforlist() {
-        // set up data forlist
-
-        String listname = "Thirdy paayos";
-        //list if checked or unchecked
-        boolean status = true;
-
-        updateListModels.add(new UpdateListModel(status,listname));
-
-    }
 
 
     //TODO : Pasequence nung mga method
@@ -344,32 +326,23 @@ public class Updates extends AppCompatActivity implements SiteInterface {
             @Override
             public void onClick(View v) {
 
-
-                 /*
-                    else if (custom_name == null || custom_name.equals("")){
-                        Toast.makeText(getBaseContext(),"Custom Name is empty",Toast.LENGTH_LONG).show();
-                    }
-                    else if (web_link == null || web_link.equals(" ")){
-                        Toast.makeText(getBaseContext(),"Link is required",Toast.LENGTH_LONG).show();
-                    }
-
-                  */
-
                 //  TODO : error handling pag walang input dapat maglalabas ng error sa gilid na required-status: done
                 //sitename array store yung name na text sa editText
-
                 site_name.add(sitenamefield.getText().toString());
                 custom_name.add(name.getText().toString());
                 web_link.add(sitelink.getText().toString());
-
                 // Toast.makeText(Comments.this,custom_name.toString(),Toast.LENGTH_SHORT).show();
                 // to add in the model and maread sa array
                 displaySiteModels.add(new DisplaySiteModel(name.getText().toString(), sitenamefield.getText().toString()));
                 //to update the content of adapter
                 adapter.notifyItemInserted(custom_name.size() - 1);
                 displaySites.scrollToPosition(custom_name.size());
+
                 //to show the indicator link title
                 link.setVisibility(View.VISIBLE);
+
+                name.setText("");
+                sitelink.setText("");
 
                 //to hide the linkdialog
                 linkdialog.dismiss();
@@ -406,14 +379,14 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         SiteAdapter adapter = new SiteAdapter(Updates.this,siteModels,this);
         sitesRecycler.setAdapter(adapter);
         sitesRecycler.setLayoutManager(new LinearLayoutManager(Updates.this));
-
+        sitelistdialog.setCancelable(false);
         //para lumabas
         sitelistdialog.setContentView(view);
     }
 
     private void setupdataforsites() { // para sa mga sites sa dialog
-        int[] siteicon = {R.drawable.meetlogo, R.drawable.githublogo,R.drawable.drivelogo};
-        String[] sitename = {"Google Meet","Github","Google Drive","facebook"};
+        int[] siteicon = {R.drawable.others, R.drawable.canvca, R.drawable.discord,R.drawable.excel,R.drawable.facebook,R.drawable.drive,R.drawable.github,R.drawable.gmail,R.drawable.meet,R.drawable.notes, R.drawable.google,R.drawable.messenger,R.drawable.moodle,R.drawable.teams,R.drawable.onedrive,R.drawable.powerpoint,R.drawable.telegram,R.drawable.word,R.drawable.youtube,R.drawable.zoom};
+        String[] sitename = {"Others","Canva","Discord","Excel","Facebook","Gdrive","Github","Gmail","Gmeet","Gnotes","Google","Messenger","Moodle","Mteams","Onedrive","Powerpoint","Telegram","Word","Youtube","Zoom"};
 
         for(int i = 0; i<siteicon.length;i++){
             siteModels.add(new SiteModel(siteicon[i],sitename[i]));
@@ -427,19 +400,11 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
     @Override
     public void onItemClick(int pos, String tag) {
-//        Toast.makeText(Comments.this,"Clicked an Item",Toast.LENGTH_SHORT).show();
-//        sitelistdialog.hide(); //para maghide yung link dialiog
-//        linkdialog.show();
-//        //nagaautomatic na magchange
-//        sitenamefield.setText(siteModels.get(pos).getSitename());
-//        //dito ka magsasave sa array
-//        siteName.add(siteModels.get(pos).getSitename());
-//        Toast.makeText(Comments.this,siteName.toString(),Toast.LENGTH_SHORT).show(
-//        );
+
 
         switch (tag){
             case "displaysite":
-                Toast.makeText(Updates.this, "Display adapter",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Updates.this, "Display adapter",Toast.LENGTH_SHORT).show();
                 break;
 
             case "siteadapter":
