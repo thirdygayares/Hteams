@@ -18,6 +18,7 @@
         >
 
         <RelativeLayout
+            android:id="@+id/colorstate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             >
@@ -26,11 +27,11 @@
                 android:id="@+id/tableName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLength="15"
+                android:maxLines="1"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:text="Documentation"
-
+                android:textColor="@color/grey3"
                 android:textAllCaps="true">
 
             </TextView>

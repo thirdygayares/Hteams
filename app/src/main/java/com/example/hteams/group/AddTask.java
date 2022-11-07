@@ -112,7 +112,6 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
         Log.d("TAG", "new Table " + newTable);
 
 
-
         //check if position
         if(newTable.equalsIgnoreCase("false")) {
             Log.d("TAG", "pnag add task sa particular table");
@@ -125,9 +124,6 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
             getPosition = groupPage.lastposition;
             Log.d("TAG", "position " + groupPage.lastposition);
         }//delete this if else later
-
-
-
 
 
         //fore testing

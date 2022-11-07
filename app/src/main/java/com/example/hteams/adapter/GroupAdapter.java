@@ -44,7 +44,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull GroupAdapter.MyViewHolder holder, int position) {
         holder.groupName.setText(groupmodels.get(position).getGroupTitle());
         holder.group_description.setText(groupmodels.get(position).getShortDescription());
-        holder.teacher.setText(groupmodels.get(position).getProfessor());
+        holder.teacher.setText("Prof. " + groupmodels.get(position).getProfessor());
         holder.subject.setText(groupmodels.get(position).getSubject());
         SetAvatar setAvatar = new SetAvatar();
         holder.group_image.setImageResource(setAvatar.setAvatar(groupmodels.get(position).getGroupImage()));

@@ -370,6 +370,7 @@
 
                         <!--                button of like-->
                         <com.google.android.material.button.MaterialButton
+                            android:visibility="gone"
                             android:id="@+id/buttonLikes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -382,6 +383,7 @@
 
                         <!--                button of dislike-->
                         <com.google.android.material.button.MaterialButton
+                            android:visibility="gone"
                             android:id="@+id/buttondislike"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -395,6 +397,7 @@
 
                         <!--                button of comments-->
                         <com.google.android.material.button.MaterialButton
+
                             android:id="@+id/buttonComments"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -402,7 +405,7 @@
                             android:drawableTint="#B7B7B7"
                             android:fontFamily="@font/gilroymedium"
                             android:stateListAnimator="@null"
-                            android:text="5"
+                            android:text="Comment"
                             android:textAllCaps="false"
                             android:textColor="@color/text"></com.google.android.material.button.MaterialButton>
 
@@ -410,6 +413,7 @@
 
                         <!--                button of save-->
                         <com.google.android.material.button.MaterialButton
+                            android:visibility="gone"
                             android:id="@+id/buttonsave"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

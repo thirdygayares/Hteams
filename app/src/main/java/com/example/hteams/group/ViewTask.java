@@ -520,6 +520,11 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
         buttonDeadline.setText( MonthCobnvert + " " + myday + ", " + timeConverter(myHour) + ":" + minute + " " + pmam );
 
+        String EditTime = timeConverter(myHour) + ":" + minute + " " + pmam;
+
+        Boolean update = databaseHelper.updateDue(String.valueOf(getTaskID),MonthCobnvert + " " + myday, EditTime );
+
+
     }
 
    static String dateConverter(int month){

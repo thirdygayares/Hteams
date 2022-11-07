@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:layout_marginBottom="5dp"
+    android:paddingBottom="20dp"
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
@@ -87,6 +88,7 @@
 <!--                counting view-->
 
                 <ImageView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_remove_red_eye_24"
@@ -94,6 +96,7 @@
                     ></ImageView>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/viewcount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -139,46 +142,188 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/gilroyregular"
-                android:text="Pa check naman to @Novem Lanaban Kung okay lang po "
+                android:text="Pa check naman to @Novem Lanaban Kung okay lang po csdsdasdsdsdsddsdsdasdasdsdasdasdsdasdasddasdasdasddsdasd "
                 android:textColor="@color/text"
                 android:textSize="15dp"></TextView>
 
 <!--            end of description-->
 
 
-<!--            count of files-->
+
+<!--            indicator of ilang files pictures and checklist-->
+
+            <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+                android:layout_below="@+id/description"
+                android:orientation="horizontal"
+            >
+
+            <!--            count of files-->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/files"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/description"
-                android:layout_marginHorizontal="22dp"
+                android:layout_marginLeft="22dp"
                 android:backgroundTint="@color/grey2"
                 app:cardElevation="0dp"
                 android:padding="10dp"
                 app:cardCornerRadius="10dp"
                 >
 
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    >
 
-            <TextView
-                android:id="@+id/files_count"
-                android:textColor="@color/working"
-                android:paddingVertical="5dp"
-                android:paddingHorizontal="14dp"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="With 2 Files"
-                ></TextView>
+                android:paddingHorizontal="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_attachment_24"
+                app:tint="@color/primary"
+                ></ImageView>
 
+                    <TextView
+                        android:id="@+id/files_countsss"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:paddingLeft="39dp"
+                        android:paddingRight="10dp"
+                        android:text="2"
+                        android:textColor="@color/primary"></TextView>
+
+                </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!--    end of counting of files-->
+
+            <!--            count of checkbox-->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/checklist"
+                android:layout_toRightOf="@+id/files"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/description"
+                android:layout_marginLeft="5dp"
+                android:backgroundTint="@color/grey2"
+                app:cardElevation="0dp"
+                android:padding="10dp"
+                app:cardCornerRadius="10dp"
+                >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_baseline_library_add_check_24"
+                        app:tint="@color/primary"
+                        ></ImageView>
+
+                    <TextView
+                        android:id="@+id/checklistcount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:paddingLeft="39dp"
+                        android:paddingRight="10dp"
+                        android:text="2"
+                        android:textColor="@color/primary"></TextView>
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+<!--                count of photos-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/photos"
+                    android:layout_toRightOf="@+id/files"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:backgroundTint="@color/grey2"
+                    app:cardElevation="0dp"
+                    android:padding="10dp"
+                    app:cardCornerRadius="10dp"
+                    >
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="10dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_baseline_photo_24"
+                            app:tint="@color/primary"
+                            ></ImageView>
+
+                        <TextView
+                            android:id="@+id/photoscount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="10dp"
+                            android:paddingLeft="39dp"
+                            android:paddingRight="10dp"
+                            android:text="2"
+                            android:textColor="@color/primary"></TextView>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!--                count of link-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/link"
+                    android:layout_toRightOf="@+id/files"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:backgroundTint="@color/grey2"
+                    app:cardElevation="0dp"
+                    android:padding="10dp"
+                    app:cardCornerRadius="10dp"
+                    >
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="10dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_baseline_link_24"
+                            app:tint="@color/primary"
+                            ></ImageView>
+
+                        <TextView
+                            android:id="@+id/linkscount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="10dp"
+                            android:paddingLeft="39dp"
+                            android:paddingRight="10dp"
+                            android:text="2"
+                            android:textColor="@color/primary"></TextView>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
 
 
-<!--            buttons : like dislike save-->
+            </LinearLayout>
+
 
             <LinearLayout
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:id="@+id/navigatorlikes"
                 android:layout_below="@+id/files"
                 android:layout_alignStart="@+id/files"

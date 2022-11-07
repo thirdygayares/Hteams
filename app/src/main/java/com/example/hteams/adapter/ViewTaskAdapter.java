@@ -45,7 +45,7 @@ public class ViewTaskAdapter extends RecyclerView.Adapter<ViewTaskAdapter.MyView
         holder.date.setText(viewTaskModels.get(position).getPostdate());
         holder.viewCount.setText(String.valueOf(viewTaskModels.get(position).getViewcount()));
         holder.description.setText(viewTaskModels.get(position).getDescription());
-        holder.filesCount.setText("With " + viewTaskModels.get(position).getFilescount() + " files");
+        holder.filesCount.setText(String.valueOf(viewTaskModels.get(position).getFilescount()));
         holder.likeCount.setText(String.valueOf(viewTaskModels.get(position).getLikecount()));
         holder.dislikecounts.setText(String.valueOf(viewTaskModels.get(position).getDislikecount()));
         holder.profilephoto.setImageResource(viewTaskModels.get(position).getProfilepicture());
@@ -54,7 +54,6 @@ public class ViewTaskAdapter extends RecyclerView.Adapter<ViewTaskAdapter.MyView
 
     @Override
     public int getItemCount() {
-
         return viewTaskModels.size();
     }
 
@@ -70,9 +69,8 @@ public class ViewTaskAdapter extends RecyclerView.Adapter<ViewTaskAdapter.MyView
             date = itemView.findViewById(R.id.date_post);
             viewCount = itemView.findViewById(R.id.viewcount);
             commentCount = itemView.findViewById(R.id.commentcount);
-
             description = itemView.findViewById(R.id.description);
-            filesCount = itemView.findViewById(R.id.files_count);
+            filesCount = itemView.findViewById(R.id.files_countsss);
             likeCount = itemView.findViewById(R.id.buttonLikes);
             dislikecounts = itemView.findViewById(R.id.buttondislike);
             profilephoto = itemView.findViewById(R.id.participant_photo);

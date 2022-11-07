@@ -180,15 +180,6 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
                     Log.d("TAG","Task id: " +   groupStorePageModels.size());
 
 
-
-
-//                    Log.d("TAG","TABLE ID: " + getIntGroupID);
-//                    Log.d("TAG","TASK ID: " + getTaskID);
-//                    Log.d("TAG","GROUP ID: " +getTableID);
-
-                   // Intent intent = new Intent(context, ViewTask.class);
-                   //context.startActivity(intent);
-
                 }catch (Exception e){
                     Log.d("TAG", "clicking task" + e);
                 }

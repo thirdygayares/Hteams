@@ -11,12 +11,11 @@ public class DoneModel {
     String participant_src_photo;
 
 
-    public DoneModel(int taskId, int groupId, int tableId, String nameofTask, String status, String dueDate, String participant_src_photo) {
+    public DoneModel(int taskId,  int tableId, String nameofTask,  String dueDate, String participant_src_photo) {
         TaskId = taskId;
-        GroupId = groupId;
+
         TableId = tableId;
         NameofTask = nameofTask;
-        Status = status;
         DueDate = dueDate;
         this.participant_src_photo = participant_src_photo;
     }

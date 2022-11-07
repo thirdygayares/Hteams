@@ -41,7 +41,6 @@ public class Home extends Fragment implements GroupInterface {
     String currentId;
 
     public static String GroupId;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,8 +55,6 @@ public class Home extends Fragment implements GroupInterface {
 
         //cyrrent id
         currentId = firebaseAuth.getCurrentUser().getUid();
-
-
         addgroup = view.findViewById(R.id.addgroup);
         menu = view.findViewById(R.id.menu);
         menu();
@@ -84,25 +81,9 @@ public class Home extends Fragment implements GroupInterface {
         });
     }
 
+    //TODO Erase later
     private void setupGroupData() {
-        //dummy data
-//        String[] Title = {"FireTera","Adroit","9x3","Cube","Group 1","Driven"};
-//        String[] Description = {"this is short Description", "this is short Description", "this is short Description", "this is short Description", "this is short Description", "this is short Description" };
-//        String[] Prof = {"Prof Thirdy Gayares", "Prof Novem Lanaban", "Prof Angel Locsin", "Prof Marian Rivera", "Prof. Alex Castro", "Prof. Jonny Sagloria" };
-//        String[] subject = {"Elective 1", "Softeng", "Discrete", "Modsimu", "HCI", "Algocom" };
-//        Integer[] image = {R.drawable.profile,R.drawable.avatar1, R.drawable.groupavatar2,R.drawable.groupavatar3, R.drawable.groupavatar4, R.drawable.groupavatar5};
-//
 
-        //from database data
-//        ArrayList<String> salesId = new ArrayList<>();
-//        ArrayList<String> Time = new ArrayList<>();
-//        ArrayList<String> TotalPrice = new ArrayList<>();
-
-
-//        sqlite data
-//        TODO Firebase Manipulation
-
-        //TODO SQLITE Manipulation
 
         ArrayList<String> GroupID = new ArrayList<>();
         //bago mo makuha yung group need mo muna malman kung accepted nila at syempre parrticipants sila
@@ -125,15 +106,11 @@ public class Home extends Fragment implements GroupInterface {
                 Cursor getGroups = databaseHelper.myGroup(GroupID.get(i));
                 getGroups.moveToNext();
                 groupModels.add(new GroupModel(getGroups.getString(0),getGroups.getString(1),getGroups.getString(2),getGroups.getString(4),getGroups.getString(5),getGroups.getString(3) ));
-
             }
-
-
 
         }catch (Exception e){
             Toast.makeText(getActivity(), "getting groups" + e, Toast.LENGTH_SHORT).show();
         }
-
         }
 
 

@@ -9,12 +9,6 @@
         />
 
     <item
-        android:id="@+id/viewyourtask"
-        android:icon="@drawable/ic_task"
-        android:title="View your task"
-        />
-
-    <item
         android:id="@+id/groupmates"
         android:icon="@drawable/ic_baseline_group_24"
         android:title="Groupmates"

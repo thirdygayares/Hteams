@@ -381,7 +381,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    //participant from the task
+    //edit participant from the task
     public boolean updateStatus(String taskid,String status){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues updateParticipant = new ContentValues();
@@ -390,7 +390,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-
+    //edit date from the task
+    public boolean updateDue(String taskid,String duedate, String dueTime){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues updateDue = new ContentValues();
+        updateDue.put(DUEDATE, duedate);
+        updateDue.put(DUETIME, dueTime);
+        db.update(TASKTABLE, updateDue,ID_TASK + " = ?",new String[] {taskid});
+        return true;
+    }
 
 
 
