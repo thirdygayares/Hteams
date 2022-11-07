@@ -371,6 +371,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //TODO UPDATE PAGE
+    //update participant from the task
+    public boolean updateParticipant(String taskid,String participantID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues updateParticipant = new ContentValues();
+        updateParticipant.put(ID_STUDENTS, participantID);
+        db.update(TASKTABLE, updateParticipant,ID_TASK + " = ?",new String[] {taskid});
+        return true;
+    }
+
+    //participant from the task
+    public boolean updateStatus(String taskid,String status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues updateParticipant = new ContentValues();
+        updateParticipant.put(STATUS, status);
+        db.update(TASKTABLE, updateParticipant,ID_TASK + " = ?",new String[] {taskid});
+        return true;
+    }
+
+
+
+
+
     // TODO testing
     public Cursor checkifmaylaman(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -491,6 +514,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return  data;
     }
 
+
+
+
+
     // Kung mayron na makita lang by section : ito naman kung sino lang kasali sa grupo
     public Cursor getNameImageParticipant(String id){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -537,9 +564,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // retrieve the tasktable via  ID group nad id table
-    public Cursor getTaskTableforGroupPage(String groupId,  String Tableid ){
+    public Cursor getTaskTableforGroupPage(String groupId,  String Tableid, String statud ){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + TASKTABLE + " WHERE " + ID_GROUP + " = ? AND " + ID_TABLE + " = ? " , new String[] {groupId,Tableid});
+        Cursor data = db.rawQuery("SELECT * FROM " + TASKTABLE + " WHERE " + ID_GROUP + " = ? AND " + ID_TABLE + " = ? AND " + STATUS + " = ? " , new String[] {groupId,Tableid,statud});
+
         return data;
     }
 

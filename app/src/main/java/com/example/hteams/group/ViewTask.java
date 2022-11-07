@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.hteams.Display.groupDetails;
 import com.example.hteams.MainActivity;
 import com.example.hteams.R;
 import com.example.hteams.Testing.SetProfile;
@@ -77,6 +80,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
     //pm or am
     static  String pmam = "am";
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,14 +97,22 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         currentId = firebaseAuth.getCurrentUser().getUid();
 
         //creatng object to get the value of Group Id, table Id, and task ID
-        GroupPageAdapater groupPageAdapater = new GroupPageAdapater();
+        GroupPage groupPage = new GroupPage();
+
 
         // set Group id
-        getGroupID = groupPageAdapater.getIntGroupID;
+        getGroupID = groupPage.getGroupIDInt;
         //set Task ID
-        getTaskID =  groupPageAdapater.getTaskID;
+        getTaskID =  groupPage.getTaskID;
         //set Table ID
-        getTableID =  groupPageAdapater.getTableID;
+        getTableID =  groupPage.getTableID;
+
+
+        //Testing
+//        getGroupID = 1;
+//        getTaskID = 1;
+//        getTableID = 1;
+
 
         //initializion of id in xml
         initxml();
@@ -108,6 +120,9 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         //header
         //toretrieve the name of the group, task name, and what is the table of thos
         header();
+
+        //change assignedtomstatus,and deadline base on database
+        TaskRetrievesData();
 
 
         //button for post update
@@ -127,6 +142,52 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         setupAssigne();
         //TODO deadline
         deadlineCalendar();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void TaskRetrievesData() {
+        Cursor getTaskName = databaseHelper.getTaskName(getTaskID);
+
+        while(getTaskName.moveToNext()){
+
+            groupDetails groupDetail = new groupDetails();
+            button_asignee.setText(groupDetail.partcipantName(ViewTask.this,getTaskName.getString(3)));
+            button_status.setText(getTaskName.getString(5));
+            //condition
+            String status_indicatior = getTaskName.getString(5);
+            if(status_indicatior.equalsIgnoreCase("done")){
+                button_status.setBackgroundColor(Color.parseColor("#3AAB28"));
+                button_status.setText("DONE");
+                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
+            }
+            else if(status_indicatior.equalsIgnoreCase("working")){
+                button_status.setBackgroundColor(Color.parseColor("#3659D7"));
+                button_status.setText("WORKING");
+                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_work_outline_24, 0, 0, 0);
+            }
+            else if(status_indicatior.equalsIgnoreCase("to do")){
+                button_status.setBackgroundColor(Color.BLACK);
+                button_status.setText("TO DO");
+                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
+
+            }
+            else if(status_indicatior.equalsIgnoreCase("Ready")){
+                button_status.setBackgroundColor(Color.parseColor("#FF9500"));
+                button_status.setText("READY");
+                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
+            }
+
+            SetProfile setProfile = new SetProfile();
+            participant_photo.setImageResource(setProfile.profileImage(groupDetail.participantImage(ViewTask.this,getTaskName.getString(3))));
+            buttonDeadline.setText(getTaskName.getString(7) + " " + getTaskName.getString(8));
+
+        }
+
+
     }
 
 
@@ -227,6 +288,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
+          
                 if(id == R.id.remind){
                     Toast.makeText(ViewTask.this,"Remind",Toast.LENGTH_SHORT).show();
                 }else if (id == R.id.delete){
@@ -235,6 +297,9 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                     Intent intent = new Intent(ViewTask.this, MainActivity.class);
                     startActivity(intent);
                 }
+
+
+
                 return false;
             }
         });
@@ -278,14 +343,17 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
             @RequiresApi(api = Build.VERSION_CODES.M)
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
+                String status = null;
                 if(id == R.id.todo){
 //                    Toast.makeText(ViewTask.this,"Todo",Toast.LENGTH_SHORT).show();
                     button_status.setBackgroundColor(Color.BLACK);
                     button_status.setText("TO DO");
+                    status = "TO DO";
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
 
                 }else if (id == R.id.working){
+                    status = "Working";
                     button_status.setBackgroundColor(Color.parseColor("#3659D7"));
                     button_status.setText("WORKING");
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
@@ -293,14 +361,20 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                 }else if (id == R.id.done){
                     button_status.setBackgroundColor(Color.parseColor("#3AAB28"));
                     button_status.setText("DONE");
+                    status = "Done";
+
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
                 }else if (id == R.id.ready){
                     button_status.setBackgroundColor(Color.parseColor("#FF9500"));
                     button_status.setText("READY");
+                    status = "Ready";
+
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
                 }
+
+                Boolean update = databaseHelper.updateStatus(String.valueOf(getTaskID),status );
 
 
                 return false;
@@ -361,8 +435,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                 participant.setLayoutManager(new LinearLayoutManager(ViewTask.this));
 
 
-
-
                 alert.setView(mView);
                 alertDialog = alert.create();
                 //user can touch in outside
@@ -379,25 +451,30 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     private void setupAssigne() {
         //                TODO: if the user is current leader it indicator or show you
         ArrayList<String> profilePhoto = new ArrayList<String>();
-        profilePhoto.add("acds_gayares");
-        profilePhoto.add("acds_zabala");
-        profilePhoto.add("acds_lanaban");
-
         ArrayList<String> classmateName = new ArrayList<String>();
-        classmateName.add("Thirdy Gayares");
-        classmateName.add("Marielle Zabala");
-        classmateName.add("Novem Lanaban");
-
         ArrayList<String> students_id = new ArrayList<String>();
-        students_id.add("T");
-        students_id.add("Marielle Zabala");
-        students_id.add("Novem Lanaban");
 
 
-         for(int i=0; i<classmateName.size();i++){
-            assigneeModels.add(new AssigneeModel(classmateName.get(i), students_id.get(i), profilePhoto.get(i)));
+        //TODO getting the participant from a group
+        try{
+            Cursor getParticipant =  databaseHelper.getParticipant(String.valueOf(getGroupID));
+            groupDetails groupDetail = new groupDetails();
+            SetProfile setProfile = new SetProfile();
+
+            while (getParticipant.moveToNext()){
+                String studentsId =      getParticipant.getString(0);
+                profilePhoto.add(groupDetail.participantImage(ViewTask.this,studentsId));
+                classmateName.add(groupDetail.partcipantName(ViewTask.this,studentsId));
+              students_id.add(getParticipant.getString(0));
+            }
+
+        }catch (Exception e){
+            Log.d("TAG",  e.toString());
         }
 
+        for(int i=0; i<classmateName.size();i++){
+            assigneeModels.add(new AssigneeModel(classmateName.get(i), students_id.get(i), profilePhoto.get(i)));
+        }
     }
 
     //due date
@@ -422,7 +499,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
         myYear = year;
-        myday = day;
+        myday = dayOfMonth;
         myMonth = month;
         Calendar c = Calendar.getInstance();
         hour = c.get(Calendar.HOUR);
@@ -570,6 +647,12 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                 button_asignee.setText(assigneeModels.get(position).getName());
                 SetProfile setProfiles = new SetProfile();
                 participant_photo.setImageResource(setProfiles.profileImage(assigneeModels.get(position).getImgsrc()));
+                Boolean update = databaseHelper.updateParticipant(String.valueOf(getTaskID), String.valueOf(assigneeModels.get(position).getSTUDENT_ID()));
+                if(update == true){
+                    Log.d("TAG", "Change Successfully");
+                }else{
+                    Log.d("TAG", "Error Changing Participant");
+                }
                 alertDialog.dismiss();
                 break;
 
@@ -597,6 +680,8 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         tableName = (TextView) findViewById(R.id.tableName);
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

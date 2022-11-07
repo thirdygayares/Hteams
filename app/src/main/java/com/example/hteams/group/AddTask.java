@@ -116,7 +116,7 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
         //check if position
         if(newTable.equalsIgnoreCase("false")) {
             Log.d("TAG", "pnag add task sa particular table");
-            getPosition = Integer.parseInt(getIntent().getStringExtra("POSITION"));
+            getPosition = 0;
             Log.d("TAG", "position " + getPosition);
 
         }else if(newTable.equalsIgnoreCase("true")){
@@ -194,8 +194,6 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                     groupPageModels.add(new GroupPageModel(taskName,status,finalDate,classmatePhoto));
 
                     try{
-
-
                     SQLITEADDTASKMODEL sqliteaddtaskmodels = null;
                     //GET TIME AND DATE
                     //dateConverter(myMonth)) + " " + myday + ", " + timeConverter(myHour)

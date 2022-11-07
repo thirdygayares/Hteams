@@ -83,7 +83,6 @@ public class ViewTaskAdapter extends RecyclerView.Adapter<ViewTaskAdapter.MyView
                     if(pos!= RecyclerView.NO_POSITION){
                         viewTaskInterfaces.onItemClick(pos, "ViewTaskAdapter");
                     }
-
                 }
             });
         }

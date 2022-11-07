@@ -98,8 +98,6 @@
 
 
 
-
-
         <RelativeLayout
             android:background="@color/primary"
             android:layout_width="wrap_content"
@@ -191,7 +189,7 @@
                 android:id="@+id/emptyContainer"
                 android:visibility="gone"
                 android:layout_width="wrap_content"
-                android:layout_below="@+id/dashboard"
+                android:layout_below="@+id/addtableanddisplaymode"
                 android:layout_marginVertical="80dp"
                 android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content">
@@ -222,11 +220,11 @@
                     android:stateListAnimator="@null"
                     android:text="Create First Task"
                     android:textAllCaps="false"
-                    android:textColor="@color/primary"
+                    android:textColor="@color/white"
                     app:backgroundTint="@android:color/transparent"
                     app:cornerRadius="8dp"
-                    app:rippleColor="@color/primary"
-                    app:strokeColor="@color/primary"
+                    app:rippleColor="@color/white"
+                    app:strokeColor="@color/white"
                     app:strokeWidth="1dp"></com.google.android.material.button.MaterialButton>
 
             </RelativeLayout>
@@ -287,8 +285,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/taskRecycler"
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp" />
             </RelativeLayout>
             <androidx.cardview.widget.CardView
                 android:id="@+id/Addtask1"
@@ -358,8 +356,8 @@
                 android:id="@+id/touchme2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="10dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:paddingVertical="10dp">
 
                 <RelativeLayout
                     android:id="@+id/titlehigh2"
@@ -368,14 +366,13 @@
                     android:background="@color/primary"></RelativeLayout>
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/arrow1"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                    ></ImageView>
+                    android:visibility="gone"></ImageView>
 
                 <TextView
                     android:id="@+id/Table2"
@@ -391,7 +388,6 @@
                     android:textSize="16sp" />
 
 
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -399,6 +395,7 @@
                 android:layout_width="wrap_content"
                 android:layout_below="@+id/touchme2"
                 android:layout_height="wrap_content">
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/taskRecycler2"
                     android:layout_width="match_parent"
@@ -425,34 +422,7 @@
                         ></RelativeLayout>
 
 
-                    <!--                add task button-->
-                    <RelativeLayout
 
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
-                        >
-
-                        <Button
-                            android:id="@+id/addtask3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:paddingLeft="10dp"
-                            android:text="+ Add Task"
-                            android:textAlignment="textStart"
-                            android:textColor="@color/primary"></Button>
-
-
-
-
-                        <!--            gap-->
-                        <!--                    <LinearLayout-->
-                        <!--                        android:layout_width="match_parent"-->
-                        <!--                        android:layout_height="1dp"-->
-                        <!--                        android:layout_below="@+id/addtask"-->
-                        <!--                        android:background="@color/gray0"></LinearLayout>-->
-                    </RelativeLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -541,34 +511,8 @@
                         ></RelativeLayout>
 
 
-                    <!--                add task button-->
-                    <RelativeLayout
-
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
-                        >
-
-                        <Button
-                            android:id="@+id/addtask5"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:paddingLeft="10dp"
-                            android:text="+ Add Task"
-                            android:textAlignment="textStart"
-                            android:textColor="@color/primary"></Button>
 
 
-
-
-                        <!--            gap-->
-                        <!--                    <LinearLayout-->
-                        <!--                        android:layout_width="match_parent"-->
-                        <!--                        android:layout_height="1dp"-->
-                        <!--                        android:layout_below="@+id/addtask"-->
-                        <!--                        android:background="@color/gray0"></LinearLayout>-->
-                    </RelativeLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -657,34 +601,7 @@
                         ></RelativeLayout>
 
 
-                    <!--                add task button-->
-                    <RelativeLayout
 
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
-                        >
-
-                        <Button
-                            android:id="@+id/addtask4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:paddingLeft="10dp"
-                            android:text="+ Add Task"
-                            android:textAlignment="textStart"
-                            android:textColor="@color/primary"></Button>
-
-
-
-
-                        <!--            gap-->
-                        <!--                    <LinearLayout-->
-                        <!--                        android:layout_width="match_parent"-->
-                        <!--                        android:layout_height="1dp"-->
-                        <!--                        android:layout_below="@+id/addtask"-->
-                        <!--                        android:background="@color/gray0"></LinearLayout>-->
-                    </RelativeLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -693,13 +610,11 @@
         </RelativeLayout>
         <!--            end of third Table-->
 
-
-
-
-
-
-
     </LinearLayout>
+
+
+
+
     </ScrollView>
 
 
