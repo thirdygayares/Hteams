@@ -536,6 +536,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    // retrieve the tasktable via  ID group nad id table
+    public Cursor getTaskTableforGroupPage(String groupId,  String Tableid ){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TASKTABLE + " WHERE " + ID_GROUP + " = ? AND " + ID_TABLE + " = ? " , new String[] {groupId,Tableid});
+        return data;
+    }
 
 
 

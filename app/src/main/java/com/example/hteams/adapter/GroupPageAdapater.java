@@ -57,10 +57,10 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
     public static int getTaskID;
     public static int getTableID;
 
-    public GroupPageAdapater(Context context,  ArrayList<GroupPageParentModel> groupPageParentModels, GroupPageInterface groupPageInterface){
+    public GroupPageAdapater(Context context,  ArrayList<GroupPageParentModel> groupPageParentModels){
         this.context = context;
         this.groupPageParentModels = groupPageParentModels;
-        this.groupPageInterface = groupPageInterface;
+
 
     }
 
@@ -73,7 +73,7 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
     public GroupPageAdapater.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType  ) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recycler_group_page_parent, parent, false);
-        return new GroupPageAdapater.MyViewHolder(view,groupPageInterface);
+        return new GroupPageAdapater.MyViewHolder(view);
     }
 
     @Override
@@ -208,7 +208,7 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
         ImageView arrow;
 
 
-        public MyViewHolder(@NonNull View itemView, GroupPageInterface groupPageInterface ) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             TableName = (TextView) itemView.findViewById(R.id.Table) ;
             addTaskButton =(Button) itemView.findViewById(R.id.addtask);
@@ -219,14 +219,6 @@ public class GroupPageAdapater extends RecyclerView.Adapter<GroupPageAdapater.My
             tabletouch = (LinearLayout) itemView.findViewById(R.id.tabletouch);
             arrow = (ImageView) itemView.findViewById(R.id.arrow);
 
-            itemView.setOnClickListener(view -> {
-                if(groupPageInterface != null ){
-                    int pos = getAdapterPosition();
-                    if(pos!= RecyclerView.NO_POSITION){
-                        groupPageInterface.onItemClick(pos);
-                    }
-                }
-            });
         }
     }
 

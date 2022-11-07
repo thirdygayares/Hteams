@@ -4,11 +4,14 @@
     android:id="@+id/touchchild"
     android:layout_width="match_parent"
     android:background="@color/white"
+    android:layout_marginVertical="1dp"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -16,25 +19,21 @@
 
         >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-        <RelativeLayout
-            android:id="@+id/blueline"
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-            android:background="@color/primary"
-            ></RelativeLayout>
-
-
         <RelativeLayout
             android:paddingRight="10dp"
             android:paddingTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
+            android:paddingBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             >
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/blueline"
+                android:layout_width="5dp"
+                android:layout_height="40dp"
+                android:background="@color/primary"
+                ></RelativeLayout>
 
 
             <TextView
@@ -51,9 +50,9 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/participant_photo"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_below="@+id/taskName"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
@@ -73,6 +72,8 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_marginRight="4dp"
+                android:visibility="gone"
+
                 android:layout_toLeftOf="@id/status"
                 android:src="@drawable/ic_todo"></ImageView>
 
@@ -84,6 +85,7 @@
                 android:layout_alignParentRight="true"
                 android:fontFamily="@font/gilroymedium"
                 android:text="TODO"
+                android:visibility="gone"
                 android:textColor="@color/todo"
                 android:textSize="14dp"></TextView>
 
@@ -110,7 +112,7 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:visibility="gone"
-
+                app:tint="@color/gray0"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="4dp"
                 android:layout_below="@+id/iconstatus"
@@ -123,12 +125,12 @@
                 android:id="@+id/duedate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/timestamp"
-                android:layout_alignParentRight="true"
+                android:layout_below="@+id/taskName"
                 android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/calendaricon"
                 android:fontFamily="@font/gilroymedium"
                 android:text="Oct 16, 10PM"
-                android:textColor="@color/black"
+                android:textColor="@color/gray0"
                 android:textSize="12dp"></TextView>
 
 
@@ -138,25 +140,17 @@
                 android:id="@+id/calendaricon"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
+                android:layout_marginLeft="11dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="4dp"
-                android:layout_below="@+id/timestapicon"
-                android:layout_toLeftOf="@id/duedate"
+                android:layout_below="@+id/taskName"
+                app:tint="@color/gray0"
                 android:src="@drawable/calendar"></ImageView>
 
 
-<!--            gap-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:orientation="horizontal"
-                android:layout_below="@+id/participant_photo"
-                android:layout_marginTop="10dp"
-                android:background="@color/gray0"></LinearLayout>
-
 
         </RelativeLayout>
-        </LinearLayout>
+
 
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

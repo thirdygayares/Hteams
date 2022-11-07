@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="#FAFAFA"
     android:layout_height="match_parent"
     tools:context=".group.GroupPage">
 
 <!--    header-->
     <RelativeLayout
         android:id="@+id/header"
-        android:background="@color/white"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/primary">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/logo"
@@ -40,6 +40,7 @@
             android:layout_marginTop="22dp"
             android:layout_toRightOf="@+id/logo"
             android:fontFamily="@font/gilroymedium"
+            android:textColor="@color/white"
             android:text="Name of Group"
 
             android:textSize="16sp" />
@@ -54,12 +55,14 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/ic_baseline_menu_24" />
+            app:tint="@color/white"
+            android:src="@drawable/ic_baseline_menu_24"
 
-</RelativeLayout>
+            />
 
+    </RelativeLayout>
 
+<!--    end of header-->
 
 
     <ScrollView
@@ -73,297 +76,37 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primary"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tablerecylce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+               android:orientation="horizontal"
+                android:scrollbars="none">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </RelativeLayout>
+
+
+
+
+
+
+        <RelativeLayout
+            android:background="@color/primary"
             android:layout_width="wrap_content"
+            android:paddingBottom="5dp"
             android:layout_height="wrap_content">
 
-
-
-
-<!--            dashboard-->
-
-            <LinearLayout
-                android:id="@+id/dashboard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="5dp"
-                >
-
-<!--                Scroll view in left and right-->
-
-                <HorizontalScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    >
-
-                    <LinearLayout
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        >
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/gray0"
-                            app:cardCornerRadius="15dp"
-                            android:layout_marginHorizontal="5dp"
-
-                            >
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="20dp"
-                                android:paddingVertical="10dp">
-
-                                <TextView
-                                    android:id="@+id/textAll"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:fontFamily="@font/gilroysemibold"
-                                    android:text="ALL"
-                                    android:textColor="@color/white"
-                                    android:textSize="15dp"></TextView>
-
-                                <TextView
-                                    android:id="@+id/all"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/textAll"
-                                    android:layout_centerHorizontal="true"
-                                    android:text="35"
-                                    android:textColor="@color/white"
-                                    android:textSize="35dp"></TextView>
-
-                            </RelativeLayout>
-
-
-                        </androidx.cardview.widget.CardView>
-
-
-
-<!--                        TODOTEXT-->
-
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/container"
-                            app:cardCornerRadius="15dp"
-                            android:layout_marginHorizontal="5dp"
-
-                            >
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="20dp"
-                                android:paddingVertical="10dp">
-
-                                <TextView
-                                    android:id="@+id/textTodo"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:fontFamily="@font/gilroysemibold"
-                                    android:text="TO DO"
-                                    android:textColor="@color/todo"
-                                    android:textSize="15dp"></TextView>
-
-                                <TextView
-                                    android:id="@+id/todo"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/textTodo"
-                                    android:layout_centerHorizontal="true"
-                                    android:text="5"
-                                    android:textColor="@color/black"
-                                    android:textSize="35dp"></TextView>
-
-                            </RelativeLayout>
-
-
-                        </androidx.cardview.widget.CardView>
-
-
-<!--                        INPROGRESS-->
-
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/container"
-                            app:cardCornerRadius="15dp"
-                            android:layout_marginHorizontal="5dp"
-
-                            >
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="20dp"
-                                android:paddingVertical="10dp">
-
-                                <TextView
-                                    android:id="@+id/textinprogress"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:fontFamily="@font/gilroysemibold"
-                                    android:text="WORKING"
-                                    android:textColor="@color/working"
-                                    android:textSize="15dp"></TextView>
-
-                                <TextView
-                                    android:id="@+id/inprogress"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/textinprogress"
-                                    android:layout_centerHorizontal="true"
-                                    android:text="10"
-                                    android:textColor="@color/black"
-                                    android:textSize="35dp"></TextView>
-
-                            </RelativeLayout>
-
-
-                        </androidx.cardview.widget.CardView>
-
-
-
-<!--                        Ready-->
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/container"
-                            app:cardCornerRadius="15dp"
-                            android:layout_marginHorizontal="5dp"
-
-                            >
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="20dp"
-                                android:paddingVertical="10dp">
-
-                                <TextView
-                                    android:id="@+id/textready"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:fontFamily="@font/gilroysemibold"
-                                    android:text="READY"
-                                    android:textColor="@color/ready"
-                                    android:textSize="15dp"></TextView>
-                                <TextView
-                                    android:id="@+id/ready"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/textready"
-                                    android:layout_centerHorizontal="true"
-                                    android:text="10"
-                                    android:textColor="@color/black"
-                                    android:textSize="35dp"></TextView>
-                            </RelativeLayout>
-
-
-                        </androidx.cardview.widget.CardView>
-
-
-
-                        <!--                        Ready-->
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/container"
-                            app:cardCornerRadius="15dp"
-                            android:layout_marginHorizontal="5dp"
-
-                            >
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="20dp"
-                                android:paddingVertical="10dp">
-                                <TextView
-                                    android:id="@+id/donetext"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:fontFamily="@font/gilroysemibold"
-                                    android:text="DONE"
-                                    android:textColor="@color/done"
-                                    android:textSize="15dp"></TextView>
-                                <TextView
-                                    android:id="@+id/done"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/donetext"
-                                    android:layout_centerHorizontal="true"
-                                    android:text="10"
-                                    android:textColor="@color/black"
-                                    android:textSize="35dp"></TextView>
-                            </RelativeLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-                        <!--                        Due Date-->
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:cardBackgroundColor="@color/container"
-                            app:cardCornerRadius="15dp"
-                            android:layout_marginHorizontal="5dp"
-
-                            >
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="20dp"
-                                android:paddingVertical="10dp">
-                                <TextView
-                                    android:id="@+id/duetext"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:fontFamily="@font/gilroysemibold"
-                                    android:text="DUE"
-                                    android:textColor="@color/duedate"
-                                    android:textSize="15dp"></TextView>
-                                <TextView
-                                    android:id="@+id/due"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/duetext"
-                                    android:layout_centerHorizontal="true"
-                                    android:text="10"
-                                    android:textColor="@color/black"
-                                    android:textSize="35dp"></TextView>
-                            </RelativeLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-
-
-                    </LinearLayout>
-
-                </HorizontalScrollView>
-
-
-
-            </LinearLayout>
+<!--            list of table-->
 
 
         <LinearLayout
@@ -389,7 +132,9 @@
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_baseline_add_24"></ImageView>
+                    android:src="@drawable/ic_baseline_add_24"
+                    app:tint="@color/white"
+                    ></ImageView>
 
                 <TextView
                     android:id="@+id/addtable"
@@ -400,7 +145,7 @@
                     android:layout_toRightOf="@+id/iconadd"
                     android:fontFamily="@font/gilroyregular"
                     android:text="Add Table"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="15dp"></TextView>
             </RelativeLayout>
 
@@ -419,6 +164,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginLeft="10dp"
+                app:tint="@color/white"
                 android:layout_centerVertical="true"
                 android:src="@drawable/displaylistview"></ImageView>
 
@@ -431,7 +177,7 @@
                     android:layout_toRightOf="@+id/icondisplay"
                     android:fontFamily="@font/gilroyregular"
                     android:text="List View"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="15dp"></TextView>
             </RelativeLayout>
 
@@ -484,22 +230,474 @@
                     app:strokeWidth="1dp"></com.google.android.material.button.MaterialButton>
 
             </RelativeLayout>
-
-
-
-
-
-
-
         </RelativeLayout>
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/taskRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <!--            start of first Table-->
+        <RelativeLayout
+            android:layout_marginHorizontal="7dp"
+            android:id="@+id/firstGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-            ></androidx.recyclerview.widget.RecyclerView>
+            <RelativeLayout
+                android:id="@+id/touchme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingVertical="10dp">
+
+                <RelativeLayout
+                    android:id="@+id/titlehigh"
+                    android:layout_width="10dp"
+                    android:layout_height="30dp"
+                    android:background="@color/primary"></RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/arrow"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                    android:visibility="gone"></ImageView>
+
+                <TextView
+                    android:id="@+id/Table"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/titlehigh"
+                    android:fontFamily="@font/gilroybold"
+                    android:text="TO DO"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/recycleContainer"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/touchme"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/taskRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/Addtask1"
+                android:layout_below="@+id/recycleContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <LinearLayout
+                    android:id="@+id/addTaskContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <RelativeLayout
+                        android:id="@+id/blueline"
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary"
+                        ></RelativeLayout>
+
+
+                    <!--                add task button-->
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        >
+
+                        <Button
+                            android:id="@+id/addtask"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:paddingLeft="10dp"
+                            android:text="+ Add Task"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/primary"></Button>
+
+
+
+
+                        <!--            gap-->
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:layout_below="@+id/addtask"-->
+                        <!--                        android:background="@color/gray0"></LinearLayout>-->
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+        <!--            end of first Table-->
+
+        <!--            start of second Table-->
+<!--        working on it-->
+        <RelativeLayout
+            android:layout_marginHorizontal="7dp"
+            android:id="@+id/secondgroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/touchme2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:layout_marginTop="8dp">
+
+                <RelativeLayout
+                    android:id="@+id/titlehigh2"
+                    android:layout_width="10dp"
+                    android:layout_height="30dp"
+                    android:background="@color/primary"></RelativeLayout>
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/arrow1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                    ></ImageView>
+
+                <TextView
+                    android:id="@+id/Table2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/titlehigh2"
+                    android:fontFamily="@font/gilroybold"
+                    android:text="WORKING ON IT"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp" />
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/recycleContainer2"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/touchme2"
+                android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/taskRecycler2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
+            </RelativeLayout>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/Addtask2"
+                android:layout_below="@+id/recycleContainer2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <LinearLayout
+                    android:id="@+id/addTaskContainer2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <RelativeLayout
+                        android:id="@+id/blueline2"
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary"
+                        ></RelativeLayout>
+
+
+                    <!--                add task button-->
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        >
+
+                        <Button
+                            android:id="@+id/addtask3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:paddingLeft="10dp"
+                            android:text="+ Add Task"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/primary"></Button>
+
+
+
+
+                        <!--            gap-->
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:layout_below="@+id/addtask"-->
+                        <!--                        android:background="@color/gray0"></LinearLayout>-->
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+        <!--            end of second Table-->
+
+
+        <!--            start of third Table-->
+        <!--        ready on it-->
+        <RelativeLayout
+            android:layout_marginHorizontal="7dp"
+            android:id="@+id/fourthgroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/touchme4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:layout_marginTop="8dp">
+
+                <RelativeLayout
+                    android:id="@+id/titlehigh4"
+                    android:layout_width="10dp"
+                    android:layout_height="30dp"
+                    android:background="@color/primary"></RelativeLayout>
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/arrow3"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                    ></ImageView>
+
+                <TextView
+                    android:id="@+id/Table4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/titlehigh4"
+                    android:fontFamily="@font/gilroybold"
+                    android:text="READY"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp" />
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/recycleContainer4"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/touchme4"
+                android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/taskRecycler4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
+            </RelativeLayout>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/Addtask4"
+                android:layout_below="@+id/recycleContainer4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <LinearLayout
+                    android:id="@+id/addTaskContainer4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <RelativeLayout
+                        android:id="@+id/blueline4"
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary"
+                        ></RelativeLayout>
+
+
+                    <!--                add task button-->
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        >
+
+                        <Button
+                            android:id="@+id/addtask5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:paddingLeft="10dp"
+                            android:text="+ Add Task"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/primary"></Button>
+
+
+
+
+                        <!--            gap-->
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:layout_below="@+id/addtask"-->
+                        <!--                        android:background="@color/gray0"></LinearLayout>-->
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+        <!--            end of third Table-->
+
+
+        <!--            start of fourth Table-->
+        <!--        done on it-->
+        <RelativeLayout
+            android:layout_marginHorizontal="7dp"
+            android:id="@+id/thirdgroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/touchme3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:layout_marginTop="8dp">
+
+                <RelativeLayout
+                    android:id="@+id/titlehigh3"
+                    android:layout_width="10dp"
+                    android:layout_height="30dp"
+                    android:background="@color/primary"></RelativeLayout>
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/arrow2"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                    ></ImageView>
+
+                <TextView
+                    android:id="@+id/Table3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/titlehigh3"
+                    android:fontFamily="@font/gilroybold"
+                    android:text="DONE"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp" />
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/recycleContainer3"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/touchme3"
+                android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/taskRecycler3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
+            </RelativeLayout>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/Addtask3"
+                android:layout_below="@+id/recycleContainer3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <LinearLayout
+                    android:id="@+id/addTaskContainer3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <RelativeLayout
+                        android:id="@+id/blueline3"
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary"
+                        ></RelativeLayout>
+
+
+                    <!--                add task button-->
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        >
+
+                        <Button
+                            android:id="@+id/addtask4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:paddingLeft="10dp"
+                            android:text="+ Add Task"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/primary"></Button>
+
+
+
+
+                        <!--            gap-->
+                        <!--                    <LinearLayout-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_height="1dp"-->
+                        <!--                        android:layout_below="@+id/addtask"-->
+                        <!--                        android:background="@color/gray0"></LinearLayout>-->
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+        <!--            end of third Table-->
+
+
+
+
+
+
 
     </LinearLayout>
     </ScrollView>

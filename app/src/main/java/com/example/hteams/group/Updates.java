@@ -77,7 +77,6 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     DisplaySiteAdapter adapter;
 
     ArrayList<String> taskname = new ArrayList<>();
-
     //global variable of ListDisplayAdapter
     ListDisplayAdapter adapter2;
 
@@ -111,7 +110,6 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         createsitesDialog();
         //view the list display
         viewListDisplay();
-
 
 
 
