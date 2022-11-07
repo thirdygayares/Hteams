@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.vo.UpdateMethod;
 
 
 import android.content.Intent;
@@ -48,6 +49,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     Button records;
     Button comment;
     TextView cancel;
+    EditText cmntfield;
     RecyclerView sitesRecycler;
     Button sitenamefield;
     RecyclerView displaySites; // para pag click nung edit text madetect
@@ -58,7 +60,6 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     RelativeLayout listContainer;   //global variable for linearlayout to hide id may laman ba
 
     //Array List
-
     ArrayList <String> site_name = new ArrayList<String>();   //Site Name ex. Google meet etc,
     ArrayList <String> custom_name = new ArrayList<String>();   //custom name ex.Watch this guys
     ArrayList <String> web_link = new ArrayList<String>();     //link ex.www.google.com
@@ -82,7 +83,6 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     int groupId = 1, taskId=1;
     String currentId;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +98,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         linkdialog = new BottomSheetDialog(this);
         sitelistdialog = new BottomSheetDialog(this);
         listupdatedialog = new BottomSheetDialog(this);
-
-
+        cmntfield = (EditText) findViewById(R.id.cmntfield);
         //calling the adapter2
         adapter2 = new ListDisplayAdapter(Updates.this, listDisplayModels, this);
 
@@ -185,8 +184,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                Intent intentupdate = new Intent(Updates.this, ViewTask.class);
-                startActivity(intentupdate);
+                UpdateMethod();
             }
         });
         // end of comment button
@@ -211,6 +209,50 @@ public class Updates extends AppCompatActivity implements SiteInterface {
             Log.d("TAG", "cannot find a task name " +  e);
         }
 
+    }
+
+    private void UpdateMethod() {
+        try{
+
+            boolean update = databaseHelper.addUpdates(taskId,groupId,currentId,cmntfield.getText().toString());
+                 if(update == true){
+                     Log.d("TAG", "success");
+
+                     int currentupdatesID = 0;
+                     //kukunin yung id para sa list halimbawa makuha yung list
+                     Cursor getLastId = databaseHelper.getLastId(String.valueOf(taskId));
+                     if(getLastId.getCount() == 0){
+                         Log.d("TAG", "0 ang id "); //this is imposible
+                         Toast.makeText(Updates.this,"Error Please Try Again", Toast.LENGTH_SHORT).show();
+                     }else{
+                         while (getLastId.moveToNext()){  //checking the last ID
+                             currentupdatesID = getLastId.getInt(0);
+                         }
+
+                        DisplaySiteModel displaySiteModelSqlite = null;
+
+                         for(int i=0;i<displaySiteModels.size();i++){//loop kung ilan ba yung nasa link model
+                             displaySiteModelSqlite = new DisplaySiteModel(displaySiteModels.get(i).getCustomsitename(),displaySiteModels.get(i).getSiteName(),displaySiteModels.get(i).getLink());
+                             boolean addLink = databaseHelper.addLink(currentupdatesID, groupId,displaySiteModelSqlite );
+                             if(addLink == true){
+                                 Log.d("TAG", "success ang List");
+                             }else{
+                                 Log.d("TAG", "failed ang List");
+                             }
+                         }
+                     }
+
+                     Log.d("TAG", "Ang huling id ay " +  currentupdatesID);
+
+
+                 }else{
+                     Log.d("TAG", "failed");
+                 }
+
+        }catch (Exception e){
+            Log.d("TAG", "failed to update: " + e);
+
+        }
     }
 
     //viewing the list in updates class
@@ -347,7 +389,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
                     web_link.add(sitelink.getText().toString());
                     // Toast.makeText(Comments.this,custom_name.toString(),Toast.LENGTH_SHORT).show();
                     // to add in the model and maread sa array
-                    displaySiteModels.add(new DisplaySiteModel(name.getText().toString(), sitenamefield.getText().toString()));
+                    displaySiteModels.add(new DisplaySiteModel(name.getText().toString(), sitenamefield.getText().toString(), sitelink.getText().toString()));
                     //to update the content of adapter
                     adapter.notifyItemInserted(custom_name.size() - 1);
                     displaySites.scrollToPosition(custom_name.size());

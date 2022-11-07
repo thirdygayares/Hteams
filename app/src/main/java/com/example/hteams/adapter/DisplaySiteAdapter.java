@@ -92,6 +92,17 @@ public class DisplaySiteAdapter extends RecyclerView.Adapter<DisplaySiteAdapter.
 
         holder.display_sitename.setText(displaySiteModels.get(position).getCustomsitename());
 
+
+        //cancel the link
+        holder.display_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displaySiteModels.remove(holder.getAdapterPosition());
+
+                notifyItemRemoved(holder.getAdapterPosition());
+            }
+        });
+
     }
 
     @Override

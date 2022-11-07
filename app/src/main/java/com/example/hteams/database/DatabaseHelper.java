@@ -13,6 +13,7 @@ import com.example.hteams.Testing.SubjectModel;
 import com.example.hteams.Testing.Testing1;
 import com.example.hteams.Testing.Testing1Model;
 import com.example.hteams.model.ChooseParticipantModel;
+import com.example.hteams.model.DisplaySiteModel;
 import com.example.hteams.model.InviteModel;
 import com.example.hteams.model.SQLITEADDTASKMODEL;
 import com.example.hteams.model.SQLITECREATEGROUPMODEL;
@@ -113,6 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //public static final String ID_STUDENTS = "ID_STUDENTS";
     public static final String POSTDATE = "POSTDATE";
     public static final String VIEWS_COUNT = "VIEWS_COUNT";
+
 
 
     //UPDATESLIKESTABLE
@@ -371,6 +373,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+
+    // add the text update to sqlite
+    public boolean addUpdates(int taskid,int groupid, String studentid, String Post){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(ID_TASK, taskid);
+        cv.put(ID_GROUP, groupid);
+        cv.put(ID_STUDENTS, studentid);
+        cv.put(POSTDATE, Post);
+
+        long insert = db.insert(UPDATESTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+    // add the text update to sqlite
+    public boolean addLink(int updateId, int groupid, DisplaySiteModel displaySiteModel){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(ID_UPDATES, updateId);
+        cv.put(ID_GROUP, groupid);
+        cv.put(CUSTOMNAME, displaySiteModel.getCustomsitename());
+        cv.put(WEBLINK, displaySiteModel.getLink());
+        cv.put(SITENAME, displaySiteModel.getSiteName());
+
+        long insert = db.insert(LINKTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+
+    }
+
+
+
     //TODO UPDATE PAGE
     //update participant from the task
     public boolean updateParticipant(String taskid,String participantID){
@@ -399,6 +443,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(TASKTABLE, updateDue,ID_TASK + " = ?",new String[] {taskid});
         return true;
     }
+
+
 
 
 
@@ -524,8 +570,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-
-
     // Kung mayron na makita lang by section : ito naman kung sino lang kasali sa grupo
     public Cursor getNameImageParticipant(String id){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -585,6 +629,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor data = db.rawQuery("SELECT * FROM " + TASKTABLE + " WHERE " + ID_GROUP + " = ? AND " + ID_TABLE + " = ? AND " + STATUS + " = ? " , new String[] {groupId,Tableid,statud});
 
         return data;
+    }
+
+    //getting the position of a task by group
+    public  Cursor getLastId(String taskid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + ID_UPDATES   +" FROM " + UPDATESTABLE +" WHERE "+ ID_TASK  + " = ? ORDER BY " + ID_UPDATES + " DESC LIMIT 1" , new String[] {taskid} );
+        return  data;
     }
 
 

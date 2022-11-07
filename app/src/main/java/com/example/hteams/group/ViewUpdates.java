@@ -158,8 +158,15 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
         sitename.add("Github");
         sitename.add("Google Drive");
 
+
+        ArrayList<String> link = new ArrayList<String>();
+        sitename.add("www.korea.com");
+        sitename.add("www.korea.com");
+        sitename.add("www.korea.com");
+        sitename.add("www.korea.com");
+
         for(int i=0;i<customLinkName.size();i++){
-            displaySiteModels.add(new DisplaySiteModel(customLinkName.get(i), sitename.get(i)));
+            displaySiteModels.add(new DisplaySiteModel(customLinkName.get(i), sitename.get(i), link.get(i)));
         }
 
         // gone the visibility if the files is empty
