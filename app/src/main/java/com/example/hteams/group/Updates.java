@@ -326,26 +326,38 @@ public class Updates extends AppCompatActivity implements SiteInterface {
             @Override
             public void onClick(View v) {
 
-                //  TODO : error handling pag walang input dapat maglalabas ng error sa gilid na required-status: done
-                //sitename array store yung name na text sa editText
-                site_name.add(sitenamefield.getText().toString());
-                custom_name.add(name.getText().toString());
-                web_link.add(sitelink.getText().toString());
-                // Toast.makeText(Comments.this,custom_name.toString(),Toast.LENGTH_SHORT).show();
-                // to add in the model and maread sa array
-                displaySiteModels.add(new DisplaySiteModel(name.getText().toString(), sitenamefield.getText().toString()));
-                //to update the content of adapter
-                adapter.notifyItemInserted(custom_name.size() - 1);
-                displaySites.scrollToPosition(custom_name.size());
+                if(name.length() == 0){
+                    name.setError("Required");
+                }
 
-                //to show the indicator link title
-                link.setVisibility(View.VISIBLE);
+               else if(sitelink.length() == 0){
+                    sitelink.setError("Required");
+                }
 
-                name.setText("");
-                sitelink.setText("");
 
-                //to hide the linkdialog
-                linkdialog.dismiss();
+
+                else{
+                    if(sitenamefield.getText().toString().equalsIgnoreCase("Site Name")){
+                        sitenamefield.setText("Others");
+                    }
+                    //  TODO : error handling pag walang input dapat maglalabas ng error sa gilid na required-status: done
+                    //sitename array store yung name na text sa editText
+                    site_name.add(sitenamefield.getText().toString());
+                    custom_name.add(name.getText().toString());
+                    web_link.add(sitelink.getText().toString());
+                    // Toast.makeText(Comments.this,custom_name.toString(),Toast.LENGTH_SHORT).show();
+                    // to add in the model and maread sa array
+                    displaySiteModels.add(new DisplaySiteModel(name.getText().toString(), sitenamefield.getText().toString()));
+                    //to update the content of adapter
+                    adapter.notifyItemInserted(custom_name.size() - 1);
+                    displaySites.scrollToPosition(custom_name.size());
+                    //to show the indicator link title
+                    link.setVisibility(View.VISIBLE);
+                    name.setText("");
+                    sitelink.setText("");
+                    //to hide the linkdialog
+                    linkdialog.dismiss();
+                }
             }
 
         });
