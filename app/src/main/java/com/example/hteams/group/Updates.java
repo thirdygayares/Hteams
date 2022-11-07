@@ -211,6 +211,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
     }
 
+    //update
     private void UpdateMethod() {
         try{
 
@@ -229,18 +230,32 @@ public class Updates extends AppCompatActivity implements SiteInterface {
                              currentupdatesID = getLastId.getInt(0);
                          }
 
+                         //savingthe link
                         DisplaySiteModel displaySiteModelSqlite = null;
 
                          for(int i=0;i<displaySiteModels.size();i++){//loop kung ilan ba yung nasa link model
                              displaySiteModelSqlite = new DisplaySiteModel(displaySiteModels.get(i).getCustomsitename(),displaySiteModels.get(i).getSiteName(),displaySiteModels.get(i).getLink());
                              boolean addLink = databaseHelper.addLink(currentupdatesID, groupId,displaySiteModelSqlite );
                              if(addLink == true){
-                                 Log.d("TAG", "success ang List");
+                                 Log.d("TAG", "success ang Link");
                              }else{
-                                 Log.d("TAG", "failed ang List");
+                                 Log.d("TAG", "failed ang Link");
                              }
                          }
                      }
+
+
+                     //saving the list
+                     for(int x=0;x<listDisplayModels.size();x++){
+                         boolean addList = databaseHelper.addList(currentupdatesID, groupId, listDisplayModels.get(x).getTaskname(),listDisplayModels.get(x).getChecked());
+                         if(addList == true){
+                             Log.d("TAG", "success ang List");
+                         }else{
+                             Log.d("TAG", "failed ang List");
+                         }
+                     }
+
+
 
                      Log.d("TAG", "Ang huling id ay " +  currentupdatesID);
 

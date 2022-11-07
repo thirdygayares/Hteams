@@ -393,7 +393,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    // add the text update to sqlite
+    // add the link to sqlite
     public boolean addLink(int updateId, int groupid, DisplaySiteModel displaySiteModel){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues cv = new ContentValues();
@@ -410,8 +410,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }else{
             return true;
         }
-
     }
+
+
+    // add the text update to sqlite
+    public boolean addList(int updateId, int groupid, String listName, boolean status){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(ID_UPDATES, updateId);
+        cv.put(ID_GROUP, groupid);
+        cv.put(LISTNAME, listName);
+        cv.put(STATUS, status);
+
+        long insert = db.insert(LISTTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
 
 
 
