@@ -1,9 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#819BF8"
     tools:context=".group.GroupDetails">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!--    start of an arrow-->
+    <ImageButton
+        android:id="@+id/back"
+        android:layout_width="48dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+
+        android:src="@drawable/arrowpointingleftwhite" />
+    <!--    end of arrow-->
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="120dp"
+        android:text="Group Details"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+
+        ></TextView>
+
+    <androidx.cardview.widget.CardView
+        android:backgroundTint="#FAFAFA"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:cardCornerRadius="30dp"
+        android:layout_marginBottom="-30dp"
+        android:layout_marginTop="200dp"
+        >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FAFAFA"
+        >
+
+        <TextView
+            android:id="@+id/groupName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="FireTera"
+            android:textStyle="bold"
+            android:textSize="25dp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingTop="5dp"
+            android:text="Short Description"
+            android:textSize="18dp"
+            android:layout_below="@+id/groupName"
+            >
+        </TextView>
+
+        <TextView
+            android:id="@+id/prof"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingTop="2dp"
+            android:text="Prof. Dingdong Dantes"
+            android:textSize="18dp"
+            android:layout_below="@+id/description"
+            >
+        </TextView>
+
+        <TextView
+            android:id="@+id/subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingTop="2dp"
+            android:text="Softeng 1"
+            android:textSize="18dp"
+            android:layout_below="@+id/prof"
+            >
+        </TextView>
+
+        <TextView
+            android:id="@+id/groupCreator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingTop="5dp"
+            android:text="Created by: Jose Gayares III"
+            android:textSize="13dp"
+            android:layout_below="@+id/subject"
+            >
+        </TextView>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="230dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/groupName"
+            android:src="@drawable/edit_button">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/Members"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="170dp"
+            android:paddingTop="2dp"
+            android:text="Members"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            >
+        </TextView>
+
+        <!--    start of Members container-->
+        <!--    TODO Recycler View-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginVertical="200dp"
+            android:layout_marginStart="20dp"
+            android:id="@+id/members_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            ></androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>
