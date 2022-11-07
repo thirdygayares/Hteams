@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -24,11 +26,14 @@ import com.example.hteams.adapter.ListDisplayAdapter;
 import com.example.hteams.adapter.SiteAdapter;
 import com.example.hteams.adapter.SiteInterface;
 import com.example.hteams.adapter.UpdateListAdapter;
+import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.DisplaySiteModel;
 import com.example.hteams.model.ListDisplayModel;
 import com.example.hteams.model.SiteModel;
 import com.example.hteams.model.UpdateListModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -48,40 +53,35 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     RecyclerView displaySites; // para pag click nung edit text madetect
     RecyclerView listrecycler;
     RecyclerView createlistrecycler;
+    CardView link; //ito yung card view na indicator title ng link
 
-    //ito yung card view na indicator title ng link
-    CardView link;
-    CardView listindicate;
+    RelativeLayout listContainer;   //global variable for linearlayout to hide id may laman ba
 
-    //    Link array, saving local sitename,custom name,link
+    //Array List
 
-    //store in sitename
-    String NameSite = "Site Name";
+    ArrayList <String> site_name = new ArrayList<String>();   //Site Name ex. Google meet etc,
+    ArrayList <String> custom_name = new ArrayList<String>();   //custom name ex.Watch this guys
+    ArrayList <String> web_link = new ArrayList<String>();     //link ex.www.google.com
+    ArrayList<SiteModel> siteModels = new ArrayList<>(); //site Models
+    ArrayList<DisplaySiteModel> displaySiteModels  = new ArrayList<>(); //display site Models
+    ArrayList<UpdateListModel> updateListModels = new ArrayList<>();    //for array list na gagawa ng list
+    ArrayList<ListDisplayModel> listDisplayModels = new ArrayList<>();  //eto naman array na sa ididisplay na yung list
+    ArrayList<String> siteName = new ArrayList<>();    //name of site
 
-    //Site Name ex. Google meet etc,
-    ArrayList <String> site_name = new ArrayList<String>();
-    //custom name ex.Watch this guys
-    ArrayList <String> custom_name = new ArrayList<String>();
-    //link ex.www.google.com
-    ArrayList <String> web_link = new ArrayList<String>();
-    ArrayList<SiteModel> siteModels = new ArrayList<>();
-    ArrayList<DisplaySiteModel> displaySiteModels  = new ArrayList<>();
-
-    //for array list na gagawa ng list
-    ArrayList<UpdateListModel> updateListModels = new ArrayList<>();
-    //eto naman array na sa ididisplay na yung list
-    ArrayList<ListDisplayModel> listDisplayModels = new ArrayList<>();
-
-    //name of site
-    ArrayList<String> siteName = new ArrayList<>();
+    //adapter
     DisplaySiteAdapter adapter;
+    ListDisplayAdapter adapter2;  //global variable of ListDisplayAdapter
 
-    ArrayList<String> taskname = new ArrayList<>();
-    //global variable of ListDisplayAdapter
-    ListDisplayAdapter adapter2;
+    //firebase Auth
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firestore;
 
-    //global variable for linearlayout to hide id may laman ba
-    RelativeLayout listContainer;
+    //SQLITE DB
+    DatabaseHelper databaseHelper;
+    String NameSite = "Site Name";   //store in sitename
+    int groupId = 1, taskId=1;
+    String currentId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,10 +111,26 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         //view the list display
         viewListDisplay();
 
+        //to know the email and uid
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+
+        //calling database sqlite
+        databaseHelper = new DatabaseHelper(Updates.this);
+
+        //cyrrent id
+        currentId = firebaseAuth.getCurrentUser().getUid();
+
+        GroupPage groupPage = new GroupPage();
+
+        //TODO: I COMMENT THIS BECAUSE IM TESTING
+//        groupId = Integer.parseInt(groupPage.getGroupID);
+//        taskId = groupPage.getTaskID;
 
 
-//        condition to hide link material button if no laman
-//        paste here if error
+        Log.d("TAG", "current id: " + currentId);
+        Log.d("TAG", "group id in updates page: " + groupId);
+        Log.d("TAG", "task id in updates page: " + taskId);
 
 
         //links button
@@ -181,26 +197,29 @@ public class Updates extends AppCompatActivity implements SiteInterface {
                 Toast.makeText(Updates.this, "Comment cancelled ".toString(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        //retrieving the taskName
+        Cursor getTaskNAme = databaseHelper.getTaskName(taskId);
+        TextView taskname = findViewById(R.id.taskname);
+
+        try{
+            while(getTaskNAme.moveToNext()){
+                taskname.setText(getTaskNAme.getString(0));
+            }
+
+        }catch (Exception e){
+            Log.d("TAG", "cannot find a task name " +  e);
+        }
+
     }
 
     //viewing the list in updates class
     private void viewListDisplay() {
         //calling adapter and recycler
-
         listrecycler.setAdapter(adapter2);
         listrecycler.setLayoutManager(new LinearLayoutManager(Updates.this) );
-
-        //testing data
-
-//        // set up data forlist
-//        String listname = "Thirdy paayos";
-//        //list if checked or unchecked
-//        boolean status = true;
-//        listDisplayModels.add(new ListDisplayModel(status,listname));
-
         //the list container hide this if wala naman data
         listContainer = findViewById(R.id.listContainer);
-
         if(listDisplayModels.isEmpty()){
             listContainer.setVisibility(View.GONE);
         }
@@ -231,19 +250,25 @@ public class Updates extends AppCompatActivity implements SiteInterface {
             @Override
             public void onClick(View v) {
 
-                boolean stats = false;
-                if(checked_icon.isChecked())
-                {
-                    stats = true;
-                    checked_icon.setChecked(false);
+                if(newlist_edit.length() == 0){
+                    newlist_edit.setError("Required");
                 }else{
-                    stats =false;
+                    boolean stats = false;
+                    if(checked_icon.isChecked())
+                    {
+                        stats = true;
+                        checked_icon.setChecked(false);
+                    }else{
+                        stats =false;
+                    }
+
+                    updateListModels.add(new UpdateListModel(stats,newlist_edit.getText().toString()));
+                    adapter.notifyItemInserted(updateListModels.size()-1);
+                    displaySites.scrollToPosition(updateListModels.size());
+                    newlist_edit.setText("");
                 }
 
-                updateListModels.add(new UpdateListModel(stats,newlist_edit.getText().toString()));
-                adapter.notifyItemInserted(updateListModels.size()-1);
-                displaySites.scrollToPosition(updateListModels.size());
-                newlist_edit.setText("");
+
 
             }
         });

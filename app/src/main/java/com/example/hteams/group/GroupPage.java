@@ -744,12 +744,27 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                 break;
 
             case "working":
-                Log.d("TAG", "table id: " + workingModels.get(position).getParticipant_src_photo());
                 getGroupIDInt = Integer.parseInt(getGroupID);
                 getTaskID = workingModels.get(position).getTaskId();
                 getTableID = workingModels.get(position).getTableId();
                 Intent addTaskIntent2 = new Intent(GroupPage.this, ViewTask.class);
                 startActivity(addTaskIntent2);
+                break;
+
+            case "ready":
+                getGroupIDInt = Integer.parseInt(getGroupID);
+                getTaskID = readyModels.get(position).getTaskId();
+                getTableID = readyModels.get(position).getTableId();
+                Intent addTaskIntent3 = new Intent(GroupPage.this, ViewTask.class);
+                startActivity(addTaskIntent3);
+                break;
+
+            case "done":
+                getGroupIDInt = Integer.parseInt(getGroupID);
+                getTaskID = doneModels.get(position).getTaskId();
+                getTableID = doneModels.get(position).getTableId();
+                Intent addTaskIntent4= new Intent(GroupPage.this, ViewTask.class);
+                startActivity(addTaskIntent4);
                 break;
 
         }

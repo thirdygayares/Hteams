@@ -82,7 +82,7 @@ public class DoneAdapter extends RecyclerView.Adapter<DoneAdapter.MyViewHolder> 
                 if(groupInterface != null ){
                     int pos = getAdapterPosition();
                     if(pos!= RecyclerView.NO_POSITION){
-                        groupInterface.onItemClick(pos, "working");
+                        groupInterface.onItemClick(pos, "done");
                     }
                 }
             });

@@ -82,7 +82,7 @@ public class ReadyAdapter extends RecyclerView.Adapter<ReadyAdapter.MyViewHolder
                 if(groupInterface != null ){
                     int pos = getAdapterPosition();
                     if(pos!= RecyclerView.NO_POSITION){
-                        groupInterface.onItemClick(pos, "working");
+                        groupInterface.onItemClick(pos, "ready");
                     }
                 }
             });

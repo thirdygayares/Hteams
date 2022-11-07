@@ -547,6 +547,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    // sa group page iretrieve na yung data ng mga task
+    public Cursor getTaskName(String taskID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + TASK_NAME + " FROM " + TASKTABLE + " WHERE " + ID_TASK + " = ?  ", new String[] {taskID});
+        return data;
+    }
+
+
     // sa group page iretrieve na yung data
     // bibilangin ang group Table na table para mabilang kung ilan
     public Cursor getCountAllTable(String groupID){

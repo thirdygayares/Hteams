@@ -11,20 +11,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="25dp"
-        android:textSize="15sp"
-        android:text="Comment to"
         android:layout_marginLeft="10dp"
-        android:fontFamily="@font/gilroymedium"/>
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/gilroymedium"
+        android:text="Update to"
+        android:textSize="15sp" />
 
     <TextView
+        android:id="@+id/taskname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="39dp"
-        android:fontFamily="@font/gilroybold"
-        android:text="Task Title"
         android:layout_marginLeft="10dp"
-        android:textSize="25sp"
+        android:layout_marginTop="29dp"
+        android:fontFamily="@font/gilroybold"
+        android:paddingRight="100dp"
+        android:text="Task Title"
+        android:textColor="@color/primary"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
 
@@ -59,7 +62,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/comment_updatebtn"
+        android:layout_below="@id/taskname"
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 
@@ -68,10 +71,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:fontFamily="@font/gilroyregular"
+            android:fontFamily="@font/gilroymedium"
             android:hint="With your comments and suggestions we can work more efficient"
             android:padding="10dp"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <!--        Container for List-->
         <RelativeLayout
@@ -101,9 +104,9 @@
             <!--        recyclerview list updates -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/display_list_updates"
-                android:layout_below="@+id/list_indicate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/list_indicate" />
         </RelativeLayout>
 
         <androidx.cardview.widget.CardView
@@ -166,7 +169,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-
+            android:layout_marginVertical="10dp"
             >
 
             <RelativeLayout
@@ -178,7 +181,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:drawableTop="@drawable/camera"
+                    android:drawableTop="@drawable/ic_baseline_camera_alt_24"
+                    android:padding="18dp"
                     android:fontFamily="@font/gilroyregular"
                     android:stateListAnimator="@null"
                     android:text="Capture"
@@ -197,16 +201,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:drawableTop="@drawable/attach"
+                    android:drawableTop="@drawable/ic_baseline_attach_file_24"
+                    android:padding="18dp"
                     android:fontFamily="@font/gilroyregular"
-                    android:text="Files"
                     android:stateListAnimator="@null"
+                    android:text="Files"
                     android:textAllCaps="false" />
 
 
             </RelativeLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -217,8 +223,8 @@
                     android:backgroundTint="@color/white"
                     android:drawableTop="@drawable/microphone"
                     android:fontFamily="@font/gilroyregular"
-                    android:text="Record"
                     android:stateListAnimator="@null"
+                    android:text="Record"
                     android:textAllCaps="false" />
 
 
@@ -233,10 +239,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:drawableTop="@drawable/lists"
+                    android:drawableTop="@drawable/ic_baseline_check_box_24"
+                    android:drawableTint="@color/black"
+                    android:padding="18dp"
                     android:fontFamily="@font/gilroyregular"
-                    android:text="List"
                     android:stateListAnimator="@null"
+                    android:text="List"
                     android:textAllCaps="false" />
 
 
@@ -251,10 +259,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:drawableTop="@drawable/addlink"
+                    android:drawableTop="@drawable/ic_baseline_link_24"
+                    android:padding="18dp"
                     android:fontFamily="@font/gilroyregular"
-                    android:text="Link"
                     android:stateListAnimator="@null"
+                    android:text="Link"
                     android:textAllCaps="false" />
 
 
