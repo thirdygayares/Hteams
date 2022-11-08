@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.hteams.R;
+import com.example.hteams.Testing.SetProfile;
 import com.example.hteams.model.ViewTaskModel;
 
 import java.util.ArrayList;
@@ -48,7 +49,11 @@ public class ViewTaskAdapter extends RecyclerView.Adapter<ViewTaskAdapter.MyView
         holder.filesCount.setText(String.valueOf(viewTaskModels.get(position).getFilescount()));
         holder.likeCount.setText(String.valueOf(viewTaskModels.get(position).getLikecount()));
         holder.dislikecounts.setText(String.valueOf(viewTaskModels.get(position).getDislikecount()));
-        holder.profilephoto.setImageResource(viewTaskModels.get(position).getProfilepicture());
+
+
+        SetProfile setProfile = new SetProfile();
+
+        holder.profilephoto.setImageResource(setProfile.profileImage(viewTaskModels.get(position).getImageSource()));
 
     }
 

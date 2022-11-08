@@ -715,10 +715,12 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                 tableposition = position;
                 workingModels.clear();
                 todoModels.clear();
+                readyModels.clear();
+                doneModels.clear();
                 setupTodo();
                 setupWorking();
                 setupDone();
-                setupWorking();
+                setupReady();
 
                 workingAdapter.notifyDataSetChanged();
                 todoadapter.notifyDataSetChanged();

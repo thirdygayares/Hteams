@@ -3,6 +3,7 @@ package com.example.hteams.group;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +36,7 @@ import com.example.hteams.adapter.AsigneeAdapter;
 import com.example.hteams.adapter.GroupPageAdapater;
 import com.example.hteams.adapter.ViewTaskAdapter;
 import com.example.hteams.adapter.ViewTaskInterface;
+import com.example.hteams.adapter.ViewUpdateInterface;
 import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.AssigneeModel;
 import com.example.hteams.model.ViewTaskModel;
@@ -62,7 +64,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     ImageView menu_viewtask,participant_photo;
     Button button_status, buttonDeadline;
     TextView taskName,groupName,tableName;
-
+    CardView checklist,files,photos,link;
     //GLobal variable for time
     int day, month, year, hour, minute;
     int myday, myMonth, myYear, myHour, myMinute;
@@ -74,9 +76,9 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     //SQLITE DB
     DatabaseHelper databaseHelper;
     String currentId;
-    int getGroupID;
-    int getTaskID;
-    int getTableID;
+    int getGroupID = 1;
+    int getTaskID = 1;
+    int getTableID = 1;
 
     //pm or am
     static  String pmam = "am";
@@ -99,19 +101,16 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         //creatng object to get the value of Group Id, table Id, and task ID
         GroupPage groupPage = new GroupPage();
 
-
+        //comment ko muna for testing
+        /*
         // set Group id
         getGroupID = groupPage.getGroupIDInt;
         //set Task ID
         getTaskID =  groupPage.getTaskID;
         //set Table ID
         getTableID =  groupPage.getTableID;
+        */
 
-
-        //Testing
-//        getGroupID = 1;
-//        getTaskID = 1;
-//        getTableID = 1;
 
 
         //initializion of id in xml
@@ -142,6 +141,17 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         setupAssigne();
         //TODO deadline
         deadlineCalendar();
+
+
+        //hide the inidcator ..checklist files,phptps and link
+        checklist.setVisibility(View.GONE);
+        files.setVisibility(View.GONE);
+        link.setVisibility(View.GONE);
+        photos.setVisibility(View.GONE);
+
+
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -290,15 +300,13 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                 int id = item.getItemId();
           
                 if(id == R.id.remind){
-                    Toast.makeText(ViewTask.this,"Remind",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewTask.this,"Remind Succesfully",Toast.LENGTH_SHORT).show();
                 }else if (id == R.id.delete){
-                    Toast.makeText(ViewTask.this,"Delete",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewTask.this,"No Permission",Toast.LENGTH_SHORT).show();
                 }else if (id == R.id.home){
                     Intent intent = new Intent(ViewTask.this, MainActivity.class);
                     startActivity(intent);
                 }
-
-
 
                 return false;
             }
@@ -306,7 +314,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         popup.show();
 
     }
-
 
 
 //    status button start
@@ -395,27 +402,29 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         viewTask.setAdapter(adapter);
         viewTask.setLayoutManager(new LinearLayoutManager(ViewTask.this));
 
-        //dummy data
-        int[] Profile = {R.drawable.marielle, R.drawable.profile, R.drawable.novem};
-        String[] participant = {"Marielle Zabala","Thirdy Gayares","Novem Lanaban"};
-        String[] DatePost = {"Oct 10", "Oct 29", "Sep 25"};
-        int[] ViewCount = {2,3,4};
-        int[] commentCount = {1,2,3};
-        String[] description = {"Hi ako si Marielle , Pacheckk","Sorry di ko pa nagagawa","Gagawa ako ng bagong Model"};
-        int[] filesCount = {2,1,8};
-        int[] LikeCount = {4,6,2};
-        int[] Dislike = {10,1,8};
 
-        //from database data
-//        ArrayList<String> salesId = new ArrayList<>();
-//        ArrayList<String> Time = new ArrayList<>();
-//        ArrayList<String> TotalPrice = new ArrayList<>();
 
-        for(int i=0; i<participant.length; i++){
-            viewTaskModels.add(new ViewTaskModel(Profile[i],participant[i],DatePost[i],ViewCount[i],commentCount[i],description[i],filesCount[i],LikeCount[i],Dislike[i]
-            ));
+            Cursor getupdatesdata = databaseHelper.getUpdatesData(getTaskID);
+            if(getupdatesdata.getCount() == 0) {
+                Log.d("TAG", "Update Table for " + groupName.getText() + " is empty");
+            }else{
+                try {
+                    SetProfile setProfile = new SetProfile();
+                    groupDetails groupDetails = new groupDetails();
+                    while(getupdatesdata.moveToNext()) {
+                        String participantsrcimage = groupDetails.participantImage(ViewTask.this,getupdatesdata.getString(3));
+                        String participantName = groupDetails.partcipantName(ViewTask.this,getupdatesdata.getString(3));
+                        viewTaskModels.add(new ViewTaskModel(getupdatesdata.getInt(0), participantsrcimage, participantName,getupdatesdata.getString(6),getupdatesdata.getString(4)));
+                    }
+                }catch (Exception e) {
+                    Log.e("TAG","error retrieving updates because " + e  );
+                }
+
+
+            }
+
         }
-    }
+
 
     //method when click assignee button to assign a group members
     private void buttonAssign() {
@@ -683,6 +692,11 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         taskName = (TextView) findViewById(R.id.taskName);
         groupName = (TextView) findViewById(R.id.groupName);
         tableName = (TextView) findViewById(R.id.tableName);
+
+        checklist = (CardView) findViewById(R.id.checklist);
+        files = (CardView) findViewById(R.id.files);
+        photos = (CardView) findViewById(R.id.photos);
+        link = (CardView) findViewById(R.id.link);
     }
 
     @Override

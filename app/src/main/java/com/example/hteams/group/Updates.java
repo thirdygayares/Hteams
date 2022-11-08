@@ -123,8 +123,8 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         GroupPage groupPage = new GroupPage();
 
         //TODO: I COMMENT THIS BECAUSE IM TESTING
-//        groupId = Integer.parseInt(groupPage.getGroupID);
-//        taskId = groupPage.getTaskID;
+        groupId = Integer.parseInt(groupPage.getGroupID);
+        taskId = groupPage.getTaskID;
 
 
         Log.d("TAG", "current id: " + currentId);
@@ -192,7 +192,8 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                Toast.makeText(Updates.this, "Comment cancelled ".toString(), Toast.LENGTH_SHORT).show();
+               Intent intent = new Intent(Updates.this, ViewTask.class);
+               startActivity(intent);
             }
         });
 
@@ -202,7 +203,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
         try{
             while(getTaskNAme.moveToNext()){
-                taskname.setText(getTaskNAme.getString(0));
+                taskname.setText(getTaskNAme.getString(4));
             }
 
         }catch (Exception e){
@@ -256,7 +257,9 @@ public class Updates extends AppCompatActivity implements SiteInterface {
                      }
 
 
-
+                     Toast.makeText(Updates.this,"Add Successfully",Toast.LENGTH_SHORT).show();
+                     Intent intent = new Intent(Updates.this,ViewTask.class);
+                     startActivity(intent);
                      Log.d("TAG", "Ang huling id ay " +  currentupdatesID);
 
 

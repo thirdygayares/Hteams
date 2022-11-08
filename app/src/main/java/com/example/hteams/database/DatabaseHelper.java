@@ -658,6 +658,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return  data;
     }
 
-
+    // retrieve the taskName via task ID
+    public Cursor getUpdatesData(int taskid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + UPDATESTABLE + " WHERE " + ID_TASK + " = ? ", new String[] {String.valueOf(taskid)});
+        return data;
+    }
 
 }

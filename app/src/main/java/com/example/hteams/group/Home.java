@@ -14,7 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.hteams.R;
@@ -39,12 +41,12 @@ public class Home extends Fragment implements GroupInterface {
     //SQLITE DB
     DatabaseHelper databaseHelper;
     String currentId;
-
+    View view;
     public static String GroupId;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_home, container, false);
+         view = inflater.inflate(R.layout.activity_home, container, false);
 
         //to know the email and uid
         firebaseAuth = FirebaseAuth.getInstance();
@@ -81,8 +83,9 @@ public class Home extends Fragment implements GroupInterface {
         });
     }
 
-    //TODO Erase later
+
     private void setupGroupData() {
+
 
 
         ArrayList<String> GroupID = new ArrayList<>();
@@ -99,18 +102,32 @@ public class Home extends Fragment implements GroupInterface {
         }
 
         try{
+            LinearLayout emptygroup = view.findViewById(R.id.emptygroup);
+
             //outputing the groups
 //    public GroupModel(int GROUPID, int groupImage, String groupTitle, String shortDescription, String professor, String subject) {
+            if(GroupID.isEmpty()){
+                emptygroup.setVisibility(View.VISIBLE);
+            }     else{
 
-            for (int i=0;i<GroupID.size();i++){
-                Cursor getGroups = databaseHelper.myGroup(GroupID.get(i));
-                getGroups.moveToNext();
-                groupModels.add(new GroupModel(getGroups.getString(0),getGroups.getString(1),getGroups.getString(2),getGroups.getString(4),getGroups.getString(5),getGroups.getString(3) ));
+                emptygroup.setVisibility(View.GONE);
+
+
+                for (int i=0;i<GroupID.size();i++){
+                    Cursor getGroups = databaseHelper.myGroup(GroupID.get(i));
+                    getGroups.moveToNext();
+                    groupModels.add(new GroupModel(getGroups.getString(0),getGroups.getString(1),getGroups.getString(2),getGroups.getString(4),getGroups.getString(5),getGroups.getString(3) ));
+                }
+
             }
 
         }catch (Exception e){
             Toast.makeText(getActivity(), "getting groups" + e, Toast.LENGTH_SHORT).show();
         }
+
+
+
+
         }
 
 

@@ -160,10 +160,10 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
 
 
         ArrayList<String> link = new ArrayList<String>();
-        sitename.add("www.korea.com");
-        sitename.add("www.korea.com");
-        sitename.add("www.korea.com");
-        sitename.add("www.korea.com");
+        link.add("www.korea.com");
+        link.add("www.korea.com");
+        link.add("www.korea.com");
+        link.add("www.korea.com");
 
         for(int i=0;i<customLinkName.size();i++){
             displaySiteModels.add(new DisplaySiteModel(customLinkName.get(i), sitename.get(i), link.get(i)));

@@ -60,12 +60,12 @@
                     android:id="@+id/date_post"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Oct 10"
                     android:layout_below="@id/participant_name"
-                    android:textColor="@color/text"
-                    android:fontFamily="@font/gilroylight"
-                    android:textSize="15dp"
                     android:layout_toRightOf="@id/participant_photo"
+                    android:fontFamily="@font/gilroylight"
+                    android:text="Oct 10"
+                    android:textColor="@color/text"
+                    android:textSize="12dp"
 
                     ></TextView>
 
@@ -121,7 +121,7 @@
                     android:id="@+id/commentcount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10"
+                    android:text="0"
                     android:textColor="@color/text"
                     android:fontFamily="@font/gilroylight"
                     android:paddingHorizontal="5dp"
@@ -144,7 +144,7 @@
                 android:fontFamily="@font/gilroyregular"
                 android:text="Pa check naman to @Novem Lanaban Kung okay lang po csdsdasdsdsdsddsdsdasdasdsdasdasdsdasdasddasdasdasddsdasd "
                 android:textColor="@color/text"
-                android:textSize="15dp"></TextView>
+                android:textSize="18dp"></TextView>
 
 <!--            end of description-->
 
@@ -172,6 +172,7 @@
                 >
 
                 <RelativeLayout
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     >
@@ -192,7 +193,7 @@
                         android:paddingVertical="10dp"
                         android:paddingLeft="39dp"
                         android:paddingRight="10dp"
-                        android:text="2"
+                        android:text="0"
                         android:textColor="@color/primary"></TextView>
 
                 </RelativeLayout>
@@ -234,7 +235,7 @@
                         android:paddingVertical="10dp"
                         android:paddingLeft="39dp"
                         android:paddingRight="10dp"
-                        android:text="2"
+                        android:text="0"
                         android:textColor="@color/primary"></TextView>
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -273,7 +274,7 @@
                             android:paddingVertical="10dp"
                             android:paddingLeft="39dp"
                             android:paddingRight="10dp"
-                            android:text="2"
+                            android:text="0"
                             android:textColor="@color/primary"></TextView>
                     </RelativeLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -312,7 +313,7 @@
                             android:paddingVertical="10dp"
                             android:paddingLeft="39dp"
                             android:paddingRight="10dp"
-                            android:text="2"
+                            android:text="0"
                             android:textColor="@color/primary"></TextView>
                     </RelativeLayout>
                 </com.google.android.material.card.MaterialCardView>
