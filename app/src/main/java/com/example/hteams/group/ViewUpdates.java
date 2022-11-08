@@ -111,12 +111,14 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
         retrieveTaskTitle();
 
         //set The kung sino ang nagpost at date kung kaylan pinost and yung description nung pinost
-
         retrieveCredentialsPost();
 
 
 
+
+
     }
+
 
     private void retrieveCredentialsPost() {
         Cursor getTaskname = databaseHelper.getUpdatesDataviaUpdatesId(getUpdatesId);
@@ -185,25 +187,31 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
         listrecycle.setAdapter(listAdapter);
         listrecycle.setLayoutManager(new LinearLayoutManager(ViewUpdates.this));
 
-        ArrayList<Boolean> status = new ArrayList<Boolean>();
-        status.add(true);
-        status.add(true);
-        status.add(true);
+        try{
+            Cursor getListData = databaseHelper.getListData(String.valueOf(getUpdatesId));
 
-        ArrayList<String> nameTask = new ArrayList<String>();
-        nameTask.add("Search the capability");
-        nameTask.add("Gumawa ng tama");
-        nameTask.add("sumosobra ka na");
+            ArrayList<Integer> status = new ArrayList<Integer>();
+            ArrayList<String> nameTask = new ArrayList<String>();
 
-        for(int i=0;i<status.size();i++){
-            listModels.add(new ListModel(status.get(i), nameTask.get(i)));
-        }
+            while (getListData.moveToNext()){
+                status.add(getListData.getInt(4));
+                nameTask.add(getListData.getString(3));
+            }
+
+            for(int i=0;i<status.size();i++){
+                listModels.add(new ListModel(status.get(i), nameTask.get(i)));
+            }
 
 //        gone the visibility if the list is empty
-        if(nameTask.isEmpty()){
-            LinearLayout listContainer = findViewById(R.id.listContainer);
-            listContainer.setVisibility(View.GONE);
+            if(nameTask.isEmpty()){
+                LinearLayout listContainer = findViewById(R.id.listContainer);
+                listContainer.setVisibility(View.GONE);
+            }
+        }catch (Exception e){
+            Log.e("TAG","List error retrieving because " + e );
         }
+
+
     }
 
 

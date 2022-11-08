@@ -41,8 +41,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
     public void onBindViewHolder(@NonNull ListAdapter.MyViewHolder holder, int position) {
 
         //check if check or uncheck sa that checkbox
-        boolean status = listModels.get(position).getStatus();
-        if (status == true){
+        int status = listModels.get(position).getStatus();
+        if (status == 0){
             holder.statusicon.setChecked(true);
         }
 

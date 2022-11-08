@@ -1,15 +1,15 @@
 package com.example.hteams.model;
 
 public class ListModel {
-    boolean Status;
+    Integer Status;
     String tasktitle;
 
-    public ListModel(boolean status, String tasktitle) {
+    public ListModel(Integer status, String tasktitle) {
         Status = status;
         this.tasktitle = tasktitle;
     }
 
-    public boolean getStatus() {
+    public Integer getStatus() {
         return Status;
     }
 

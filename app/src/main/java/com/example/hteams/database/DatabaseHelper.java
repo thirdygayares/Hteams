@@ -661,7 +661,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // retrieve the taskName via task ID
     public Cursor getUpdatesData(int taskid){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + UPDATESTABLE + " WHERE " + ID_TASK + " = ? ", new String[] {String.valueOf(taskid)});
+        Cursor data = db.rawQuery("SELECT * FROM " + UPDATESTABLE + " WHERE " + ID_TASK + " = ? ORDER BY " + UPDATES_ID + " DESC "  , new String[] {String.valueOf(taskid)});
         return data;
     }
 
@@ -699,6 +699,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getFilesCount(String updatesId){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery(" SELECT COUNT (*) FROM " + FILESTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
+        return data;
+    }
+
+    //get ListCount
+    public Cursor getListData(String updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT * FROM " + LISTTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
         return data;
     }
 
