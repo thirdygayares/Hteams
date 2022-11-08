@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.example.hteams.Display.groupDetails;
 import com.example.hteams.R;
 import com.example.hteams.Testing.SetProfile;
-import com.example.hteams.adapter.DisplaySiteAdapter;
 import com.example.hteams.adapter.FilesAdapter;
 import com.example.hteams.adapter.ImageAdapter;
 import com.example.hteams.adapter.LinkAdapter;
@@ -190,16 +189,18 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
         try{
             Cursor getListData = databaseHelper.getListData(String.valueOf(getUpdatesId));
 
+            ArrayList<Integer> taskid = new ArrayList<Integer>();
             ArrayList<Integer> status = new ArrayList<Integer>();
             ArrayList<String> nameTask = new ArrayList<String>();
 
             while (getListData.moveToNext()){
                 status.add(getListData.getInt(4));
                 nameTask.add(getListData.getString(3));
+                taskid.add(getListData.getInt(0));
             }
 
             for(int i=0;i<status.size();i++){
-                listModels.add(new ListModel(status.get(i), nameTask.get(i)));
+                listModels.add(new ListModel(taskid.get(i),status.get(i), nameTask.get(i)));
             }
 
 //        gone the visibility if the list is empty
@@ -222,10 +223,10 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
         imageslides.setLayoutManager(new GridLayoutManager(ViewUpdates.this, 3));
 
         ArrayList<Integer> imageholder = new ArrayList<Integer>();
-        imageholder.add(R.drawable.sample);
-        imageholder.add(R.drawable.profile);
-        imageholder.add(R.drawable.novem);
-        imageholder.add(R.drawable.marielle);
+//        imageholder.add(R.drawable.sample);
+//        imageholder.add(R.drawable.profile);
+//        imageholder.add(R.drawable.novem);
+//        imageholder.add(R.drawable.marielle);
 
 
         for(int i=0;i<imageholder.size();i++){
@@ -250,16 +251,16 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
 
 
         ArrayList<String> filename = new ArrayList<String>();
-        filename.add("Jose Rizal");
-        filename.add("Thirdy Gayares v1");
-        filename.add("ang loro");
-        filename.add("read me");
+//        filename.add("Jose Rizal");
+//        filename.add("Thirdy Gayares v1");
+//        filename.add("ang loro");
+//        filename.add("read me");
 
         ArrayList<String> filetype = new ArrayList<String>();
-        filetype.add("pdf");
-        filetype.add("word");
-        filetype.add("pptx");
-        filetype.add("txt");
+//        filetype.add("pdf");
+//        filetype.add("word");
+//        filetype.add("pptx");
+//        filetype.add("txt");
 
         for(int i=0;i<filename.size();i++){
             fileModels.add(new FileModel(filename.get(i), filetype.get(i)));
@@ -282,23 +283,11 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
 
 
         ArrayList<String> customLinkName = new ArrayList<String>();
-        customLinkName.add("Kindly Enter to meet you guys");
-        customLinkName.add("Our Introduction file v1");
-        customLinkName.add("Repositories in our app");
-        customLinkName.add("Drive for this task");
-
         ArrayList<String> sitename = new ArrayList<String>();
-        sitename.add("Google Meet");
-        sitename.add("Google Drive");
-        sitename.add("Github");
-        sitename.add("Google Drive");
-
-
         ArrayList<String> link = new ArrayList<String>();
-        link.add("www.korea.com");
-        link.add("www.korea.com");
-        link.add("www.korea.com");
-        link.add("www.korea.com");
+
+//        Cursor
+
 
         for(int i=0;i<customLinkName.size();i++){
             displaySiteModels.add(new DisplaySiteModel(customLinkName.get(i), sitename.get(i), link.get(i)));
@@ -314,9 +303,15 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
 
     //onclick manipulation
     @Override
-    public void onItemClick(int pos) {
-        Intent intent = new Intent(ViewUpdates.this, ViewTask.class);
-        startActivity(intent);
+    public void onItemClick(int pos, String list) {
+        switch (list){
+            case "link":
+                Intent intent = new Intent(ViewUpdates.this, ViewTask.class);
+                startActivity(intent);
+                break;
+        }
+
+
     }
 
     private void initxml() {

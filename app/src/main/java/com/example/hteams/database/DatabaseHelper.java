@@ -464,6 +464,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean updateListStatus(String IdList, String status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues updatelist = new ContentValues();
+        updatelist.put(STATUS, status);
+        db.update(LISTTABLE, updatelist,ID_LIST + " = ?",new String[] {IdList});
+        return true;
+    }
+
 
 
 
@@ -547,7 +555,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //this method ay alam na niya na nakuha niya yung id at accepted na ng user
     public  Cursor myGroup(String myGroups){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + GROUPTABLE + " where " + ID_GROUP + " = ? ", new String[] {myGroups} );
+        Cursor data = db.rawQuery("SELECT * FROM " + GROUPTABLE + " where " + ID_GROUP + " = ? ORDER BY " + CREATED + " DESC " , new String[] {myGroups} );
         return  data;
     }
 
@@ -661,7 +669,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // retrieve the taskName via task ID
     public Cursor getUpdatesData(int taskid){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + UPDATESTABLE + " WHERE " + ID_TASK + " = ? ORDER BY " + UPDATES_ID + " DESC "  , new String[] {String.valueOf(taskid)});
+        Cursor data = db.rawQuery("SELECT * FROM " + UPDATESTABLE + " WHERE " + ID_TASK + " = ? ORDER BY " + ID_UPDATES + " DESC "  , new String[] {String.valueOf(taskid)});
         return data;
     }
 
@@ -702,12 +710,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    //get ListCount
+    //get ListData
     public Cursor getListData(String updatesId){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery(" SELECT * FROM " + LISTTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
         return data;
     }
+
+    //get link Data
+    public Cursor getLinkData(String updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT * FROM " + LINKTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
+        return data;
+    }
+
 
 
 
