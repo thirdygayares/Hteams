@@ -78,6 +78,37 @@
 
 <!--    end of header-->
 
+
+    <LinearLayout
+        android:id="@+id/emptyUpdates"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        >
+        <ImageView
+            android:layout_marginTop="200dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/noupdates"
+            ></ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Update"
+            android:textSize="30dp"
+            android:textColor="@color/primary"
+            android:fontFamily="@font/gilroyextrabold"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            ></TextView>
+
+    </LinearLayout>
+
+
 <!--start of scroll bar-->
     <ScrollView
         android:layout_below="@+id/header"
@@ -361,6 +392,9 @@
                     app:rippleColor="@color/primary"
                     app:strokeColor="@color/primary"
                     app:strokeWidth="1dp"></com.google.android.material.button.MaterialButton>
+
+
+
 
 
     <LinearLayout

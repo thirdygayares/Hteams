@@ -665,4 +665,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    //get ImageCount
+    public Cursor getImageCount(String updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT COUNT (*) FROM " + PHOTOSTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
+        return data;
+    }
+
+
+    //get LinkCount
+    public Cursor getLinkCount(String updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT COUNT (*) FROM " + LINKTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
+        return data;
+    }
+
+    //get ListCount
+    public Cursor getListCount(String updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT COUNT (*) FROM " + LISTTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
+        return data;
+    }
+
+    //get FileCount
+    public Cursor getFilesCount(String updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT COUNT (*) FROM " + FILESTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
+        return data;
+    }
+
+
+
+
+
 }

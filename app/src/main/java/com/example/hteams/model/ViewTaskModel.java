@@ -13,6 +13,9 @@ public class ViewTaskModel {
     int likecount;
     int dislikecount;
     int save;
+    int photocount;
+    int listcount;
+    int linkcount;
 
     public ViewTaskModel(int profilepicture, String participantName, String postdate, int viewcount, int commentview, String description, int filescount, int likecount, int dislikecount) {
         this.profilepicture = profilepicture;
@@ -34,8 +37,24 @@ public class ViewTaskModel {
         this.description = description;
     }
 
+    public ViewTaskModel(int updatesId) {
+        this.updatesId = updatesId;
+    }
+
     public String getImageSource() {
         return ImageSource;
+    }
+
+    public int getPhotocount() {
+        return photocount;
+    }
+
+    public int getListcount() {
+        return listcount;
+    }
+
+    public int getLinkcount() {
+        return linkcount;
     }
 
     public int getUpdatesId() {

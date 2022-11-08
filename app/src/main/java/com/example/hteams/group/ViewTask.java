@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -40,13 +41,17 @@ import com.example.hteams.adapter.ViewUpdateInterface;
 import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.AssigneeModel;
 import com.example.hteams.model.ViewTaskModel;
+import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ViewTask extends AppCompatActivity implements ViewTaskInterface,DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener  {
     //array list of view task model
@@ -64,7 +69,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     ImageView menu_viewtask,participant_photo;
     Button button_status, buttonDeadline;
     TextView taskName,groupName,tableName;
-    CardView checklist,files,photos,link;
     //GLobal variable for time
     int day, month, year, hour, minute;
     int myday, myMonth, myYear, myHour, myMinute;
@@ -79,6 +83,10 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     int getGroupID = 1;
     int getTaskID = 1;
     int getTableID = 1;
+
+    //countiing indicator
+    int imagecount ;
+    String date;
 
     //pm or am
     static  String pmam = "am";
@@ -102,14 +110,14 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         GroupPage groupPage = new GroupPage();
 
         //comment ko muna for testing
-        /*
+
         // set Group id
         getGroupID = groupPage.getGroupIDInt;
         //set Task ID
         getTaskID =  groupPage.getTaskID;
         //set Table ID
         getTableID =  groupPage.getTableID;
-        */
+
 
 
 
@@ -143,11 +151,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         deadlineCalendar();
 
 
-        //hide the inidcator ..checklist files,phptps and link
-        checklist.setVisibility(View.GONE);
-        files.setVisibility(View.GONE);
-        link.setVisibility(View.GONE);
-        photos.setVisibility(View.GONE);
 
 
 
@@ -401,20 +404,37 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         ViewTaskAdapter adapter = new ViewTaskAdapter(ViewTask.this, viewTaskModels, this);
         viewTask.setAdapter(adapter);
         viewTask.setLayoutManager(new LinearLayoutManager(ViewTask.this));
-
-
-
+        LinearLayout emptyUpdates = findViewById(R.id.emptyUpdates);
             Cursor getupdatesdata = databaseHelper.getUpdatesData(getTaskID);
             if(getupdatesdata.getCount() == 0) {
                 Log.d("TAG", "Update Table for " + groupName.getText() + " is empty");
+                //TODO show the picture when empty data
+
+                emptyUpdates.setVisibility(View.VISIBLE);
+
             }else{
                 try {
+                    emptyUpdates.setVisibility(View.GONE);
                     SetProfile setProfile = new SetProfile();
                     groupDetails groupDetails = new groupDetails();
                     while(getupdatesdata.moveToNext()) {
                         String participantsrcimage = groupDetails.participantImage(ViewTask.this,getupdatesdata.getString(3));
                         String participantName = groupDetails.partcipantName(ViewTask.this,getupdatesdata.getString(3));
-                        viewTaskModels.add(new ViewTaskModel(getupdatesdata.getInt(0), participantsrcimage, participantName,getupdatesdata.getString(6),getupdatesdata.getString(4)));
+
+                        //time convertion
+                        String strCurrentDate= getupdatesdata.getString(6);
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        Date newDate = null;
+                        try {
+                            newDate = format.parse(strCurrentDate);
+                            format = new SimpleDateFormat("dd-MMM-yyyy");
+                             date = format.format(newDate);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        //getting the data
+                        viewTaskModels.add(new ViewTaskModel(getupdatesdata.getInt(0), participantsrcimage, participantName,date,getupdatesdata.getString(4)));
                     }
                 }catch (Exception e) {
                     Log.e("TAG","error retrieving updates because " + e  );
@@ -424,6 +444,31 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
             }
 
         }
+
+    private void counting() {
+        int imagecountfilecountlistcountlinkcount ;
+        //imagecounting
+
+        try {
+            for(int i = 0;i<viewTaskModels.size();i++){
+                Cursor getImageCount = databaseHelper.getImageCount(String.valueOf(viewTaskModels.get(i).getUpdatesId()));
+                while(getImageCount.moveToNext()){
+                    imagecount = getImageCount.getInt(0);
+                    Log.d("TAG", "imagecount is  " + imagecount );
+
+                }
+
+
+            }
+
+        }catch (Exception e){
+            Log.e("TAG", "Something " + e);
+        }
+
+
+
+
+    }
 
 
     //method when click assignee button to assign a group members
@@ -693,10 +738,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         groupName = (TextView) findViewById(R.id.groupName);
         tableName = (TextView) findViewById(R.id.tableName);
 
-        checklist = (CardView) findViewById(R.id.checklist);
-        files = (CardView) findViewById(R.id.files);
-        photos = (CardView) findViewById(R.id.photos);
-        link = (CardView) findViewById(R.id.link);
+
     }
 
     @Override
