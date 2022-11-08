@@ -260,6 +260,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
                      Toast.makeText(Updates.this,"Add Successfully",Toast.LENGTH_SHORT).show();
                      Intent intent = new Intent(Updates.this,ViewTask.class);
                      startActivity(intent);
+                     finish();
                      Log.d("TAG", "Ang huling id ay " +  currentupdatesID);
 
 

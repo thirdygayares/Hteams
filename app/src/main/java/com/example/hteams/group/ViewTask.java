@@ -87,6 +87,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     //countiing indicator
     int imagecount ;
     String date;
+    public static int updatesId;
 
     //pm or am
     static  String pmam = "am";
@@ -718,6 +719,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
             case "ViewTaskAdapter":
                 intent = new Intent(ViewTask.this, ViewUpdates.class);
                 startActivity(intent);
+                updatesId = viewTaskModels.get(position).getUpdatesId();
                 break;
             default:
                 Toast.makeText(ViewTask.this, "default",Toast.LENGTH_SHORT).show();

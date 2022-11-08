@@ -665,6 +665,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+
+    // retrieve the uodates detauls via updates ID
+    public Cursor getUpdatesDataviaUpdatesId(int updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + UPDATESTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {String.valueOf(updatesId)});
+        return data;
+    }
+
     //get ImageCount
     public Cursor getImageCount(String updatesId){
         SQLiteDatabase db = this.getWritableDatabase();

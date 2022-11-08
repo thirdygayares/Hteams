@@ -27,7 +27,7 @@
         android:paddingRight="100dp"
         android:text="Task Title"
         android:textColor="@color/primary"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
 
