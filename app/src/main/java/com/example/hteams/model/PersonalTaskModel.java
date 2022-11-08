@@ -1,13 +1,13 @@
 package com.example.hteams.model;
 
 public class PersonalTaskModel {
-    int groupImage;
+    String groupImage;
     String GroupName;
     String NameofTask;
     String Status;
     String DueDate;
 
-    public PersonalTaskModel(int groupImage, String groupName, String nameofTask, String status, String dueDate) {
+    public PersonalTaskModel(String groupImage, String groupName, String nameofTask, String status, String dueDate) {
         this.groupImage = groupImage;
         GroupName = groupName;
         NameofTask = nameofTask;
@@ -15,7 +15,7 @@ public class PersonalTaskModel {
         DueDate = dueDate;
     }
 
-    public int getGroupImage() {
+    public String getGroupImage() {
         return groupImage;
     }
 

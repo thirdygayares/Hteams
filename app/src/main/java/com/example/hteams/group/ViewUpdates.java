@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -286,12 +287,23 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
         ArrayList<String> sitename = new ArrayList<String>();
         ArrayList<String> link = new ArrayList<String>();
 
-//        Cursor
+        Cursor getLinkData = databaseHelper.getLinkData(String.valueOf(getUpdatesId));
 
+        try{
+            while (getLinkData.moveToNext()){
+                customLinkName.add(getLinkData.getString(3));
+                sitename.add(getLinkData.getString(5));
+                link.add(getLinkData.getString(4));
 
-        for(int i=0;i<customLinkName.size();i++){
-            displaySiteModels.add(new DisplaySiteModel(customLinkName.get(i), sitename.get(i), link.get(i)));
+            }
+                for(int i=0;i<customLinkName.size();i++){
+                    displaySiteModels.add(new DisplaySiteModel(customLinkName.get(i), sitename.get(i), link.get(i)));
+                }
+
+        }catch (Exception e){
+            Log.d("TAG", "LINK ERROR RETRIEVING CAUSE " + e);
         }
+
 
         // gone the visibility if the files is empty
         if(sitename.isEmpty()){
@@ -306,7 +318,8 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
     public void onItemClick(int pos, String list) {
         switch (list){
             case "link":
-                Intent intent = new Intent(ViewUpdates.this, ViewTask.class);
+                Intent intent = new Intent(ViewUpdates.this, WebViewLik.class);
+                intent.putExtra("Web", displaySiteModels.get(pos).getLink());
                 startActivity(intent);
                 break;
         }

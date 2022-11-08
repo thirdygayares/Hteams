@@ -265,7 +265,7 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                             //getting the table ID
                             Cursor gettingTableID = databaseHelper.selectLastTaskTable();
                             while (gettingTableID.moveToNext()){
-                                Toast.makeText(GroupPage.this,"thiryd balot" + gettingTableID.getString(0), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(GroupPage.this,"thiryd balot" + gettingTableID.getString(0), Toast.LENGTH_SHORT).show();
                                 tableid = gettingTableID.getString(0);
                             }
                            // gettingTableID.moveToNext();

@@ -7,6 +7,7 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/bottomsheet.xml" value="0.2355" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/bottomsheetbacckground.xml" value="0.195" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/circle_button.xml" value="0.194" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/hteams.xml" value="0.1935" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_archive_24.xml" value="0.3015" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_delete_outline_24.xml" value="0.235" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/drawable/ic_baseline_event_note_24.xml" value="0.235" />
@@ -37,7 +38,7 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_notification.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_profile.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_sample.xml" value="0.3458333333333333" />
-        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_task.xml" value="0.33" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_task.xml" value="0.22" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_task2.xml" value="0.25" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_testing1.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_testingfirebase.xml" value="0.35989583333333336" />
@@ -45,6 +46,7 @@
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_userprofile.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_view_task.xml" value="0.33" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_view_updates.xml" value="0.2850498338870432" />
+        <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/activity_web_view.xml" value="0.22" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/bottomsdialog_subject_creategroup.xml" value="0.20729166666666668" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/bottomsheet.xml" value="0.5" />
         <entry key="..\:/Users/gayar/AndroidStudioProjects/Hteams/app/src/main/res/layout/bottomsheet_adding_table.xml" value="0.35885416666666664" />

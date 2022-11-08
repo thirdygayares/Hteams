@@ -41,4 +41,15 @@ public class groupDetails {
     }
 
 
+
+    public String getGroupName(Context context,String id){
+        databaseHelper = new DatabaseHelper(context);
+        String groupname = "";
+        Cursor DisplayGroupDetails = databaseHelper.DisplayGroupDetails(id);
+        while(DisplayGroupDetails.moveToNext()){
+            groupname = DisplayGroupDetails.getString(1);
+        }
+        return groupname;
+    }
+
 }

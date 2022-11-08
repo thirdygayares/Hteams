@@ -4,6 +4,8 @@ package com.example.hteams.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.hteams.R;
+import com.example.hteams.Testing.SetAvatar;
 import com.example.hteams.model.PersonalTaskModel;
 
 import java.util.ArrayList;
@@ -44,18 +47,28 @@ public class PersonalTaskAdapter extends RecyclerView.Adapter<PersonalTaskAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PersonalTaskAdapter.MyViewHolder holder, int position) {
-        holder.groupPhoto.setImageResource(personalTaskModels.get(position).getGroupImage());
+
+        SetAvatar setAvatar = new SetAvatar();
+        holder.groupPhoto.setImageResource(setAvatar.setAvatar(personalTaskModels.get(position).getGroupImage()));
         holder.groupName.setText(personalTaskModels.get(position).getGroupName());
         holder.taskName.setText(personalTaskModels.get(position).getNameofTask());
         holder.status.setText(personalTaskModels.get(position).getStatus());
         holder.duedate.setText(personalTaskModels.get(position).getDueDate());
 
-        if(holder.status.getText().toString().equalsIgnoreCase("done")){
-            holder.status.setTextColor(Color.GREEN);
-        }else if(holder.status.getText().toString().equalsIgnoreCase("pending")){
-            holder.status.setTextColor(Color.RED);
-        }
+        String status_indicatior = holder.status.getText().toString();
+        if(status_indicatior.equalsIgnoreCase("done")){
+            holder.status.setTextColor(Color.parseColor("#3AAB28"));
+            //changing to done icon
+        }else if(status_indicatior.equalsIgnoreCase("working on it")){
+            holder.status.setTextColor(Color.parseColor("#3659D7"));
+            //changing to working icon
+        }else if(status_indicatior.equalsIgnoreCase("to do")){
+            holder.status.setTextColor(Color.BLACK);
+        }else if(status_indicatior.equalsIgnoreCase("Ready")){
+            holder.status.setTextColor(Color.parseColor("#FF9500"));
+            //changing to ready icon
 
+        }
 
     }
 

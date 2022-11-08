@@ -86,6 +86,7 @@
                     android:id="@+id/iconstatus"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
+                    android:visibility="gone"
                     android:layout_marginRight="4dp"
                     android:layout_toLeftOf="@id/status"
                     android:src="@drawable/inprogress"></ImageView>
@@ -128,6 +129,7 @@
                     android:layout_marginRight="4dp"
                     android:layout_below="@+id/iconstatus"
                     android:layout_toLeftOf="@id/timestamp"
+                    app:tint="@color/gray0"
                     android:src="@drawable/play"></ImageView>
 
 
@@ -141,7 +143,7 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/gilroymedium"
                     android:text="Oct 16, 10PM"
-                    android:textColor="@color/black"
+                    android:textColor="@color/gray0"
                     android:textSize="12dp"></TextView>
 
 
@@ -151,10 +153,11 @@
                     android:id="@+id/calendaricon"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
+                    android:layout_below="@+id/status"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="4dp"
-                    android:layout_below="@+id/timestapicon"
                     android:layout_toLeftOf="@id/duedate"
+                    app:tint="@color/gray0"
                     android:src="@drawable/calendar"></ImageView>
 
 

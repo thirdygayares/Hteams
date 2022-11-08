@@ -643,6 +643,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+
+
+    // retrieve personal task
+    public Cursor getPersonalTask(String participantID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TASKTABLE + " WHERE " + ID_STUDENTS + " = ? ", new String[] {participantID});
+        return data;
+    }
+
     // retrieve the taskName via task ID
     public Cursor getTableName(int tableid){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -723,8 +732,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor data = db.rawQuery(" SELECT * FROM " + LINKTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
         return data;
     }
-
-
 
 
 
