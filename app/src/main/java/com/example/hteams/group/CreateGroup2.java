@@ -42,6 +42,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -196,81 +197,85 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         Log.d("TAG", GroupPhoto);
 
         createbtn.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View v) {
-                                             //kunin yung input sa create group class
-                                             //generating variables
-                                             //kukunin na yung data
+            @Override
+            public void onClick(View v) {
+                //kunin yung input sa create group class
+                //generating variables
+                //kukunin na yung data
 
 
-                                             //creating batch
-                                             CollectionReference groupCollectionRef = firestore.collection("groups");
-                                             WriteBatch batch = firestore.batch();
+                //creating batch
+                CollectionReference groupCollectionRef = firestore.collection("groups");
+                WriteBatch batch = firestore.batch();
 
+                Date d = new Date();
+                Map<String, Object> addgroup = new HashMap<>();
+                addgroup.put("GROUPNAME", groupname);
+                addgroup.put("SUBJECT", Subject);
+                addgroup.put("PROFESSOR", Professor);
+                addgroup.put("Description", Description);
+                addgroup.put("GROUPPHOTO", GroupPhoto);
+                addgroup.put("LEADERID", cname);
+                addgroup.put("CREATOR", cname);
+                addgroup.put("CREATED", d.toString());
 
-                                             Map<String, Object> addgroup = new HashMap<>();
-                                             addgroup.put("GROUPNAME", groupname);
-                                             addgroup.put("SUBJECT", Subject);
-                                             addgroup.put("PROFESSOR", Professor);
-                                             addgroup.put("Description", Description);
-                                             addgroup.put("GROUPPHOTO", GroupPhoto);
-                                             addgroup.put("LEADERID", cname);
-                                             addgroup.put("CREATOR", cname);
+//                uploadtofirebase = new InviteModel(inviteModels.get(x).getId(), false);
+                //   batch.set(groupCollectionRef.document(), addgroup);
+                groupCollectionRef.
+                        add(addgroup)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d("TAG", "reference " + documentReference.getId());
+                                CollectionReference testing = firestore.collection("groups").document(documentReference.getId()).collection("participant");
 
+                                //add the leader from the group to be a participant
+                                //hindi kasi siya nsasali sa list
+                                inviteModels.add(new InviteModel("Thirdy","Thirdu",cname));
 
+                                for(int x=0; x < inviteModels.size(); x++){ // to get all the invited participant
 
-                                          //   batch.set(groupCollectionRef.document(), addgroup);
-                                             groupCollectionRef.
-                                                     add(addgroup)
-                                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                         @Override
-                                                         public void onSuccess(DocumentReference documentReference) {
-                                                             Log.d("TAG", "reference " + documentReference.getId());
-                                                              CollectionReference testing = firestore.collection("groups").document(documentReference.getId()).collection("participant");
-                                                                  for(int x=0; x < inviteModels.size(); x++){
-                                                                      testing.add(addgroup).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                                          @Override
-                                                                          public void onSuccess(DocumentReference documentReference) {
-                                                                              Log.d("TAG", "reference sub " + documentReference.getId());
-                                                                          }
-                                                                      }).addOnFailureListener(new OnFailureListener() {
-                                                                          @Override
-                                                                          public void onFailure(@NonNull Exception e) {
-                                                                              Log.d("TAG", "sub batch " + e);
-                                                                          }
-                                                                      });
-                                                                }
-                                                         }
-                                                     }).addOnFailureListener(new OnFailureListener() {
-                                                         @Override
-                                                         public void onFailure(@NonNull Exception e) {
-                                                              Log.d("TAG", "weeror batch " + e);
-                                                         }
-                                                     });
+                                    Map<String, Object> listofparticipant = new HashMap<>();//map for participant
+                                    listofparticipant.put("Students-ID",inviteModels.get(x).getId());
+                                    //condition na pag leader ka autonated ka dapat na accpeted
+                                    Boolean accepted;
+                                    if(inviteModels.get(x).getId().equalsIgnoreCase(cname)){
+                                        accepted = true;
+                                    }else {
+                                        accepted = false;
+                                    }
 
-                                             //collecting the participants
-                                             for (int i = 0; i < inviteModels.size(); i++) {
-                                                 uploadtofirebase = new InviteModel(groupCollectionRef.document().getId(), inviteModels.get(i).getId(), false);
-                                                 Log.d("TAG", "Group Id" + groupCollectionRef.document());
-                                             }
+                                    listofparticipant.put("Accepted",accepted);
 
-//                                                    DocumentReference testing = firestore.collection("groups").document("groups").collection("participant").document("message1");
+                                    testing.add(listofparticipant).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.d("TAG", "referenc sub " + documentReference.getId());
 
-//                                                 batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                                     @Override
-//                                                     public void onSuccess(Void unused) {
-//
-//                                                     }
-//                                                 }).addOnFailureListener(new OnFailureListener() {
-//                                                     @Override
-//                                                     public void onFailure(@NonNull Exception e) {
-//                                                         Log.d("TAG", "weeror batch " + e);
-//                                                     }
-//                                                 });
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("TAG", "sub batch " + e);
+                                        }
+                                    });
+                                }
 
-                                             }
-                                     });
+                                Toast.makeText(CreateGroup2.this,addgroup.get("GROUPNAME") + " Created", Toast.LENGTH_SHORT ).show();
+                                startActivity(new Intent(CreateGroup2.this, MainActivity.class)); //Goto Home page
+                               // Snackbar.make(findViewById(android.R.id.content), addgroup.get("GROUPNAME") + " Created", Snackbar.LENGTH_LONG).show();
+
                             }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("TAG", "weeror batch " + e);
+                            }
+                        });
+
+            }
+        });
+    }
 
 
 

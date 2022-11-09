@@ -22,8 +22,7 @@ public class InviteModel {
         this.studentid = id;
     }
 
-    public InviteModel(String groupId, String id,boolean accepted) {
-        this.groupId = groupId;
+    public InviteModel(String id,boolean accepted) {
         this.studentid = id;
         this.accepted = accepted;
     }
