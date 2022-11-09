@@ -86,9 +86,9 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
     String currentId;
     public static String getGroupID;
     public static  int lastposition;
-    static int getGroupIDInt;
-    static int getTaskID;
-    static int getTableID;
+    public static int getGroupIDInt;
+    public static int getTaskID;
+    public int getTableID;
     String tableid;
 
     String TAG = "TAG";
@@ -386,14 +386,10 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                 int id = item.getItemId();
                 if(id == R.id.groupdetails){
                     Toast.makeText(GroupPage.this,"Group Details",Toast.LENGTH_SHORT).show();
-                }else if (id == R.id.groupmates){
-                    Toast.makeText(GroupPage.this,"View Your Task",Toast.LENGTH_SHORT).show();
                 }else if (id == R.id.events){
-                    Toast.makeText(GroupPage.this,"View Your Task",Toast.LENGTH_SHORT).show();
-                }else if (id == R.id.archive){
-                    Toast.makeText(GroupPage.this,"View Your Task",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupPage.this,"Not Available",Toast.LENGTH_SHORT).show();
                 }else if (id == R.id.delete){
-                    Toast.makeText(GroupPage.this,"View Your Task",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupPage.this,"Not Permitted",Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -770,5 +766,10 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                 break;
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

@@ -158,8 +158,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         {
             @Override
             public void onClick (View v){
-
-                Toast.makeText(Updates.this, "Capture Clicked".toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Updates.this, "Coming Soon".toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -167,7 +166,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         records.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                Toast.makeText(Updates.this, "Record Clicked".toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Updates.this, "Coming Soon".toString(), Toast.LENGTH_SHORT).show();
             }
         });
         // end of records
@@ -176,7 +175,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         files.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                Toast.makeText(Updates.this, "Files  Clicked".toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Updates.this, "Coming Soon".toString(), Toast.LENGTH_SHORT).show();
             }
         });
         //comment button

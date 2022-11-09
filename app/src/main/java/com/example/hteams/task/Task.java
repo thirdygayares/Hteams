@@ -91,6 +91,11 @@ public class Task extends Fragment implements PersonalTaskInterface {
         ArrayList<String> taskname = new ArrayList<String>();
         ArrayList<String> status = new ArrayList<String>();
         ArrayList<String> duedate = new ArrayList<String>();
+        ArrayList<Integer> idtask = new ArrayList<Integer>();
+        ArrayList<Integer> id_group = new ArrayList<Integer>();
+        ArrayList<Integer> id_table = new ArrayList<Integer>();
+
+
         groupDetails groupDetailss = new groupDetails();
 
         Cursor getPersonaltask = databaseHelper.getPersonalTask(currentId);
@@ -100,6 +105,9 @@ public class Task extends Fragment implements PersonalTaskInterface {
                     groupName.add(groupDetailss.getGroupName(getContext(),getPersonaltask.getString(1)));
                     taskname.add(getPersonaltask.getString(4));
                     duedate.add(getPersonaltask.getString(7) + ", " +  getPersonaltask.getString(8));
+                    idtask.add(getPersonaltask.getInt(0));
+                    id_group.add(getPersonaltask.getInt(1));
+                    id_table.add(getPersonaltask.getInt(2));
 
 
                     status.add(getPersonaltask.getString(5));
@@ -121,10 +129,8 @@ public class Task extends Fragment implements PersonalTaskInterface {
                     all++;
 
                 }
-
-
                 for(int i=0; i<taskname.size();i++){
-                    personalTaskModels.add(new PersonalTaskModel(groupphoto.get(i),groupName.get(i),taskname.get(i),status.get(i),duedate.get(i)));
+                    personalTaskModels.add(new PersonalTaskModel(idtask.get(i),id_group.get(i),id_table.get(i),groupphoto.get(i),groupName.get(i),taskname.get(i),status.get(i),duedate.get(i)));
                 }
 
         }catch (Exception e){
@@ -157,7 +163,15 @@ public class Task extends Fragment implements PersonalTaskInterface {
 
     @Override
     public void onItemClick(int pos) {
+//        static int getGroupIDInt;
+//        static int getTaskID;
+//        static int getTableID;
+        GroupPage groupPage = new GroupPage();
+        groupPage.getGroupIDInt = personalTaskModels.get(pos).getIdGroup();
+        groupPage.getTaskID = personalTaskModels.get(pos).getIdTask();
+        groupPage.getTableID = personalTaskModels.get(pos).getId_table();
         Intent intent = new Intent(getActivity(), ViewTask.class);
         startActivity(intent);
     }
+
 }
