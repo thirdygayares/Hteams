@@ -120,6 +120,8 @@
             android:textColor="@color/primary"
             android:textSize="12sp" />
 
+
+
         <com.google.android.material.button.MaterialButton
 
             android:layout_marginTop="5dp"
@@ -135,7 +137,16 @@
             android:textAllCaps="false"
             android:textColor="#A69D9D"></com.google.android.material.button.MaterialButton>
 
-
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/subjectrequired"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subject Required*"
+            android:textColor="@color/danger"
+            android:layout_gravity="right"
+            android:padding="10dp"
+            ></TextView>
 <!--        this is hide when the user click it will show-->
         <LinearLayout
             android:id="@+id/prof_container"

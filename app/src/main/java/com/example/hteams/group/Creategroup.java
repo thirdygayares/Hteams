@@ -57,6 +57,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -68,7 +70,7 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
     Button cont;
     ImageButton backbtn;
     EditText grpname ,descrip;
-    TextView professor;
+    TextView professor,subjectrequired;
     Button subject;
     static int ctrl = 0;
     FirebaseAuth firebaseAuth;
@@ -115,7 +117,7 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
 
         //get the mapermission
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
-
+        TextView subjectrequired;
         //to know the email and uid
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -159,11 +161,20 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
             @Override
             public void onClick(View v) {
 
-                GroupName = grpname.getText().toString();
-                Description = descrip.getText().toString();
+                if(grpname.length() == 0){
+                    grpname.setError("Required");
+                }else if(descrip.length() == 0){
+                    descrip.setError("Required");
+                }else if(subject.getText().toString().equalsIgnoreCase("Select Subject")){
+                    subjectrequired.setVisibility(View.VISIBLE);
+                }else{
+                    GroupName = grpname.getText().toString();
+                    Description = descrip.getText().toString();
+                    startActivity(new Intent(Creategroup.this, CreateGroup2.class));
+                }
 
 
-                startActivity(new Intent(Creategroup.this, CreateGroup2.class));
+
             }
         });
     }
@@ -184,15 +195,16 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
         grpname = findViewById(R.id.input_name);
         professor = findViewById(R.id.input_professor);
         descrip = findViewById(R.id.input_description);
+        subject = findViewById(R.id.subject_generate);
+        subjectrequired = findViewById(R.id.subjectrequired);
     }
 
     private void subjectBottomSheet() {
         View view = getLayoutInflater().inflate(R.layout.bottomsdialog_subject_creategroup,null,false);
         subjectrecycler = view.findViewById(R.id.subject_recycler);
-         subject = findViewById(R.id.subject_generate);
 
 
-         subject = findViewById(R.id.subject_generate);
+
 
          setupdataforsubjects();//for sqlites
         setupdataforsubjectsFirebase();
@@ -331,7 +343,7 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
                     //showing the professor
                     LinearLayout prof_container = findViewById(R.id.prof_container);
                     prof_container.setVisibility(View.VISIBLE);
-
+                      subjectrequired.setVisibility(View.GONE);
                     //to get the current professor
                     cursor = databaseHelper.getProfessor(subjectlistModel.get(pos).getSubjectId());
 
@@ -433,11 +445,8 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
 
 //                        choose_avatar.setImageResource(imagetry);
 
-
-
                         chooseavatarbtmsheet.dismiss();
                         break;
-
         }
 
     }
