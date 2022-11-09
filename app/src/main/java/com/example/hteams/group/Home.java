@@ -1,5 +1,6 @@
 package com.example.hteams.group;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,18 +21,30 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.hteams.FirebaseTesting;
 import com.example.hteams.R;
+import com.example.hteams.Requirements.FindSection;
 import com.example.hteams.adapter.GroupAdapter;
 import com.example.hteams.adapter.GroupInterface;
 import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.GroupModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Home extends Fragment implements GroupInterface {
-
+    String TAG = "TAG";
     ImageView menu,addgroup;
     ArrayList<GroupModel> groupModels = new ArrayList<>();
 
@@ -38,9 +52,11 @@ public class Home extends Fragment implements GroupInterface {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
 
+
     //SQLITE DB
     DatabaseHelper databaseHelper;
     String currentId;
+    static String Section;
     View view;
     public static String GroupId;
     @Nullable
@@ -63,6 +79,7 @@ public class Home extends Fragment implements GroupInterface {
 
         //To add the group
         //Button
+
         addgroup();
 
         setupGroupData();
@@ -71,8 +88,41 @@ public class Home extends Fragment implements GroupInterface {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+
+        //testing arrayList
+        ArrayList<FirebaseTesting> firebaseTestings = new ArrayList<>();
+
+        //getting a documennnt or row in sql
+//        DocumentReference docRef = firestore.collection("students").document(currentId);
+//
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+////                        FirebaseTesting firebaseTesting = document.toObject(FirebaseTesting.class);
+////                        Log.d(TAG, "firebase COllege " + firebaseTesting.getCollege());
+//                        firebaseTestings.add(new FirebaseTesting(document.get("College").toString(),document.get("Email").toString(),document.get("ContactNumber").toString(),document.get("Course").toString(),document.get("Section").toString(),document.get("Name").toString()));
+//                        Log.d(TAG, "DocumentSnapshot data: " + document.get("College").toString());
+//                        Log.d(TAG,"Name: " + firebaseTestings.get(0).getName());
+//                    } else {
+//                        Log.d(TAG, "No such document");
+//                    }
+//                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+//                }
+//            }
+//        });
+
+      //finding a Section
+
+
         return view;
     }
+
+
+
 
     private void addgroup() {
         addgroup.setOnClickListener(new View.OnClickListener() {
@@ -112,20 +162,15 @@ public class Home extends Fragment implements GroupInterface {
 
                 emptygroup.setVisibility(View.GONE);
 
-
                 for (int i=0;i<GroupID.size();i++){
                     Cursor getGroups = databaseHelper.myGroup(GroupID.get(i));
                     getGroups.moveToNext();
                     groupModels.add(new GroupModel(getGroups.getString(0),getGroups.getString(1),getGroups.getString(2),getGroups.getString(4),getGroups.getString(5),getGroups.getString(3) ));
                 }
-
             }
-
         }catch (Exception e){
             Toast.makeText(getActivity(), "getting groups" + e, Toast.LENGTH_SHORT).show();
         }
-
-
 
 
         }

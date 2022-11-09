@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hteams.R;
 import com.example.hteams.Testing.SetProfile;
 import com.example.hteams.model.ChooseParticipantModel;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -43,8 +44,10 @@ public class ChooseParticipantAdapter extends RecyclerView.Adapter<ChoosePartici
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.classmateName.setText(chooseParticipantsModel.get(position).getNAME());
+
         SetProfile setProfiles = new SetProfile();
-        holder.classmate_image.setImageResource(setProfiles.profileImage(chooseParticipantsModel.get(position).getIMAGE()));
+//        holder.classmate_image.setImageResource(setProfiles.profileImage(chooseParticipantsModel.get(position).getIMAGE()));
+        Picasso.get().load(chooseParticipantsModel.get(position).getIMAGE()).error(R.drawable.ic_profile).into(holder.classmate_image);
     }
 
     @Override
@@ -60,7 +63,8 @@ public class ChooseParticipantAdapter extends RecyclerView.Adapter<ChoosePartici
         public MyViewHolder(View itemview, ChooseParcticipant chooseParticipants) {
             super(itemview);
             classmateName = (TextView) itemview.findViewById(R.id.classmate_name);
-            classmate_image= (ImageView) itemview.findViewById(R.id.classmate_image);
+           classmate_image= (ImageView) itemview.findViewById(R.id.classmate_image);
+
 
             itemView.setOnClickListener(view -> {
                 if(chooseParticipants != null ){

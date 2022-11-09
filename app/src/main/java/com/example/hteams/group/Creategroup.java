@@ -173,7 +173,8 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
 
          subject = findViewById(R.id.subject_generate);
 
-         setupdataforsubjects();
+         setupdataforsubjects();//for sqlites
+        setupdataforsubjectsFirebase();
          SubjectlistAdapter adapter = new SubjectlistAdapter(Creategroup.this,subjectlistModel,this);
          subjectrecycler.setAdapter(adapter);
          subjectrecycler.setLayoutManager(new LinearLayoutManager(Creategroup.this));
@@ -185,6 +186,10 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
                 subjectlist.show();
             }
         });
+    }
+
+    private void setupdataforsubjectsFirebase() {
+
     }
 
     //set up nang ilalabas sa subject dialog

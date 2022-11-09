@@ -1,6 +1,6 @@
 package com.example.hteams.group;
 
-import static android.content.ContentValues.TAG;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,11 +61,12 @@ import java.util.Map;
 public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipant {
 //    ArrayList<FireBaseParticipant> fireBaseParticipants = new ArrayList<>();
 
-
+    String TAG = "TAG";
     //id of current user
     String cname;
     String SECTION;
     String newCreatedGroup;
+    static String Section; //To get the value of section
 
     //array lost
     //model
@@ -119,6 +120,8 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
 
         //calling sqlite database
         databaseHelper = new DatabaseHelper(CreateGroup2.this);
+
+        /*picture getting from sqlite
          //method current user
          //sqlite find name of current User
          getnameofUser = databaseHelper.getCurrentName(cname);
@@ -140,33 +143,34 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         }
 
 
+         */
+
 
         //getting section
-
+        /*section name SQLITE
         //lagyan section name yung dialog para may guide
         Cursor cursor = databaseHelper.getSection(cname);
-
         try {
             cursor.moveToNext();
             SECTION = cursor.getString(0);
         }catch (Exception e){
             Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
         }
+         */
 
 
         //TODO CHANGE IMAGE []
+        add();//add when click
+        leaderpictureAndName();
+        createGroup(); //uploading to firebase   //creating a group
 
 
-        //add when click
-        add();
-        //creating a group
-        //uploading to firebase
-        createGroup();
-        //Recycler view of invite classmate
-        recyclerView = findViewById(R.id.inviteRecycler);
-        setupInviteModel();
+        recyclerView = findViewById(R.id.inviteRecycler);  //Recycler view of invite classmate
         recyclerView.setAdapter(inviteAdapteradapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void leaderpictureAndName() {
     }
 
 
@@ -232,7 +236,8 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
     private void add() {
 
         //call the setup data pag nasa loobn kasi kada click sa  add nag aad eh
-        setUpChoosingGroup();
+        //setUpChoosingGroup();//SQLITE
+        setUpChoosingGroupFirebase();//FIREBASE
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,21 +266,72 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         });
     }
 
-    private void setUpChoosingGroup() {
-
-        //TODO find section of current user - done
-        //TODO get name , id, and image as a whole section ex. kung III-ACDS - lalabas lang mga 3 acds
-        //lagyan section name yung dialog para may guide
-        Cursor getData = databaseHelper.getData(SECTION);
-
-        try {
-           while(getData.moveToNext()){
-               chooseParticipantModels.add(new ChooseParticipantModel(getData.getString(0), getData.getString(1),getData.getString(2)));
-           }
-        }catch (Exception e){
-            Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
-        }
+    private void setUpChoosingGroupFirebase() {
+        findSection();
     }
+
+    private void findSection() {
+        DocumentReference docRef=firestore.collection("students").document(cname);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task){
+                if(task.isSuccessful()){
+                    DocumentSnapshot document=task.getResult();
+                    if(document.exists()){
+//                       Log.d(TAG,"Document Snapshotdata:"+ document.get("Section").toString());
+                        Section = document.get("Section").toString();
+                        Log.d(TAG,Section);
+                        Firebasegetlassmate();
+                    }
+                    else{
+                        Log.d(TAG,"Nosuchdocument");
+                    }
+                }else{
+                    Log.d(TAG,"getfailedwith",task.getException());
+                }
+            }
+        });
+
+    }
+
+    public void Firebasegetlassmate(){
+        firestore.collection("students")
+                .whereEqualTo("Section", Section)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.get("Name"));
+//                                               chooseParticipantModels.add(new ChooseParticipantModel(getData.getString(0), getData.getString(1),getData.getString(2)));
+                                chooseParticipantModels.add(new ChooseParticipantModel(document.getId().toString(),document.get("Name").toString(),document.get("image").toString() ));
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+
+
+//    private void setUpChoosingGroup() {
+//        //TODO find section of current user - done
+//        //TODO get name , id, and image as a whole section ex. kung III-ACDS - lalabas lang mga 3 acds
+//        //lagyan section name yung dialog para may guide
+//        Cursor getData = databaseHelper.getData(SECTION);
+//
+//        try {
+//           while(getData.moveToNext()){
+//               chooseParticipantModels.add(new ChooseParticipantModel(getData.getString(0), getData.getString(1),getData.getString(2)));
+//           }
+//        }catch (Exception e){
+//            Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 
 
     private void initxml() {
@@ -286,17 +342,7 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
     }
 
 
-    //adding data in invite classmate interface
-    private void setupInviteModel() {
-        //dummy datasaasdadw
-        //from database data
-//        Classmate.add("Thirdy Gayares");
 
-//        for(int i=0; i<Classmate.size(); i++){
-//            inviteModels.add(new InviteModel(Classmate.get(i)
-//            ));
-//        }
-    }
 
 
     @Override

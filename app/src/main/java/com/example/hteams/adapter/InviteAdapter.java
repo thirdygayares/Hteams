@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hteams.R;
 import com.example.hteams.Testing.SetProfile;
 import com.example.hteams.model.InviteModel;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -45,8 +46,8 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.MyViewHold
         holder.classmateName.setText(invitemodels.get(position).getName());
 
         SetProfile setProfile = new SetProfile();
-        holder.classmate_image.setImageResource(setProfile.profileImage(invitemodels.get(position).getImage()));
-
+//        holder.classmate_image.setImageResource(setProfile.profileImage(invitemodels.get(position).getImage()));
+        Picasso.get().load(invitemodels.get(position).getImage()).error(R.drawable.ic_profile).into(holder.classmate_image);
 
     }
 
