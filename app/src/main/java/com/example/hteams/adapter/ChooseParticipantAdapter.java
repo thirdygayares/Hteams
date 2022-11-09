@@ -47,7 +47,7 @@ public class ChooseParticipantAdapter extends RecyclerView.Adapter<ChoosePartici
 
         SetProfile setProfiles = new SetProfile();
 //        holder.classmate_image.setImageResource(setProfiles.profileImage(chooseParticipantsModel.get(position).getIMAGE()));
-        Picasso.get().load(chooseParticipantsModel.get(position).getIMAGE()).error(R.drawable.ic_profile).into(holder.classmate_image);
+        Picasso.get().load(chooseParticipantsModel.get(position).getIMAGE()).error(R.drawable.ic_profile).resize(400,400).centerCrop().into(holder.classmate_image);
     }
 
     @Override

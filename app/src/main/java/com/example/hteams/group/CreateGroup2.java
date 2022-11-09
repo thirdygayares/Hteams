@@ -54,6 +54,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
+import com.google.firebase.firestore.WriteBatch;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -75,6 +76,7 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
     //array lost
     //model
     ArrayList<InviteModel> inviteModels = new ArrayList<>();
+    InviteModel uploadtofirebase;
     static ArrayList <String> Classmate = new ArrayList<String>(); //Create
     ArrayList<ChooseParticipantModel> chooseParticipantModels = new ArrayList<>();
 
@@ -189,18 +191,107 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
 
     //method for creating a group
     private void createGroup() {
+        Creategroup creategroup = new Creategroup();
+        String groupname = creategroup.GroupName, Subject = creategroup.Subject, Professor = creategroup.Professor, Description = creategroup.Description, GroupPhoto = creategroup.avatarFirebase;
+        Log.d("TAG", GroupPhoto);
+
         createbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    //kunin yung input sa create group class
-                    Creategroup creategroup = new Creategroup();
-                    //generating variables
-                    //kukunin na yung data
-                    String groupname = creategroup.GroupName, Subject = creategroup.Subject, Professor = creategroup.Professor, Description = creategroup.Description, GroupPhoto = creategroup.choicesAvatar;
+                                         @Override
+                                         public void onClick(View v) {
+                                             //kunin yung input sa create group class
+                                             //generating variables
+                                             //kukunin na yung data
 
-                     Map<String, Object> addgroup = new HashMap<>();
-//                     addgroup.put
 
+                                             //creating batch
+                                             CollectionReference groupCollectionRef = firestore.collection("groups");
+                                             WriteBatch batch = firestore.batch();
+
+
+                                             Map<String, Object> addgroup = new HashMap<>();
+                                             addgroup.put("GROUPNAME", groupname);
+                                             addgroup.put("SUBJECT", Subject);
+                                             addgroup.put("PROFESSOR", Professor);
+                                             addgroup.put("Description", Description);
+                                             addgroup.put("GROUPPHOTO", GroupPhoto);
+                                             addgroup.put("LEADERID", cname);
+                                             addgroup.put("CREATOR", cname);
+
+
+
+                                          //   batch.set(groupCollectionRef.document(), addgroup);
+                                             groupCollectionRef.
+                                                     add(addgroup)
+                                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                         @Override
+                                                         public void onSuccess(DocumentReference documentReference) {
+                                                             Log.d("TAG", "reference " + documentReference.getId());
+                                                              CollectionReference testing = firestore.collection("groups").document(documentReference.getId()).collection("participant");
+                                                                  for(int x=0; x < inviteModels.size(); x++){
+                                                                      testing.add(addgroup).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                          @Override
+                                                                          public void onSuccess(DocumentReference documentReference) {
+                                                                              Log.d("TAG", "reference sub " + documentReference.getId());
+                                                                          }
+                                                                      }).addOnFailureListener(new OnFailureListener() {
+                                                                          @Override
+                                                                          public void onFailure(@NonNull Exception e) {
+                                                                              Log.d("TAG", "sub batch " + e);
+                                                                          }
+                                                                      });
+                                                                }
+                                                         }
+                                                     }).addOnFailureListener(new OnFailureListener() {
+                                                         @Override
+                                                         public void onFailure(@NonNull Exception e) {
+                                                              Log.d("TAG", "weeror batch " + e);
+                                                         }
+                                                     });
+
+                                             //collecting the participants
+                                             for (int i = 0; i < inviteModels.size(); i++) {
+                                                 uploadtofirebase = new InviteModel(groupCollectionRef.document().getId(), inviteModels.get(i).getId(), false);
+                                                 Log.d("TAG", "Group Id" + groupCollectionRef.document());
+                                             }
+
+//                                                    DocumentReference testing = firestore.collection("groups").document("groups").collection("participant").document("message1");
+
+//                                                 batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                                     @Override
+//                                                     public void onSuccess(Void unused) {
+//
+//                                                     }
+//                                                 }).addOnFailureListener(new OnFailureListener() {
+//                                                     @Override
+//                                                     public void onFailure(@NonNull Exception e) {
+//                                                         Log.d("TAG", "weeror batch " + e);
+//                                                     }
+//                                                 });
+
+                                             }
+                                     });
+                            }
+
+
+
+
+//                //adding all participants
+//                for(int i=0; i<inviteModels.size();i++){
+//
+//                firestore.collection("participants")
+//                        .add(uploadtofirebase)
+//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                            @Override
+//                            public void onSuccess(DocumentReference documentReference) {
+//                                Log.d("TAG", documentReference.getId());
+//                                startActivity(new Intent(CreateGroup2.this, MainActivity.class));
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.d("TAG", "ERROR ADDING PARTICIPANT " + e);
+//                            }
+//                        });
 
 
 
@@ -244,12 +335,12 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                     Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
                         startActivity(new Intent(CreateGroup2.this, MainActivity.class));
-                        }
-        });
+                     */
+//            }
 
- */
 
-    }
+
+
 
 
 
@@ -277,7 +368,7 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                     DocumentSnapshot document=task.getResult();
                     if(document.exists()){
                         currentName.setText(document.get("Name").toString()); //change the name of the leader ex. Thirdy Gayares
-                        Picasso.get().load(document.get("image").toString()).error(R.drawable.ic_profile).into(profile_leader);//change the photo of profile_leader
+                        Picasso.get().load(document.get("image").toString()).error(R.drawable.ic_profile).resize(400,400).into(profile_leader);//change the photo of profile_leader
 //                       Log.d(TAG,"Document Snapshotdata:"+ document.get("Section").toString());
                         //Getting the section of Current user to find his classmate
                         Section = document.get("Section").toString();
@@ -307,13 +398,13 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.get("Name"));
+//                                Log.d(TAG, document.getId() + " => " + document.get("Name"));
 //                                               chooseParticipantModels.add(new ChooseParticipantModel(getData.getString(0), getData.getString(1),getData.getString(2)));
                                 chooseParticipantModels.add(new ChooseParticipantModel(document.getId().toString(),document.get("Name").toString(),document.get("image").toString() ));
 //                                chooseParticipantModels.removeIf(n -> (n.getID() == cname));
-                                Log.d("TAG", "Ang cname ay " + cname);
+//                                Log.d("TAG", "Ang cname ay " + cname);
                             }
-                        } else {
+                        } else{
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
