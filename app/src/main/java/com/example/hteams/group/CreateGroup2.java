@@ -4,6 +4,7 @@ package com.example.hteams.group;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,11 +48,13 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,12 +78,14 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
     static ArrayList <String> Classmate = new ArrayList<String>(); //Create
     ArrayList<ChooseParticipantModel> chooseParticipantModels = new ArrayList<>();
 
-
+    View view;
     // Image of leader
     ImageView profile_leader;
     TextView add;
     Button createbtn;
     TextView currentName;
+    TextView section;
+
     RecyclerView recyclerView;
     //bottomsheet
    // -> bottom sheet when click the add participant
@@ -103,6 +109,12 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creategroup2);
+
+
+        view = getLayoutInflater().inflate(R.layout.bottomsheet_invite,null,false);
+        section  = view.findViewById(R.id.section);
+        invite_btmsht = new BottomSheetDialog(CreateGroup2.this);        //bottomsheet start
+        invite_btmsht.setContentView(view);
 
         //initialization
         initxml();
@@ -158,7 +170,8 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         }
          */
 
-
+        //setUpChoosingGroup();//SQLITE
+        findSection();//FIREBASE
         //TODO CHANGE IMAGE []
         add();//add when click
         leaderpictureAndName();
@@ -179,13 +192,19 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         createbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                     //kunin yung input sa create group class
                     Creategroup creategroup = new Creategroup();
                     //generating variables
                     //kukunin na yung data
                     String groupname = creategroup.GroupName, Subject = creategroup.Subject, Professor = creategroup.Professor, Description = creategroup.Description, GroupPhoto = creategroup.choicesAvatar;
 
+                     Map<String, Object> addgroup = new HashMap<>();
+//                     addgroup.put
+
+
+
+
+/* SQLITE ADDING GROUP
                 SQLITECREATEGROUPMODEL sqlitecreategroupmodel = null;
                 SQLITEPARTICIPANTMODEL sqliteparticipantmodel;
                 try{
@@ -224,50 +243,29 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                 }catch (Exception e){
                     Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
-
                         startActivity(new Intent(CreateGroup2.this, MainActivity.class));
                         }
         });
+
+ */
+
     }
 
 
-    // method of adding the participant
-    //bottomsheet will if add button is click
-    private void add() {
 
-        //call the setup data pag nasa loobn kasi kada click sa  add nag aad eh
-        //setUpChoosingGroup();//SQLITE
-        setUpChoosingGroupFirebase();//FIREBASE
+    private void add() {    // method of adding the participant
 
-        add.setOnClickListener(new View.OnClickListener() {
+        add.setOnClickListener(new View.OnClickListener() { //bottomsheet will if add button is click
             @Override
             public void onClick(View v) {
-
-
-                //bottomsheet start
-                invite_btmsht = new BottomSheetDialog(CreateGroup2.this);
-
-                View view = getLayoutInflater().inflate(R.layout.bottomsheet_invite,null,false);
                 TextView college = view.findViewById(R.id.college); //baka magamit
-                TextView section = view.findViewById(R.id.section);
-
                 RecyclerView classmateList = view.findViewById(R.id.classmateList);
-
-                //section text
-                section.setText(SECTION);
                 chooseParticipantAdapter = new ChooseParticipantAdapter(CreateGroup2.this,chooseParticipantModels,CreateGroup2.this);
                 classmateList.setAdapter(chooseParticipantAdapter);
                 classmateList.setLayoutManager(new LinearLayoutManager(CreateGroup2.this));
-
-                invite_btmsht.setContentView(view);
                 invite_btmsht.show();
-
             }
         });
-    }
-
-    private void setUpChoosingGroupFirebase() {
-        findSection();
     }
 
     private void findSection() {
@@ -278,9 +276,13 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                 if(task.isSuccessful()){
                     DocumentSnapshot document=task.getResult();
                     if(document.exists()){
+                        currentName.setText(document.get("Name").toString()); //change the name of the leader ex. Thirdy Gayares
+                        Picasso.get().load(document.get("image").toString()).error(R.drawable.ic_profile).into(profile_leader);//change the photo of profile_leader
 //                       Log.d(TAG,"Document Snapshotdata:"+ document.get("Section").toString());
+                        //Getting the section of Current user to find his classmate
                         Section = document.get("Section").toString();
-                        Log.d(TAG,Section);
+                        section.setText(Section);
+//                        Log.d(TAG,Section);
                         Firebasegetlassmate();
                     }
                     else{
@@ -297,8 +299,10 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
     public void Firebasegetlassmate(){
         firestore.collection("students")
                 .whereEqualTo("Section", Section)
+                .whereNotEqualTo(FieldPath.documentId(), cname)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
@@ -306,6 +310,8 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                                 Log.d(TAG, document.getId() + " => " + document.get("Name"));
 //                                               chooseParticipantModels.add(new ChooseParticipantModel(getData.getString(0), getData.getString(1),getData.getString(2)));
                                 chooseParticipantModels.add(new ChooseParticipantModel(document.getId().toString(),document.get("Name").toString(),document.get("image").toString() ));
+//                                chooseParticipantModels.removeIf(n -> (n.getID() == cname));
+                                Log.d("TAG", "Ang cname ay " + cname);
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -338,6 +344,7 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         add = findViewById(R.id.add);
         createbtn = findViewById(R.id.createbtn);
         currentName = findViewById(R.id.currentName);
+
         profile_leader = (ImageView) findViewById(R.id.profile_leader);
     }
 
@@ -357,7 +364,8 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         inviteModels.add(new InviteModel(chooseParticipantModels.get(pos).getIMAGE(),chooseParticipantModels.get(pos).getNAME(), chooseParticipantModels.get(pos).getID()));
         inviteAdapteradapter.notifyItemInserted(inviteModels.size() - 1);
         recyclerView.scrollToPosition(Classmate.size());
-
+        chooseParticipantModels.remove(pos);
+        chooseParticipantAdapter.notifyItemRemoved(pos);
         invite_btmsht.dismiss();
     }
 }
