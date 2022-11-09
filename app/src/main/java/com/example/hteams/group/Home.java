@@ -112,9 +112,9 @@ public class Home extends Fragment implements GroupInterface {
         //Getting the data group from firebase
 
 
-        CollectionReference mygroup = firestore.collection("groups");
+        CollectionReference mygroup = firestore.collection("participant");
 
-        mygroup.document("1iwf5sc6F8S1AnLqcWW1").collection("participant")
+        mygroup.whereEqualTo("StudentID",currentId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -122,10 +122,9 @@ public class Home extends Fragment implements GroupInterface {
                         if(task.isSuccessful()){
                          for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
                              if(documentSnapshot.exists()){
-                                 Log.d("TAG", documentSnapshot.getId() + "=>" + documentSnapshot.get("Students-ID"));
+                                 Log.d("TAG", documentSnapshot.getId() + "=>" + documentSnapshot.get("GROUPID"));
                              }else{
                                  Log.d("TAG", "not existed");
-
                              }
                          }
                         }else{
