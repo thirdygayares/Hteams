@@ -15,6 +15,9 @@
         android:padding="8dp"
         >
 
+
+
+
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -45,5 +48,12 @@
 
         ></androidx.recyclerview.widget.RecyclerView>
 
+    <ImageView
+        android:id="@+id/notificationepty"
+        android:layout_gravity="center"
+        android:layout_width="235dp"
+        android:layout_height="235dp"
+        android:src="@drawable/noupdates"
+        ></ImageView>
 
 </LinearLayout>

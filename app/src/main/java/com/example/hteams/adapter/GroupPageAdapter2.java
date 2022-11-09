@@ -99,7 +99,7 @@ public class GroupPageAdapter2 extends RecyclerView.Adapter<GroupPageAdapter2.My
                 if(grouppageinterfaces != null ){
                     int pos = getAdapterPosition();
                     if(pos!= RecyclerView.NO_POSITION){
-                        grouppageinterfaces.onItemClick(pos);
+                        grouppageinterfaces.onItemClick(pos, "wala to");
                     }
 
                 }

@@ -16,13 +16,12 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
-
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
         android:maxWidth="50dp"
         android:maxHeight="50dp"
         android:scaleType="fitXY"
-        android:src="@drawable/profile"
+        android:src="@drawable/hteams"
         app:shapeAppearance="?attr/actionButtonStyle"
         app:shapeAppearanceOverlay="@style/imageViewRounded"
         app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
@@ -30,12 +29,12 @@
 
     <TextView
         android:id="@+id/nameofgroup"
-        android:layout_width="120dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/gilroymedium"
-        android:text="Name of Group"
+        android:text="Add Task"
         android:textAlignment="center"
         android:textSize="16sp" />
 

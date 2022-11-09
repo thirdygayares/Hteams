@@ -6,7 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".profile.Profile">
 
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:background="@color/primary"
+       android:layout_height="200dp">
+   </RelativeLayout>
+
+   <com.google.android.material.imageview.ShapeableImageView
+       android:id="@+id/logo"
+       android:layout_width="230dp"
+       android:layout_height="230dp"
+       android:layout_centerHorizontal="true"
+       android:layout_marginTop="50dp"
+       android:adjustViewBounds="true"
+       android:background="@android:color/transparent"
+       android:maxWidth="50dp"
+       android:maxHeight="50dp"
+       android:scaleType="fitXY"
+       android:src="@drawable/avatar1"
+       app:shapeAppearance="?attr/actionButtonStyle"
+       app:shapeAppearanceOverlay="@style/imageViewRounded"
+       app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
+
+
    <TextView
+       android:id="@+id/name"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/logo"
+       android:layout_centerHorizontal="true"
+       android:layout_marginTop="20dp"
+       android:fontFamily="@font/gilroyextrabold"
+       android:text="Thirdy Gayares"
+       android:textColor="@color/primary"
+       android:textSize="25dp"></TextView>
+
+
+
+   <TextView
+       android:visibility="gone"
        android:id="@+id/id"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
@@ -20,19 +58,25 @@
        android:id="@+id/email"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:text="email"
-       android:textSize="20dp"
-       android:layout_above="@+id/logout"
+       android:layout_below="@+id/name"
        android:layout_centerHorizontal="true"
-       ></TextView>
+       android:layout_marginTop="10dp"
+       android:fontFamily="@font/gilroymedium"
+       android:text="email"
+       android:textSize="18dp"></TextView>
 
 
    <Button
+       android:background="@color/grey3"
+       android:textColor="@color/danger"
        android:id="@+id/logout"
-       android:layout_width="wrap_content"
+       android:fontFamily="@font/gilroyextrabold"
+       android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:text="Logout"
+       android:layout_alignParentBottom="true"
        android:layout_centerInParent="true"
-       ></Button>
+       android:layout_marginHorizontal="20dp"
+       android:layout_marginBottom="20dp"
+       android:text="Logout"></Button>
 
 </RelativeLayout>

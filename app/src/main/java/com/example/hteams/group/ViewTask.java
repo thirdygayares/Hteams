@@ -3,6 +3,7 @@ package com.example.hteams.group;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,32 +11,47 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.hteams.Display.groupDetails;
 import com.example.hteams.MainActivity;
 import com.example.hteams.R;
 import com.example.hteams.Testing.SetProfile;
 import com.example.hteams.adapter.AsigneeAdapter;
+import com.example.hteams.adapter.GroupPageAdapater;
 import com.example.hteams.adapter.ViewTaskAdapter;
 import com.example.hteams.adapter.ViewTaskInterface;
+import com.example.hteams.adapter.ViewUpdateInterface;
+import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.AssigneeModel;
 import com.example.hteams.model.ViewTaskModel;
+import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ViewTask extends AppCompatActivity implements ViewTaskInterface,DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener  {
     //array list of view task model
@@ -52,21 +68,71 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     Button postButton,button_asignee;
     ImageView menu_viewtask,participant_photo;
     Button button_status, buttonDeadline;
-
+    TextView taskName,groupName,tableName;
     //GLobal variable for time
     int day, month, year, hour, minute;
     int myday, myMonth, myYear, myHour, myMinute;
 
+    //firebase Auth
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firestore;
+
+    //SQLITE DB
+    DatabaseHelper databaseHelper;
+    String currentId;
+    int getGroupID = 1;
+    int getTaskID = 1;
+    int getTableID = 1;
+
+    //countiing indicator
+    int imagecount ;
+    String date;
+    public static int updatesId;
 
     //pm or am
     static  String pmam = "am";
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_task);
 
+        //to know the email and uid
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+
+        //calling database sqlite
+        databaseHelper = new DatabaseHelper(ViewTask.this);
+
+        //cyrrent id
+        currentId = firebaseAuth.getCurrentUser().getUid();
+
+        //creatng object to get the value of Group Id, table Id, and task ID
+        GroupPage groupPage = new GroupPage();
+
+        //comment ko muna for testing
+
+        // set Group id
+        getGroupID = groupPage.getGroupIDInt;
+        //set Task ID
+        getTaskID =  groupPage.getTaskID;
+        //set Table ID
+        getTableID =  groupPage.getTableID;
+
+
+
+
         //initializion of id in xml
         initxml();
+
+        //header
+        //toretrieve the name of the group, task name, and what is the table of thos
+        header();
+
+        //change assignedtomstatus,and deadline base on database
+        TaskRetrievesData();
+
+
         //button for post update
         post();
         //for menu
@@ -85,8 +151,108 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         //TODO deadline
         deadlineCalendar();
 
+
+
+
+
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void TaskRetrievesData() {
+        Cursor getTaskName = databaseHelper.getTaskName(getTaskID);
+
+        while(getTaskName.moveToNext()){
+
+            groupDetails groupDetail = new groupDetails();
+            button_asignee.setText(groupDetail.partcipantName(ViewTask.this,getTaskName.getString(3)));
+            button_status.setText(getTaskName.getString(5));
+            //condition
+            String status_indicatior = getTaskName.getString(5);
+            if(status_indicatior.equalsIgnoreCase("done")){
+                button_status.setBackgroundColor(Color.parseColor("#3AAB28"));
+                button_status.setText("DONE");
+                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
+            }
+            else if(status_indicatior.equalsIgnoreCase("working")){
+                button_status.setBackgroundColor(Color.parseColor("#3659D7"));
+                button_status.setText("WORKING");
+                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_work_outline_24, 0, 0, 0);
+            }
+            else if(status_indicatior.equalsIgnoreCase("to do")){
+                button_status.setBackgroundColor(Color.BLACK);
+                button_status.setText("TO DO");
+                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
+
+            }
+            else if(status_indicatior.equalsIgnoreCase("Ready")){
+                button_status.setBackgroundColor(Color.parseColor("#FF9500"));
+                button_status.setText("READY");
+                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
+            }
+
+            SetProfile setProfile = new SetProfile();
+            participant_photo.setImageResource(setProfile.profileImage(groupDetail.participantImage(ViewTask.this,getTaskName.getString(3))));
+            buttonDeadline.setText(getTaskName.getString(7) + " " + getTaskName.getString(8));
+
+        }
+
+
+    }
+
+
+    private void header() {
+//        Log.d("TAG", "task id in header" + getTaskID);
+        Cursor getTaskName = databaseHelper.getTaskName(getTaskID);
+        try{
+            if(getTaskName.getCount() == 0){
+//                Log.d("TAG", getTaskName.getString(4));
+                Log.d("TAG", "walang laman");
+            }
+            while(getTaskName.moveToNext()){
+            taskName.setText(getTaskName.getString(4));
+                Log.d("TAG", getTaskName.getString(4));
+            }
+
+        }catch (Exception e){
+            Log.d("TAG", "getting taskid in View Task" + e );
+        }
+
+        //getting group name from sqlite
+        Cursor getGroupName = databaseHelper.myGroup(String.valueOf(getGroupID));
+        try{
+            if(getGroupName.getCount() == 0){
+                Log.d("TAG", "walang laman");
+            }
+            while(getGroupName.moveToNext()){
+                groupName.setText(getGroupName.getString(2));
+            }
+
+        }catch (Exception e){
+            Log.d("TAG", "getting groupid in View Task" + e );
+        }
+
+
+        //getting table name from sqlite
+        Cursor getTableName = databaseHelper.getTableName(getTableID);
+        Log.d("TAG", "table id in view task" + getTableID);
+        try{
+            if(getTableName.getCount() == 0){
+                Log.d("TAG", "walang laman");
+            }
+            while(getTableName.moveToNext()){
+                tableName.setText(getTableName.getString(2));
+            }
+
+        }catch (Exception e){
+            Log.d("TAG", "getting groupid in View Task" + e );
+        }
+
+    }
 
 
     //when you click post button
@@ -136,21 +302,22 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
+          
                 if(id == R.id.remind){
-                    Toast.makeText(ViewTask.this,"Remind",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewTask.this,"Remind Succesfully",Toast.LENGTH_SHORT).show();
                 }else if (id == R.id.delete){
-                    Toast.makeText(ViewTask.this,"Delete",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewTask.this,"No Permission",Toast.LENGTH_SHORT).show();
                 }else if (id == R.id.home){
                     Intent intent = new Intent(ViewTask.this, MainActivity.class);
                     startActivity(intent);
                 }
+
                 return false;
             }
         });
         popup.show();
 
     }
-
 
 
 //    status button start
@@ -187,14 +354,17 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
             @RequiresApi(api = Build.VERSION_CODES.M)
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
+                String status = null;
                 if(id == R.id.todo){
 //                    Toast.makeText(ViewTask.this,"Todo",Toast.LENGTH_SHORT).show();
                     button_status.setBackgroundColor(Color.BLACK);
                     button_status.setText("TO DO");
+                    status = "TO DO";
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
 
                 }else if (id == R.id.working){
+                    status = "Working";
                     button_status.setBackgroundColor(Color.parseColor("#3659D7"));
                     button_status.setText("WORKING");
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
@@ -202,14 +372,20 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                 }else if (id == R.id.done){
                     button_status.setBackgroundColor(Color.parseColor("#3AAB28"));
                     button_status.setText("DONE");
+                    status = "Done";
+
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
                 }else if (id == R.id.ready){
                     button_status.setBackgroundColor(Color.parseColor("#FF9500"));
                     button_status.setText("READY");
+                    status = "Ready";
+
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
                 }
+
+                Boolean update = databaseHelper.updateStatus(String.valueOf(getTaskID),status );
 
 
                 return false;
@@ -229,28 +405,72 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         ViewTaskAdapter adapter = new ViewTaskAdapter(ViewTask.this, viewTaskModels, this);
         viewTask.setAdapter(adapter);
         viewTask.setLayoutManager(new LinearLayoutManager(ViewTask.this));
+        LinearLayout emptyUpdates = findViewById(R.id.emptyUpdates);
+            Cursor getupdatesdata = databaseHelper.getUpdatesData(getTaskID);
+            if(getupdatesdata.getCount() == 0) {
+                Log.d("TAG", "Update Table for " + groupName.getText() + " is empty");
+                //TODO show the picture when empty data
 
-        //dummy data
-        int[] Profile = {R.drawable.marielle, R.drawable.profile, R.drawable.novem};
-        String[] participant = {"Marielle Zabala","Thirdy Gayares","Novem Lanaban"};
-        String[] DatePost = {"Oct 10", "Oct 29", "Sep 25"};
-        int[] ViewCount = {2,3,4};
-        int[] commentCount = {1,2,3};
-        String[] description = {"Hi ako si Marielle , Pacheckk","Sorry di ko pa nagagawa","Gagawa ako ng bagong Model"};
-        int[] filesCount = {2,1,8};
-        int[] LikeCount = {4,6,2};
-        int[] Dislike = {10,1,8};
+                emptyUpdates.setVisibility(View.VISIBLE);
 
-        //from database data
-//        ArrayList<String> salesId = new ArrayList<>();
-//        ArrayList<String> Time = new ArrayList<>();
-//        ArrayList<String> TotalPrice = new ArrayList<>();
+            }else{
+                try {
+                    emptyUpdates.setVisibility(View.GONE);
+                    SetProfile setProfile = new SetProfile();
+                    groupDetails groupDetails = new groupDetails();
+                    while(getupdatesdata.moveToNext()) {
+                        String participantsrcimage = groupDetails.participantImage(ViewTask.this,getupdatesdata.getString(3));
+                        String participantName = groupDetails.partcipantName(ViewTask.this,getupdatesdata.getString(3));
 
-        for(int i=0; i<participant.length; i++){
-            viewTaskModels.add(new ViewTaskModel(Profile[i],participant[i],DatePost[i],ViewCount[i],commentCount[i],description[i],filesCount[i],LikeCount[i],Dislike[i]
-            ));
+                        //time convertion
+                        String strCurrentDate= getupdatesdata.getString(6);
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        Date newDate = null;
+                        try {
+                            newDate = format.parse(strCurrentDate);
+                            format = new SimpleDateFormat("dd-MMM-yyyy");
+                             date = format.format(newDate);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        //getting the data
+                        viewTaskModels.add(new ViewTaskModel(getupdatesdata.getInt(0), participantsrcimage, participantName,date,getupdatesdata.getString(4)));
+                    }
+                }catch (Exception e) {
+                    Log.e("TAG","error retrieving updates because " + e  );
+                }
+
+
+            }
+
         }
+
+    private void counting() {
+        int imagecountfilecountlistcountlinkcount ;
+        //imagecounting
+
+        try {
+            for(int i = 0;i<viewTaskModels.size();i++){
+                Cursor getImageCount = databaseHelper.getImageCount(String.valueOf(viewTaskModels.get(i).getUpdatesId()));
+                while(getImageCount.moveToNext()){
+                    imagecount = getImageCount.getInt(0);
+                    Log.d("TAG", "imagecount is  " + imagecount );
+
+                }
+
+
+            }
+
+        }catch (Exception e){
+            Log.e("TAG", "Something " + e);
+        }
+
+
+
+
     }
+
 
     //method when click assignee button to assign a group members
     private void buttonAssign() {
@@ -270,8 +490,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                 participant.setLayoutManager(new LinearLayoutManager(ViewTask.this));
 
 
-
-
                 alert.setView(mView);
                 alertDialog = alert.create();
                 //user can touch in outside
@@ -288,25 +506,30 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     private void setupAssigne() {
         //                TODO: if the user is current leader it indicator or show you
         ArrayList<String> profilePhoto = new ArrayList<String>();
-        profilePhoto.add("acds_gayares");
-        profilePhoto.add("acds_zabala");
-        profilePhoto.add("acds_lanaban");
-
         ArrayList<String> classmateName = new ArrayList<String>();
-        classmateName.add("Thirdy Gayares");
-        classmateName.add("Marielle Zabala");
-        classmateName.add("Novem Lanaban");
-
         ArrayList<String> students_id = new ArrayList<String>();
-        students_id.add("T");
-        students_id.add("Marielle Zabala");
-        students_id.add("Novem Lanaban");
 
 
-         for(int i=0; i<classmateName.size();i++){
-            assigneeModels.add(new AssigneeModel(classmateName.get(i), students_id.get(i), profilePhoto.get(i)));
+        //TODO getting the participant from a group
+        try{
+            Cursor getParticipant =  databaseHelper.getParticipant(String.valueOf(getGroupID));
+            groupDetails groupDetail = new groupDetails();
+            SetProfile setProfile = new SetProfile();
+
+            while (getParticipant.moveToNext()){
+                String studentsId =      getParticipant.getString(0);
+                profilePhoto.add(groupDetail.participantImage(ViewTask.this,studentsId));
+                classmateName.add(groupDetail.partcipantName(ViewTask.this,studentsId));
+              students_id.add(getParticipant.getString(0));
+            }
+
+        }catch (Exception e){
+            Log.d("TAG",  e.toString());
         }
 
+        for(int i=0; i<classmateName.size();i++){
+            assigneeModels.add(new AssigneeModel(classmateName.get(i), students_id.get(i), profilePhoto.get(i)));
+        }
     }
 
     //due date
@@ -331,7 +554,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
         myYear = year;
-        myday = day;
+        myday = dayOfMonth;
         myMonth = month;
         Calendar c = Calendar.getInstance();
         hour = c.get(Calendar.HOUR);
@@ -351,6 +574,11 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         String MonthCobnvert = String.valueOf(dateConverter(myMonth));
 
         buttonDeadline.setText( MonthCobnvert + " " + myday + ", " + timeConverter(myHour) + ":" + minute + " " + pmam );
+
+        String EditTime = timeConverter(myHour) + ":" + minute + " " + pmam;
+
+        Boolean update = databaseHelper.updateDue(String.valueOf(getTaskID),MonthCobnvert + " " + myday, EditTime );
+
 
     }
 
@@ -470,8 +698,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
 
 
-
-
     //clicking the recycler view
     @Override
     public void onItemClick(int position, String assignee_adapter) {
@@ -481,12 +707,19 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                 button_asignee.setText(assigneeModels.get(position).getName());
                 SetProfile setProfiles = new SetProfile();
                 participant_photo.setImageResource(setProfiles.profileImage(assigneeModels.get(position).getImgsrc()));
+                Boolean update = databaseHelper.updateParticipant(String.valueOf(getTaskID), String.valueOf(assigneeModels.get(position).getSTUDENT_ID()));
+                if(update == true){
+                    Log.d("TAG", "Change Successfully");
+                }else{
+                    Log.d("TAG", "Error Changing Participant");
+                }
                 alertDialog.dismiss();
                 break;
 
             case "ViewTaskAdapter":
                 intent = new Intent(ViewTask.this, ViewUpdates.class);
                 startActivity(intent);
+                updatesId = viewTaskModels.get(position).getUpdatesId();
                 break;
             default:
                 Toast.makeText(ViewTask.this, "default",Toast.LENGTH_SHORT).show();
@@ -503,8 +736,15 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         button_status = (Button) findViewById(R.id.button_status);
         button_asignee = (Button) findViewById(R.id.button_asignee);
         buttonDeadline = (Button) findViewById(R.id.buttonDeadline);
+        taskName = (TextView) findViewById(R.id.taskName);
+        groupName = (TextView) findViewById(R.id.groupName);
+        tableName = (TextView) findViewById(R.id.tableName);
+
+
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

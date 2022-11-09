@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tabletouch"
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_marginBottom="5dp"
@@ -16,6 +17,7 @@
             android:id="@+id/touchme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
             android:layout_marginTop="8dp">
 
             <RelativeLayout
@@ -51,17 +53,20 @@
 
         </RelativeLayout>
 
-
+        <RelativeLayout
+            android:id="@+id/recycleContainer"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/touchme"
+            android:layout_height="wrap_content">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/taskRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/touchme"
             android:layout_marginTop="5dp" />
-
+        </RelativeLayout>
         <androidx.cardview.widget.CardView
             android:id="@+id/Addtask1"
-            android:layout_below="@+id/taskRecycler"
+            android:layout_below="@+id/recycleContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >

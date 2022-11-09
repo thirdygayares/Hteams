@@ -12,15 +12,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.hteams.Display.groupDetails;
 import com.example.hteams.Login;
 import com.example.hteams.R;
+import com.example.hteams.Testing.SetProfile;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Profile extends Fragment {
     FirebaseAuth firebaseAuth;
-    TextView email, id;
+    TextView email, id, name;
+    ImageView logo;
     Button logout;
 
     @Nullable
@@ -30,6 +35,8 @@ public class Profile extends Fragment {
 
         logout = view.findViewById(R.id.logout);
         email = view.findViewById(R.id.email);
+        name = view.findViewById(R.id.name);
+        logo =  view.findViewById(R.id.logo);
         id = view.findViewById(R.id.id);
 
         //to know the email and uid
@@ -54,8 +61,12 @@ public class Profile extends Fragment {
         }
         });
 
+        //profile picture
+        String currentid = firebaseAuth.getCurrentUser().getUid();
+        groupDetails group = new groupDetails();
+        SetProfile setProfile = new SetProfile();
+        logo.setImageResource(setProfile.profileImage(group.participantImage(getContext(), currentid)));
+        name.setText(group.partcipantName(getContext(), firebaseAuth.getCurrentUser().getUid()));
         return view;
     }
-
-
 }

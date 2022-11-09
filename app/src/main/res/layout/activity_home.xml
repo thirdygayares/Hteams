@@ -8,7 +8,6 @@
     tools:context=".group.Home">
 
 
-
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -23,6 +22,16 @@
         android:layout_margin="10dp"
         ></ImageView>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HTEAMS"
+            android:textSize="30dp"
+            android:textColor="@color/primary"
+            android:fontFamily="@font/gilroyextrabold"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            ></TextView>
 
         <ImageView
             android:id="@+id/menu"
@@ -30,7 +39,6 @@
             android:layout_height="40dp"
             android:src="@drawable/ic_baseline_more_vert_24"
             android:backgroundTint="@color/black"
-
             android:layout_alignParentRight="true"
             android:layout_margin="10dp"
             ></ImageView>
@@ -48,6 +56,34 @@
         android:fontFamily="@font/gilroyregular"
         android:layout_marginHorizontal="5dp"
         ></TextView>
+
+    <LinearLayout
+        android:id="@+id/emptygroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible"
+
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="140dp"
+            android:fontFamily="@font/gilroybold"
+            android:text="No Existing Group"
+            android:textAlignment="center"
+            android:textColor="@color/primary"
+            android:textSize="30dp"></TextView>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="30dp"
+            android:src="@drawable/nogroup"></ImageView>
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/grouprecyclerview"

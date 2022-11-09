@@ -1,9 +1,10 @@
 package com.example.hteams.model;
 
 public class ViewTaskModel {
-
+    int updatesId;
     int profilepicture;
     String participantName;
+    String ImageSource;
     String postdate;
     int viewcount;
     int commentview;
@@ -12,6 +13,9 @@ public class ViewTaskModel {
     int likecount;
     int dislikecount;
     int save;
+    int photocount;
+    int listcount;
+    int linkcount;
 
     public ViewTaskModel(int profilepicture, String participantName, String postdate, int viewcount, int commentview, String description, int filescount, int likecount, int dislikecount) {
         this.profilepicture = profilepicture;
@@ -23,6 +27,38 @@ public class ViewTaskModel {
         this.filescount = filescount;
         this.likecount = likecount;
         this.dislikecount = dislikecount;
+    }
+
+    public ViewTaskModel(int updatesId, String ImageSource, String participantName, String postdate, String description) {
+        this.updatesId = updatesId;
+        this.ImageSource = ImageSource;
+        this.participantName = participantName;
+        this.postdate = postdate;
+        this.description = description;
+    }
+
+    public ViewTaskModel(int updatesId) {
+        this.updatesId = updatesId;
+    }
+
+    public String getImageSource() {
+        return ImageSource;
+    }
+
+    public int getPhotocount() {
+        return photocount;
+    }
+
+    public int getListcount() {
+        return listcount;
+    }
+
+    public int getLinkcount() {
+        return linkcount;
+    }
+
+    public int getUpdatesId() {
+        return updatesId;
     }
 
     public int getProfilepicture() {

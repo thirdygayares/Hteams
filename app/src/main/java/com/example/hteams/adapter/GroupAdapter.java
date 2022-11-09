@@ -1,7 +1,6 @@
 package com.example.hteams.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull GroupAdapter.MyViewHolder holder, int position) {
         holder.groupName.setText(groupmodels.get(position).getGroupTitle());
         holder.group_description.setText(groupmodels.get(position).getShortDescription());
-        holder.teacher.setText(groupmodels.get(position).getProfessor());
+        holder.teacher.setText("Prof. " + groupmodels.get(position).getProfessor());
         holder.subject.setText(groupmodels.get(position).getSubject());
         SetAvatar setAvatar = new SetAvatar();
         holder.group_image.setImageResource(setAvatar.setAvatar(groupmodels.get(position).getGroupImage()));
@@ -75,7 +74,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
                 if(groupInterface != null ){
                     int pos = getAdapterPosition();
                     if(pos!= RecyclerView.NO_POSITION){
-                        groupInterface.onItemClick(pos);
+                        groupInterface.onItemClick(pos, "taskView");
                     }
 
                 }

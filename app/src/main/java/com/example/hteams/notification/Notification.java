@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.hteams.R;
 import com.example.hteams.adapter.NotificationAdapter;
@@ -25,7 +26,7 @@ public class Notification extends Fragment implements NotificationInterface {
     View view;
     //global variable of recycler view of Notification
     RecyclerView notification_recyclerView;
-
+    ImageView notificationepty;
     //Arraylist of Notication MOdel
     ArrayList<NotificationModel> notificationModels = new ArrayList<>();
 
@@ -54,42 +55,46 @@ public class Notification extends Fragment implements NotificationInterface {
         //array for notificarion photo
         ArrayList <Integer> Notification_Photo = new ArrayList<Integer>();
         //array for read or unread
-        Notification_Photo.add(R.drawable.profile);
-        Notification_Photo.add(R.drawable.novem);
-        Notification_Photo.add(R.drawable.marielle);
+//        Notification_Photo.add(R.drawable.profile);
+//        Notification_Photo.add(R.drawable.novem);
+//        Notification_Photo.add(R.drawable.marielle);
 
        //status: read or unread
         ArrayList<Boolean> status = new ArrayList<>();
-        status.add(true);
-        status.add(false);
-        status.add(true);
+//        status.add(true);
+//        status.add(false);
+//        status.add(true);
 
         //type of notication , remindes, join , etc
         ArrayList<String> type = new ArrayList<String>();
-        type.add("remind");
-        type.add("invite");
-        type.add("like");
+//        type.add("remind");
+//        type.add("invite");
+//        type.add("like");
 
         //desription of notificaion
         ArrayList<String> contentNotification = new ArrayList<String>();
-        contentNotification.add("Thirdy Gayares Remind you to finish the task in FireTera");
-        contentNotification.add("Novem Lanaban was Invited you to join in FireTera");
-        contentNotification.add("Marielle Zabala Rwas comment to your Updates");
+//        contentNotification.add("Thirdy Gayares Remind you to finish the task in FireTera");
+//        contentNotification.add("Novem Lanaban was Invited you to join in FireTera");
+//        contentNotification.add("Marielle Zabala Rwas comment to your Updates");
 
         //date of updates
         ArrayList<String> date = new ArrayList<String>();
-        date.add("Oct 22");
-        date.add("Nov 1");
-        date.add("Oct 31");
+//        date.add("Oct 22");
+//        date.add("Nov 1");
+//        date.add("Oct 31");
 
         //time of updates
         ArrayList<String> time = new ArrayList<String>();
-        time.add("10:00PM");
-        time.add("5:00PM");
-        time.add("8:00AM");
+//        time.add("10:00PM");
+//        time.add("5:00PM");
+//        time.add("8:00AM");
 
         for (int i= 0; i<contentNotification.size(); i++){
             notificationModels.add(new NotificationModel(Notification_Photo.get(i),contentNotification.get(i),date.get(i), time.get(i),type.get(i),status.get(i)));
+        }
+
+        if (contentNotification.isEmpty()){
+            notificationepty.setVisibility(View.VISIBLE);
         }
 
     }
@@ -103,6 +108,7 @@ public class Notification extends Fragment implements NotificationInterface {
     //initialization of xml
     private void initXml() {
         notification_recyclerView = (RecyclerView) view.findViewById(R.id.notication_recycler);
+         notificationepty = (ImageView) view.findViewById(R.id.notificationepty);
     }
 
 

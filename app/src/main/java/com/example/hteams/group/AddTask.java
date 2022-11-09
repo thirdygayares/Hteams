@@ -112,11 +112,10 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
         Log.d("TAG", "new Table " + newTable);
 
 
-
         //check if position
         if(newTable.equalsIgnoreCase("false")) {
             Log.d("TAG", "pnag add task sa particular table");
-            getPosition = Integer.parseInt(getIntent().getStringExtra("POSITION"));
+            getPosition = 0;
             Log.d("TAG", "position " + getPosition);
 
         }else if(newTable.equalsIgnoreCase("true")){
@@ -125,9 +124,6 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
             getPosition = groupPage.lastposition;
             Log.d("TAG", "position " + groupPage.lastposition);
         }//delete this if else later
-
-
-
 
 
         //fore testing
@@ -194,14 +190,12 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                     groupPageModels.add(new GroupPageModel(taskName,status,finalDate,classmatePhoto));
 
                     try{
-
-
                     SQLITEADDTASKMODEL sqliteaddtaskmodels = null;
                     //GET TIME AND DATE
                     //dateConverter(myMonth)) + " " + myday + ", " + timeConverter(myHour)
 //                        public SQLITEADDTASKMODEL(int ID_GROUP, int ID_TABLE, String ID_STUDENTS, String TASK_NAME, String STATUS, String dueDate, String dueTime)
                     String duedate = dateConverter(myMonth) + " " + myday;
-                    String dueTIme = String.valueOf(timeConverter(myHour));
+                    String dueTIme = timeConverter(myHour) +   ":" + myMinute + " " + pmam;
                         //ganto logic niyan pag dumaan sa add task hindi magbabago posisyon niya
                         //pero pag dumaan sa add table magbabago position
                         Cursor getCounttable = databaseHelper.getCountAllTable(getGroupID);
@@ -221,7 +215,7 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                             Toast.makeText(AddTask.this, "failed", Toast.LENGTH_SHORT).show();
                         }
                     }catch (Exception e){
-                        Toast.makeText(AddTask.this,  e.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddTask.this,  "etor: " + e, Toast.LENGTH_SHORT).show();
                         Log.d("TAG",e.toString());
                     }
                 }
@@ -233,7 +227,7 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
         myYear = year;
-        myday = day;
+        myday = dayOfMonth;
         myMonth = month;
         Calendar c = Calendar.getInstance();
         hour = c.get(Calendar.HOUR);

@@ -1,5 +1,5 @@
 package com.example.hteams.adapter;
 
 public interface GroupInterface {
-    void onItemClick(int position);
+    void onItemClick(int position, String taskView);
 }

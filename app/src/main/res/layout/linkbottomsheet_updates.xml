@@ -2,11 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey3"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
   <LinearLayout
+      android:id="@+id/header"
       android:layout_alignParentLeft="true"
-      android:layout_marginLeft="25dp"
-      android:layout_marginTop="35dp"
+      android:layout_marginLeft="10dp"
+      android:layout_marginTop="10dp"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:orientation="horizontal">
@@ -14,16 +17,18 @@
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src ="@drawable/addlink"
+        android:layout_marginRight="10dp"
+        app:tint="@color/primary"
+        android:src ="@drawable/ic_baseline_link_24"
         />
 
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="Add link"
-          android:textColor="@color/gray0"
+          android:textColor="@color/primary"
           android:fontFamily="@font/gilroysemibold"
-          android:textSize="20sp"
+          android:textSize="24sp"
           android:textAlignment="center"
           android:paddingTop="10dp"/>
 
@@ -31,15 +36,16 @@
 
   <LinearLayout
       android:id="@+id/fields"
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_below="@+id/header"
       android:layout_centerHorizontal="true"
-      android:layout_marginLeft="30dp"
-      android:layout_marginTop="120dp"
+      android:layout_marginHorizontal="15dp"
+      android:layout_marginVertical="10dp"
       android:orientation="vertical">
 
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gilroymedium"
         android:text="Site"
@@ -49,16 +55,19 @@
 
     <Button
         android:id="@+id/sitenamefield"
-        android:layout_width="330dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:fontFamily="@font/gilroymedium"
+        android:padding="20dp"
+        android:stateListAnimator="@null"
+        android:layout_marginVertical="5dp"
         android:text="Site Name"
         android:textAlignment="textStart"
         android:textAllCaps="false"
         android:textColor="@color/gray0"
-        android:textSize="20sp"
-        android:fontFamily="@font/gilroymedium">
-    </Button>
+
+        android:textSize="20sp"></Button>
 
 
     <TextView
@@ -72,11 +81,13 @@
 
     <EditText
         android:id="@+id/customenamefield"
-        android:layout_width="330dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
         android:background="@color/white"
         android:fontFamily="@font/gilroymedium"
         android:hint="Custom Name "
+        android:padding="20dp"
         android:textSize="20sp" />
 
     <TextView
@@ -90,25 +101,29 @@
 
     <EditText
         android:id="@+id/linkfield"
-        android:layout_width="330dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
         android:background="@color/white"
         android:fontFamily="@font/gilroymedium"
-        android:hint="www.hteams.com"
+        android:hint="www.example.com"
+        android:padding="20dp"
         android:textSize="20sp" />
 
   </LinearLayout>
 
   <Button
       android:id="@+id/submitbtn"
-      android:layout_width="150dp"
-      android:layout_height="50dp"
-      android:layout_centerHorizontal="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
       android:layout_below="@id/fields"
+      android:layout_centerHorizontal="true"
       android:layout_marginTop="20dp"
       android:layout_marginBottom="30dp"
       android:backgroundTint="@color/primarybutton"
       android:fontFamily="@font/gilroybold"
+      android:paddingHorizontal="50dp"
+      android:paddingVertical="20dp"
       android:text="SUBMIT"
       android:textColor="@color/white"
       android:textSize="20sp" />

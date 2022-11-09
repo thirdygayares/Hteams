@@ -8,17 +8,7 @@
         android:title="Group details"
         />
 
-    <item
-        android:id="@+id/viewyourtask"
-        android:icon="@drawable/ic_task"
-        android:title="View your task"
-        />
 
-    <item
-        android:id="@+id/groupmates"
-        android:icon="@drawable/ic_baseline_group_24"
-        android:title="Groupmates"
-        />
 
     <item
         android:id="@+id/events"
@@ -26,11 +16,7 @@
         android:title="Events"
         />
 
-    <item
-        android:id="@+id/arhived"
-        android:icon="@drawable/ic_archived"
-        android:title="Archived"
-        />
+
 
     <item
         android:id="@+id/delete"

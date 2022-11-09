@@ -47,16 +47,61 @@ public class DisplaySiteAdapter extends RecyclerView.Adapter<DisplaySiteAdapter.
         //example if google meet pinili syempre lalabas google meet icon
         String iconName = displaySiteModels.get(position).getSiteName();
 
-        if(iconName.equalsIgnoreCase("Google Meet")){
-            holder.display_site_icon.setImageResource(R.drawable.googlemeet);
-        } else if(iconName.equalsIgnoreCase("Github")){
-            holder.display_site_icon.setImageResource(R.drawable.github);
-        } else if(iconName.equalsIgnoreCase("Google Drive")){
+        if(iconName.equalsIgnoreCase("Canva")){
+            holder.display_site_icon.setImageResource(R.drawable.canvca);
+        } else if(iconName.equalsIgnoreCase("Discord")){
+            holder.display_site_icon.setImageResource(R.drawable.discord);
+        } else if(iconName.equalsIgnoreCase("Excel")){
+            holder.display_site_icon.setImageResource(R.drawable.excel);
+        } else if(iconName.equalsIgnoreCase("Facebook")){
+            holder.display_site_icon.setImageResource(R.drawable.facebook);
+        }else if(iconName.equalsIgnoreCase("Gdrive")){
             holder.display_site_icon.setImageResource(R.drawable.drive);
+        }else if(iconName.equalsIgnoreCase("Github")){
+            holder.display_site_icon.setImageResource(R.drawable.github);
+        }else if(iconName.equalsIgnoreCase("Gmail")){
+            holder.display_site_icon.setImageResource(R.drawable.gmail);
+        }else if(iconName.equalsIgnoreCase("Gmeet")){
+            holder.display_site_icon.setImageResource(R.drawable.meet);
+        }else if(iconName.equalsIgnoreCase("Gnotes")){
+            holder.display_site_icon.setImageResource(R.drawable.notes);
+        }else if(iconName.equalsIgnoreCase("Google")){
+            holder.display_site_icon.setImageResource(R.drawable.google);
+        }else if(iconName.equalsIgnoreCase("Messenger")){
+            holder.display_site_icon.setImageResource(R.drawable.messenger);
+        }else if(iconName.equalsIgnoreCase("Moodle")){
+            holder.display_site_icon.setImageResource(R.drawable.moodle);
+        }else if(iconName.equalsIgnoreCase("Mteams")){
+            holder.display_site_icon.setImageResource(R.drawable.teams);
+        }else if(iconName.equalsIgnoreCase("Onedrive")){
+            holder.display_site_icon.setImageResource(R.drawable.onedrive);
+        }else if(iconName.equalsIgnoreCase("Powerpoint")){
+            holder.display_site_icon.setImageResource(R.drawable.powerpoint);
+        }else if(iconName.equalsIgnoreCase("Telegram")){
+            holder.display_site_icon.setImageResource(R.drawable.telegram);
+        }else if(iconName.equalsIgnoreCase("Word")){
+            holder.display_site_icon.setImageResource(R.drawable.word);
+        }else if(iconName.equalsIgnoreCase("Youtube")){
+            holder.display_site_icon.setImageResource(R.drawable.youtube);
+        }else if(iconName.equalsIgnoreCase("Zoom")){
+            holder.display_site_icon.setImageResource(R.drawable.zoom);
+        }else {
+            holder.display_site_icon.setImageResource(R.drawable.others);
         }
 
 
         holder.display_sitename.setText(displaySiteModels.get(position).getCustomsitename());
+
+
+        //cancel the link
+        holder.display_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displaySiteModels.remove(holder.getAdapterPosition());
+
+                notifyItemRemoved(holder.getAdapterPosition());
+            }
+        });
 
     }
 

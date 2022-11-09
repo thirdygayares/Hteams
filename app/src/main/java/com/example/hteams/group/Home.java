@@ -2,31 +2,24 @@ package com.example.hteams.group;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.hteams.MainActivity;
 import com.example.hteams.R;
-import com.example.hteams.Sample;
 import com.example.hteams.adapter.GroupAdapter;
 import com.example.hteams.adapter.GroupInterface;
 import com.example.hteams.database.DatabaseHelper;
@@ -48,13 +41,12 @@ public class Home extends Fragment implements GroupInterface {
     //SQLITE DB
     DatabaseHelper databaseHelper;
     String currentId;
-
+    View view;
     public static String GroupId;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_home, container, false);
+         view = inflater.inflate(R.layout.activity_home, container, false);
 
         //to know the email and uid
         firebaseAuth = FirebaseAuth.getInstance();
@@ -65,8 +57,6 @@ public class Home extends Fragment implements GroupInterface {
 
         //cyrrent id
         currentId = firebaseAuth.getCurrentUser().getUid();
-
-
         addgroup = view.findViewById(R.id.addgroup);
         menu = view.findViewById(R.id.menu);
         menu();
@@ -93,25 +83,10 @@ public class Home extends Fragment implements GroupInterface {
         });
     }
 
+
     private void setupGroupData() {
-        //dummy data
-//        String[] Title = {"FireTera","Adroit","9x3","Cube","Group 1","Driven"};
-//        String[] Description = {"this is short Description", "this is short Description", "this is short Description", "this is short Description", "this is short Description", "this is short Description" };
-//        String[] Prof = {"Prof Thirdy Gayares", "Prof Novem Lanaban", "Prof Angel Locsin", "Prof Marian Rivera", "Prof. Alex Castro", "Prof. Jonny Sagloria" };
-//        String[] subject = {"Elective 1", "Softeng", "Discrete", "Modsimu", "HCI", "Algocom" };
-//        Integer[] image = {R.drawable.profile,R.drawable.avatar1, R.drawable.groupavatar2,R.drawable.groupavatar3, R.drawable.groupavatar4, R.drawable.groupavatar5};
-//
-
-        //from database data
-//        ArrayList<String> salesId = new ArrayList<>();
-//        ArrayList<String> Time = new ArrayList<>();
-//        ArrayList<String> TotalPrice = new ArrayList<>();
 
 
-//        sqlite data
-//        TODO Firebase Manipulation
-
-        //TODO SQLITE Manipulation
 
         ArrayList<String> GroupID = new ArrayList<>();
         //bago mo makuha yung group need mo muna malman kung accepted nila at syempre parrticipants sila
@@ -127,27 +102,37 @@ public class Home extends Fragment implements GroupInterface {
         }
 
         try{
+            LinearLayout emptygroup = view.findViewById(R.id.emptygroup);
+
             //outputing the groups
 //    public GroupModel(int GROUPID, int groupImage, String groupTitle, String shortDescription, String professor, String subject) {
+            if(GroupID.isEmpty()){
+                emptygroup.setVisibility(View.VISIBLE);
+            }     else{
 
-            for (int i=0;i<GroupID.size();i++){
-                Cursor getGroups = databaseHelper.myGroup(GroupID.get(i));
-                getGroups.moveToNext();
-                groupModels.add(new GroupModel(getGroups.getString(0),getGroups.getString(1),getGroups.getString(2),getGroups.getString(4),getGroups.getString(5),getGroups.getString(3) ));
+                emptygroup.setVisibility(View.GONE);
+
+
+                for (int i=0;i<GroupID.size();i++){
+                    Cursor getGroups = databaseHelper.myGroup(GroupID.get(i));
+                    getGroups.moveToNext();
+                    groupModels.add(new GroupModel(getGroups.getString(0),getGroups.getString(1),getGroups.getString(2),getGroups.getString(4),getGroups.getString(5),getGroups.getString(3) ));
+                }
 
             }
-
-
 
         }catch (Exception e){
             Toast.makeText(getActivity(), "getting groups" + e, Toast.LENGTH_SHORT).show();
         }
 
+
+
+
         }
 
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position, String taskView) {
 
         Intent intent = new Intent(getActivity(), GroupPage.class);
         intent.putExtra("setGroupId", groupModels.get(position).getGROUPID());

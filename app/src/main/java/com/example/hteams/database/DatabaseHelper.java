@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -12,6 +13,7 @@ import com.example.hteams.Testing.SubjectModel;
 import com.example.hteams.Testing.Testing1;
 import com.example.hteams.Testing.Testing1Model;
 import com.example.hteams.model.ChooseParticipantModel;
+import com.example.hteams.model.DisplaySiteModel;
 import com.example.hteams.model.InviteModel;
 import com.example.hteams.model.SQLITEADDTASKMODEL;
 import com.example.hteams.model.SQLITECREATEGROUPMODEL;
@@ -112,6 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //public static final String ID_STUDENTS = "ID_STUDENTS";
     public static final String POSTDATE = "POSTDATE";
     public static final String VIEWS_COUNT = "VIEWS_COUNT";
+
 
 
     //UPDATESLIKESTABLE
@@ -370,6 +373,109 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+
+    // add the text update to sqlite
+    public boolean addUpdates(int taskid,int groupid, String studentid, String Post){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(ID_TASK, taskid);
+        cv.put(ID_GROUP, groupid);
+        cv.put(ID_STUDENTS, studentid);
+        cv.put(POSTDATE, Post);
+
+        long insert = db.insert(UPDATESTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+    // add the link to sqlite
+    public boolean addLink(int updateId, int groupid, DisplaySiteModel displaySiteModel){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(ID_UPDATES, updateId);
+        cv.put(ID_GROUP, groupid);
+        cv.put(CUSTOMNAME, displaySiteModel.getCustomsitename());
+        cv.put(WEBLINK, displaySiteModel.getLink());
+        cv.put(SITENAME, displaySiteModel.getSiteName());
+
+        long insert = db.insert(LINKTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+    // add the text update to sqlite
+    public boolean addList(int updateId, int groupid, String listName, boolean status){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(ID_UPDATES, updateId);
+        cv.put(ID_GROUP, groupid);
+        cv.put(LISTNAME, listName);
+        cv.put(STATUS, status);
+
+        long insert = db.insert(LISTTABLE, null, cv);
+        if (insert == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+
+
+
+    //TODO UPDATE PAGE
+    //update participant from the task
+    public boolean updateParticipant(String taskid,String participantID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues updateParticipant = new ContentValues();
+        updateParticipant.put(ID_STUDENTS, participantID);
+        db.update(TASKTABLE, updateParticipant,ID_TASK + " = ?",new String[] {taskid});
+        return true;
+    }
+
+    //edit participant from the task
+    public boolean updateStatus(String taskid,String status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues updateParticipant = new ContentValues();
+        updateParticipant.put(STATUS, status);
+        db.update(TASKTABLE, updateParticipant,ID_TASK + " = ?",new String[] {taskid});
+        return true;
+    }
+
+    //edit date from the task
+    public boolean updateDue(String taskid,String duedate, String dueTime){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues updateDue = new ContentValues();
+        updateDue.put(DUEDATE, duedate);
+        updateDue.put(DUETIME, dueTime);
+        db.update(TASKTABLE, updateDue,ID_TASK + " = ?",new String[] {taskid});
+        return true;
+    }
+
+    public boolean updateListStatus(String IdList, String status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues updatelist = new ContentValues();
+        updatelist.put(STATUS, status);
+        db.update(LISTTABLE, updatelist,ID_LIST + " = ?",new String[] {IdList});
+        return true;
+    }
+
+
+
+
+
     // TODO testing
     public Cursor checkifmaylaman(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -449,7 +555,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //this method ay alam na niya na nakuha niya yung id at accepted na ng user
     public  Cursor myGroup(String myGroups){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM " + GROUPTABLE + " where " + ID_GROUP + " = ? ", new String[] {myGroups} );
+        Cursor data = db.rawQuery("SELECT * FROM " + GROUPTABLE + " where " + ID_GROUP + " = ? ORDER BY " + CREATED + " DESC " , new String[] {myGroups} );
         return  data;
     }
 
@@ -482,7 +588,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
     //getting only the partcipant in a group
     //ex. if the leader the role of a member di niya makikita ang ibang section
     public  Cursor getParticipant(String myGroups){
@@ -490,6 +595,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor data = db.rawQuery("SELECT " + ID_STUDENTS + " FROM " + PARTICIPANTTABLE  + " WHERE " + ID_GROUP + " = ? AND " + ACCEPTED + " = 1" ,  new String[] {myGroups}  );
         return  data;
     }
+
+
 
     // Kung mayron na makita lang by section : ito naman kung sino lang kasali sa grupo
     public Cursor getNameImageParticipant(String id){
@@ -512,6 +619,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    // sa group page iretrieve na yung data ng mga task
+    public Cursor getTaskName(String taskID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + TASK_NAME + " FROM " + TASKTABLE + " WHERE " + ID_TASK + " = ?  ", new String[] {taskID});
+        return data;
+    }
+
+
     // sa group page iretrieve na yung data
     // bibilangin ang group Table na table para mabilang kung ilan
     public Cursor getCountAllTable(String groupID){
@@ -519,6 +634,105 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor data = db.rawQuery(" SELECT COUNT (*) FROM " + TABLETABLE + " WHERE " + ID_GROUP + " = ? ", new String[] {groupID});
         return data;
     }
+
+
+    // retrieve the taskName via task ID
+    public Cursor getTaskName(int taskID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TASKTABLE + " WHERE " + ID_TASK + " = ? ", new String[] {String.valueOf(taskID)});
+        return data;
+    }
+
+
+
+    // retrieve personal task
+    public Cursor getPersonalTask(String participantID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TASKTABLE + " WHERE " + ID_STUDENTS + " = ? ", new String[] {participantID});
+        return data;
+    }
+
+    // retrieve the taskName via task ID
+    public Cursor getTableName(int tableid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLETABLE + " WHERE " + ID_TABLE + " = ? ", new String[] {String.valueOf(tableid)});
+        Log.d("TAG", "in table db " + tableid );
+        return data;
+    }
+
+    // retrieve the tasktable via  ID group nad id table
+    public Cursor getTaskTableforGroupPage(String groupId,  String Tableid, String statud ){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TASKTABLE + " WHERE " + ID_GROUP + " = ? AND " + ID_TABLE + " = ? AND " + STATUS + " = ? " , new String[] {groupId,Tableid,statud});
+
+        return data;
+    }
+
+    //getting the position of a task by group
+    public  Cursor getLastId(String taskid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT " + ID_UPDATES   +" FROM " + UPDATESTABLE +" WHERE "+ ID_TASK  + " = ? ORDER BY " + ID_UPDATES + " DESC LIMIT 1" , new String[] {taskid} );
+        return  data;
+    }
+
+    // retrieve the taskName via task ID
+    public Cursor getUpdatesData(int taskid){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + UPDATESTABLE + " WHERE " + ID_TASK + " = ? ORDER BY " + ID_UPDATES + " DESC "  , new String[] {String.valueOf(taskid)});
+        return data;
+    }
+
+
+    // retrieve the uodates detauls via updates ID
+    public Cursor getUpdatesDataviaUpdatesId(int updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + UPDATESTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {String.valueOf(updatesId)});
+        return data;
+    }
+
+    //get ImageCount
+    public Cursor getImageCount(String updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT COUNT (*) FROM " + PHOTOSTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
+        return data;
+    }
+
+
+    //get LinkCount
+    public Cursor getLinkCount(String updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT COUNT (*) FROM " + LINKTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
+        return data;
+    }
+
+    //get ListCount
+    public Cursor getListCount(String updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT COUNT (*) FROM " + LISTTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
+        return data;
+    }
+
+    //get FileCount
+    public Cursor getFilesCount(String updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT COUNT (*) FROM " + FILESTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
+        return data;
+    }
+
+    //get ListData
+    public Cursor getListData(String updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT * FROM " + LISTTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
+        return data;
+    }
+
+    //get link Data
+    public Cursor getLinkData(String updatesId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery(" SELECT * FROM " + LINKTABLE + " WHERE " + ID_UPDATES + " = ? ", new String[] {updatesId});
+        return data;
+    }
+
 
 
 
