@@ -81,14 +81,7 @@ public class Home extends Fragment implements GroupInterface {
         //Button
 
         addgroup();
-
         setupGroupData();
-        RecyclerView recyclerView = view.findViewById(R.id.grouprecyclerview);
-        GroupAdapter adapter = new GroupAdapter(getActivity(), groupModels, this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
         return view;
     }
 
@@ -111,7 +104,6 @@ public class Home extends Fragment implements GroupInterface {
 
         //Getting the data group from firebase
 
-
         CollectionReference mygroup = firestore.collection("participant");
 
         mygroup.whereEqualTo("StudentID",currentId)
@@ -121,14 +113,50 @@ public class Home extends Fragment implements GroupInterface {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                          for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
+
                              if(documentSnapshot.exists()){
                                  Log.d("TAG", documentSnapshot.getId() + "=>" + documentSnapshot.get("GROUPID"));
+                                 GroupID.add(documentSnapshot.get("GROUPID").toString());
+
+                                 LinearLayout emptygroup = view.findViewById(R.id.emptygroup);//outputing the groups
+                                         if(GroupID.isEmpty()){
+                                             emptygroup.setVisibility(View.VISIBLE);
+                                         }else{
+                                             emptygroup.setVisibility(View.GONE);
+
+                                             for (int i=0;i<GroupID.size();i++){//start of forloop
+                                                 Log.d("TAG ", "TESTING GROUP ID" + GroupID.get(i));
+                                                 //finding a group
+                                                 DocumentReference ouputTheGroup = firestore.collection("groups").document(GroupID.get(i));
+                                                 ouputTheGroup.get()
+                                                                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                     @Override
+                                                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                        if(task.isSuccessful()) {
+                                                                            DocumentSnapshot document=task.getResult();
+                                                                                if (document.exists()) {
+                                                                                    DocumentSnapshot documentReference = task.getResult();
+                                                                                    groupModels.add(new GroupModel("sample group ID", documentReference.get("GROUPPHOTO").toString(), documentReference.get("GROUPNAME").toString(), documentReference.get("Description").toString(), documentReference.get("PROFESSOR").toString(), documentReference.get("SUBJECT").toString()));
+                                                                                    RecyclerView recyclerView = view.findViewById(R.id.grouprecyclerview);
+                                                                                    GroupAdapter adapter = new GroupAdapter(getActivity(), groupModels );
+                                                                                    recyclerView.setAdapter(adapter);
+                                                                                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                                                                    Log.d("TAG",groupModels.get(0).getGroupTitle());
+                                                                                } else {
+                                                                                    Log.d("TAG", "No such as document");
+                                                                                }
+                                                                        }
+                                                                     }
+                                                                 });
+
+                                             }//end of for loop
+                                         }
                              }else{
                                  Log.d("TAG", "not existed");
                              }
                          }
                         }else{
-                            Log.d("TAG", "FUCK YOU");
+                            Log.d("TAG", "alab YOU");
                         }
                     }
                 })
@@ -139,28 +167,9 @@ public class Home extends Fragment implements GroupInterface {
                     }
                 });
 
+            Log.d("TAG", "Ang size mo ay: " + groupModels.size() );
 
 
-        try{
-            LinearLayout emptygroup = view.findViewById(R.id.emptygroup);
-
-            //outputing the groups
-//    public GroupModel(int GROUPID, int groupImage, String groupTitle, String shortDescription, String professor, String subject) {
-            if(GroupID.isEmpty()){
-                emptygroup.setVisibility(View.VISIBLE);
-            }     else{
-
-                emptygroup.setVisibility(View.GONE);
-
-                for (int i=0;i<GroupID.size();i++){
-                    Cursor getGroups = databaseHelper.myGroup(GroupID.get(i));
-                    getGroups.moveToNext();
-                    groupModels.add(new GroupModel(getGroups.getString(0),getGroups.getString(1),getGroups.getString(2),getGroups.getString(4),getGroups.getString(5),getGroups.getString(3) ));
-                }
-            }
-        }catch (Exception e){
-            Toast.makeText(getActivity(), "getting groups" + e, Toast.LENGTH_SHORT).show();
-        }
 
 
         }

@@ -196,9 +196,6 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
         View view = getLayoutInflater().inflate(R.layout.bottomsdialog_subject_creategroup,null,false);
         subjectrecycler = view.findViewById(R.id.subject_recycler);
 
-
-
-
          setupdataforsubjects();//for sqlites
         setupdataforsubjectsFirebase();
          SubjectlistAdapter adapter = new SubjectlistAdapter(Creategroup.this,subjectlistModel,this);
