@@ -89,35 +89,6 @@ public class Home extends Fragment implements GroupInterface {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        //testing arrayList
-        ArrayList<FirebaseTesting> firebaseTestings = new ArrayList<>();
-
-        //getting a documennnt or row in sql
-//        DocumentReference docRef = firestore.collection("students").document(currentId);
-//
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-////                        FirebaseTesting firebaseTesting = document.toObject(FirebaseTesting.class);
-////                        Log.d(TAG, "firebase COllege " + firebaseTesting.getCollege());
-//                        firebaseTestings.add(new FirebaseTesting(document.get("College").toString(),document.get("Email").toString(),document.get("ContactNumber").toString(),document.get("Course").toString(),document.get("Section").toString(),document.get("Name").toString()));
-//                        Log.d(TAG, "DocumentSnapshot data: " + document.get("College").toString());
-//                        Log.d(TAG,"Name: " + firebaseTestings.get(0).getName());
-//                    } else {
-//                        Log.d(TAG, "No such document");
-//                    }
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
-
-      //finding a Section
-
-
         return view;
     }
 
@@ -136,20 +107,40 @@ public class Home extends Fragment implements GroupInterface {
 
     private void setupGroupData() {
 
+        ArrayList<String> GroupID = new ArrayList<>(); //bago mo makuha yung group need mo muna malman kung accepted nila at syempre parrticipants sila
+
+        //Getting the data group from firebase
 
 
-        ArrayList<String> GroupID = new ArrayList<>();
-        //bago mo makuha yung group need mo muna malman kung accepted nila at syempre parrticipants sila
+        CollectionReference mygroup = firestore.collection("groups");
 
-        try{
-            Cursor getMyParticipant = databaseHelper.selectMyGroups(currentId);
-            while (getMyParticipant.moveToNext()){
-                GroupID.add(getMyParticipant.getString(0));
+        mygroup.document("1iwf5sc6F8S1AnLqcWW1").collection("participant")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                         for(QueryDocumentSnapshot documentSnapshot:task.getResult()){
+                             if(documentSnapshot.exists()){
+                                 Log.d("TAG", documentSnapshot.getId() + "=>" + documentSnapshot.get("Students-ID"));
+                             }else{
+                                 Log.d("TAG", "not existed");
 
-            }
-        }catch(Exception e){
-            Toast.makeText(getActivity(), "getting participant" + e, Toast.LENGTH_SHORT).show();
-        }
+                             }
+                         }
+                        }else{
+                            Log.d("TAG", "FUCK YOU");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("TAG", "ERROR GETTING GROUP" + e);
+                    }
+                });
+
+
 
         try{
             LinearLayout emptygroup = view.findViewById(R.id.emptygroup);

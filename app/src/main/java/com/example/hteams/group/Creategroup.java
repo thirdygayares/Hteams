@@ -149,10 +149,6 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
         //firebase
 
         subjectBottomSheet();  //when click the subject
-
-
-
-
         avatarBottomSheet();  //showing when click the choose Group avatar
 
     }
@@ -172,9 +168,6 @@ public class Creategroup extends AppCompatActivity  implements SubjectlistInterf
                     Description = descrip.getText().toString();
                     startActivity(new Intent(Creategroup.this, CreateGroup2.class));
                 }
-
-
-
             }
         });
     }

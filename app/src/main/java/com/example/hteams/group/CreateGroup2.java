@@ -208,6 +208,8 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                 CollectionReference groupCollectionRef = firestore.collection("groups");
                 WriteBatch batch = firestore.batch();
 
+
+
                 Date d = new Date();
                 Map<String, Object> addgroup = new HashMap<>();
                 addgroup.put("GROUPNAME", groupname);
@@ -218,6 +220,7 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                 addgroup.put("LEADERID", cname);
                 addgroup.put("CREATOR", cname);
                 addgroup.put("CREATED", d.toString());
+
 
 //                uploadtofirebase = new InviteModel(inviteModels.get(x).getId(), false);
                 //   batch.set(groupCollectionRef.document(), addgroup);
@@ -234,9 +237,9 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                                 inviteModels.add(new InviteModel("Thirdy","Thirdu",cname));
 
                                 for(int x=0; x < inviteModels.size(); x++){ // to get all the invited participant
-
                                     Map<String, Object> listofparticipant = new HashMap<>();//map for participant
-                                    listofparticipant.put("Students-ID",inviteModels.get(x).getId());
+                                    listofparticipant.put("StudentID",inviteModels.get(x).getId());
+                                    listofparticipant.put("GROUPID",documentReference.getId());
                                     //condition na pag leader ka autonated ka dapat na accpeted
                                     Boolean accepted;
                                     if(inviteModels.get(x).getId().equalsIgnoreCase(cname)){
@@ -259,6 +262,22 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                                             Log.d("TAG", "sub batch " + e);
                                         }
                                     });
+
+                                    CollectionReference participant = firestore.collection("participant"); //try na hiwalay ito
+                                    participant.add(listofparticipant).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.d("TAG", "participant sub " + documentReference.getId());
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("TAG", "sub batch " + e);
+                                        }
+                                    });
+
+
                                 }
 
                                 Toast.makeText(CreateGroup2.this,addgroup.get("GROUPNAME") + " Created", Toast.LENGTH_SHORT ).show();
