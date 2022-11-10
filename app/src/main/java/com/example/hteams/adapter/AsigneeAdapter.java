@@ -44,7 +44,6 @@ public class AsigneeAdapter extends RecyclerView.Adapter<AsigneeAdapter.MyViewHo
 //        if(assigneeModels.get(position).getName().equalsIgnoreCase("Thirdy Gayares")){
 //            holder.you.setVisibility(View.VISIBLE);
 //        }
-        SetProfile setProfiles = new SetProfile();
 
         Picasso.get().load(assigneeModels.get(position).getImgsrc()).error(R.drawable.ic_profile).into(holder.profilephoto);
     }

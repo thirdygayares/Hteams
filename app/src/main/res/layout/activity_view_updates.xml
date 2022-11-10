@@ -37,7 +37,7 @@
             android:maxLength="50"
             android:maxLines="2"
             android:paddingHorizontal="30dp"
-            android:text="Statement of the problem "
+            android:text=" "
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20dp"></TextView>

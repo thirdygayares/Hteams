@@ -44,6 +44,7 @@ import com.example.hteams.adapter.ViewUpdateInterface;
 import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.AssigneeModel;
 import com.example.hteams.model.FirebaseModel.FirebaseRetriveGroup;
+import com.example.hteams.model.FirebaseModel.groupget;
 import com.example.hteams.model.ViewTaskModel;
 import com.example.hteams.model.taskModel.TodoModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,6 +54,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -94,7 +96,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
     //firebase Auth
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
-
+    ViewTaskAdapter adapter;
     //SQLITE DB
     DatabaseHelper databaseHelper;
     String currentId;
@@ -102,10 +104,12 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
     String getTaskID;
     String getTableID;
 
+    static String date = null;
+
     //countiing indicator
     int imagecount;
-    String date;
-    public static int updatesId;
+
+    public static String updatesId;
 
     //pm or am
     static String pmam = "am";
@@ -166,7 +170,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
         //status button : dropdown the working,done, inready
         statusButton();
         //Set up posting data
-        //setUpPostingData();
+        setUpPostingData();
         adapter1 = new AsigneeAdapter(ViewTask.this, assigneeModels, this);
         //button_asignee lalabas yung dialog box when click assignee to but only leader make this
         buttonAssign();
@@ -326,6 +330,88 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
             }
         });
     }
+
+
+    //retrieve upadtes
+    private void setUpPostingData() {
+
+        //posting updates Recycler View
+         adapter = new ViewTaskAdapter(ViewTask.this, viewTaskModels, this);
+        viewTask.setAdapter(adapter);
+        viewTask.setLayoutManager(new LinearLayoutManager(ViewTask.this));
+        LinearLayout emptyUpdates = findViewById(R.id.emptyUpdates);
+
+
+        firestore.collection("updates")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                            if(error!=null){
+                                Log.d("TAG", error.getMessage());
+                            }
+
+                        for(DocumentChange dc: value.getDocumentChanges()){
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+
+                                //convert the date
+                                String strCurrentDate= dc.getDocument().get("CREATED").toString();
+
+
+                                viewTaskModels.add(new ViewTaskModel(dc.getDocument().getId(), dc.getDocument().get("ID_STUDENTS").toString(), dc.getDocument().get("ID_STUDENTS").toString(),strCurrentDate,dc.getDocument().get("UPDATES").toString()));
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+
+                    }
+                });
+
+
+
+
+
+
+
+//        if(getupdatesdata.getCount() == 0) {
+//            Log.d("TAG", "Update Table for " + groupName.getText() + " is empty");
+//            //TODO show the picture when empty data
+//
+//            emptyUpdates.setVisibility(View.VISIBLE);
+//
+//        }else{
+//            try {
+//                emptyUpdates.setVisibility(View.GONE);
+//                SetProfile setProfile = new SetProfile();
+//                groupDetails groupDetails = new groupDetails();
+//                while(getupdatesdata.moveToNext()) {
+//                    String participantsrcimage = groupDetails.participantImage(ViewTask.this,getupdatesdata.getString(3));
+//                    String participantName = groupDetails.partcipantName(ViewTask.this,getupdatesdata.getString(3));
+//
+//                    //time convertion
+//                    String strCurrentDate= getupdatesdata.getString(6);
+//                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//                    Date newDate = null;
+//                    try {
+//                        newDate = format.parse(strCurrentDate);
+//                        format = new SimpleDateFormat("dd-MMM-yyyy");
+//                        date = format.format(newDate);
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    //getting the data
+//                    viewTaskModels.add(new ViewTaskModel(getupdatesdata.getInt(0), participantsrcimage, participantName,date,getupdatesdata.getString(4)));
+//                }
+//            }catch (Exception e) {
+//                Log.e("TAG","error retrieving updates because " + e  );
+//            }
+
+
+
+
+    }
+
 
     //menu in view task
     //    TODO 1. Remind Participant

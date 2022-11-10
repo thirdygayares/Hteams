@@ -1,6 +1,7 @@
 package com.example.hteams.group;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import androidx.room.vo.UpdateMethod;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,6 +48,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -196,6 +200,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         //comment button
         comment = findViewById(R.id.comment_updatebtn);
         comment.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick (View v){
                 UpdateMethod();
@@ -240,6 +245,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     }
 
 //    update
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void UpdateMethod() {
         try{
 
@@ -248,9 +254,10 @@ public class Updates extends AppCompatActivity implements SiteInterface {
             createupdates.put("ID_GROUP", groupId);
             createupdates.put("ID_STUDENTS", currentId);
             createupdates.put("UPDATES", cmntfield.getText().toString());
-            SimpleDateFormat s2 = new SimpleDateFormat("ddMMyyyyhhmmss");
-            String format2 = s2.format(new Date());
-            createupdates.put("CREATED", format2);
+            LocalDate dateObj = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            String date = dateObj.format(formatter);
+            createupdates.put("CREATED", date);
 
 
             firestore.collection("updates").
@@ -329,7 +336,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
                             HashMap < String, Object > notification = new HashMap < > ();
                             notification.put("id", documentReference.getId());
                             notification.put("students_id", currentId);
-                            notification.put("Message", " post an update to the task" );
+                            notification.put("Message", " posted an update to the task" );
                             notification.put("type", "update");
                             notification.put("status", false);
                             SimpleDateFormat s2 = new SimpleDateFormat("ddMMyyyyhhmmss");
