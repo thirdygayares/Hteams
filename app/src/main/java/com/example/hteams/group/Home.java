@@ -107,8 +107,6 @@ public class Home extends Fragment implements GroupInterface {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
-
         return view;
     }
 
@@ -170,10 +168,7 @@ public class Home extends Fragment implements GroupInterface {
 
                     });
         }
-
         }
-
-
 
     }
 

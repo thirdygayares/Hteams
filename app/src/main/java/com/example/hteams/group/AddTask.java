@@ -1,5 +1,7 @@
 package com.example.hteams.group;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,8 +28,18 @@ import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.AssigneeModel;
 import com.example.hteams.model.GroupPageModel;
 import com.example.hteams.model.SQLITEADDTASKMODEL;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -371,27 +383,51 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
         //TODO: if the user is current leader it indicator or show you
 
         try {
-                ArrayList<String> profilePhoto = new ArrayList<String>();
-                ArrayList<String> classmateName = new ArrayList<String>();
-                ArrayList<String> Id_Student = new ArrayList<String>();
+            ArrayList<String> profilePhoto = new ArrayList<String>();
+            ArrayList<String> classmateName = new ArrayList<String>();
+            ArrayList<String> Id_Student = new ArrayList<String>();
+            //Paano lumabas lang yung mga partcipant na nag accept lang
+            //first get to the student ID by finding by getGroupID
 
-                //Paano lumabas lang yung mga partcipant na nag accept lang
-                //first get to the student ID by finding by getGroupID
-                Cursor getOnlyParticipant = databaseHelper.getParticipant(getGroupID);
-                while(getOnlyParticipant.moveToNext()){
-                        Id_Student.add(getOnlyParticipant.getString(0));
+            CollectionReference getParticipant = firestore.collection("participant");
+            getParticipant
+                    .whereEqualTo("GROUPID", getGroupID)
+//                    .whereEqualTo("Accepted","true")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                       Log.d("TAG" , "participants "+ document.get("StudentID").toString());
 
+                                        DocumentReference getNameAndImage = firestore.collection("students").document( document.get("StudentID").toString());
+                                        getNameAndImage
+                                                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                        if(error != null){
+                                                            Log.d("TAG" , "error retrieving files " + error.getMessage());
+                                                        }
+                                                        assigneeModels.add(new AssigneeModel(value.get("Name").toString(),"id sample",value.get("image").toString()));
+                                                        adapter1.notifyDataSetChanged();
 
-                    //(2) get name and image of participant
-                        Cursor getNameandIamge = databaseHelper.getNameImageParticipant(getOnlyParticipant.getString(0));
-                            getNameandIamge.moveToNext();
-                            profilePhoto.add(getNameandIamge.getString(0));
-                            classmateName.add(getNameandIamge.getString(1));
-                }
-                for (int i = 0; i < classmateName.size(); i++) {
-                        assigneeModels.add(new AssigneeModel(classmateName.get(i) , Id_Student.get(i),profilePhoto.get(i)));
-                }
-        }catch (Exception e){
+                                                    }
+                                                });
+                                    }
+                                }else{
+                                    Log.d("TAG" , "participants error");
+                                }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("TAG" , "participants "+ e);
+                        }
+                    });
+        }
+
+        catch (Exception e){
             Toast.makeText(AddTask.this, e.toString(),Toast.LENGTH_SHORT ).show();
         }
 

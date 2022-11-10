@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hteams.R;
 import com.example.hteams.Testing.SetProfile;
 import com.example.hteams.model.AssigneeModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -44,7 +45,8 @@ public class AsigneeAdapter extends RecyclerView.Adapter<AsigneeAdapter.MyViewHo
 //            holder.you.setVisibility(View.VISIBLE);
 //        }
         SetProfile setProfiles = new SetProfile();
-        holder.profilephoto.setImageResource(setProfiles.profileImage(assigneeModels.get(position).getImgsrc()));
+
+        Picasso.get().load(assigneeModels.get(position).getImgsrc()).error(R.drawable.ic_profile).into(holder.profilephoto);
     }
 
     @Override
