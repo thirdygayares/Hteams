@@ -212,21 +212,21 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         LinearLayoutManager TableLayoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(TableLayoutManager);
 
-        //setupWorking();
+
         RecyclerView workingRecyler = findViewById(R.id.taskRecycler2);
         workingAdapter = new WorkingAdapter(GroupPage.this, workingModels, this);
         workingRecyler.setAdapter(workingAdapter);
         LinearLayoutManager TableLayoutManager2 = new LinearLayoutManager(this);
         workingRecyler.setLayoutManager(TableLayoutManager2);
 
-        //setupReady();
+
         RecyclerView readyrecycler = findViewById(R.id.taskRecycler4);
         readyAdapter = new ReadyAdapter(GroupPage.this, readyModels, this);
         readyrecycler.setAdapter(readyAdapter);
         LinearLayoutManager TableLayoutManager3 = new LinearLayoutManager(this);
         readyrecycler.setLayoutManager(TableLayoutManager3);
 
-        //setupDone();
+
         RecyclerView donerecycler = findViewById(R.id.taskRecycler3);
         doneAdapter = new DoneAdapter(GroupPage.this, doneModels, this);
         donerecycler.setAdapter(doneAdapter);
@@ -464,7 +464,12 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                                             todoadapter.notifyDataSetChanged();
                                         }
                                     }
-                                    firstGroup.setVisibility(View.VISIBLE);
+                                    if(todoModels.isEmpty()){
+                                        firstGroup.setVisibility(View.GONE);
+                                    }else{
+                                        firstGroup.setVisibility(View.VISIBLE);
+                                    }
+
                                 }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -474,32 +479,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                         }
                     });
 
-
-
-
-//            Cursor getTaskTableforGroupPage = databaseHelper.getTaskTableforGroupPage(getGroupID, currentIdforTable, "TO DO");
-//
-//            ArrayList < Integer > TaskId = new ArrayList < Integer > ();
-//            ArrayList < Integer > TableId = new ArrayList < Integer > ();
-//            ArrayList < String > NameofTask = new ArrayList < String > ();
-//            ArrayList < String > DueDate = new ArrayList < String > ();
-//            ArrayList < String > partipant_photo = new ArrayList < String > ();
-//            if (getTaskTableforGroupPage.getCount() == 0) {
-//                firstGroup.setVisibility(View.GONE);
-//            } else {
-//                while (getTaskTableforGroupPage.moveToNext()) {
-//                    firstGroup.setVisibility(View.VISIBLE);
-//                    TaskId.add(getTaskTableforGroupPage.getInt(0));
-//                    TableId.add(getTaskTableforGroupPage.getInt(2));
-//                    NameofTask.add(getTaskTableforGroupPage.getString(4));
-//                    DueDate.add(getTaskTableforGroupPage.getString(7) + " " + getTaskTableforGroupPage.getString(8));
-//                    partipant_photo.add(getTaskTableforGroupPage.getString(3));
-//                }
-//
-//                for (int i = 0; i < NameofTask.size(); i++) {
-//                    todoModels.add(new TodoModel(TaskId.get(i), TableId.get(i), NameofTask.get(i), DueDate.get(i), partipant_photo.get(i)));
-//                }
-//            }
         } catch (Exception e) {
             Log.d("TAG", "set up todo model " + e);
         }
@@ -537,31 +516,36 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
         try {
             //TODO ilipat to sa global variable
+
             String currentIdforTable = tableModels.get(tableposition).getGroupId();
-            Cursor getTaskTableforGroupPage = databaseHelper.getTaskTableforGroupPage(getGroupID, currentIdforTable, "Working");
 
-            ArrayList < String > TaskId = new ArrayList < String > ();
-            ArrayList < String > TableId = new ArrayList < String > ();
-            ArrayList < String > NameofTask = new ArrayList < String > ();
-            ArrayList < String > DueDate = new ArrayList < String > ();
-            ArrayList < String > partipant_photo = new ArrayList < String > ();
-            if (getTaskTableforGroupPage.getCount() == 0) {
-                secondGroup.setVisibility(View.GONE);
-            } else {
-                while (getTaskTableforGroupPage.moveToNext()) {
-                    secondGroup.setVisibility(View.VISIBLE);
-                    TaskId.add(getTaskTableforGroupPage.getString(0));
-                    TableId.add(getTaskTableforGroupPage.getString(2));
-                    NameofTask.add(getTaskTableforGroupPage.getString(4));
-                    DueDate.add(getTaskTableforGroupPage.getString(7) + " " + getTaskTableforGroupPage.getString(8));
-                    partipant_photo.add(getTaskTableforGroupPage.getString(3));
-                }
+            CollectionReference getToDo = firestore.collection("task");
+            getToDo.whereEqualTo("id_TABLE", currentIdforTable)
+                    .whereEqualTo("status", "Working")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (document.exists()) {
+                                        workingModels.add(new WorkingModel(document.getId(), document.get("id_TABLE").toString() ,document.get("task_NAME").toString() ,document.get("dueDate").toString() + " " + document.get("dueTime").toString(),document.get("id_STUDENTS").toString()));
+                                        workingAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                                if(workingModels.isEmpty()){
+                                    secondGroup.setVisibility(View.GONE);
+                                }else{
+                                    secondGroup.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
 
-                for (int i = 0; i < NameofTask.size(); i++) {
-                    workingModels.add(new WorkingModel(Integer.parseInt(TaskId.get(i)), Integer.parseInt(TableId.get(i)), NameofTask.get(i), DueDate.get(i), partipant_photo.get(i)));
-                    //                workingModels.add(new WorkingModel(partipant_photo.get(i)));
-                }
-            }
+                        }
+                    });
         } catch (Exception e) {
             Log.d("TAG", "set up working eroor " + e);
         }
@@ -589,32 +573,38 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
         try {
             //TODO ilipat to sa global variable
+
             String currentIdforTable = tableModels.get(tableposition).getGroupId();
-            Cursor getTaskTableforGroupPage = databaseHelper.getTaskTableforGroupPage(getGroupID, currentIdforTable, "Done");
 
-            ArrayList < String > TaskId = new ArrayList < String > ();
-            ArrayList < String > TableId = new ArrayList < String > ();
-            ArrayList < String > NameofTask = new ArrayList < String > ();
-            ArrayList < String > DueDate = new ArrayList < String > ();
-            ArrayList < String > partipant_photo = new ArrayList < String > ();
-            if (getTaskTableforGroupPage.getCount() == 0) {
-                thirdgroup.setVisibility(View.GONE);
-            } else {
-                while (getTaskTableforGroupPage.moveToNext()) {
-                    thirdgroup.setVisibility(View.VISIBLE);
-                    TaskId.add(getTaskTableforGroupPage.getString(0));
-                    TableId.add(getTaskTableforGroupPage.getString(2));
-                    NameofTask.add(getTaskTableforGroupPage.getString(4));
-                    DueDate.add(getTaskTableforGroupPage.getString(7) + " " + getTaskTableforGroupPage.getString(8));
-                    partipant_photo.add(getTaskTableforGroupPage.getString(3));
-                }
+            CollectionReference getToDo = firestore.collection("task");
+            getToDo.whereEqualTo("id_TABLE", currentIdforTable)
+                    .whereEqualTo("status", "Done")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (document.exists()) {
+                                        doneModels.add(new DoneModel(document.getId(), document.get("id_TABLE").toString() ,document.get("task_NAME").toString() ,document.get("dueDate").toString() + " " + document.get("dueTime").toString(),document.get("id_STUDENTS").toString()));
+                                        doneAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                                if(doneModels.isEmpty()){
+                                    thirdgroup.setVisibility(View.GONE);
+                                }else{
+                                    thirdgroup.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
 
-                for (int i = 0; i < NameofTask.size(); i++) {
-                    doneModels.add(new DoneModel(Integer.parseInt(TaskId.get(i)), Integer.parseInt(TableId.get(i)), NameofTask.get(i), DueDate.get(i), partipant_photo.get(i)));
-                }
-            }
+                        }
+                    });
         } catch (Exception e) {
-            Log.d("TAG", "set up working eroor " + e);
+            Log.d("TAG", "set up done eroor " + e);
         }
     }
 
@@ -640,32 +630,40 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
         try {
             //TODO ilipat to sa global variable
+
             String currentIdforTable = tableModels.get(tableposition).getGroupId();
-            Cursor getTaskTableforGroupPage = databaseHelper.getTaskTableforGroupPage(getGroupID, currentIdforTable, "Ready");
 
-            ArrayList < String > TaskId = new ArrayList < String > ();
-            ArrayList < String > TableId = new ArrayList < String > ();
-            ArrayList < String > NameofTask = new ArrayList < String > ();
-            ArrayList < String > DueDate = new ArrayList < String > ();
-            ArrayList < String > partipant_photo = new ArrayList < String > ();
-            if (getTaskTableforGroupPage.getCount() == 0) {
-                fourthgroup.setVisibility(View.GONE);
-            } else {
-                while (getTaskTableforGroupPage.moveToNext()) {
-                    fourthgroup.setVisibility(View.VISIBLE);
-                    TaskId.add(getTaskTableforGroupPage.getString(0));
-                    TableId.add(getTaskTableforGroupPage.getString(2));
-                    NameofTask.add(getTaskTableforGroupPage.getString(4));
-                    DueDate.add(getTaskTableforGroupPage.getString(7) + " " + getTaskTableforGroupPage.getString(8));
-                    partipant_photo.add(getTaskTableforGroupPage.getString(3));
-                }
+            CollectionReference getToDo = firestore.collection("task");
+            getToDo.whereEqualTo("id_TABLE", currentIdforTable)
+                    .whereEqualTo("status", "Ready")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (document.exists()) {
+                                        readyModels.add(new ReadyModel(document.getId(), document.get("id_TABLE").toString() ,document.get("task_NAME").toString() ,document.get("dueDate").toString() + " " + document.get("dueTime").toString(),document.get("id_STUDENTS").toString()));
+                                        readyAdapter.notifyDataSetChanged();
+                                    }
+                                }
 
-                for (int i = 0; i < NameofTask.size(); i++) {
-                    readyModels.add(new ReadyModel(Integer.parseInt(TaskId.get(i)), Integer.parseInt(TableId.get(i)), NameofTask.get(i), DueDate.get(i), partipant_photo.get(i)));
-                }
-            }
+
+                                if(readyModels.isEmpty()){
+                                    fourthgroup.setVisibility(View.GONE);
+                                }else{
+                                    fourthgroup.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
         } catch (Exception e) {
-            Log.d("TAG", "set up working eroor " + e);
+            Log.d("TAG", "set up ready eroor " + e);
         }
 
     }
@@ -676,7 +674,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
 
         CollectionReference getTableFirebase = firestore.collection("table");
-
         getTableFirebase
                 .whereEqualTo("ID_GROUP", getGroupID)
                         .get()
@@ -701,6 +698,10 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                                 }
                             }
                             setupTodo();
+                            setupReady();
+                            setupWorking();
+                            setupDone();
+
                         }else{
                             if (progressDialog.isShowing())
                                 progressDialog.dismiss();
@@ -719,29 +720,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
         }
-
-//        try {
-//            Cursor getAllTable = databaseHelper.getAllTable(getGroupID);
-//
-//            if (getAllTable.getCount() == 0) {
-//                emptyContainer.setVisibility(View.VISIBLE);
-//            }
-//
-//            ArrayList < String > tableName = new ArrayList < String > ();
-//            ArrayList < String > tableid = new ArrayList < String > ();
-//
-//            while (getAllTable.moveToNext()) {
-//                tableid.add(getAllTable.getString(0));
-//                tableName.add(getAllTable.getString(2));
-//            }
-//
-//            for (int i = 0; i < tableid.size(); i++) {
-//                tableModels.add(new TableModel(tableid.get(i), tableName.get(i)));
-//            }
-//
-//        } catch (Exception e) {
-//            Log.d("TAG", "set up table error " + e);
-//        }
     }
 
     //first Table
@@ -776,7 +754,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
         //        groupPageModels.clear();
     }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -807,14 +784,14 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                 readyModels.clear();
                 doneModels.clear();
                 setupTodo();
-//                setupWorking();
-//                setupDone();
-//                setupReady();
+                setupWorking();
+                setupDone();
+                setupReady();
 
-//                workingAdapter.notifyDataSetChanged();
+                workingAdapter.notifyDataSetChanged();
                 todoadapter.notifyDataSetChanged();
-//                doneAdapter.notifyDataSetChanged();
-//                readyAdapter.notifyDataSetChanged();
+                doneAdapter.notifyDataSetChanged();
+                readyAdapter.notifyDataSetChanged();
 
                 //to set the color of selected recycleview of table
                 changecolor = position;
@@ -832,25 +809,26 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                 break;
 
             case "working":
-//                getGroupIDInt = Integer.parseInt(getGroupID);
-//                getTaskID = workingModels.get(position).getTaskId();
-//                getTableID = workingModels.get(position).getTableId();
+                getGroupIDInt = getGroupID;
+                getTaskID = workingModels.get(position).getTaskId();
+                getTableID = workingModels.get(position).getTableId();
                 Intent addTaskIntent2 = new Intent(GroupPage.this, ViewTask.class);
                 startActivity(addTaskIntent2);
                 break;
 
             case "ready":
                 getGroupIDInt = getGroupID;
-//                getTaskID = readyModels.get(position).getTaskId();
-//                getTableID = readyModels.get(position).getTableId();
+                getGroupIDInt = getGroupID;
+                getTaskID = readyModels.get(position).getTaskId();
+                getTableID = readyModels.get(position).getTableId();
                 Intent addTaskIntent3 = new Intent(GroupPage.this, ViewTask.class);
                 startActivity(addTaskIntent3);
                 break;
 
             case "done":
-//                getGroupIDInt = Integer.parseInt(getGroupID);
-//                getTaskID = doneModels.get(position).getTaskId();
-//                getTableID = doneModels.get(position).getTableId();
+                getGroupIDInt = getGroupID;
+                getTaskID = doneModels.get(position).getTaskId();
+                getTableID = doneModels .get(position).getTableId();
                 Intent addTaskIntent4 = new Intent(GroupPage.this, ViewTask.class);
                 startActivity(addTaskIntent4);
                 break;

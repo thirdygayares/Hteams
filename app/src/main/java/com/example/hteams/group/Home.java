@@ -160,7 +160,7 @@ public class Home extends Fragment implements GroupInterface {
                                 Log.e("TAG", error.getMessage());
                             }
 
-                            firebaseRetriveGroups.add(new FirebaseRetriveGroup("sample", value.get("GROUPPHOTO").toString(), value.get("GROUPNAME").toString(), value.get("GROUPNAME").toString(), value.get("PROFESSOR").toString(), value.get("SUBJECT").toString()));
+                            firebaseRetriveGroups.add(new FirebaseRetriveGroup("sample", value.get("GROUPPHOTO").toString(), value.get("GROUPNAME").toString(), value.get("Description").toString(), value.get("PROFESSOR").toString(), value.get("SUBJECT").toString()));
                             adapter.notifyDataSetChanged();
                             if (progressDialog.isShowing())
                                 progressDialog.dismiss();
