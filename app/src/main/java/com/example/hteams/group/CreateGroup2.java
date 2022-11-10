@@ -1,7 +1,5 @@
 package com.example.hteams.group;
 
-
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -65,7 +63,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipant {
-//    ArrayList<FireBaseParticipant> fireBaseParticipants = new ArrayList<>();
+    //    ArrayList<FireBaseParticipant> fireBaseParticipants = new ArrayList<>();
 
     String TAG = "TAG";
     //id of current user
@@ -76,10 +74,10 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
 
     //array lost
     //model
-    ArrayList<InviteModel> inviteModels = new ArrayList<>();
+    ArrayList < InviteModel > inviteModels = new ArrayList < > ();
     InviteModel uploadtofirebase;
-    static ArrayList <String> Classmate = new ArrayList<String>(); //Create
-    ArrayList<ChooseParticipantModel> chooseParticipantModels = new ArrayList<>();
+    static ArrayList < String > Classmate = new ArrayList < String > (); //Create
+    ArrayList < ChooseParticipantModel > chooseParticipantModels = new ArrayList < > ();
 
     View view;
     // Image of leader
@@ -91,9 +89,8 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
 
     RecyclerView recyclerView;
     //bottomsheet
-   // -> bottom sheet when click the add participant
+    // -> bottom sheet when click the add participant
     BottomSheetDialog invite_btmsht;
-
 
     //Adapter ginlobal variable ko siya para mahide
     ChooseParticipantAdapter chooseParticipantAdapter;
@@ -105,7 +102,7 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
 
     //SQLITE DB
     DatabaseHelper databaseHelper;
-    Cursor getnameofUser,getCurrentImage;
+    Cursor getnameofUser, getCurrentImage;
     String currentUserString;
 
     @Override
@@ -113,10 +110,9 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creategroup2);
 
-
-        view = getLayoutInflater().inflate(R.layout.bottomsheet_invite,null,false);
-        section  = view.findViewById(R.id.section);
-        invite_btmsht = new BottomSheetDialog(CreateGroup2.this);        //bottomsheet start
+        view = getLayoutInflater().inflate(R.layout.bottomsheet_invite, null, false);
+        section = view.findViewById(R.id.section);
+        invite_btmsht = new BottomSheetDialog(CreateGroup2.this); //bottomsheet start
         invite_btmsht.setContentView(view);
 
         //initialization
@@ -127,68 +123,63 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         firestore = FirebaseFirestore.getInstance();
 
         //cyrrent name
-         cname = firebaseAuth.getCurrentUser().getUid();
+        cname = firebaseAuth.getCurrentUser().getUid();
 
         //calling the adapter
         inviteAdapteradapter = new InviteAdapter(this, inviteModels);
 
-
         //calling sqlite database
         databaseHelper = new DatabaseHelper(CreateGroup2.this);
 
-        /*picture getting from sqlite
-         //method current user
-         //sqlite find name of current User
-         getnameofUser = databaseHelper.getCurrentName(cname);
-         getCurrentImage = databaseHelper.getImageCurrentsUser(cname);
+    /*picture getting from sqlite
+     //method current user
+     //sqlite find name of current User
+     getnameofUser = databaseHelper.getCurrentName(cname);
+     getCurrentImage = databaseHelper.getImageCurrentsUser(cname);
 
-        try {
-            getnameofUser.moveToNext();
-            currentName.setText(getnameofUser.getString(0));
-            currentUserString =getnameofUser.getString(0);
-            //change profile of current user
-            getCurrentImage.moveToNext();
+    try {
+        getnameofUser.moveToNext();
+        currentName.setText(getnameofUser.getString(0));
+        currentUserString =getnameofUser.getString(0);
+        //change profile of current user
+        getCurrentImage.moveToNext();
 
-            //get the class of setProfile
-            SetProfile setProfile = new SetProfile();
-            profile_leader.setImageResource(setProfile.profileImage(getCurrentImage.getString(0)));
+        //get the class of setProfile
+        SetProfile setProfile = new SetProfile();
+        profile_leader.setImageResource(setProfile.profileImage(getCurrentImage.getString(0)));
 
-        }catch (Exception e){
-            Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
-        }
+    }catch (Exception e){
+        Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
+    }
 
 
-         */
-
+     */
 
         //getting section
-        /*section name SQLITE
-        //lagyan section name yung dialog para may guide
-        Cursor cursor = databaseHelper.getSection(cname);
-        try {
-            cursor.moveToNext();
-            SECTION = cursor.getString(0);
-        }catch (Exception e){
-            Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
-        }
-         */
+    /*section name SQLITE
+    //lagyan section name yung dialog para may guide
+    Cursor cursor = databaseHelper.getSection(cname);
+    try {
+        cursor.moveToNext();
+        SECTION = cursor.getString(0);
+    }catch (Exception e){
+        Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
+    }
+     */
 
         //setUpChoosingGroup();//SQLITE
-        findSection();//FIREBASE
+        findSection(); //FIREBASE
         //TODO CHANGE IMAGE []
-        add();//add when click
+        add(); //add when click
         leaderpictureAndName();
         createGroup(); //uploading to firebase   //creating a group
 
-
-        recyclerView = findViewById(R.id.inviteRecycler);  //Recycler view of invite classmate
+        recyclerView = findViewById(R.id.inviteRecycler); //Recycler view of invite classmate
         recyclerView.setAdapter(inviteAdapteradapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void leaderpictureAndName() {
-    }
-
+    private void leaderpictureAndName() {}
 
     //method for creating a group
     private void createGroup() {
@@ -203,15 +194,12 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                 //generating variables
                 //kukunin na yung data
 
-
                 //creating batch
                 CollectionReference groupCollectionRef = firestore.collection("groups");
                 WriteBatch batch = firestore.batch();
 
-
-
                 Date d = new Date();
-                Map<String, Object> addgroup = new HashMap<>();
+                Map < String, Object > addgroup = new HashMap < > ();
                 addgroup.put("GROUPNAME", groupname);
                 addgroup.put("SUBJECT", Subject);
                 addgroup.put("PROFESSOR", Professor);
@@ -221,12 +209,11 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                 addgroup.put("CREATOR", cname);
                 addgroup.put("CREATED", d.toString());
 
-
-//                uploadtofirebase = new InviteModel(inviteModels.get(x).getId(), false);
+                //                uploadtofirebase = new InviteModel(inviteModels.get(x).getId(), false);
                 //   batch.set(groupCollectionRef.document(), addgroup);
                 groupCollectionRef.
                         add(addgroup)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        .addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.d("TAG", "reference " + documentReference.getId());
@@ -234,23 +221,23 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
 
                                 //add the leader from the group to be a participant
                                 //hindi kasi siya nsasali sa list
-                                inviteModels.add(new InviteModel("Thirdy","Thirdu",cname));
+                                inviteModels.add(new InviteModel("Thirdy", "Thirdu", cname));
 
-                                for(int x=0; x < inviteModels.size(); x++){ // to get all the invited participant
-                                    Map<String, Object> listofparticipant = new HashMap<>();//map for participant
-                                    listofparticipant.put("StudentID",inviteModels.get(x).getId());
-                                    listofparticipant.put("GROUPID",documentReference.getId());
+                                for (int x = 0; x < inviteModels.size(); x++) { // to get all the invited participant
+                                    Map < String, Object > listofparticipant = new HashMap < > (); //map for participant
+                                    listofparticipant.put("StudentID", inviteModels.get(x).getId());
+                                    listofparticipant.put("GROUPID", documentReference.getId());
                                     //condition na pag leader ka autonated ka dapat na accpeted
                                     Boolean accepted;
-                                    if(inviteModels.get(x).getId().equalsIgnoreCase(cname)){
+                                    if (inviteModels.get(x).getId().equalsIgnoreCase(cname)) {
                                         accepted = true;
-                                    }else {
+                                    } else {
                                         accepted = true; //change this later
                                     }
 
-                                    listofparticipant.put("Accepted",accepted);
+                                    listofparticipant.put("Accepted", accepted);
 
-                                    testing.add(listofparticipant).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    testing.add(listofparticipant).addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
                                         @Override
                                         public void onSuccess(DocumentReference documentReference) {
                                             Log.d("TAG", "referenc sub " + documentReference.getId());
@@ -264,7 +251,7 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                                     });
 
                                     CollectionReference participant = firestore.collection("participant"); //try na hiwalay ito
-                                    participant.add(listofparticipant).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    participant.add(listofparticipant).addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
                                         @Override
                                         public void onSuccess(DocumentReference documentReference) {
                                             Log.d("TAG", "participant sub " + documentReference.getId());
@@ -277,12 +264,11 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                                         }
                                     });
 
-
                                 }
 
-                                Toast.makeText(CreateGroup2.this,addgroup.get("GROUPNAME") + " Created", Toast.LENGTH_SHORT ).show();
+                                Toast.makeText(CreateGroup2.this, addgroup.get("GROUPNAME") + " Created", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(CreateGroup2.this, MainActivity.class)); //Goto Home page
-                               // Snackbar.make(findViewById(android.R.id.content), addgroup.get("GROUPNAME") + " Created", Snackbar.LENGTH_LONG).show();
+                                // Snackbar.make(findViewById(android.R.id.content), addgroup.get("GROUPNAME") + " Created", Snackbar.LENGTH_LONG).show();
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -296,24 +282,14 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         });
     }
 
-
-
-
-
-
-
-
-
-
-
-    private void add() {    // method of adding the participant
+    private void add() { // method of adding the participant
 
         add.setOnClickListener(new View.OnClickListener() { //bottomsheet will if add button is click
             @Override
             public void onClick(View v) {
                 TextView college = view.findViewById(R.id.college); //baka magamit
                 RecyclerView classmateList = view.findViewById(R.id.classmateList);
-                chooseParticipantAdapter = new ChooseParticipantAdapter(CreateGroup2.this,chooseParticipantModels,CreateGroup2.this);
+                chooseParticipantAdapter = new ChooseParticipantAdapter(CreateGroup2.this, chooseParticipantModels, CreateGroup2.this);
                 classmateList.setAdapter(chooseParticipantAdapter);
                 classmateList.setLayoutManager(new LinearLayoutManager(CreateGroup2.this));
                 invite_btmsht.show();
@@ -322,76 +298,71 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
     }
 
     private void findSection() {
-        DocumentReference docRef=firestore.collection("students").document(cname);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
+        DocumentReference docRef = firestore.collection("students").document(cname);
+        docRef.get().addOnCompleteListener(new OnCompleteListener < DocumentSnapshot > () {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task){
-                if(task.isSuccessful()){
-                    DocumentSnapshot document=task.getResult();
-                    if(document.exists()){
+            public void onComplete(@NonNull Task < DocumentSnapshot > task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
                         currentName.setText(document.get("Name").toString()); //change the name of the leader ex. Thirdy Gayares
-                        Picasso.get().load(document.get("image").toString()).error(R.drawable.ic_profile).resize(400,400).into(profile_leader);//change the photo of profile_leader
-//                       Log.d(TAG,"Document Snapshotdata:"+ document.get("Section").toString());
+                        Picasso.get().load(document.get("image").toString()).error(R.drawable.ic_profile).resize(400, 400).into(profile_leader); //change the photo of profile_leader
+                        //                       Log.d(TAG,"Document Snapshotdata:"+ document.get("Section").toString());
                         //Getting the section of Current user to find his classmate
                         Section = document.get("Section").toString();
                         section.setText(Section);
-//                        Log.d(TAG,Section);
+                        //                        Log.d(TAG,Section);
                         Firebasegetlassmate();
+                    } else {
+                        Log.d(TAG, "Nosuchdocument");
                     }
-                    else{
-                        Log.d(TAG,"Nosuchdocument");
-                    }
-                }else{
-                    Log.d(TAG,"getfailedwith",task.getException());
+                } else {
+                    Log.d(TAG, "getfailedwith", task.getException());
                 }
             }
         });
 
     }
 
-    public void Firebasegetlassmate(){
+    public void Firebasegetlassmate() {
         firestore.collection("students")
                 .whereEqualTo("Section", Section)
                 .whereNotEqualTo(FieldPath.documentId(), cname)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener < QuerySnapshot > () {
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task < QuerySnapshot > task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d(TAG, document.getId() + " => " + document.get("Name"));
-//                                               chooseParticipantModels.add(new ChooseParticipantModel(getData.getString(0), getData.getString(1),getData.getString(2)));
-                                chooseParticipantModels.add(new ChooseParticipantModel(document.getId().toString(),document.get("Name").toString(),document.get("image").toString() ));
-//                                chooseParticipantModels.removeIf(n -> (n.getID() == cname));
-//                                Log.d("TAG", "Ang cname ay " + cname);
+                            for (QueryDocumentSnapshot document: task.getResult()) {
+                                //                                Log.d(TAG, document.getId() + " => " + document.get("Name"));
+                                //                                               chooseParticipantModels.add(new ChooseParticipantModel(getData.getString(0), getData.getString(1),getData.getString(2)));
+                                chooseParticipantModels.add(new ChooseParticipantModel(document.getId().toString(), document.get("Name").toString(), document.get("image").toString()));
+                                //                                chooseParticipantModels.removeIf(n -> (n.getID() == cname));
+                                //                                Log.d("TAG", "Ang cname ay " + cname);
                             }
-                        } else{
+                        } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
     }
 
-
-
-
-//    private void setUpChoosingGroup() {
-//        //TODO find section of current user - done
-//        //TODO get name , id, and image as a whole section ex. kung III-ACDS - lalabas lang mga 3 acds
-//        //lagyan section name yung dialog para may guide
-//        Cursor getData = databaseHelper.getData(SECTION);
-//
-//        try {
-//           while(getData.moveToNext()){
-//               chooseParticipantModels.add(new ChooseParticipantModel(getData.getString(0), getData.getString(1),getData.getString(2)));
-//           }
-//        }catch (Exception e){
-//            Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
-
+    //    private void setUpChoosingGroup() {
+    //        //TODO find section of current user - done
+    //        //TODO get name , id, and image as a whole section ex. kung III-ACDS - lalabas lang mga 3 acds
+    //        //lagyan section name yung dialog para may guide
+    //        Cursor getData = databaseHelper.getData(SECTION);
+    //
+    //        try {
+    //           while(getData.moveToNext()){
+    //               chooseParticipantModels.add(new ChooseParticipantModel(getData.getString(0), getData.getString(1),getData.getString(2)));
+    //           }
+    //        }catch (Exception e){
+    //            Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
+    //        }
+    //
+    //    }
 
     private void initxml() {
         add = findViewById(R.id.add);
@@ -401,10 +372,6 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
         profile_leader = (ImageView) findViewById(R.id.profile_leader);
     }
 
-
-
-
-
     @Override
     public void onItemClick(int pos) {
         //saved id of participants
@@ -412,9 +379,9 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
 
         // add id in invitemodle
         //inviteModels.add(new InviteModel(thisistheirID));
-                //Toast.makeText(CreateGroup2.this,thisistheirID, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(CreateGroup2.this,thisistheirID, Toast.LENGTH_SHORT).show();
         //retrieve image of thei classmate
-        inviteModels.add(new InviteModel(chooseParticipantModels.get(pos).getIMAGE(),chooseParticipantModels.get(pos).getNAME(), chooseParticipantModels.get(pos).getID()));
+        inviteModels.add(new InviteModel(chooseParticipantModels.get(pos).getIMAGE(), chooseParticipantModels.get(pos).getNAME(), chooseParticipantModels.get(pos).getID()));
         inviteAdapteradapter.notifyItemInserted(inviteModels.size() - 1);
         recyclerView.scrollToPosition(Classmate.size());
         chooseParticipantModels.remove(pos);

@@ -48,9 +48,11 @@ import com.example.hteams.model.ViewTaskModel;
 import com.example.hteams.model.taskModel.TodoModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -66,12 +68,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
-public class ViewTask extends AppCompatActivity implements ViewTaskInterface,DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener  {
+public class ViewTask extends AppCompatActivity implements ViewTaskInterface, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     //array list of view task model
-    ArrayList<ViewTaskModel> viewTaskModels = new ArrayList<>();
+    ArrayList < ViewTaskModel > viewTaskModels = new ArrayList < > ();
     //arraylist of assignee model
-    ArrayList<AssigneeModel> assigneeModels = new ArrayList<>();
+    ArrayList < AssigneeModel > assigneeModels = new ArrayList < > ();
     //Global variable of dialog box
     AlertDialog.Builder alert;
     AlertDialog alertDialog;
@@ -79,10 +82,10 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     AsigneeAdapter adapter1;
 
     RecyclerView viewTask;
-    Button postButton,button_asignee;
-    ImageView menu_viewtask,participant_photo;
+    Button postButton, button_asignee;
+    ImageView menu_viewtask, participant_photo;
     Button button_status, buttonDeadline;
-    TextView taskName,groupName,tableName;
+    TextView taskName, groupName, tableName;
     //GLobal variable for time
     int day, month, year, hour, minute;
     int myday, myMonth, myYear, myHour, myMinute;
@@ -95,16 +98,16 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     DatabaseHelper databaseHelper;
     String currentId;
     String getGroupID;
-    String getTaskID ;
+    String getTaskID;
     String getTableID;
 
     //countiing indicator
-    int imagecount ;
+    int imagecount;
     String date;
     public static int updatesId;
 
     //pm or am
-    static  String pmam = "am";
+    static String pmam = "am";
 
     ProgressDialog progressDialog;
 
@@ -119,7 +122,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Fetching data...");
         progressDialog.show();
-
 
         //to know the email and uid
         firebaseAuth = FirebaseAuth.getInstance();
@@ -140,10 +142,10 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         getGroupID = groupPage.getGroupIDInt;
         //Log.d("View",getGroupID);
         //set Task ID
-        getTaskID =  groupPage.getTaskID;
+        getTaskID = groupPage.getTaskID;
         //Log.d("View",getTaskID);
         //set Table ID
-        getTableID =  groupPage.getTableID;
+        getTableID = groupPage.getTableID;
         //Log.d("View", "TABLE ID: " + getTableID);
 
         //initializion of id in xml
@@ -155,7 +157,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
         //change assignedtomstatus,and deadline base on database
         TaskRetrievesData();
-
 
         //button for post update
         post();
@@ -179,60 +180,56 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void TaskRetrievesData() {
         firestore.collection("task").document(getTaskID)
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                .addSnapshotListener(new EventListener < DocumentSnapshot > () {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                         if (error != null) {
                             if (progressDialog.isShowing())
                                 progressDialog.dismiss();
-                                Log.e("TAG", error.getMessage());
+                            Log.e("TAG", error.getMessage());
                         }
 
                         String status_indicatior = value.get("status").toString();
-                        if(status_indicatior.equalsIgnoreCase("done")){
+                        if (status_indicatior.equalsIgnoreCase("done")) {
                             button_status.setBackgroundColor(Color.parseColor("#3AAB28"));
                             button_status.setText("DONE");
                             button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                             button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
-                        }
-                        else if(status_indicatior.equalsIgnoreCase("working")){
+                        } else if (status_indicatior.equalsIgnoreCase("working")) {
                             button_status.setBackgroundColor(Color.parseColor("#3659D7"));
                             button_status.setText("WORKING");
                             button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                             button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_work_outline_24, 0, 0, 0);
-                        }
-                        else if(status_indicatior.equalsIgnoreCase("TO DO")){
+                        } else if (status_indicatior.equalsIgnoreCase("TO DO")) {
                             button_status.setBackgroundColor(Color.BLACK);
                             button_status.setText("TO DO");
                             button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                             button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
 
-                        }
-                        else if(status_indicatior.equalsIgnoreCase("Ready")){
+                        } else if (status_indicatior.equalsIgnoreCase("Ready")) {
                             button_status.setBackgroundColor(Color.parseColor("#FF9500"));
                             button_status.setText("READY");
                             button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                             button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
                         }
 
-                        buttonDeadline.setText(value.get("dueDate").toString() + " "  + value.get("dueTime").toString());
+                        buttonDeadline.setText(value.get("dueDate").toString() + " " + value.get("dueTime").toString());
 
                         firestore.collection("students").document(value.get("id_STUDENTS").toString())
                                 .get()
-                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                .addOnCompleteListener(new OnCompleteListener < DocumentSnapshot > () {
                                     @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if(task.isSuccessful()){
-                                            DocumentSnapshot document=task.getResult();
-                                            if(document.exists()){
-                                                button_asignee.setText( document.get("Name").toString());
+                                    public void onComplete(@NonNull Task < DocumentSnapshot > task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                button_asignee.setText(document.get("Name").toString());
                                                 Picasso.get().load(document.get("image").toString()).error(R.drawable.ic_profile).into(participant_photo);
 
                                                 if (progressDialog.isShowing())
                                                     progressDialog.dismiss();
-                                            }
-                                            else{
-                                                Log.d("TAG","Nosuchdocument");
+                                            } else {
+                                                Log.d("TAG", "Nosuchdocument");
                                             }
                                         }
 
@@ -247,63 +244,60 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
                 });
 
+        // Cursor getTaskName = databaseHelper.getTaskName(getTaskID);
 
-       // Cursor getTaskName = databaseHelper.getTaskName(getTaskID);
-
-//        while(getTaskName.moveToNext()){
-//
-//
-//
-//            groupDetails groupDetail = new groupDetails();
-//            button_asignee.setText(groupDetail.partcipantName(ViewTask.this,getTaskName.getString(3)));
-//            button_status.setText(getTaskName.getString(5));
-//            //condition
-//            String status_indicatior = getTaskName.getString(5);
-//            if(status_indicatior.equalsIgnoreCase("done")){
-//                button_status.setBackgroundColor(Color.parseColor("#3AAB28"));
-//                button_status.setText("DONE");
-//                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
-//                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
-//            }
-//            else if(status_indicatior.equalsIgnoreCase("working")){
-//                button_status.setBackgroundColor(Color.parseColor("#3659D7"));
-//                button_status.setText("WORKING");
-//                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
-//                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_work_outline_24, 0, 0, 0);
-//            }
-//            else if(status_indicatior.equalsIgnoreCase("to do")){
-//                button_status.setBackgroundColor(Color.BLACK);
-//                button_status.setText("TO DO");
-//                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
-//                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
-//
-//            }
-//            else if(status_indicatior.equalsIgnoreCase("Ready")){
-//                button_status.setBackgroundColor(Color.parseColor("#FF9500"));
-//                button_status.setText("READY");
-//                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
-//                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
-//            }
-//
-//            SetProfile setProfile = new SetProfile();
-//            participant_photo.setImageResource(setProfile.profileImage(groupDetail.participantImage(ViewTask.this,getTaskName.getString(3))));
-//            buttonDeadline.setText(getTaskName.getString(7) + " " + getTaskName.getString(8));
-//
-//        }
-
+        //        while(getTaskName.moveToNext()){
+        //
+        //
+        //
+        //            groupDetails groupDetail = new groupDetails();
+        //            button_asignee.setText(groupDetail.partcipantName(ViewTask.this,getTaskName.getString(3)));
+        //            button_status.setText(getTaskName.getString(5));
+        //            //condition
+        //            String status_indicatior = getTaskName.getString(5);
+        //            if(status_indicatior.equalsIgnoreCase("done")){
+        //                button_status.setBackgroundColor(Color.parseColor("#3AAB28"));
+        //                button_status.setText("DONE");
+        //                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+        //                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
+        //            }
+        //            else if(status_indicatior.equalsIgnoreCase("working")){
+        //                button_status.setBackgroundColor(Color.parseColor("#3659D7"));
+        //                button_status.setText("WORKING");
+        //                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+        //                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_work_outline_24, 0, 0, 0);
+        //            }
+        //            else if(status_indicatior.equalsIgnoreCase("to do")){
+        //                button_status.setBackgroundColor(Color.BLACK);
+        //                button_status.setText("TO DO");
+        //                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+        //                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
+        //
+        //            }
+        //            else if(status_indicatior.equalsIgnoreCase("Ready")){
+        //                button_status.setBackgroundColor(Color.parseColor("#FF9500"));
+        //                button_status.setText("READY");
+        //                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+        //                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
+        //            }
+        //
+        //            SetProfile setProfile = new SetProfile();
+        //            participant_photo.setImageResource(setProfile.profileImage(groupDetail.participantImage(ViewTask.this,getTaskName.getString(3))));
+        //            buttonDeadline.setText(getTaskName.getString(7) + " " + getTaskName.getString(8));
+        //
+        //        }
 
     }
-
 
     private void header() {
 
         //getting groupname
         firestore.collection("groups")
                 .document(getGroupID).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener < DocumentSnapshot > () {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()) {
+                    public void onComplete(@NonNull Task < DocumentSnapshot > task) {
+                        if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 groupName.setText(document.get("GROUPNAME").toString());
@@ -322,10 +316,10 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         //getting table name
         firestore.collection("table").document(getTableID)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener < DocumentSnapshot > () {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()) {
+                    public void onComplete(@NonNull Task < DocumentSnapshot > task) {
+                        if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 tableName.setText(document.get("TABLE_NAME").toString());
@@ -344,10 +338,10 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         //getting task name
         firestore.collection("task").document(getTaskID)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener < DocumentSnapshot > () {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()) {
+                    public void onComplete(@NonNull Task < DocumentSnapshot > task) {
+                        if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 taskName.setText(document.get("task_NAME").toString());
@@ -363,9 +357,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                     }
                 });
 
-
     }
-
 
     //when you click post button
     private void post() {
@@ -379,8 +371,8 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     }
 
     //menu in view task
-//    TODO 1. Remind Participant
-//    TODO 2. delete task
+    //    TODO 1. Remind Participant
+    //    TODO 2. delete task
     private void menu() {
         menu_viewtask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -390,17 +382,16 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         });
     }
 
-
     //method when user click view task menu
     void showPopupWindow(View view) {
         PopupMenu popup = new PopupMenu(ViewTask.this, view);
         try {
             Field[] fields = popup.getClass().getDeclaredFields();
-            for (Field field : fields) {
+            for (Field field: fields) {
                 if ("mPopup".equals(field.getName())) {
                     field.setAccessible(true);
                     Object menuPopupHelper = field.get(popup);
-                    Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                    Class < ? > classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
                     Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
                     setForceIcons.invoke(menuPopupHelper, true);
                     break;
@@ -414,12 +405,12 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
-          
-                if(id == R.id.remind){
-                    Toast.makeText(ViewTask.this,"Remind Succesfully",Toast.LENGTH_SHORT).show();
-                }else if (id == R.id.delete){
-                    Toast.makeText(ViewTask.this,"No Permission",Toast.LENGTH_SHORT).show();
-                }else if (id == R.id.home){
+
+                if (id == R.id.remind) {
+                    Toast.makeText(ViewTask.this, "Remind Succesfully", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.delete) {
+                    Toast.makeText(ViewTask.this, "No Permission", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.home) {
                     Intent intent = new Intent(ViewTask.this, MainActivity.class);
                     startActivity(intent);
                 }
@@ -431,8 +422,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
     }
 
-
-//    status button start
+    //    status button start
     private void statusButton() {
         button_status.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -447,11 +437,11 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         PopupMenu popup = new PopupMenu(ViewTask.this, view);
         try {
             Field[] fields = popup.getClass().getDeclaredFields();
-            for (Field field : fields) {
+            for (Field field: fields) {
                 if ("mPopup".equals(field.getName())) {
                     field.setAccessible(true);
                     Object menuPopupHelper = field.get(popup);
-                    Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                    Class < ? > classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
                     Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
                     setForceIcons.invoke(menuPopupHelper, true);
                     break;
@@ -467,28 +457,28 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
                 String status = null;
-                if(id == R.id.todo){
-//                    Toast.makeText(ViewTask.this,"Todo",Toast.LENGTH_SHORT).show();
+                if (id == R.id.todo) {
+                    //                    Toast.makeText(ViewTask.this,"Todo",Toast.LENGTH_SHORT).show();
                     button_status.setBackgroundColor(Color.BLACK);
                     button_status.setText("TO DO");
                     status = "TO DO";
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
 
-                }else if (id == R.id.working){
+                } else if (id == R.id.working) {
                     status = "Working";
                     button_status.setBackgroundColor(Color.parseColor("#3659D7"));
                     button_status.setText("WORKING");
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_work_outline_24, 0, 0, 0);
-                }else if (id == R.id.done){
+                } else if (id == R.id.done) {
                     button_status.setBackgroundColor(Color.parseColor("#3AAB28"));
                     button_status.setText("DONE");
                     status = "Done";
 
                     button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
-                }else if (id == R.id.ready){
+                } else if (id == R.id.ready) {
                     button_status.setBackgroundColor(Color.parseColor("#FF9500"));
                     button_status.setText("READY");
                     status = "Ready";
@@ -497,8 +487,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
                 }
 
-                Boolean update = databaseHelper.updateStatus(String.valueOf(getTaskID),status );
-
+                Boolean update = databaseHelper.updateStatus(String.valueOf(getTaskID), status);
 
                 return false;
             }
@@ -506,34 +495,26 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         popup.show();
     }
 
-
-
-
     private void counting() {
-        int imagecountfilecountlistcountlinkcount ;
+        int imagecountfilecountlistcountlinkcount;
         //imagecounting
 
         try {
-            for(int i = 0;i<viewTaskModels.size();i++){
+            for (int i = 0; i < viewTaskModels.size(); i++) {
                 Cursor getImageCount = databaseHelper.getImageCount(String.valueOf(viewTaskModels.get(i).getUpdatesId()));
-                while(getImageCount.moveToNext()){
+                while (getImageCount.moveToNext()) {
                     imagecount = getImageCount.getInt(0);
-                    Log.d("TAG", "imagecount is  " + imagecount );
+                    Log.d("TAG", "imagecount is  " + imagecount);
 
                 }
 
-
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("TAG", "Something " + e);
         }
 
-
-
-
     }
-
 
     //method when click assignee button to assign a group members
     private void buttonAssign() {
@@ -543,15 +524,14 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                 alert = new AlertDialog.Builder(ViewTask.this);
                 View mView = getLayoutInflater().inflate(R.layout.dialog_assigned, null);
 
-//                initialize cancel in xml
+                //                initialize cancel in xml
                 TextView cancel = (TextView) mView.findViewById(R.id.cancel);
-//                initialize recycler view in xml
+                //                initialize recycler view in xml
                 RecyclerView participant = (RecyclerView) mView.findViewById(R.id.recyler_assigned);
                 //setting adapter and model
                 //assigned Recycler View
                 participant.setAdapter(adapter1);
                 participant.setLayoutManager(new LinearLayoutManager(ViewTask.this));
-
 
                 alert.setView(mView);
                 alertDialog = alert.create();
@@ -568,29 +548,28 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     //TODO firebase manipulation (UPDATE)
     private void setupAssigne() {
         //                TODO: if the user is current leader it indicator or show you
-        ArrayList<String> profilePhoto = new ArrayList<String>();
-        ArrayList<String> classmateName = new ArrayList<String>();
-        ArrayList<String> students_id = new ArrayList<String>();
-
+        ArrayList < String > profilePhoto = new ArrayList < String > ();
+        ArrayList < String > classmateName = new ArrayList < String > ();
+        ArrayList < String > students_id = new ArrayList < String > ();
 
         //TODO getting the participant from a group
-        try{
-            Cursor getParticipant =  databaseHelper.getParticipant(String.valueOf(getGroupID));
+        try {
+            Cursor getParticipant = databaseHelper.getParticipant(String.valueOf(getGroupID));
             groupDetails groupDetail = new groupDetails();
             SetProfile setProfile = new SetProfile();
 
-            while (getParticipant.moveToNext()){
-                String studentsId =      getParticipant.getString(0);
-                profilePhoto.add(groupDetail.participantImage(ViewTask.this,studentsId));
-                classmateName.add(groupDetail.partcipantName(ViewTask.this,studentsId));
-              students_id.add(getParticipant.getString(0));
+            while (getParticipant.moveToNext()) {
+                String studentsId = getParticipant.getString(0);
+                profilePhoto.add(groupDetail.participantImage(ViewTask.this, studentsId));
+                classmateName.add(groupDetail.partcipantName(ViewTask.this, studentsId));
+                students_id.add(getParticipant.getString(0));
             }
 
-        }catch (Exception e){
-            Log.d("TAG",  e.toString());
+        } catch (Exception e) {
+            Log.d("TAG", e.toString());
         }
 
-        for(int i=0; i<classmateName.size();i++){
+        for (int i = 0; i < classmateName.size(); i++) {
             assigneeModels.add(new AssigneeModel(classmateName.get(i), students_id.get(i), profilePhoto.get(i)));
         }
     }
@@ -605,7 +584,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
                 day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(ViewTask.this, ViewTask.this,year, month,day);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(ViewTask.this, ViewTask.this, year, month, day);
 
                 // set maximum date to be selected as today
                 datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
@@ -636,144 +615,178 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
         String MonthCobnvert = String.valueOf(dateConverter(myMonth));
 
-        buttonDeadline.setText( MonthCobnvert + " " + myday + ", " + timeConverter(myHour) + ":" + minute + " " + pmam );
+        buttonDeadline.setText(MonthCobnvert + " " + myday + ", " + timeConverter(myHour) + ":" + minute + " " + pmam);
 
         String EditTime = timeConverter(myHour) + ":" + minute + " " + pmam;
 
-        Boolean update = databaseHelper.updateDue(String.valueOf(getTaskID),MonthCobnvert + " " + myday, EditTime );
+        //Boolean update = databaseHelper.updateDue(String.valueOf(getTaskID), MonthCobnvert + " " + myday, EditTime);//sqlite
+
+
+        HashMap<String, Object> updateDateandTime = new HashMap<>();
+        updateDateandTime.put("dueDate", MonthCobnvert + " " + myday);
+        updateDateandTime.put("dueTime", EditTime);
+
+        firestore.collection("task").document(getTaskID).update(updateDateandTime)
+                .addOnSuccessListener(
+                        new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Log.d("TAG", "Success");
+
+                                //hashmap for logs
+                                HashMap<String, Object> logs = new HashMap<>();
+                                logs.put("groupId", getGroupID);
+                                logs.put("students_id", currentId);
+                                logs.put("Message", "updated");
+                                logs.put("task", getTaskID);
+                                SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
+                                String format = s.format(new Date());
+                                logs.put("date", format);
+
+                                //add data to logs
+                                firestore.collection("logs").add(logs).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Log.d("TAG", "SUCCESS LOG");
+                                    }
+                                });
+                            }
+                        }
+                ).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("TAG", e.getMessage());
+                    }
+                });
 
 
     }
 
-   static String dateConverter(int month){
+    static String dateConverter(int month) {
         String MonthConverter = "";
-        if(month == 0){
+        if (month == 0) {
             MonthConverter = "Jan";
-       }else if (month == 1) {
+        } else if (month == 1) {
             MonthConverter = "Feb";
-        }else if (month == 2) {
+        } else if (month == 2) {
             MonthConverter = "Mar";
-        }else if (month == 3) {
+        } else if (month == 3) {
             MonthConverter = "Apr";
-        }else if (month == 4) {
+        } else if (month == 4) {
             MonthConverter = "May";
-        }else if (month == 5) {
+        } else if (month == 5) {
             MonthConverter = "Jun";
-        }else if (month == 6) {
+        } else if (month == 6) {
             MonthConverter = "Jul";
-        }else if (month == 7) {
+        } else if (month == 7) {
             MonthConverter = "Aug";
-        }else if (month == 8) {
+        } else if (month == 8) {
             MonthConverter = "Sep";
-        }else if (month == 9) {
+        } else if (month == 9) {
             MonthConverter = "Oct";
-        }else if (month == 10) {
+        } else if (month == 10) {
             MonthConverter = "Nov";
-        }else if (month == 11) {
+        } else if (month == 11) {
             MonthConverter = "Dec";
         }
 
-       return MonthConverter;
-   }
+        return MonthConverter;
+    }
 
+    static int timeConverter(int time) {
+        if (time == 1) {
+            time = 1;
+            pmam = "am";
+        } else if (time == 2) {
+            time = 2;
+            pmam = "am";
+        } else if (time == 3) {
+            time = 3;
+            pmam = "am";
+        } else if (time == 4) {
+            time = 4;
+            pmam = "am";
+        } else if (time == 5) {
+            time = 5;
+            pmam = "am";
+        } else if (time == 6) {
+            time = 6;
+            pmam = "am";
+        } else if (time == 7) {
+            time = 7;
+            pmam = "am";
+        } else if (time == 8) {
+            time = 8;
+            pmam = "am";
+        } else if (time == 9) {
+            time = 9;
+            pmam = "am";
+        } else if (time == 10) {
+            time = 10;
+            pmam = "am";
+        } else if (time == 11) {
+            time = 11;
+            pmam = "am";
+        } else if (time == 12) {
+            time = 12;
+            pmam = "pm";
+        } else if (time == 13) {
+            time = 1;
+            pmam = "pm";
+        } else if (time == 14) {
+            time = 2;
+            pmam = "pm";
+        } else if (time == 15) {
+            time = 3;
+            pmam = "pm";
+        } else if (time == 16) {
+            time = 4;
+            pmam = "pm";
+        } else if (time == 17) {
+            time = 5;
+            pmam = "pm";
+        } else if (time == 18) {
+            time = 6;
+            pmam = "pm";
+        } else if (time == 19) {
+            time = 7;
+            pmam = "pm";
+        } else if (time == 20) {
+            time = 8;
+            pmam = "pm";
+        } else if (time == 21) {
+            time = 9;
+            pmam = "pm";
+        } else if (time == 22) {
+            time = 10;
+            pmam = "pm";
+        } else if (time == 23) {
+            time = 11;
+            pmam = "pm";
+        } else if (time == 0) {
+            time = 12;
+            pmam = "am";
+        } else {
+            pmam = "error";
+        }
 
-   static int timeConverter(int time){
-       if(time == 1){
-           time = 1;
-           pmam = "am";
-       }else if(time == 2){
-           time = 2;
-           pmam = "am";
-       }else if(time == 3){
-           time = 3;
-           pmam = "am";
-       }else if(time == 4){
-           time = 4;
-           pmam = "am";
-       }else if(time == 5){
-           time = 5;
-           pmam = "am";
-       }else if(time == 6){
-           time = 6;
-           pmam = "am";
-       }else if(time == 7){
-           time = 7;
-           pmam = "am";
-       }else if(time == 8){
-           time = 8;
-           pmam = "am";
-       }else if(time == 9){
-           time = 9;
-           pmam = "am";
-       }else if(time == 10){
-           time = 10;
-           pmam = "am";
-       }else if(time == 11){
-           time = 11;
-           pmam = "am";
-       }else if(time == 12){
-           time = 12;
-           pmam = "pm";
-       }else if(time == 13){
-           time = 1;
-           pmam = "pm";
-       }else if(time == 14){
-           time = 2;
-           pmam = "pm";
-       }else if(time == 15){
-           time = 3;
-           pmam = "pm";
-       }else if(time == 16){
-           time = 4;
-           pmam = "pm";
-       }else if(time == 17){
-           time = 5;
-           pmam = "pm";
-       }else if(time == 18){
-           time = 6;
-           pmam = "pm";
-       }else if(time == 19){
-           time = 7;
-           pmam = "pm";
-       }else if(time == 20){
-           time = 8;
-           pmam = "pm";
-       }else if(time == 21){
-           time = 9;
-           pmam = "pm";
-       }else if(time == 22){
-           time = 10;
-           pmam = "pm";
-       }else if(time == 23){
-           time = 11;
-           pmam = "pm";
-       }else if(time == 0){
-           time = 12;
-           pmam = "am";
-       }else{
-           pmam = "error";
-       }
-
-
-
-       return time;
-   }
-
-
+        return time;
+    }
 
     //clicking the recycler view
     @Override
     public void onItemClick(int position, String assignee_adapter) {
         Intent intent;
-        switch (assignee_adapter){
+        switch (assignee_adapter) {
             case "AssigneeAdapter":
+
                 button_asignee.setText(assigneeModels.get(position).getName());
                 SetProfile setProfiles = new SetProfile();
                 participant_photo.setImageResource(setProfiles.profileImage(assigneeModels.get(position).getImgsrc()));
                 Boolean update = databaseHelper.updateParticipant(String.valueOf(getTaskID), String.valueOf(assigneeModels.get(position).getSTUDENT_ID()));
-                if(update == true){
+                if (update == true) {
                     Log.d("TAG", "Change Successfully");
-                }else{
+                } else {
                     Log.d("TAG", "Error Changing Participant");
                 }
                 alertDialog.dismiss();
@@ -785,7 +798,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
                 updatesId = viewTaskModels.get(position).getUpdatesId();
                 break;
             default:
-                Toast.makeText(ViewTask.this, "default",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewTask.this, "default", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -795,14 +808,13 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         viewTask = (RecyclerView) findViewById(R.id.viewtaskposting);
         postButton = (Button) findViewById(R.id.postButton);
         menu_viewtask = (ImageView) findViewById(R.id.menu_viewtask);
-        participant_photo =  (ImageView) findViewById(R.id.participant_photo);
+        participant_photo = (ImageView) findViewById(R.id.participant_photo);
         button_status = (Button) findViewById(R.id.button_status);
         button_asignee = (Button) findViewById(R.id.button_asignee);
         buttonDeadline = (Button) findViewById(R.id.buttonDeadline);
         taskName = (TextView) findViewById(R.id.taskName);
         groupName = (TextView) findViewById(R.id.groupName);
         tableName = (TextView) findViewById(R.id.tableName);
-
 
     }
 
