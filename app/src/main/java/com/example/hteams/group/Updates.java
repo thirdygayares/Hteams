@@ -33,12 +33,17 @@ import com.example.hteams.model.DisplaySiteModel;
 import com.example.hteams.model.ListDisplayModel;
 import com.example.hteams.model.SiteModel;
 import com.example.hteams.model.UpdateListModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -84,6 +89,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
 
+
     //SQLITE DB
     DatabaseHelper databaseHelper;
     String NameSite = "Site Name";   //store in sitename
@@ -109,6 +115,10 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         //calling the adapter2
         adapter2 = new ListDisplayAdapter(Updates.this, listDisplayModels, this);
 
+        //to know the email and uid
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+
         // method calls
         createlinksDialog();
         setupdatafordisplaySites();
@@ -117,9 +127,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         //view the list display
         viewListDisplay();
 
-        //to know the email and uid
-        firebaseAuth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
+
 
         //calling database sqlite
         databaseHelper = new DatabaseHelper(Updates.this);
@@ -204,18 +212,31 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         });
 
         //retrieving the taskName
-        Cursor getTaskNAme = databaseHelper.getTaskName(taskId);
         TextView taskname = findViewById(R.id.taskname);
 
-        try{
-            while(getTaskNAme.moveToNext()){
-                taskname.setText(getTaskNAme.getString(4));
-            }
-
-        }catch (Exception e){
-            Log.d("TAG", "cannot find a task name " +  e);
-        }
-
+        firestore.collection("task")
+                .document(taskId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                taskname.setText(document.get("task_NAME").toString());
+                            } else {
+                                Log.d("TAG", "Nosuchdocument");
+                            }
+                        }else{
+                            Log.d("TAG","not successful");
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("TAG",e.getMessage());
+                    }
+                });
     }
 
 //    update
@@ -258,10 +279,8 @@ public class Updates extends AppCompatActivity implements SiteInterface {
                                                     Log.d("TAG", "SUCCESS ADD LINKS");
                                                 }
                                             });
-
                                 }
                             }
-
 
                             //list save
                             if(listDisplayModels.isEmpty()){
@@ -312,6 +331,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
                             notification.put("students_id", currentId);
                             notification.put("Message", " post an update to the task" );
                             notification.put("type", "update");
+                            notification.put("status", false);
                             SimpleDateFormat s2 = new SimpleDateFormat("ddMMyyyyhhmmss");
                             String format2 = s2.format(new Date());
                             notification.put("date", format2);
@@ -338,59 +358,6 @@ public class Updates extends AppCompatActivity implements SiteInterface {
                         }
                     });
 
-
-
-//            boolean update = databaseHelper.addUpdates(taskId,groupId,currentId,cmntfield.getText().toString());
-//                 if(update == true){
-//                     Log.d("TAG", "success");
-//
-//                     int currentupdatesID = 0;
-//                     //kukunin yung id para sa list halimbawa makuha yung list
-//                     Cursor getLastId = databaseHelper.getLastId(String.valueOf(taskId));
-//                     if(getLastId.getCount() == 0){
-//                         Log.d("TAG", "0 ang id "); //this is imposible
-//                         Toast.makeText(Updates.this,"Error Please Try Again", Toast.LENGTH_SHORT).show();
-//                     }else{
-//                         while (getLastId.moveToNext()){  //checking the last ID
-//                             currentupdatesID = getLastId.getInt(0);
-//                         }
-//
-//                         //savingthe link
-//                        DisplaySiteModel displaySiteModelSqlite = null;
-//
-//                         for(int i=0;i<displaySiteModels.size();i++){//loop kung ilan ba yung nasa link model
-//                             displaySiteModelSqlite = new DisplaySiteModel(displaySiteModels.get(i).getCustomsitename(),displaySiteModels.get(i).getSiteName(),displaySiteModels.get(i).getLink());
-//                             boolean addLink = databaseHelper.addLink(currentupdatesID, groupId,displaySiteModelSqlite );
-//                             if(addLink == true){
-//                                 Log.d("TAG", "success ang Link");
-//                             }else{
-//                                 Log.d("TAG", "failed ang Link");
-//                             }
-//                         }
-//                     }
-//
-//
-//                     //saving the list
-//                     for(int x=0;x<listDisplayModels.size();x++){
-//                         boolean addList = databaseHelper.addList(currentupdatesID, groupId, listDisplayModels.get(x).getTaskname(),listDisplayModels.get(x).getChecked());
-//                         if(addList == true){
-//                             Log.d("TAG", "success ang List");
-//                         }else{
-//                             Log.d("TAG", "failed ang List");
-//                         }
-//                     }
-//
-//
-//                     Toast.makeText(Updates.this,"Add Successfully",Toast.LENGTH_SHORT).show();
-//                     Intent intent = new Intent(Updates.this,ViewTask.class);
-//                     startActivity(intent);
-//                     finish();
-//                     Log.d("TAG", "Ang huling id ay " +  currentupdatesID);
-//
-//
-//                 }else{
-//                     Log.d("TAG", "failed");
-//                 }
 
         }catch (Exception e){
             Log.d("TAG", "failed to update: " + e);

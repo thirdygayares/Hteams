@@ -819,6 +819,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
                                         notification.put("students_id", currentId);
                                         notification.put("Message", "assigned you a task " + taskName.getText().toString());
                                         notification.put("type", "task");
+                                        notification.put("status", false);
                                         SimpleDateFormat s2 = new SimpleDateFormat("ddMMyyyyhhmmss");
                                         String format2 = s2.format(new Date());
                                         notification.put("date", format2);
