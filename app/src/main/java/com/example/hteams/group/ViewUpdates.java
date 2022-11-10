@@ -1,5 +1,7 @@
 package com.example.hteams.group;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,8 +30,18 @@ import com.example.hteams.model.DisplaySiteModel;
 import com.example.hteams.model.FileModel;
 import com.example.hteams.model.ImageModel;
 import com.example.hteams.model.ListModel;
+import com.example.hteams.model.ViewTaskModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -87,7 +99,7 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
 
         //creating object for calling update ID
         ViewTask viewTask = new ViewTask();
-        //getUpdatesId = viewTask.updatesId;
+        getUpdatesId = viewTask.updatesId;
 
 
 
@@ -121,53 +133,63 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
 
 
     private void retrieveCredentialsPost() {
-        Cursor getTaskname = databaseHelper.getUpdatesDataviaUpdatesId(2);
-        try{
-            while(getTaskname.moveToNext()){
 
-                //get the img src of participant
-                groupDetails GroupDetails = new groupDetails();
-                String set = GroupDetails.participantImage(ViewUpdates.this, getTaskname.getString(3));
-                //getting the name of participant
-                String name = GroupDetails.partcipantName(ViewUpdates.this, getTaskname.getString(3));
-
-                SetProfile setProfile = new SetProfile();
-
-                participant_photo.setImageResource(setProfile.profileImage(set));
-                participant_name.setText(name);
-
-                //time convertion
-
-                String strCurrentDate= getTaskname.getString(6);
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                Date newDate = null;
-                try {
-                    newDate = format.parse(strCurrentDate);
-                    format = new SimpleDateFormat("dd-MMM-yyyy");
-                    date = format.format(newDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                date_post.setText(date); //date
-                description.setText(getTaskname.getString(4));
+        firestore.collection("updates").document(getUpdatesId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            date_post.setText(documentSnapshot.get("CREATED").toString()); //date
+                            description.setText(documentSnapshot.get("UPDATES").toString());
 
 
-            }
-        }catch (Exception e){
-            Log.d("TAG", "viewudpates error in retrieving credential and post cause " + e);
-        }
+                            firestore.collection("students").document(documentSnapshot.get("ID_STUDENTS").toString())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener < DocumentSnapshot > () {
+                                        @Override
+                                        public void onComplete(@NonNull Task < DocumentSnapshot > task) {
+                                            if (task.isSuccessful()) {
+                                                DocumentSnapshot document = task.getResult();
+                                                Picasso.get().load(document.get("image").toString()).error(R.drawable.ic_profile).into(participant_photo);
+                                                participant_name.setText(document.get("Name").toString());
+                                            }
+                                        }
+                                    });
+
+
+                        }else{
+                            //code here
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
     }
 
     private void retrieveTaskTitle() {
-        Cursor getTaskname = databaseHelper.getTaskName(getTaskID);
-        try{
-            while(getTaskname.moveToNext()){
-//                Log.d("TAG", "viewudpates retrive " + getTaskname.getString(4) + " the  task id is " + getTaskID);
-                taskName.setText(getTaskname.getString(4));
-            }
-        }catch (Exception e){
-            Log.d("TAG", "viewudpates error in retrieving title cause " + e);
-        }
+
+        firestore.collection("task").document(getTaskID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot document = task.getResult();
+                            taskName.setText(document.get("task_NAME").toString());
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
     }
 
     private void backIcon() {

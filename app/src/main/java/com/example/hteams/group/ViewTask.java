@@ -343,6 +343,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
 
 
         firestore.collection("updates")
+                .whereEqualTo("ID_TASK", getTaskID)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -354,6 +355,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
                         for(DocumentChange dc: value.getDocumentChanges()){
                             if (dc.getType() == DocumentChange.Type.ADDED) {
 
+                                emptyUpdates.setVisibility(View.GONE);//hide the empty folder
                                 //convert the date
                                 String strCurrentDate= dc.getDocument().get("CREATED").toString();
 
@@ -366,47 +368,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
 
                     }
                 });
-
-
-
-
-
-
-
-//        if(getupdatesdata.getCount() == 0) {
-//            Log.d("TAG", "Update Table for " + groupName.getText() + " is empty");
-//            //TODO show the picture when empty data
-//
-//            emptyUpdates.setVisibility(View.VISIBLE);
-//
-//        }else{
-//            try {
-//                emptyUpdates.setVisibility(View.GONE);
-//                SetProfile setProfile = new SetProfile();
-//                groupDetails groupDetails = new groupDetails();
-//                while(getupdatesdata.moveToNext()) {
-//                    String participantsrcimage = groupDetails.participantImage(ViewTask.this,getupdatesdata.getString(3));
-//                    String participantName = groupDetails.partcipantName(ViewTask.this,getupdatesdata.getString(3));
-//
-//                    //time convertion
-//                    String strCurrentDate= getupdatesdata.getString(6);
-//                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//                    Date newDate = null;
-//                    try {
-//                        newDate = format.parse(strCurrentDate);
-//                        format = new SimpleDateFormat("dd-MMM-yyyy");
-//                        date = format.format(newDate);
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    //getting the data
-//                    viewTaskModels.add(new ViewTaskModel(getupdatesdata.getInt(0), participantsrcimage, participantName,date,getupdatesdata.getString(4)));
-//                }
-//            }catch (Exception e) {
-//                Log.e("TAG","error retrieving updates because " + e  );
-//            }
-
 
 
 

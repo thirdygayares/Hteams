@@ -99,7 +99,7 @@
                             android:maxWidth="50dp"
                             android:maxHeight="50dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/profile"
+                            android:src="@drawable/ic_profile"
                             app:shapeAppearance="?attr/actionButtonStyle"
                             app:shapeAppearanceOverlay="@style/imageViewRounded"
                             app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
@@ -111,7 +111,7 @@
                             android:layout_alignTop="@+id/participant_photo"
                             android:layout_toRightOf="@id/participant_photo"
                             android:fontFamily="@font/gilroymedium"
-                            android:text="Thirdy Gayares"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="20dp"></TextView>
 
@@ -122,7 +122,7 @@
                             android:layout_below="@id/participant_name"
                             android:layout_toRightOf="@id/participant_photo"
                             android:fontFamily="@font/gilroylight"
-                            android:text="Oct 10"
+                            android:text=""
                             android:textColor="@color/text"
                             android:textSize="15dp"
 
@@ -142,10 +142,11 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/credentials"
                         android:layout_marginHorizontal="5dp"
+                        android:paddingHorizontal="10dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/gilroymedium"
-                        android:text="Pa check naman to @Novem Lanaban Kung okay lang po "
+                        android:text=""
                         android:textColor="@color/text"
                         android:textSize="20dp"></TextView>
 
