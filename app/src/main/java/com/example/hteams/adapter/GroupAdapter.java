@@ -13,23 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hteams.R;
 import com.example.hteams.Testing.SetAvatar;
-import com.example.hteams.model.GroupModel;
+import com.example.hteams.model.FirebaseModel.FirebaseRetriveGroup;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder> {
 
-
+    private final GroupInterface groupInterface;
 
 
     Context context;
-    ArrayList<GroupModel> groupmodels;
+    ArrayList<FirebaseRetriveGroup> groupmodels;
 
-    public GroupAdapter(Context context, ArrayList<GroupModel> groupmodels){
+    public GroupAdapter(Context context, ArrayList<FirebaseRetriveGroup> groupmodels, GroupInterface groupInterface){
         this.context = context;
         this.groupmodels = groupmodels;
-
+        this.groupInterface = groupInterface;
     }
 
     @NonNull
@@ -38,7 +38,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recycler_group, parent, false);
 
-        return new GroupAdapter.MyViewHolder(view);
+        return new GroupAdapter.MyViewHolder(view, groupInterface);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
         TextView groupName, group_description, teacher, subject;
         ImageView group_image;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, GroupInterface groupInterface) {
             super(itemView);
             groupName = (TextView) itemView.findViewById(R.id.groupName);
             group_description = (TextView) itemView.findViewById(R.id.group_description);
@@ -75,7 +75,15 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
             group_image =(ImageView) itemView.findViewById(R.id.group_image);
 
 
+            itemView.setOnClickListener(view -> {
+                if(groupInterface != null ){
+                    int pos = getAdapterPosition();
+                    if(pos!= RecyclerView.NO_POSITION){
+                        groupInterface.onItemClick(pos, "taskView");
+                    }
 
+                }
+            });
         }
     }
 

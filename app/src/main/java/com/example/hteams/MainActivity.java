@@ -111,19 +111,25 @@ public class MainActivity extends AppCompatActivity {
 
     private NavigationBarView.OnItemSelectedListener navListener =
             item -> {
+                Home home = new Home();
                 Fragment selectedFragment = null;
                 switch (item.getItemId()){
+
                     case R.id.nav_home:
+
                         selectedFragment = new Home();
                         break;
                     case R.id.nav_task:
+//                        home.GroupID.clear();
 //                            Toast.makeText(MainActivity.this, "stocks", Toast.LENGTH_SHORT).show();
                         selectedFragment = new Task();
                         break;
                     case R.id.nav_notification:
+//                        home.GroupID.clear();
                         selectedFragment = new Notification();
                         break;
                     case R.id.nav_profile:
+//                        home.GroupID.clear();
                         selectedFragment = new Profile();
                         break;
                 }
