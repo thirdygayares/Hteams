@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:fontFamily="@font/gilroymedium"
-            android:hint="With your comments and suggestions we can work more efficient"
+            android:hint="With your comment and suggestions we can work more efficient"
             android:padding="10dp"
             android:textSize="20sp" />
 
