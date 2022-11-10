@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hteams.R;
 import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.ListModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -22,7 +24,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
 
     private final ViewUpdateInterface interfaces;
     DatabaseHelper databaseHelper;
-    String ssstatus;
+    Boolean ssstatus;
     Context context;
     ArrayList<ListModel> listModels;
 
@@ -56,23 +58,23 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
             public void onClick(View v) {
 
                 if(holder.statusicon.isChecked() == true){
-                    ssstatus = "0";
+                    ssstatus = true;
                 }else{
-                    ssstatus = "1";
+                    ssstatus = false;
                 }
-                try {
-                    boolean updateStatus = databaseHelper.updateListStatus(String.valueOf(listModels.get(holder.getAdapterPosition()).getTaskId()),ssstatus );
-                    if(updateStatus == true){
-                        Log.d("TAG", "SUCCESSFULLY EDIT UPDATE LIST");
-                        Log.d("TAG", "id" + listModels.get(holder.getAdapterPosition()).getTaskId());
-                        Log.d("TAG", "Ang status ay " + ssstatus);
-                    }else {
-                        Log.d("TAG", "FDAILED EDIT UPDATE LIST");
-                    }
 
-                }catch (Exception e){
-                    Log.d("TAG", "CANNOT EDIT UPDATE LIST CAUSE " + e);
-                }
+
+                FirebaseFirestore firestore;
+                firestore = FirebaseFirestore.getInstance();
+
+                firestore.collection("Lists").document(listModels.get(holder.getAdapterPosition()).getListsId())
+                        .update("STATUS", ssstatus).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                    Log.d("TAG", "SUCCESS");
+                            }
+                        });
+
 
             }
         });

@@ -217,7 +217,7 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                listModels.add(new ListModel(document.get("ID_UPDATES").toString(),document.get("STATUS").toString(), document.get("LISTNAME").toString()));
+                                listModels.add(new ListModel(document.getId(),document.get("ID_UPDATES").toString(),document.get("STATUS").toString(), document.get("LISTNAME").toString()));
                                 listAdapter.notifyDataSetChanged();
                             }
                             if(listModels.isEmpty()){

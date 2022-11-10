@@ -1,6 +1,7 @@
 package com.example.hteams.model;
 
 public class ListModel {
+    String listsId;
     String taskId;
     String Status;
     String tasktitle;
@@ -14,6 +15,17 @@ public class ListModel {
         this.taskId = taskId;
         Status = status;
         this.tasktitle = tasktitle;
+    }
+
+    public ListModel(String listsId, String taskId, String status, String tasktitle) {
+        this.listsId = listsId;
+        this.taskId = taskId;
+        Status = status;
+        this.tasktitle = tasktitle;
+    }
+
+    public String getListsId() {
+        return listsId;
     }
 
     public String getTaskId() {
