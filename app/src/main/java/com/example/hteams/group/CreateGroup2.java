@@ -299,68 +299,6 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
 
 
 
-//                //adding all participants
-//                for(int i=0; i<inviteModels.size();i++){
-//
-//                firestore.collection("participants")
-//                        .add(uploadtofirebase)
-//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                Log.d("TAG", documentReference.getId());
-//                                startActivity(new Intent(CreateGroup2.this, MainActivity.class));
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.d("TAG", "ERROR ADDING PARTICIPANT " + e);
-//                            }
-//                        });
-
-
-
-/* SQLITE ADDING GROUP
-                SQLITECREATEGROUPMODEL sqlitecreategroupmodel = null;
-                SQLITEPARTICIPANTMODEL sqliteparticipantmodel;
-                try{
-    //                    entering data to Group Table
-                        sqlitecreategroupmodel = new SQLITECREATEGROUPMODEL(GroupPhoto,groupname,Subject,Description,Professor,cname,cname);
-    //                    test = new Testing1Model(id.get(i), studentImage.get(i),name.get(i),email.get(i),section,course,college );
-    //                    DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
-                         boolean success = databaseHelper.addGroups(sqlitecreategroupmodel);
-                         if(success == true){
-    //                         kapag pumasok ang data sa group table
-
-                                    //get the group id that created
-                                     Cursor selectLastIdGroupTable = databaseHelper.selectLastIdGroupTable();
-                                     selectLastIdGroupTable.moveToNext();
-                                     int groupId = selectLastIdGroupTable.getInt(0);
-
-//                                     add the leader and accepted = true
-                             sqliteparticipantmodel = new SQLITEPARTICIPANTMODEL(cname, groupId, true);
-                                     boolean participant_added = databaseHelper.addParticipant(sqliteparticipantmodel);
-
-
-                                     //for loop ginamit what if the participant is marami
-                                     //add participant
-                                     for(int i = 0; i < inviteModels.size(); i++){
-                                         sqliteparticipantmodel = new SQLITEPARTICIPANTMODEL(inviteModels.get(i).getId(), groupId, true);
-                                         participant_added = databaseHelper.addParticipant(sqliteparticipantmodel);
-                                     }
-
-
-
-                         }else{
-    //                         kapag hindi pumasok ang data sa group  table
-                             Toast.makeText(CreateGroup2.this, "some error occured", Toast.LENGTH_SHORT).show();
-                         }
-                    Toast.makeText(CreateGroup2.this,"Group added successfully", Toast.LENGTH_SHORT).show();
-                }catch (Exception e){
-                    Toast.makeText(CreateGroup2.this, e.toString(), Toast.LENGTH_SHORT).show();
-                }
-                        startActivity(new Intent(CreateGroup2.this, MainActivity.class));
-                     */
-//            }
 
 
 

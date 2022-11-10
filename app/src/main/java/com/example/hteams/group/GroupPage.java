@@ -1,5 +1,6 @@
 package com.example.hteams.group;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -48,8 +49,12 @@ import com.example.hteams.model.taskModel.DoneModel;
 import com.example.hteams.model.taskModel.ReadyModel;
 import com.example.hteams.model.taskModel.TodoModel;
 import com.example.hteams.model.taskModel.WorkingModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -59,6 +64,8 @@ import com.squareup.picasso.Picasso;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GroupPage extends AppCompatActivity implements GroupInterface {
 
@@ -89,16 +96,14 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
     //SQLITE DB
     DatabaseHelper databaseHelper;
-    String currentId;
+    public String currentId;
     public static String getGroupID;
     public static  int lastposition;
     public static int getGroupIDInt;
     public static int getTaskID;
     public int getTableID;
-    String tableid;
-
-    String TAG = "TAG";
-
+    public String tableid;
+    public String TAG = "TAG";
 
     //adapter
     TableAdapter tableadapter;
@@ -107,7 +112,9 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
     ReadyAdapter readyAdapter;
     DoneAdapter doneAdapter;
 
-    ProgressDialog progressDialog;
+    public ProgressDialog progressDialog;
+
+    public static String TableReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +140,8 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
         // set Group id
         Home home = new Home();
-         getGroupID = home.GroupId;
+        getGroupID = home.GroupId;
+        Log.d("TAG", "GROUPPAGE GROUP ID "  + getGroupID);
 
         //inititalization
         displayMode =  (RelativeLayout)findViewById(R.id.displayMode);
@@ -216,8 +224,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         donerecycler.setLayoutManager(TableLayoutManager4);
 
 
-
-
     }
 
     private void DislayGroupAndImage() {
@@ -245,15 +251,8 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
     }
 
-    private void createTablev2() {
-    }
+    public void createTablev2() {
 
-
-    //TODO BOTTOM SHEET add table
-    //adding a first task
-    private void createTable() {
-
-//        bottom sheet
         View view = getLayoutInflater().inflate(R.layout.bottomsheet_adding_table, null, false);
         EditText tableName = view.findViewById(R.id.tableName);
         Button nextbtn = view.findViewById(R.id.nextbtn);
@@ -265,57 +264,45 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
             public void onClick(View v) {
                 //para maghide yung add table dialog
 
-                if (tableName.length() == 0){
+                if (tableName.length() == 0) {
                     tableName.setError("Required");
                     return;
-                }else{
-                    try {
+                } else {
+
                         String tablename = tableName.getText().toString();
-                       // Boolean addtable = databaseHelper.addTable(tableName.getText().toString(), getGroupID);
+                        // Boolean addtable = databaseHelper.addTable(tableName.getText().toString(), getGroupID);
                         //getting the count of table para sa position sa group page maayos
                         //checking the last of table table
 
-                        Cursor getpositionbyfindinggroupandtable = databaseHelper.getpositionbyfindinggroupandtable(getGroupID);
-                        if(getpositionbyfindinggroupandtable.getCount() == 0){
-                           lastposition = 1;
-                            Toast.makeText(GroupPage.this, "this is new table", Toast.LENGTH_SHORT).show();
-                        }else {
-                            while (getpositionbyfindinggroupandtable.moveToNext()) {
-                                lastposition = getpositionbyfindinggroupandtable.getInt(0) + 1;
-                                Toast.makeText(GroupPage.this, "new position: " + lastposition, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        //boolean success = true;
-                        boolean success = databaseHelper.addTable(tablename, Integer.parseInt(getGroupID),lastposition);
-                        if(success == true){
-                            Toast.makeText(GroupPage.this,"success", Toast.LENGTH_SHORT).show();
-                            addTable.hide();
+                        CollectionReference addTAble = firestore.collection("table");
 
-                            //getting the table ID
-                            Cursor gettingTableID = databaseHelper.selectLastTaskTable();
-                            while (gettingTableID.moveToNext()){
-//                                Toast.makeText(GroupPage.this,"thiryd balot" + gettingTableID.getString(0), Toast.LENGTH_SHORT).show();
-                                tableid = gettingTableID.getString(0);
-                            }
-                           // gettingTableID.moveToNext();
-                            Intent intent = new Intent(GroupPage.this, AddTask.class);
-                            intent.putExtra("NEW_TABLE", "true");
-                            intent.putExtra("GROUP_ID", getGroupID);
-                            intent.putExtra("TABLE_ID", tableid);
+                        Map<String, Object> addTablemap = new HashMap<>();
+                        addTablemap.put("ID_GROUP", getGroupID);
+                        addTablemap.put("TABLE_NAME", tablename);
 
-                            Log.d("TAG", "lastposition in grouppage" +  lastposition);
-                            startActivity(intent);
-                        }else{
-                            Toast.makeText(GroupPage.this,"failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }catch (Exception e){
-                        Toast.makeText(GroupPage.this,"checko" +  e.toString(), Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, e.toString());
-                    }
+                        addTAble.add(addTablemap)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
 
+                                        Log.d("TAG", documentReference.getId());
+                                        TableReference = documentReference.getId();
+                                        Intent intent = new Intent(GroupPage.this, AddTask.class);
+                                        intent.putExtra("TABLE_ID", TableReference);
+
+                                        startActivity(intent);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("TAG", "error add table " + e.getMessage());
+                                    }
+                                });
                 }
             }
+
         });
+
 
         addTable.setContentView(view);
 
@@ -333,6 +320,93 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
             }
         });
     }
+
+
+
+
+
+    //TODO BOTTOM SHEET add table
+    //adding a first task
+//    private void createTable() {
+//
+////        bottom sheet
+//        View view = getLayoutInflater().inflate(R.layout.bottomsheet_adding_table, null, false);
+//        EditText tableName = view.findViewById(R.id.tableName);
+//        Button nextbtn = view.findViewById(R.id.nextbtn);
+//
+//        addTable = new BottomSheetDialog(this);
+//        nextbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //para maghide yung add table dialog
+//
+//                if (tableName.length() == 0){
+//                    tableName.setError("Required");
+//                    return;
+//                }else{
+//                    try {
+//                        String tablename = tableName.getText().toString();
+//                       // Boolean addtable = databaseHelper.addTable(tableName.getText().toString(), getGroupID);
+//                        //getting the count of table para sa position sa group page maayos
+//                        //checking the last of table table
+//
+//                        Cursor getpositionbyfindinggroupandtable = databaseHelper.getpositionbyfindinggroupandtable(getGroupID);
+//                        if(getpositionbyfindinggroupandtable.getCount() == 0){
+//                           lastposition = 1;
+//                            Toast.makeText(GroupPage.this, "this is new table", Toast.LENGTH_SHORT).show();
+//                        }else {
+//                            while (getpositionbyfindinggroupandtable.moveToNext()) {
+//                                lastposition = getpositionbyfindinggroupandtable.getInt(0) + 1;
+//                                Toast.makeText(GroupPage.this, "new position: " + lastposition, Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                        //boolean success = true;
+//                        boolean success = databaseHelper.addTable(tablename, Integer.parseInt(getGroupID),lastposition);
+//                        if(success == true){
+//                            Toast.makeText(GroupPage.this,"success", Toast.LENGTH_SHORT).show();
+//                            addTable.hide();
+//
+//                            //getting the table ID
+//                            Cursor gettingTableID = databaseHelper.selectLastTaskTable();
+//                            while (gettingTableID.moveToNext()){
+////                                Toast.makeText(GroupPage.this,"thiryd balot" + gettingTableID.getString(0), Toast.LENGTH_SHORT).show();
+//                                tableid = gettingTableID.getString(0);
+//                            }
+//                           // gettingTableID.moveToNext();
+//                            Intent intent = new Intent(GroupPage.this, AddTask.class);
+//                            intent.putExtra("NEW_TABLE", "true");
+//                            intent.putExtra("GROUP_ID", getGroupID);
+//                            intent.putExtra("TABLE_ID", tableid);
+//                            Log.d("TAG", "lastposition in grouppage" +  lastposition);
+//                            startActivity(intent);
+//                        }else{
+//                            Toast.makeText(GroupPage.this,"failed", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }catch (Exception e){
+//                        Toast.makeText(GroupPage.this,"checko" +  e.toString(), Toast.LENGTH_SHORT).show();
+//                        Log.d(TAG, e.toString());
+//                    }
+//
+//                }
+//            }
+//        });
+//
+//        addTable.setContentView(view);
+//
+//        addTables.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addTable.show();
+//            }
+//        });
+//
+//        addfirsttaskbutton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addTable.show();
+//            }
+//        });
+//    }
 
     private void menu() {
         menu.setOnClickListener(new View.OnClickListener() {
@@ -766,8 +840,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                 getTableID = todoModels.get(position).getTableId();
                 Intent addTaskIntent = new Intent(GroupPage.this, ViewTask.class);
                 startActivity(addTaskIntent);
-
-
                 break;
 
             case "working":
@@ -797,8 +869,5 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+
 }

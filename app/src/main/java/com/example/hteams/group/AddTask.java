@@ -70,7 +70,7 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
     //SQLITE DB
     DatabaseHelper databaseHelper;
     String currentId;
-    String getGroupID;
+    String getGroupID ;
     String getTableId;
     int getPosition;
     String newTable = "false";
@@ -99,18 +99,20 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
         currentId = firebaseAuth.getCurrentUser().getUid();
 
         // set Group id
-        getGroupID = String.valueOf(getIntent().getStringExtra("GROUP_ID"));
+        Home home = new Home();
+        getGroupID = home.GroupId;
+        Log.d("TAG", "ADD TASK GROUP ID " + getGroupID);
 
         //for testing
-//        getGroupID = "1";
+        // getGroupID = "1";
 
         getTableId = String.valueOf(getIntent().getStringExtra("TABLE_ID"));
-        Log.d("TAG", "Table ID " + getTableId);
+        Log.d("TAG", "ADD TASK Table ID " + getTableId);
 
         //check if dumaan sa new table
+
         newTable = String.valueOf(getIntent().getStringExtra("NEW_TABLE"));
         Log.d("TAG", "new Table " + newTable);
-
 
         //check if position
         if(newTable.equalsIgnoreCase("false")) {
@@ -128,9 +130,7 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
 
         //fore testing
 //        getTableId = "1";
-
 //        Toast.makeText(AddTask.this, getGroupID + " " + getTableId, Toast.LENGTH_SHORT).show();
-
 
 
 
@@ -203,7 +203,8 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                         //Toast.makeText(AddTask.this, String.valueOf(getCounttable.getInt(0) + 1),Toast.LENGTH_SHORT).show();
 
                     sqliteaddtaskmodels = new SQLITEADDTASKMODEL(Integer.parseInt(getGroupID),Integer.parseInt(getTableId),participantID,taskName,status, duedate , dueTIme,getPosition);
-                   boolean success = databaseHelper.addTask(sqliteaddtaskmodels);
+
+                    boolean success = databaseHelper.addTask(sqliteaddtaskmodels);
                         if(success == true){
                             Toast.makeText(AddTask.this, "success", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(AddTask.this, GroupPage.class);
