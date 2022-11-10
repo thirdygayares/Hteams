@@ -40,6 +40,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
@@ -67,10 +68,11 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
     String currentId;
     String date;//date of the updates when post
     String getGroupID;
-    String getTaskID;
+    String getTaskIDinVU;
     String getUpdatesId;
 
-
+    ListAdapter listAdapter;
+    LinkAdapter linkAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,13 +97,14 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
         // set Group id
         getGroupID = groupPage.getGroupIDInt;
         //set Task ID
-        getTaskID =  groupPage.getTaskID;
+        getTaskIDinVU =  groupPage.getTaskID;
 
         //creating object for calling update ID
         ViewTask viewTask = new ViewTask();
         getUpdatesId = viewTask.updatesId;
+        Log.e("TAG", "ang updates id ay " + getUpdatesId);
 
-
+        //private list adapter
 
 
 
@@ -124,9 +127,6 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
 
         //set The kung sino ang nagpost at date kung kaylan pinost and yung description nung pinost
         retrieveCredentialsPost();
-
-
-
 
 
     }
@@ -174,7 +174,7 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
 
     private void retrieveTaskTitle() {
 
-        firestore.collection("task").document(getTaskID)
+        firestore.collection("task").document(getTaskIDinVU)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -204,38 +204,39 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
 
 
     private void listRecycle() {
-
-        ListAdapter listAdapter = new ListAdapter(ViewUpdates.this, listModels, this);
+        listAdapter = new ListAdapter(ViewUpdates.this, listModels, this);
         listrecycle.setAdapter(listAdapter);
         listrecycle.setLayoutManager(new LinearLayoutManager(ViewUpdates.this));
 
-        try{
-            Cursor getListData = databaseHelper.getListData(String.valueOf(getUpdatesId));
 
-            ArrayList<Integer> taskid = new ArrayList<Integer>();
-            ArrayList<Integer> status = new ArrayList<Integer>();
-            ArrayList<String> nameTask = new ArrayList<String>();
+        firestore.collection("Lists")
+                .whereEqualTo("ID_UPDATES", getUpdatesId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                listModels.add(new ListModel(document.get("ID_UPDATES").toString(),document.get("STATUS").toString(), document.get("LISTNAME").toString()));
+                                listAdapter.notifyDataSetChanged();
+                            }
+                            if(listModels.isEmpty()){
+                                LinearLayout ListContainer = findViewById(R.id.listContainer);
+                                ListContainer.setVisibility(View.GONE);
+                            }else{
+                                LinearLayout ListContainer = findViewById(R.id.listContainer);
+                                ListContainer.setVisibility(View.VISIBLE);
+                            }
 
-            while (getListData.moveToNext()){
-                status.add(getListData.getInt(4));
-                nameTask.add(getListData.getString(3));
-                taskid.add(getListData.getInt(0));
-            }
+                        }
 
-            for(int i=0;i<status.size();i++){
-                listModels.add(new ListModel(taskid.get(i),status.get(i), nameTask.get(i)));
-            }
-
-//        gone the visibility if the list is empty
-            if(nameTask.isEmpty()){
-                LinearLayout listContainer = findViewById(R.id.listContainer);
-                listContainer.setVisibility(View.GONE);
-            }
-        }catch (Exception e){
-            Log.e("TAG","List error retrieving because " + e );
-        }
-
-
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("TAG", e.getMessage());
+                    }
+                });
     }
 
 
@@ -300,38 +301,46 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
 
     // start of link container
     private void linkRecycle() {
-        LinkAdapter filesAdapter = new LinkAdapter(ViewUpdates.this, displaySiteModels, this);
-        linkrecyler.setAdapter(filesAdapter);
+        linkAdapter = new LinkAdapter(ViewUpdates.this, displaySiteModels, this);
+        linkrecyler.setAdapter(linkAdapter);
         linkrecyler.setLayoutManager(new LinearLayoutManager(ViewUpdates.this));
 
 
-        ArrayList<String> customLinkName = new ArrayList<String>();
-        ArrayList<String> sitename = new ArrayList<String>();
-        ArrayList<String> link = new ArrayList<String>();
+        firestore.collection("links")
+                .whereEqualTo("ID_UPDATES", getUpdatesId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
 
-        Cursor getLinkData = databaseHelper.getLinkData(String.valueOf(getUpdatesId));
+                                displaySiteModels.add(new DisplaySiteModel(document.get("CUSTOMNAME").toString(), document.get("SITENAME").toString(), document.get("WEBLINK").toString()));
+                                linkAdapter.notifyDataSetChanged();
 
-        try{
-            while (getLinkData.moveToNext()){
-                customLinkName.add(getLinkData.getString(3));
-                sitename.add(getLinkData.getString(5));
-                link.add(getLinkData.getString(4));
 
-            }
-                for(int i=0;i<customLinkName.size();i++){
-                    displaySiteModels.add(new DisplaySiteModel(customLinkName.get(i), sitename.get(i), link.get(i)));
-                }
 
-        }catch (Exception e){
-            Log.d("TAG", "LINK ERROR RETRIEVING CAUSE " + e);
-        }
+                            }
 
+                        }
+                        if(displaySiteModels.isEmpty()){
+                            LinearLayout LinksContainer = findViewById(R.id.LinksContainer);
+                            LinksContainer.setVisibility(View.GONE);
+                        }else{
+                            LinearLayout LinksContainer = findViewById(R.id.LinksContainer);
+                            LinksContainer.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                            Log.e("TAG", e.getMessage());
+                    }
+                });
 
         // gone the visibility if the files is empty
-        if(sitename.isEmpty()){
-            LinearLayout LinksContainer = findViewById(R.id.LinksContainer);
-            LinksContainer.setVisibility(View.GONE);
-        }
+
     }
     //end of link container
 

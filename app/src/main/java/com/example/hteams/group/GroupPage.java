@@ -243,7 +243,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
                         if (error != null) {
-
                             Log.e("TAG", error.getMessage());
                         }
 

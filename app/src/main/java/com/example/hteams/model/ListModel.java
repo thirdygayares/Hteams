@@ -1,26 +1,26 @@
 package com.example.hteams.model;
 
 public class ListModel {
-    Integer taskId;
-    Integer Status;
+    String taskId;
+    String Status;
     String tasktitle;
 
-    public ListModel(Integer status, String tasktitle) {
+    public ListModel(String status, String tasktitle) {
         Status = status;
         this.tasktitle = tasktitle;
     }
 
-    public ListModel(Integer taskId, Integer status, String tasktitle) {
+    public ListModel(String taskId, String status, String tasktitle) {
         this.taskId = taskId;
         Status = status;
         this.tasktitle = tasktitle;
     }
 
-    public Integer getTaskId() {
+    public String getTaskId() {
         return taskId;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return Status;
     }
 

@@ -176,6 +176,7 @@
 
                             <TextView
                                 android:id="@+id/listText"
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="14dp"
@@ -329,6 +330,7 @@
 
 
                             <TextView
+                                android:visibility="gone"
                                 android:id="@+id/LinksText"
                                 android:textColor="@color/working"
                                 android:paddingVertical="5dp"
