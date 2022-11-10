@@ -813,7 +813,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
                                             }
                                         });
 
-                                        //hashmap for logs
+                                        //hashmap for notification
                                         HashMap < String, Object > notification = new HashMap < > ();
                                         notification.put("id", getTaskID);
                                         notification.put("students_id", currentId);
@@ -823,7 +823,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
                                         String format2 = s2.format(new Date());
                                         notification.put("date", format2);
 
-                                        //add data to logs
+                                        //add data to notification
                                         firestore.collection("notification").add(notification).addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
