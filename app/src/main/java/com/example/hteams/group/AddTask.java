@@ -26,10 +26,12 @@ import com.example.hteams.adapter.AsigneeAdapter;
 import com.example.hteams.adapter.ViewTaskInterface;
 import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.AssigneeModel;
+import com.example.hteams.model.FirebaseModel.FirebaseAddTAsk;
 import com.example.hteams.model.GroupPageModel;
 import com.example.hteams.model.SQLITEADDTASKMODEL;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -200,7 +202,6 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                 }else{
                     taskName = input_task.getText().toString();
                     groupPageModels.add(new GroupPageModel(taskName,status,finalDate,classmatePhoto));
-
                     try{
                     SQLITEADDTASKMODEL sqliteaddtaskmodels = null;
                     //GET TIME AND DATE
@@ -210,25 +211,46 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                     String dueTIme = timeConverter(myHour) +   ":" + myMinute + " " + pmam;
                         //ganto logic niyan pag dumaan sa add task hindi magbabago posisyon niya
                         //pero pag dumaan sa add table magbabago position
-                        Cursor getCounttable = databaseHelper.getCountAllTable(getGroupID);
-                        getCounttable.moveToNext();
                         //Toast.makeText(AddTask.this, String.valueOf(getCounttable.getInt(0) + 1),Toast.LENGTH_SHORT).show();
 
-                    sqliteaddtaskmodels = new SQLITEADDTASKMODEL(Integer.parseInt(getGroupID),Integer.parseInt(getTableId),participantID,taskName,status, duedate , dueTIme,getPosition);
+                     //sqliteaddtaskmodels = new SQLITEADDTASKMODEL(Integer.parseInt(getGroupID),Integer.parseInt(getTableId),participantID,taskName,status, duedate , dueTIme,getPosition);
 
-                    boolean success = databaseHelper.addTask(sqliteaddtaskmodels);
-                        if(success == true){
-                            Toast.makeText(AddTask.this, "success", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(AddTask.this, GroupPage.class);
-                            //to pass group id to a group page class
-                            intent.putExtra("setGroupId", getGroupID);
-                            startActivity(intent);
-                            finish();
-                        }else{
-                            Toast.makeText(AddTask.this, "failed", Toast.LENGTH_SHORT).show();
-                        }
+                        FirebaseAddTAsk firebaseAddTAsk;
+                        firebaseAddTAsk = new FirebaseAddTAsk(getGroupID, getTableId,participantID,taskName,status,duedate,dueTIme);
+//                        firebase = new SQLITEADDTASKMODEL()
+
+                    CollectionReference task = firestore.collection("task");
+
+                    task.add(firebaseAddTAsk)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Intent intent = new Intent(AddTask.this, GroupPage.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("TAG",e.toString());
+                                }
+                            });
+
+
+
+//                    boolean success = databaseHelper.addTask(sqliteaddtaskmodels);
+//                        if(success == true){
+//                            Toast.makeText(AddTask.this, "success", Toast.LENGTH_SHORT).show();
+//                            Intent intent = new Intent(AddTask.this, GroupPage.class);
+//                            //to pass group id to a group page class
+//                            intent.putExtra("setGroupId", getGroupID);
+//                            startActivity(intent);
+//                            finish();
+//                        }else{
+//                            Toast.makeText(AddTask.this, "failed", Toast.LENGTH_SHORT).show();
+//                        }
                     }catch (Exception e){
-                        Toast.makeText(AddTask.this,  "etor: " + e, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(AddTask.this,  "etor: " + e, Toast.LENGTH_SHORT).show();
                         Log.d("TAG",e.toString());
                     }
                 }
@@ -392,15 +414,15 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
             CollectionReference getParticipant = firestore.collection("participant");
             getParticipant
                     .whereEqualTo("GROUPID", getGroupID)
-//                    .whereEqualTo("Accepted","true")
+//                    .whereEqualTo("Accepted",true)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
+                                        String participantid = document.get("StudentID").toString(); //para masave yung id niya at yun ang masave
                                        Log.d("TAG" , "participants "+ document.get("StudentID").toString());
-
                                         DocumentReference getNameAndImage = firestore.collection("students").document( document.get("StudentID").toString());
                                         getNameAndImage
                                                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -409,9 +431,8 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                                                         if(error != null){
                                                             Log.d("TAG" , "error retrieving files " + error.getMessage());
                                                         }
-                                                        assigneeModels.add(new AssigneeModel(value.get("Name").toString(),"id sample",value.get("image").toString()));
+                                                        assigneeModels.add(new AssigneeModel(value.get("Name").toString(),participantid,value.get("image").toString()));
                                                         adapter1.notifyDataSetChanged();
-
                                                     }
                                                 });
                                     }
@@ -450,6 +471,8 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface,Date
                 participantName = assigneeModels.get(pos).getName();
                 classmatePhoto = assigneeModels.get(pos).getImage();
                 participantID = assigneeModels.get(pos).getSTUDENT_ID();
+
+                Log.d("TAG" , "PARTIIPANT ID " + participantID);
 
 
                 // to set a photo
