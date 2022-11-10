@@ -61,7 +61,7 @@
                 android:maxWidth="50dp"
                 android:maxHeight="50dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/profile"
+                android:src="@drawable/ic_profile"
                 app:shapeAppearance="?attr/actionButtonStyle"
                 app:shapeAppearanceOverlay="@style/imageViewRounded"
                 app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>

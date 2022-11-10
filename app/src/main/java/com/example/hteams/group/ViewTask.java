@@ -52,6 +52,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -80,7 +81,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
     AlertDialog alertDialog;
     //global variable of AsigneeAdapter adapter
     AsigneeAdapter adapter1;
-
+    String status = null;
     RecyclerView viewTask;
     Button postButton, button_asignee;
     ImageView menu_viewtask, participant_photo;
@@ -232,7 +233,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
                                                 Log.d("TAG", "Nosuchdocument");
                                             }
                                         }
-
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -243,49 +243,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
                     }
 
                 });
-
-        // Cursor getTaskName = databaseHelper.getTaskName(getTaskID);
-
-        //        while(getTaskName.moveToNext()){
-        //
-        //
-        //
-        //            groupDetails groupDetail = new groupDetails();
-        //            button_asignee.setText(groupDetail.partcipantName(ViewTask.this,getTaskName.getString(3)));
-        //            button_status.setText(getTaskName.getString(5));
-        //            //condition
-        //            String status_indicatior = getTaskName.getString(5);
-        //            if(status_indicatior.equalsIgnoreCase("done")){
-        //                button_status.setBackgroundColor(Color.parseColor("#3AAB28"));
-        //                button_status.setText("DONE");
-        //                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
-        //                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
-        //            }
-        //            else if(status_indicatior.equalsIgnoreCase("working")){
-        //                button_status.setBackgroundColor(Color.parseColor("#3659D7"));
-        //                button_status.setText("WORKING");
-        //                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
-        //                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_work_outline_24, 0, 0, 0);
-        //            }
-        //            else if(status_indicatior.equalsIgnoreCase("to do")){
-        //                button_status.setBackgroundColor(Color.BLACK);
-        //                button_status.setText("TO DO");
-        //                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
-        //                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
-        //
-        //            }
-        //            else if(status_indicatior.equalsIgnoreCase("Ready")){
-        //                button_status.setBackgroundColor(Color.parseColor("#FF9500"));
-        //                button_status.setText("READY");
-        //                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
-        //                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
-        //            }
-        //
-        //            SetProfile setProfile = new SetProfile();
-        //            participant_photo.setImageResource(setProfile.profileImage(groupDetail.participantImage(ViewTask.this,getTaskName.getString(3))));
-        //            buttonDeadline.setText(getTaskName.getString(7) + " " + getTaskName.getString(8));
-        //
-        //        }
 
     }
 
@@ -456,7 +413,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
             @RequiresApi(api = Build.VERSION_CODES.M)
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
-                String status = null;
+
                 if (id == R.id.todo) {
                     //                    Toast.makeText(ViewTask.this,"Todo",Toast.LENGTH_SHORT).show();
                     button_status.setBackgroundColor(Color.BLACK);
@@ -487,7 +444,42 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
                     button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
                 }
 
-                Boolean update = databaseHelper.updateStatus(String.valueOf(getTaskID), status);
+                HashMap < String, Object > updataStatus = new HashMap < > ();
+                updataStatus.put("status", status);
+
+                firestore.collection("task").document(getTaskID).update(updataStatus)
+                        .addOnSuccessListener(
+                                new OnSuccessListener < Void > () {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Log.d("TAG", "Success");
+
+                                        //hashmap for logs
+                                        HashMap < String, Object > logs = new HashMap < > ();
+                                        logs.put("groupId", getGroupID);
+                                        logs.put("students_id", currentId);
+                                        logs.put("Message", "changed the status to " + status);
+                                        logs.put("task", getTaskID);
+                                        SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
+                                        String format = s.format(new Date());
+                                        logs.put("date", format);
+
+                                        //add data to logs
+                                        firestore.collection("logs").add(logs).addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                Log.d("TAG", "SUCCESS LOG");
+                                            }
+                                        });
+
+                                    }
+                                }
+                        ).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("TAG", e.getMessage());
+                            }
+                        });
 
                 return false;
             }
@@ -547,31 +539,43 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
     //set up data for assignee
     //TODO firebase manipulation (UPDATE)
     private void setupAssigne() {
-        //                TODO: if the user is current leader it indicator or show you
-        ArrayList < String > profilePhoto = new ArrayList < String > ();
-        ArrayList < String > classmateName = new ArrayList < String > ();
-        ArrayList < String > students_id = new ArrayList < String > ();
 
-        //TODO getting the participant from a group
-        try {
-            Cursor getParticipant = databaseHelper.getParticipant(String.valueOf(getGroupID));
-            groupDetails groupDetail = new groupDetails();
-            SetProfile setProfile = new SetProfile();
-
-            while (getParticipant.moveToNext()) {
-                String studentsId = getParticipant.getString(0);
-                profilePhoto.add(groupDetail.participantImage(ViewTask.this, studentsId));
-                classmateName.add(groupDetail.partcipantName(ViewTask.this, studentsId));
-                students_id.add(getParticipant.getString(0));
-            }
-
-        } catch (Exception e) {
-            Log.d("TAG", e.toString());
-        }
-
-        for (int i = 0; i < classmateName.size(); i++) {
-            assigneeModels.add(new AssigneeModel(classmateName.get(i), students_id.get(i), profilePhoto.get(i)));
-        }
+        CollectionReference getParticipant = firestore.collection("participant");
+        getParticipant
+                .whereEqualTo("GROUPID", getGroupID)
+                //                .whereEqualTo("Accepted", true)
+                //                    .whereEqualTo("Accepted",true)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener < QuerySnapshot > () {
+                    @Override
+                    public void onComplete(@NonNull Task < QuerySnapshot > task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document: task.getResult()) {
+                                String participantid = document.get("StudentID").toString(); //para masave yung id niya at yun ang masave
+                                Log.d("TAG", "participants " + document.get("StudentID").toString());
+                                DocumentReference getNameAndImage = firestore.collection("students").document(document.get("StudentID").toString());
+                                getNameAndImage
+                                        .addSnapshotListener(new EventListener < DocumentSnapshot > () {
+                                            @Override
+                                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                if (error != null) {
+                                                    Log.d("TAG", "error retrieving files " + error.getMessage());
+                                                }
+                                                assigneeModels.add(new AssigneeModel(value.get("Name").toString(), participantid, value.get("image").toString()));
+                                                adapter1.notifyDataSetChanged();
+                                            }
+                                        });
+                            }
+                        } else {
+                            Log.d("TAG", "participants error");
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("TAG", "participants " + e);
+                    }
+                });
     }
 
     //due date
@@ -621,35 +625,35 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
 
         //Boolean update = databaseHelper.updateDue(String.valueOf(getTaskID), MonthCobnvert + " " + myday, EditTime);//sqlite
 
-
-        HashMap<String, Object> updateDateandTime = new HashMap<>();
+        HashMap < String, Object > updateDateandTime = new HashMap < > ();
         updateDateandTime.put("dueDate", MonthCobnvert + " " + myday);
         updateDateandTime.put("dueTime", EditTime);
 
         firestore.collection("task").document(getTaskID).update(updateDateandTime)
                 .addOnSuccessListener(
-                        new OnSuccessListener<Void>() {
+                        new OnSuccessListener < Void > () {
                             @Override
                             public void onSuccess(Void unused) {
                                 Log.d("TAG", "Success");
 
                                 //hashmap for logs
-                                HashMap<String, Object> logs = new HashMap<>();
+                                HashMap < String, Object > logs = new HashMap < > ();
                                 logs.put("groupId", getGroupID);
                                 logs.put("students_id", currentId);
-                                logs.put("Message", "updated");
+                                logs.put("Message", "updated the due date of ");
                                 logs.put("task", getTaskID);
                                 SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
                                 String format = s.format(new Date());
                                 logs.put("date", format);
 
                                 //add data to logs
-                                firestore.collection("logs").add(logs).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                firestore.collection("logs").add(logs).addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
                                         Log.d("TAG", "SUCCESS LOG");
                                     }
                                 });
+
                             }
                         }
                 ).addOnFailureListener(new OnFailureListener() {
@@ -658,7 +662,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
                         Log.d("TAG", e.getMessage());
                     }
                 });
-
 
     }
 
@@ -781,14 +784,63 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
             case "AssigneeAdapter":
 
                 button_asignee.setText(assigneeModels.get(position).getName());
-                SetProfile setProfiles = new SetProfile();
-                participant_photo.setImageResource(setProfiles.profileImage(assigneeModels.get(position).getImgsrc()));
-                Boolean update = databaseHelper.updateParticipant(String.valueOf(getTaskID), String.valueOf(assigneeModels.get(position).getSTUDENT_ID()));
-                if (update == true) {
-                    Log.d("TAG", "Change Successfully");
-                } else {
-                    Log.d("TAG", "Error Changing Participant");
-                }
+                // participant_photo.setImageResource(setProfiles.profileImage(assigneeModels.get(position).getImgsrc()));
+                HashMap < String, Object > updateParticipant = new HashMap < > ();
+                updateParticipant.put("id_STUDENTS", assigneeModels.get(position).getSTUDENT_ID());
+
+                firestore.collection("task").document(getTaskID).update(updateParticipant)
+                        .addOnSuccessListener(
+                                new OnSuccessListener < Void > () {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Log.d("TAG", "Success");
+
+                                        //hashmap for logs
+                                        HashMap < String, Object > logs = new HashMap < > ();
+                                        logs.put("groupId", getGroupID);
+                                        logs.put("students_id", currentId);
+                                        logs.put("Message", "altered the assigned task " );
+                                        logs.put("task", getTaskID);
+                                        SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
+                                        String format = s.format(new Date());
+                                        logs.put("date", format);
+
+                                        //add data to logs
+                                        firestore.collection("logs").add(logs).addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                Log.d("TAG", "SUCCESS LOG");
+                                            }
+                                        });
+
+                                        //hashmap for logs
+                                        HashMap < String, Object > notification = new HashMap < > ();
+                                        notification.put("id", getTaskID);
+                                        notification.put("students_id", currentId);
+                                        notification.put("Message", "assigned you a task " + taskName.getText().toString());
+                                        notification.put("type", "task");
+                                        SimpleDateFormat s2 = new SimpleDateFormat("ddMMyyyyhhmmss");
+                                        String format2 = s2.format(new Date());
+                                        notification.put("date", format2);
+
+                                        //add data to logs
+                                        firestore.collection("notification").add(notification).addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                Log.d("TAG", "SUCCESS notification");
+                                            }
+                                        });
+
+                                    }
+                                }
+                        ).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("TAG", e.getMessage());
+                            }
+                        });
+
+
                 alertDialog.dismiss();
                 break;
 
@@ -800,7 +852,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface, Da
             default:
                 Toast.makeText(ViewTask.this, "default", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     //initialization of xml

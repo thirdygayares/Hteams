@@ -337,9 +337,7 @@ public class AddTask extends AppCompatActivity implements ViewTaskInterface, Dat
         //TODO: if the user is current leader it indicator or show you
 
         try {
-            ArrayList < String > profilePhoto = new ArrayList < String > ();
-            ArrayList < String > classmateName = new ArrayList < String > ();
-            ArrayList < String > Id_Student = new ArrayList < String > ();
+
             //Paano lumabas lang yung mga partcipant na nag accept lang
             //first get to the student ID by finding by getGroupID
 

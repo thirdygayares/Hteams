@@ -462,7 +462,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                                         if (document.exists()) {
                                             todoModels.add(new TodoModel(document.getId(), document.get("id_TABLE").toString() ,document.get("task_NAME").toString() ,document.get("dueDate").toString() + " " + document.get("dueTime").toString(),document.get("id_STUDENTS").toString()));
                                             todoadapter.notifyDataSetChanged();
-
                                         }
                                     }
                                     firstGroup.setVisibility(View.VISIBLE);

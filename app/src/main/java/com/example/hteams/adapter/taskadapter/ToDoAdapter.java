@@ -19,6 +19,12 @@ import com.example.hteams.adapter.GroupInterface;
 import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.group.GroupPage;
 import com.example.hteams.model.taskModel.TodoModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder>  {
@@ -49,14 +55,28 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
         holder.taskName.setText(todoModels.get(position).getNameofTask());
         holder.duedate.setText(groupPage.getDueDate() + " " );
 
-//        change profile photoofuser
-        databaseHelper = new DatabaseHelper(context);
-        Cursor getImage = databaseHelper.getImageCurrentsUser(todoModels.get(position).getParticipant_src_photo());
-        while(getImage.moveToNext()){
-            imgsrc = getImage.getString(0);
-        }
-        SetProfile setProfiles = new SetProfile();
-        holder.participant_photo.setImageResource(setProfiles.profileImage(imgsrc));
+        //SetProfile setProfiles = new SetProfile();
+
+        FirebaseFirestore firestore;
+        firestore = FirebaseFirestore.getInstance();
+
+        firestore.collection("students").document(todoModels.get(position).getParticipant_src_photo())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task< DocumentSnapshot > task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Picasso.get().load(document.get("image").toString()).error(R.drawable.ic_profile).into(holder.participant_photo);
+
+                            } else {
+                                Log.d("TAG", "Nosuchdocument");
+                            }
+                        }
+                    }
+                });
+
 
     }
 
