@@ -648,7 +648,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                                     }
                                 }
 
-
                                 if(readyModels.isEmpty()){
                                     fourthgroup.setVisibility(View.GONE);
                                 }else{
@@ -665,7 +664,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         } catch (Exception e) {
             Log.d("TAG", "set up ready eroor " + e);
         }
-
     }
 
     //set up table data for recycler view
