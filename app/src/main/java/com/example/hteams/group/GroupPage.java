@@ -110,7 +110,7 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
     public static int lastposition;
     public static String getGroupIDInt;
     public static String getTaskID;
-    public String getTableID;
+    public static String getTableID;
     public String tableid;
     public String TAG = "TAG";
 
@@ -255,7 +255,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
                     }
                 });
-
     }
 
     public void createTablev2() {
@@ -328,89 +327,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
             }
         });
     }
-
-    //TODO BOTTOM SHEET add table
-    //adding a first task
-    //    private void createTable() {
-    //
-    ////        bottom sheet
-    //        View view = getLayoutInflater().inflate(R.layout.bottomsheet_adding_table, null, false);
-    //        EditText tableName = view.findViewById(R.id.tableName);
-    //        Button nextbtn = view.findViewById(R.id.nextbtn);
-    //
-    //        addTable = new BottomSheetDialog(this);
-    //        nextbtn.setOnClickListener(new View.OnClickListener() {
-    //            @Override
-    //            public void onClick(View v) {
-    //                //para maghide yung add table dialog
-    //
-    //                if (tableName.length() == 0){
-    //                    tableName.setError("Required");
-    //                    return;
-    //                }else{
-    //                    try {
-    //                        String tablename = tableName.getText().toString();
-    //                       // Boolean addtable = databaseHelper.addTable(tableName.getText().toString(), getGroupID);
-    //                        //getting the count of table para sa position sa group page maayos
-    //                        //checking the last of table table
-    //
-    //                        Cursor getpositionbyfindinggroupandtable = databaseHelper.getpositionbyfindinggroupandtable(getGroupID);
-    //                        if(getpositionbyfindinggroupandtable.getCount() == 0){
-    //                           lastposition = 1;
-    //                            Toast.makeText(GroupPage.this, "this is new table", Toast.LENGTH_SHORT).show();
-    //                        }else {
-    //                            while (getpositionbyfindinggroupandtable.moveToNext()) {
-    //                                lastposition = getpositionbyfindinggroupandtable.getInt(0) + 1;
-    //                                Toast.makeText(GroupPage.this, "new position: " + lastposition, Toast.LENGTH_SHORT).show();
-    //                            }
-    //                        }
-    //                        //boolean success = true;
-    //                        boolean success = databaseHelper.addTable(tablename, Integer.parseInt(getGroupID),lastposition);
-    //                        if(success == true){
-    //                            Toast.makeText(GroupPage.this,"success", Toast.LENGTH_SHORT).show();
-    //                            addTable.hide();
-    //
-    //                            //getting the table ID
-    //                            Cursor gettingTableID = databaseHelper.selectLastTaskTable();
-    //                            while (gettingTableID.moveToNext()){
-    ////                                Toast.makeText(GroupPage.this,"thiryd balot" + gettingTableID.getString(0), Toast.LENGTH_SHORT).show();
-    //                                tableid = gettingTableID.getString(0);
-    //                            }
-    //                           // gettingTableID.moveToNext();
-    //                            Intent intent = new Intent(GroupPage.this, AddTask.class);
-    //                            intent.putExtra("NEW_TABLE", "true");
-    //                            intent.putExtra("GROUP_ID", getGroupID);
-    //                            intent.putExtra("TABLE_ID", tableid);
-    //                            Log.d("TAG", "lastposition in grouppage" +  lastposition);
-    //                            startActivity(intent);
-    //                        }else{
-    //                            Toast.makeText(GroupPage.this,"failed", Toast.LENGTH_SHORT).show();
-    //                        }
-    //                    }catch (Exception e){
-    //                        Toast.makeText(GroupPage.this,"checko" +  e.toString(), Toast.LENGTH_SHORT).show();
-    //                        Log.d(TAG, e.toString());
-    //                    }
-    //
-    //                }
-    //            }
-    //        });
-    //
-    //        addTable.setContentView(view);
-    //
-    //        addTables.setOnClickListener(new View.OnClickListener() {
-    //            @Override
-    //            public void onClick(View v) {
-    //                addTable.show();
-    //            }
-    //        });
-    //
-    //        addfirsttaskbutton.setOnClickListener(new View.OnClickListener() {
-    //            @Override
-    //            public void onClick(View v) {
-    //                addTable.show();
-    //            }
-    //        });
-    //    }
 
     private void menu() {
         menu.setOnClickListener(new View.OnClickListener() {
@@ -509,7 +425,7 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         RelativeLayout touchme = findViewById(R.id.touchme);
         ImageView arrow = findViewById(R.id.arrow);
 
-        firstGroup.setVisibility(View.VISIBLE);
+
 
         touchme.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -549,6 +465,7 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
                                         }
                                     }
+                                    firstGroup.setVisibility(View.VISIBLE);
                                 }
                         }
                     }).addOnFailureListener(new OnFailureListener() {

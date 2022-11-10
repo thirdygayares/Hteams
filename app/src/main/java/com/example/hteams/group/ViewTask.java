@@ -1,5 +1,7 @@
 package com.example.hteams.group;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -40,10 +43,21 @@ import com.example.hteams.adapter.ViewTaskInterface;
 import com.example.hteams.adapter.ViewUpdateInterface;
 import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.AssigneeModel;
+import com.example.hteams.model.FirebaseModel.FirebaseRetriveGroup;
 import com.example.hteams.model.ViewTaskModel;
+import com.example.hteams.model.taskModel.TodoModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -91,11 +105,21 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
     //pm or am
     static  String pmam = "am";
+
+    ProgressDialog progressDialog;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_task);
+
+        //process dialog
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Fetching data...");
+        progressDialog.show();
+
 
         //to know the email and uid
         firebaseAuth = FirebaseAuth.getInstance();
@@ -114,13 +138,13 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
         // set Group id
         getGroupID = groupPage.getGroupIDInt;
+        //Log.d("View",getGroupID);
         //set Task ID
         getTaskID =  groupPage.getTaskID;
+        //Log.d("View",getTaskID);
         //set Table ID
         getTableID =  groupPage.getTableID;
-
-
-
+        //Log.d("View", "TABLE ID: " + getTableID);
 
         //initializion of id in xml
         initxml();
@@ -141,7 +165,6 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         statusButton();
         //Set up posting data
         //setUpPostingData();
-
         adapter1 = new AsigneeAdapter(ViewTask.this, assigneeModels, this);
         //button_asignee lalabas yung dialog box when click assignee to but only leader make this
         buttonAssign();
@@ -151,106 +174,195 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         //TODO deadline
         deadlineCalendar();
 
-
-
-
-
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void TaskRetrievesData() {
-        Cursor getTaskName = databaseHelper.getTaskName(getTaskID);
+        firestore.collection("task").document(getTaskID)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            if (progressDialog.isShowing())
+                                progressDialog.dismiss();
+                                Log.e("TAG", error.getMessage());
+                        }
 
-        while(getTaskName.moveToNext()){
+                        String status_indicatior = value.get("status").toString();
+                        if(status_indicatior.equalsIgnoreCase("done")){
+                            button_status.setBackgroundColor(Color.parseColor("#3AAB28"));
+                            button_status.setText("DONE");
+                            button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                            button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
+                        }
+                        else if(status_indicatior.equalsIgnoreCase("working")){
+                            button_status.setBackgroundColor(Color.parseColor("#3659D7"));
+                            button_status.setText("WORKING");
+                            button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                            button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_work_outline_24, 0, 0, 0);
+                        }
+                        else if(status_indicatior.equalsIgnoreCase("TO DO")){
+                            button_status.setBackgroundColor(Color.BLACK);
+                            button_status.setText("TO DO");
+                            button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                            button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
 
-            groupDetails groupDetail = new groupDetails();
-            button_asignee.setText(groupDetail.partcipantName(ViewTask.this,getTaskName.getString(3)));
-            button_status.setText(getTaskName.getString(5));
-            //condition
-            String status_indicatior = getTaskName.getString(5);
-            if(status_indicatior.equalsIgnoreCase("done")){
-                button_status.setBackgroundColor(Color.parseColor("#3AAB28"));
-                button_status.setText("DONE");
-                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
-                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
-            }
-            else if(status_indicatior.equalsIgnoreCase("working")){
-                button_status.setBackgroundColor(Color.parseColor("#3659D7"));
-                button_status.setText("WORKING");
-                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
-                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_work_outline_24, 0, 0, 0);
-            }
-            else if(status_indicatior.equalsIgnoreCase("to do")){
-                button_status.setBackgroundColor(Color.BLACK);
-                button_status.setText("TO DO");
-                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
-                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
+                        }
+                        else if(status_indicatior.equalsIgnoreCase("Ready")){
+                            button_status.setBackgroundColor(Color.parseColor("#FF9500"));
+                            button_status.setText("READY");
+                            button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                            button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
+                        }
 
-            }
-            else if(status_indicatior.equalsIgnoreCase("Ready")){
-                button_status.setBackgroundColor(Color.parseColor("#FF9500"));
-                button_status.setText("READY");
-                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
-                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
-            }
+                        buttonDeadline.setText(value.get("dueDate").toString() + " "  + value.get("dueTime").toString());
 
-            SetProfile setProfile = new SetProfile();
-            participant_photo.setImageResource(setProfile.profileImage(groupDetail.participantImage(ViewTask.this,getTaskName.getString(3))));
-            buttonDeadline.setText(getTaskName.getString(7) + " " + getTaskName.getString(8));
+                        firestore.collection("students").document(value.get("id_STUDENTS").toString())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            DocumentSnapshot document=task.getResult();
+                                            if(document.exists()){
+                                                button_asignee.setText( document.get("Name").toString());
+                                                Picasso.get().load(document.get("image").toString()).error(R.drawable.ic_profile).into(participant_photo);
 
-        }
+                                                if (progressDialog.isShowing())
+                                                    progressDialog.dismiss();
+                                            }
+                                            else{
+                                                Log.d("TAG","Nosuchdocument");
+                                            }
+                                        }
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                    }
+                                });
+                    }
+
+                });
+
+
+       // Cursor getTaskName = databaseHelper.getTaskName(getTaskID);
+
+//        while(getTaskName.moveToNext()){
+//
+//
+//
+//            groupDetails groupDetail = new groupDetails();
+//            button_asignee.setText(groupDetail.partcipantName(ViewTask.this,getTaskName.getString(3)));
+//            button_status.setText(getTaskName.getString(5));
+//            //condition
+//            String status_indicatior = getTaskName.getString(5);
+//            if(status_indicatior.equalsIgnoreCase("done")){
+//                button_status.setBackgroundColor(Color.parseColor("#3AAB28"));
+//                button_status.setText("DONE");
+//                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+//                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_done_24, 0, 0, 0);
+//            }
+//            else if(status_indicatior.equalsIgnoreCase("working")){
+//                button_status.setBackgroundColor(Color.parseColor("#3659D7"));
+//                button_status.setText("WORKING");
+//                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+//                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_work_outline_24, 0, 0, 0);
+//            }
+//            else if(status_indicatior.equalsIgnoreCase("to do")){
+//                button_status.setBackgroundColor(Color.BLACK);
+//                button_status.setText("TO DO");
+//                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+//                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_todo, 0, 0, 0);
+//
+//            }
+//            else if(status_indicatior.equalsIgnoreCase("Ready")){
+//                button_status.setBackgroundColor(Color.parseColor("#FF9500"));
+//                button_status.setText("READY");
+//                button_status.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+//                button_status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ready, 0, 0, 0);
+//            }
+//
+//            SetProfile setProfile = new SetProfile();
+//            participant_photo.setImageResource(setProfile.profileImage(groupDetail.participantImage(ViewTask.this,getTaskName.getString(3))));
+//            buttonDeadline.setText(getTaskName.getString(7) + " " + getTaskName.getString(8));
+//
+//        }
 
 
     }
 
 
     private void header() {
-//        Log.d("TAG", "task id in header" + getTaskID);
-        Cursor getTaskName = databaseHelper.getTaskName(getTaskID);
-        try{
-            if(getTaskName.getCount() == 0){
-//                Log.d("TAG", getTaskName.getString(4));
-                Log.d("TAG", "walang laman");
-            }
-            while(getTaskName.moveToNext()){
-            taskName.setText(getTaskName.getString(4));
-                Log.d("TAG", getTaskName.getString(4));
-            }
 
-        }catch (Exception e){
-            Log.d("TAG", "getting taskid in View Task" + e );
-        }
+        //getting groupname
+        firestore.collection("groups")
+                .document(getGroupID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                groupName.setText(document.get("GROUPNAME").toString());
+                            } else {
+                                Log.d("TAG", "Nosuchdocument");
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
 
-        //getting group name from sqlite
-        Cursor getGroupName = databaseHelper.myGroup(String.valueOf(getGroupID));
-        try{
-            if(getGroupName.getCount() == 0){
-                Log.d("TAG", "walang laman");
-            }
-            while(getGroupName.moveToNext()){
-                groupName.setText(getGroupName.getString(2));
-            }
+                    }
+                });
 
-        }catch (Exception e){
-            Log.d("TAG", "getting groupid in View Task" + e );
-        }
+        //getting table name
+        firestore.collection("table").document(getTableID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                tableName.setText(document.get("TABLE_NAME").toString());
+                            } else {
+                                Log.d("TAG", "Nosuchdocument");
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
 
+                    }
+                });
 
-        //getting table name from sqlite
-        Cursor getTableName = databaseHelper.getTableName(2);
-        Log.d("TAG", "table id in view task" + getTableID);
-        try{
-            if(getTableName.getCount() == 0){
-                Log.d("TAG", "walang laman");
-            }
-            while(getTableName.moveToNext()){
-                tableName.setText(getTableName.getString(2));
-            }
+        //getting task name
+        firestore.collection("task").document(getTaskID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                taskName.setText(document.get("task_NAME").toString());
+                            } else {
+                                Log.d("TAG", "Nosuchdocument");
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
 
-        }catch (Exception e){
-            Log.d("TAG", "getting groupid in View Task" + e );
-        }
+                    }
+                });
+
 
     }
 
@@ -395,56 +507,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     }
 
 
-    //end when user click view task menu
 
-//    set up data for post or updates
-//    TODO firebase manipulation
-//    private void setUpPostingData() {
-//
-//        //posting updates Recycler View
-//        ViewTaskAdapter adapter = new ViewTaskAdapter(ViewTask.this, viewTaskModels, this);
-//        viewTask.setAdapter(adapter);
-//        viewTask.setLayoutManager(new LinearLayoutManager(ViewTask.this));
-//        LinearLayout emptyUpdates = findViewById(R.id.emptyUpdates);
-//            Cursor getupdatesdata = databaseHelper.getUpdatesData(getTaskID);
-//            if(getupdatesdata.getCount() == 0) {
-//                Log.d("TAG", "Update Table for " + groupName.getText() + " is empty");
-//                //TODO show the picture when empty data
-//
-//                emptyUpdates.setVisibility(View.VISIBLE);
-//
-//            }else{
-//                try {
-//                    emptyUpdates.setVisibility(View.GONE);
-//                    SetProfile setProfile = new SetProfile();
-//                    groupDetails groupDetails = new groupDetails();
-//                    while(getupdatesdata.moveToNext()) {
-//                        String participantsrcimage = groupDetails.participantImage(ViewTask.this,getupdatesdata.getString(3));
-//                        String participantName = groupDetails.partcipantName(ViewTask.this,getupdatesdata.getString(3));
-//
-//                        //time convertion
-//                        String strCurrentDate= getupdatesdata.getString(6);
-//                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//                        Date newDate = null;
-//                        try {
-//                            newDate = format.parse(strCurrentDate);
-//                            format = new SimpleDateFormat("dd-MMM-yyyy");
-//                             date = format.format(newDate);
-//                        } catch (ParseException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        //getting the data
-//                        viewTaskModels.add(new ViewTaskModel(getupdatesdata.getInt(0), participantsrcimage, participantName,date,getupdatesdata.getString(4)));
-//                    }
-//                }catch (Exception e) {
-//                    Log.e("TAG","error retrieving updates because " + e  );
-//                }
-//
-//
-//            }
-//
-//        }
 
     private void counting() {
         int imagecountfilecountlistcountlinkcount ;

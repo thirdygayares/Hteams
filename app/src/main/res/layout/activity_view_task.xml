@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gilroybold"
-            android:text="Statement of the problem"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="20dp"></TextView>
 
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/taskName"
             android:fontFamily="@font/gilroymedium"
-            android:text="FireTera"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="18dp"></TextView>
 
@@ -59,7 +59,7 @@
             android:layout_toRightOf="@+id/greaterthan"
             android:fontFamily="@font/gilroymedium"
 
-            android:text="Requirements Engineering"
+            android:text=""
             android:textColor="@color/primary"
             android:textSize="12dp"
 
@@ -168,7 +168,7 @@
                     android:fontFamily="@font/gilroymedium"
                     android:paddingLeft="50dp"
                     android:stateListAnimator="@null"
-                    android:text="Thirdy Gayares"
+                    android:text=""
                     android:textAllCaps="false"
                     android:textColor="#887C7C"></com.google.android.material.button.MaterialButton>
 
@@ -188,7 +188,7 @@
                     android:maxWidth="50dp"
                     android:maxHeight="50dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/profile"
+                    android:src="@drawable/ic_profile"
                     app:shapeAppearance="?attr/actionButtonStyle"
                     app:shapeAppearanceOverlay="@style/imageViewRounded"
                     app:strokeColor="@android:color/white"></com.google.android.material.imageview.ShapeableImageView>
