@@ -65,10 +65,10 @@ public class Home extends Fragment implements GroupInterface {
     DatabaseHelper databaseHelper;
     String currentId;
     static String Section;
-    public static int limitation = 0;
+
     View view;
     GroupAdapter adapter;
-    public String GroupId;
+    public static String GroupId;
     ProgressDialog progressDialog;
     @Nullable
     @Override
@@ -152,27 +152,23 @@ public class Home extends Fragment implements GroupInterface {
         for(int i =0;i<groupgets.size();i++) {
             Log.d("SIZE", "ID-> " + groupgets.get(i).getId());
 
-
-            //method 2
             firestore.collection("groups").document(groupgets.get(i).getId())
                     .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                             @Override
-                                             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                                 if (error != null) {
-                                                     if (progressDialog.isShowing())
-                                                         progressDialog.dismiss();
-                                                     Log.e("TAG", error.getMessage());
-                                                 }
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                            if (error != null) {
+                                if (progressDialog.isShowing())
+                                    progressDialog.dismiss();
+                                Log.e("TAG", error.getMessage());
+                            }
 
-                                                 firebaseRetriveGroups.add(new FirebaseRetriveGroup("sample", value.get("GROUPPHOTO").toString(), value.get("GROUPNAME").toString(), value.get("GROUPNAME").toString(), value.get("PROFESSOR").toString(), value.get("SUBJECT").toString()));
-                                                 adapter.notifyDataSetChanged();
-                                                 if (progressDialog.isShowing())
-                                                     progressDialog.dismiss();
-                                             }
+                            firebaseRetriveGroups.add(new FirebaseRetriveGroup("sample", value.get("GROUPPHOTO").toString(), value.get("GROUPNAME").toString(), value.get("GROUPNAME").toString(), value.get("PROFESSOR").toString(), value.get("SUBJECT").toString()));
+                            adapter.notifyDataSetChanged();
+                            if (progressDialog.isShowing())
+                                progressDialog.dismiss();
+                        }
 
-                                         }
-                    );
-
+                    });
         }
 
         }
@@ -196,10 +192,11 @@ public class Home extends Fragment implements GroupInterface {
     public void onItemClick(int position, String taskView) {
 
         Log.d("TAG", "Ang size mo ay: " + firebaseRetriveGroups.get(position).getGroupTitle());
-        Log.d("SIZE", "Ang size mo ay: " + groupgets.get(position).getId());
+        Log.d("SIZE", "Ang id na pinindot mo ay : " + groupgets.get(position).getId());
+        GroupId = groupgets.get(position).getId();
 
         Intent intent = new Intent(getActivity(), GroupPage.class);
-        intent.putExtra("setGroupId", firebaseRetriveGroups.get(position).getGROUPID());
+        //intent.putExtra("setGroupId", firebaseRetriveGroups.get(position).getGROUPID());
         //        GroupId = groupModels.get(position).getGROUPID();
         //        intent.putExtra("Total", historyDataModels.get(position).getTotalPrice());
         startActivity(intent);

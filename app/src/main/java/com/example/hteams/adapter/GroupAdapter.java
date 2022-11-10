@@ -49,8 +49,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
         holder.subject.setText(groupmodels.get(position).getSubject());
 
         Picasso.get().load(groupmodels.get(position).getGroupImage()).error(R.drawable.ic_profile).into(holder.group_image);
-        SetAvatar setAvatar = new SetAvatar();
-//        holder.group_image.setImageResource(setAvatar.setAvatar(groupmodels.get(position).getGroupImage()));
 
     }
 

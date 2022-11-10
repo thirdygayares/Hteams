@@ -1,5 +1,6 @@
 package com.example.hteams.group;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.view.menu.MenuPopupHelper;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -48,7 +50,11 @@ import com.example.hteams.model.taskModel.TodoModel;
 import com.example.hteams.model.taskModel.WorkingModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -101,12 +107,19 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
     ReadyAdapter readyAdapter;
     DoneAdapter doneAdapter;
 
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_page);
 
+
+        //process dialog
+        progressDialog = new ProgressDialog(GroupPage.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Fetching..");
+        progressDialog.show();
 
         //to know the email and uid
         firebaseAuth = FirebaseAuth.getInstance();
@@ -119,19 +132,17 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         currentId = firebaseAuth.getCurrentUser().getUid();
 
         // set Group id
-         getGroupID = String.valueOf(getIntent().getStringExtra("setGroupId"));
+        Home home = new Home();
+         getGroupID = home.GroupId;
 
-//        Toast.makeText(GroupPage.this, getGroupID, Toast.LENGTH_SHORT).show();
-
-
-//        inititalization
+        //inititalization
         displayMode =  (RelativeLayout)findViewById(R.id.displayMode);
 
         Addtask1 = (CardView)findViewById(R.id.Addtask1);
         menu= findViewById(R.id.menu);
         emptyContainer = (RelativeLayout)findViewById(R.id.emptyContainer);
 
-//        adding button in first Task
+        //adding button in first Task
         addfirsttaskbutton = (Button)findViewById(R.id.addfirsttaskbutton) ;
         logo  = (ImageView)findViewById(R.id.logo);
         //add table button
@@ -139,24 +150,15 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         nameofgroup = (TextView) findViewById(R.id.nameofgroup) ;
 
         //set group image and Name;
-        Cursor getDisplayGroupandImage = databaseHelper.DisplayGroupDetails(getGroupID);
-        try {getDisplayGroupandImage.moveToNext();
-            String setGroupavatar = getDisplayGroupandImage.getString(0);
-            String setGRoupName = getDisplayGroupandImage.getString(1);
-            SetAvatar setAvatar = new SetAvatar();
-            logo.setImageResource(setAvatar.setAvatar(setGroupavatar));
-            nameofgroup.setText(setGRoupName);
-        }
-        catch(Exception e){
-//            Toast.makeText(GroupPage.this, e.toString(), Toast.LENGTH_SHORT).show();
-        }
+        DislayGroupAndImage();
 //        display choices [grid or list view]
         displayMode();
 //      menu button
         menu();
 
         //method for clicking the add Table
-        createTable();
+        //createTable();//v1
+        createTablev2();
 
         //table recycler view yung nasa taas eto
 
@@ -172,7 +174,7 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         thirdgroup.setVisibility(View.GONE);
 
         // setup data for table
-        setupTable();
+        //setupTable();
 
         //recycler view fo table
         RecyclerView tablerecylerview = findViewById(R.id.tablerecylce);
@@ -183,14 +185,14 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
 
         //recycler view for to do
-        setupTodo();
+        //setupTodo();
         RecyclerView taskRecycler = findViewById(R.id.taskRecycler);
          todoadapter = new ToDoAdapter(GroupPage.this, todoModels, this);
         taskRecycler.setAdapter(todoadapter);
         LinearLayoutManager TableLayoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(TableLayoutManager);
 
-        setupWorking();
+        //setupWorking();
         RecyclerView workingRecyler = findViewById(R.id.taskRecycler2);
          workingAdapter = new WorkingAdapter(GroupPage.this, workingModels, this);
         workingRecyler.setAdapter(workingAdapter);
@@ -198,7 +200,7 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         workingRecyler.setLayoutManager(TableLayoutManager2);
 
 
-        setupReady();
+        //setupReady();
         RecyclerView readyrecycler = findViewById(R.id.taskRecycler4);
         readyAdapter = new ReadyAdapter(GroupPage.this, readyModels, this);
         readyrecycler.setAdapter(readyAdapter);
@@ -206,7 +208,7 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         readyrecycler.setLayoutManager(TableLayoutManager3);
 
 
-        setupDone();
+        //setupDone();
         RecyclerView donerecycler = findViewById(R.id.taskRecycler3);
         doneAdapter = new DoneAdapter(GroupPage.this, doneModels, this);
         donerecycler.setAdapter(doneAdapter);
@@ -218,6 +220,33 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
     }
 
+    private void DislayGroupAndImage() {
+
+        firestore.collection("groups").document(getGroupID)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                        if(error != null){
+                            if (progressDialog.isShowing())
+                                progressDialog.dismiss();
+                            Log.e("TAG", error.getMessage());
+                        }
+
+                        nameofgroup.setText(value.get("GROUPNAME").toString()); //to get the name of the group
+                        String grouppic = value.get("GROUPPHOTO").toString();
+                        Picasso.get().load(grouppic).error(R.drawable.ic_profile).into(logo);
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
+
+                    }
+                });
+
+
+    }
+
+    private void createTablev2() {
+    }
 
 
     //TODO BOTTOM SHEET add table
