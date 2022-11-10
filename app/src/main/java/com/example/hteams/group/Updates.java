@@ -1,5 +1,6 @@
 package com.example.hteams.group;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,11 +33,17 @@ import com.example.hteams.model.DisplaySiteModel;
 import com.example.hteams.model.ListDisplayModel;
 import com.example.hteams.model.SiteModel;
 import com.example.hteams.model.UpdateListModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 public class Updates extends AppCompatActivity implements SiteInterface {
 
@@ -183,7 +190,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                //UpdateMethod();
+                UpdateMethod();
             }
         });
         // end of comment button
@@ -211,10 +218,128 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 
     }
 
-    //update
-//    private void UpdateMethod() {
-//        try{
-//
+//    update
+    private void UpdateMethod() {
+        try{
+
+            HashMap<String,Object> createupdates = new HashMap<>();
+            createupdates.put("ID_TASK", taskId);
+            createupdates.put("ID_GROUP", groupId);
+            createupdates.put("ID_STUDENTS", currentId);
+            createupdates.put("UPDATES", cmntfield.getText().toString());
+            SimpleDateFormat s2 = new SimpleDateFormat("ddMMyyyyhhmmss");
+            String format2 = s2.format(new Date());
+            createupdates.put("CREATED", format2);
+
+
+            firestore.collection("updates").
+                    add(createupdates).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.d("TAG", documentReference.getId());
+
+
+                            if(displaySiteModels.isEmpty()){//check if empyu
+                                Log.d("TAG","Link is empty");
+                            }else{
+
+                                for(int i = 0;i<displaySiteModels.size();i++){
+                                    HashMap<String,Object> createLinks = new HashMap<>();
+                                    createLinks.put("ID_UPDATES" , documentReference.getId());
+                                    createLinks.put("ID_GROUPS" ,groupId);
+                                    createLinks.put("CUSTOMNAME" ,displaySiteModels.get(i).getCustomsitename());
+                                    createLinks.put("WEBLINK" ,displaySiteModels.get(i).getLink());
+                                    createLinks.put("SITENAME" ,displaySiteModels.get(i).getSiteName());
+
+                                    firestore.collection("links")
+                                            .add(createLinks).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(DocumentReference documentReference) {
+                                                    Log.d("TAG", "SUCCESS ADD LINKS");
+                                                }
+                                            });
+
+                                }
+                            }
+
+
+                            //list save
+                            if(listDisplayModels.isEmpty()){
+                                Log.d("TAG","List  is empty");
+                            }else{
+                                for(int x = 0; x<listDisplayModels.size(); x++){
+                                    //send list data
+                                    HashMap<String,Object> createList = new HashMap<>();
+                                    createList.put("ID_UPDATES" , documentReference.getId());
+                                    createList.put("ID_GROUPS" ,groupId);
+                                    createList.put("LISTNAME" ,listDisplayModels.get(x).getTaskname());
+                                    createList.put("STATUS" ,listDisplayModels.get(x).getChecked());
+
+                                    firestore.collection("Lists")
+                                            .add(createList).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(DocumentReference documentReference) {
+                                                    Log.d("TAG", "SUCCESS ADD LISTS");
+                                                }
+                                            });
+
+                                }
+                            }
+
+                            //send logs
+                            //hashmap for logs
+                            HashMap < String, Object > logs = new HashMap < > ();
+                            logs.put("groupId", groupId);
+                            logs.put("students_id", currentId);
+                            logs.put("Message", "post an update from the task  " );
+                            logs.put("task", taskId);
+                            SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
+                            String format = s.format(new Date());
+                            logs.put("date", format);
+
+                            //add data to logs
+                            firestore.collection("logs").add(logs).addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d("TAG", "SUCCESS LOG");
+                                }
+                            });
+
+
+                            //hashmap for notification
+                            HashMap < String, Object > notification = new HashMap < > ();
+                            notification.put("id", documentReference.getId());
+                            notification.put("students_id", currentId);
+                            notification.put("Message", " post an update to the task" );
+                            notification.put("type", "update");
+                            SimpleDateFormat s2 = new SimpleDateFormat("ddMMyyyyhhmmss");
+                            String format2 = s2.format(new Date());
+                            notification.put("date", format2);
+
+                            //add data to logs
+                            firestore.collection("notification").add(notification).addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d("TAG", "SUCCESS notification");
+                                }
+                            });
+
+                            Intent intent = new Intent(Updates.this,ViewTask.class);
+                            startActivity(intent);
+                            finish();
+
+
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("TAG",e.getMessage());
+                        }
+                    });
+
+
+
 //            boolean update = databaseHelper.addUpdates(taskId,groupId,currentId,cmntfield.getText().toString());
 //                 if(update == true){
 //                     Log.d("TAG", "success");
@@ -266,12 +391,12 @@ public class Updates extends AppCompatActivity implements SiteInterface {
 //                 }else{
 //                     Log.d("TAG", "failed");
 //                 }
-//
-//        }catch (Exception e){
-//            Log.d("TAG", "failed to update: " + e);
-//
-//        }
-//    }
+
+        }catch (Exception e){
+            Log.d("TAG", "failed to update: " + e);
+
+        }
+    }
 
     //viewing the list in updates class
     private void viewListDisplay() {
