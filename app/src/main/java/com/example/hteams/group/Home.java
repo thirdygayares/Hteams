@@ -29,6 +29,7 @@ import com.example.hteams.adapter.GroupInterface;
 import com.example.hteams.database.DatabaseHelper;
 import com.example.hteams.model.ChooseParticipantModel;
 import com.example.hteams.model.FirebaseModel.FirebaseRetriveGroup;
+import com.example.hteams.model.FirebaseModel.groupget;
 import com.example.hteams.model.GroupModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,10 +54,12 @@ public class Home extends Fragment implements GroupInterface {
     ImageView menu, addgroup;
     ArrayList < GroupModel > groupModels = new ArrayList < > ();
     ArrayList < FirebaseRetriveGroup > firebaseRetriveGroups;
+    ArrayList <groupget> groupgets;
+
     //firebase Auth
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
-    public static ArrayList < String > GroupID = new ArrayList < > (); //bago mo makuha yung group need mo muna malman kung accepted nila at syempre parrticipants sila
+    ArrayList < String > GroupID = new ArrayList < > (); //bago mo makuha yung group need mo muna malman kung accepted nila at syempre parrticipants sila
 
     //SQLITE DB
     DatabaseHelper databaseHelper;
@@ -91,64 +94,92 @@ public class Home extends Fragment implements GroupInterface {
         menu = view.findViewById(R.id.menu);
         menu();
 
-        //To add the group
-        //Button
 
         firebaseRetriveGroups = new ArrayList < > ();
+        groupgets = new ArrayList<>();
 
         addgroup();
+        setupGroupDatav2(); //v2
 
-        setupGroupData();
-
-        //       getGroup();
-
-        //        Testing for recyclerview
 
         RecyclerView recyclerView = view.findViewById(R.id.grouprecyclerview);
         adapter = new GroupAdapter(getActivity(), firebaseRetriveGroups, Home.this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        EventChangeListener();
 
-        //Log.d("TAG",groupModels.get(0).getGroupTitle());
+
 
         return view;
+    }
+
+    private void setupGroupDatav2() {
+
+        CollectionReference mygroup = firestore.collection("participant"); //getting muna yung participant
+        mygroup.whereEqualTo("StudentID", currentId)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if(error !=null){
+                        Log.e("TAG", error.getMessage());
+                    }
+
+                    for(DocumentChange dc: value.getDocumentChanges()){
+                        if (dc.getType() == DocumentChange.Type.ADDED) {
+                            groupgets.add(new groupget(dc.getDocument().get("GROUPID").toString()));
+
+                        }
+                    }
+
+                EventChangeListener();
+
+            }
+        });
     }
 
 
     //all groups retrive
     private void EventChangeListener() {
-        firestore.collection("groups")
+        Log.d("SIZE", "size ng model sa labas v2 " + groupgets.size());
+        LinearLayout emptygroup = view.findViewById(R.id.emptygroup); //outputing the groups
+        if(groupgets.size() == 0){
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+            emptygroup.setVisibility(View.VISIBLE);
+        }else{
+            emptygroup.setVisibility(View.GONE);
 
-                .addSnapshotListener(new EventListener < QuerySnapshot > () {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                        if (error != null) {
-                            if (progressDialog.isShowing())
-                                progressDialog.dismiss();
-                            Log.e("TAG", error.getMessage());
-                        }
+        for(int i =0;i<groupgets.size();i++) {
+            Log.d("SIZE", "ID-> " + groupgets.get(i).getId());
 
-                        for (DocumentChange dc: value.getDocumentChanges()) {
 
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
-                                firebaseRetriveGroups.add(new FirebaseRetriveGroup("sample", dc.getDocument().get("GROUPPHOTO").toString(), dc.getDocument().get("GROUPNAME").toString(), dc.getDocument().get("GROUPNAME").toString(), dc.getDocument().get("PROFESSOR").toString(), dc.getDocument().get("SUBJECT").toString()));
-                            }
+            //method 2
+            firestore.collection("groups").document(groupgets.get(i).getId())
+                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                             @Override
+                                             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                 if (error != null) {
+                                                     if (progressDialog.isShowing())
+                                                         progressDialog.dismiss();
+                                                     Log.e("TAG", error.getMessage());
+                                                 }
 
-                            adapter.notifyDataSetChanged();
-                            if (progressDialog.isShowing())
-                                progressDialog.dismiss();
-                        }
-                    }
-                });
+                                                 firebaseRetriveGroups.add(new FirebaseRetriveGroup("sample", value.get("GROUPPHOTO").toString(), value.get("GROUPNAME").toString(), value.get("GROUPNAME").toString(), value.get("PROFESSOR").toString(), value.get("SUBJECT").toString()));
+                                                 adapter.notifyDataSetChanged();
+                                                 if (progressDialog.isShowing())
+                                                     progressDialog.dismiss();
+                                             }
+
+                                         }
+                    );
+
+        }
+
+        }
+
+
+
     }
-
-
-
-
-
-
 
     private void addgroup() {
         addgroup.setOnClickListener(new View.OnClickListener() {
@@ -159,88 +190,13 @@ public class Home extends Fragment implements GroupInterface {
         });
     }
 
-    private void setupGroupData() {
 
-        //Getting the data group from firebase
-        CollectionReference mygroup = firestore.collection("participant"); //getting muna yung participant
-        mygroup.whereEqualTo("StudentID", currentId)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener < QuerySnapshot > () {
-                    @Override
-                    public void onComplete(@NonNull Task < QuerySnapshot > task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
-                                if (documentSnapshot.exists()) {
-                                    Log.d("TAG", documentSnapshot.getId() + "=>" + documentSnapshot.get("GROUPID"));
-                                    GroupID.add(documentSnapshot.get("GROUPID").toString());
-                                    LinearLayout emptygroup = view.findViewById(R.id.emptygroup); //outputing the groups
-                                    if (GroupID.isEmpty()) {
-                                        emptygroup.setVisibility(View.VISIBLE);
-                                    } else {
-                                        emptygroup.setVisibility(View.GONE);
-                                        //getGroup();
-                                    }
-                                } else {
-                                    Log.d("TAG", "not existed");
-                                }
-                            }
-                        } else {
-                            Log.d("TAG", "alab YOU");
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("TAG", "ERROR GETTING GROUP" + e);
-                    }
-                });
-
-    }
-
-    private void getGroup() {
-        Log.d("TAG", "GROUP ID ->" + GroupID.size());
-        //            Log.d("TAG ", "TESTING GROUP ID" + GroupID.get(i));
-        //finding a group
-        CollectionReference ouputTheGroup = firestore.collection("groups");
-
-        for (int x = 0; x < GroupID.size(); x++) {
-            DocumentReference outputmygroup = ouputTheGroup.document(GroupID.get(x));
-            outputmygroup
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener < DocumentSnapshot > () {
-                        @Override
-                        public void onComplete(@NonNull Task < DocumentSnapshot > task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    DocumentSnapshot documentReference = task.getResult();
-                                    groupModels.add(new GroupModel("sample group ID", documentReference.get("GROUPPHOTO").toString(), documentReference.get("GROUPNAME").toString(), documentReference.get("Description").toString(), documentReference.get("PROFESSOR").toString(), documentReference.get("SUBJECT").toString()));
-
-                                    //adapter.notifyDataSetChanged();
-                                } else {
-                                    Log.d("TAG", "No such as document");
-                                }
-                            }
-                        }
-
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("TAG", "Gorup erro ay " + e);
-                        }
-                    });
-        }
-
-        limitation++;
-
-    }
 
     @Override
     public void onItemClick(int position, String taskView) {
 
         Log.d("TAG", "Ang size mo ay: " + firebaseRetriveGroups.get(position).getGroupTitle());
+        Log.d("SIZE", "Ang size mo ay: " + groupgets.get(position).getId());
 
         Intent intent = new Intent(getActivity(), GroupPage.class);
         intent.putExtra("setGroupId", firebaseRetriveGroups.get(position).getGROUPID());
