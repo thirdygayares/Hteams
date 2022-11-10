@@ -167,9 +167,9 @@ public class Task extends Fragment implements PersonalTaskInterface {
 //        static int getTaskID;
 //        static int getTableID;
         GroupPage groupPage = new GroupPage();
-        groupPage.getGroupIDInt = personalTaskModels.get(pos).getIdGroup();
-        groupPage.getTaskID = personalTaskModels.get(pos).getIdTask();
-        groupPage.getTableID = personalTaskModels.get(pos).getId_table();
+//        groupPage.getGroupIDInt = personalTaskModels.get(pos).getIdGroup();
+//        groupPage.getTaskID = personalTaskModels.get(pos).getIdTask();
+//        groupPage.getTableID = personalTaskModels.get(pos).getId_table();
         Intent intent = new Intent(getActivity(), ViewTask.class);
         startActivity(intent);
     }

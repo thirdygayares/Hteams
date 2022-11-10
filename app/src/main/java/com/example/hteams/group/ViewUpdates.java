@@ -54,9 +54,9 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
     DatabaseHelper databaseHelper;
     String currentId;
     String date;//date of the updates when post
-    int getGroupID = 1;
-    int getTaskID = 1;
-    int getUpdatesId = 1;
+    String getGroupID;
+    String getTaskID;
+    String getUpdatesId;
 
 
 
@@ -87,7 +87,7 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
 
         //creating object for calling update ID
         ViewTask viewTask = new ViewTask();
-        getUpdatesId = viewTask.updatesId;
+        //getUpdatesId = viewTask.updatesId;
 
 
 
@@ -121,7 +121,7 @@ public class ViewUpdates extends AppCompatActivity implements ViewUpdateInterfac
 
 
     private void retrieveCredentialsPost() {
-        Cursor getTaskname = databaseHelper.getUpdatesDataviaUpdatesId(getUpdatesId);
+        Cursor getTaskname = databaseHelper.getUpdatesDataviaUpdatesId(2);
         try{
             while(getTaskname.moveToNext()){
 

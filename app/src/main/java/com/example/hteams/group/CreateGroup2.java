@@ -245,7 +245,7 @@ public class CreateGroup2 extends AppCompatActivity implements ChooseParcticipan
                                     if(inviteModels.get(x).getId().equalsIgnoreCase(cname)){
                                         accepted = true;
                                     }else {
-                                        accepted = false;
+                                        accepted = true; //change this later
                                     }
 
                                     listofparticipant.put("Accepted",accepted);

@@ -80,7 +80,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     //SQLITE DB
     DatabaseHelper databaseHelper;
     String NameSite = "Site Name";   //store in sitename
-    int groupId = 1, taskId=1;
+    String groupId, taskId;
     String currentId;
 
     @Override
@@ -123,7 +123,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         GroupPage groupPage = new GroupPage();
 
         //TODO: I COMMENT THIS BECAUSE IM TESTING
-        groupId = Integer.parseInt(groupPage.getGroupID);
+        groupId = groupPage.getGroupID;
         taskId = groupPage.getTaskID;
 
 
@@ -183,7 +183,7 @@ public class Updates extends AppCompatActivity implements SiteInterface {
         comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                UpdateMethod();
+                //UpdateMethod();
             }
         });
         // end of comment button
@@ -212,66 +212,66 @@ public class Updates extends AppCompatActivity implements SiteInterface {
     }
 
     //update
-    private void UpdateMethod() {
-        try{
-
-            boolean update = databaseHelper.addUpdates(taskId,groupId,currentId,cmntfield.getText().toString());
-                 if(update == true){
-                     Log.d("TAG", "success");
-
-                     int currentupdatesID = 0;
-                     //kukunin yung id para sa list halimbawa makuha yung list
-                     Cursor getLastId = databaseHelper.getLastId(String.valueOf(taskId));
-                     if(getLastId.getCount() == 0){
-                         Log.d("TAG", "0 ang id "); //this is imposible
-                         Toast.makeText(Updates.this,"Error Please Try Again", Toast.LENGTH_SHORT).show();
-                     }else{
-                         while (getLastId.moveToNext()){  //checking the last ID
-                             currentupdatesID = getLastId.getInt(0);
-                         }
-
-                         //savingthe link
-                        DisplaySiteModel displaySiteModelSqlite = null;
-
-                         for(int i=0;i<displaySiteModels.size();i++){//loop kung ilan ba yung nasa link model
-                             displaySiteModelSqlite = new DisplaySiteModel(displaySiteModels.get(i).getCustomsitename(),displaySiteModels.get(i).getSiteName(),displaySiteModels.get(i).getLink());
-                             boolean addLink = databaseHelper.addLink(currentupdatesID, groupId,displaySiteModelSqlite );
-                             if(addLink == true){
-                                 Log.d("TAG", "success ang Link");
-                             }else{
-                                 Log.d("TAG", "failed ang Link");
-                             }
-                         }
-                     }
-
-
-                     //saving the list
-                     for(int x=0;x<listDisplayModels.size();x++){
-                         boolean addList = databaseHelper.addList(currentupdatesID, groupId, listDisplayModels.get(x).getTaskname(),listDisplayModels.get(x).getChecked());
-                         if(addList == true){
-                             Log.d("TAG", "success ang List");
-                         }else{
-                             Log.d("TAG", "failed ang List");
-                         }
-                     }
-
-
-                     Toast.makeText(Updates.this,"Add Successfully",Toast.LENGTH_SHORT).show();
-                     Intent intent = new Intent(Updates.this,ViewTask.class);
-                     startActivity(intent);
-                     finish();
-                     Log.d("TAG", "Ang huling id ay " +  currentupdatesID);
-
-
-                 }else{
-                     Log.d("TAG", "failed");
-                 }
-
-        }catch (Exception e){
-            Log.d("TAG", "failed to update: " + e);
-
-        }
-    }
+//    private void UpdateMethod() {
+//        try{
+//
+//            boolean update = databaseHelper.addUpdates(taskId,groupId,currentId,cmntfield.getText().toString());
+//                 if(update == true){
+//                     Log.d("TAG", "success");
+//
+//                     int currentupdatesID = 0;
+//                     //kukunin yung id para sa list halimbawa makuha yung list
+//                     Cursor getLastId = databaseHelper.getLastId(String.valueOf(taskId));
+//                     if(getLastId.getCount() == 0){
+//                         Log.d("TAG", "0 ang id "); //this is imposible
+//                         Toast.makeText(Updates.this,"Error Please Try Again", Toast.LENGTH_SHORT).show();
+//                     }else{
+//                         while (getLastId.moveToNext()){  //checking the last ID
+//                             currentupdatesID = getLastId.getInt(0);
+//                         }
+//
+//                         //savingthe link
+//                        DisplaySiteModel displaySiteModelSqlite = null;
+//
+//                         for(int i=0;i<displaySiteModels.size();i++){//loop kung ilan ba yung nasa link model
+//                             displaySiteModelSqlite = new DisplaySiteModel(displaySiteModels.get(i).getCustomsitename(),displaySiteModels.get(i).getSiteName(),displaySiteModels.get(i).getLink());
+//                             boolean addLink = databaseHelper.addLink(currentupdatesID, groupId,displaySiteModelSqlite );
+//                             if(addLink == true){
+//                                 Log.d("TAG", "success ang Link");
+//                             }else{
+//                                 Log.d("TAG", "failed ang Link");
+//                             }
+//                         }
+//                     }
+//
+//
+//                     //saving the list
+//                     for(int x=0;x<listDisplayModels.size();x++){
+//                         boolean addList = databaseHelper.addList(currentupdatesID, groupId, listDisplayModels.get(x).getTaskname(),listDisplayModels.get(x).getChecked());
+//                         if(addList == true){
+//                             Log.d("TAG", "success ang List");
+//                         }else{
+//                             Log.d("TAG", "failed ang List");
+//                         }
+//                     }
+//
+//
+//                     Toast.makeText(Updates.this,"Add Successfully",Toast.LENGTH_SHORT).show();
+//                     Intent intent = new Intent(Updates.this,ViewTask.class);
+//                     startActivity(intent);
+//                     finish();
+//                     Log.d("TAG", "Ang huling id ay " +  currentupdatesID);
+//
+//
+//                 }else{
+//                     Log.d("TAG", "failed");
+//                 }
+//
+//        }catch (Exception e){
+//            Log.d("TAG", "failed to update: " + e);
+//
+//        }
+//    }
 
     //viewing the list in updates class
     private void viewListDisplay() {

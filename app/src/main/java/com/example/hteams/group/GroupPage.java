@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,6 +41,8 @@ import com.example.hteams.adapter.taskadapter.ReadyAdapter;
 import com.example.hteams.adapter.taskadapter.ToDoAdapter;
 import com.example.hteams.adapter.taskadapter.WorkingAdapter;
 import com.example.hteams.database.DatabaseHelper;
+import com.example.hteams.model.FirebaseModel.FirebaseRetriveGroup;
+import com.example.hteams.model.FirebaseModel.groupget;
 import com.example.hteams.model.GroupPageModel;
 import com.example.hteams.model.GroupPageModel2;
 import com.example.hteams.model.GroupPageParentModel;
@@ -49,16 +52,21 @@ import com.example.hteams.model.taskModel.DoneModel;
 import com.example.hteams.model.taskModel.ReadyModel;
 import com.example.hteams.model.taskModel.TodoModel;
 import com.example.hteams.model.taskModel.WorkingModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
@@ -71,24 +79,25 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
     BottomSheetDialog addTable;
     //child
-    ArrayList<GroupPageModel> groupPageModels = new ArrayList<>();
+    ArrayList < GroupPageModel > groupPageModels = new ArrayList < > ();
     //parent
     //todo erase unecessary later
-    ArrayList<GroupPageParentModel> groupPageParentModels = new ArrayList<>();
-    ArrayList<GroupPageModel2> groupPageModels2 = new ArrayList<>();
-    ArrayList<TableModel> tableModels = new ArrayList<>();
-    ArrayList<TodoModel> todoModels = new ArrayList<>();
-    ArrayList<WorkingModel> workingModels = new ArrayList<>();
-    ArrayList<DoneModel> doneModels = new ArrayList<>();
-    ArrayList<ReadyModel> readyModels = new ArrayList<>();
+    ArrayList < GroupPageParentModel > groupPageParentModels = new ArrayList < > ();
+    ArrayList < GroupPageModel2 > groupPageModels2 = new ArrayList < > ();
+    ArrayList < TableModel > tableModels = new ArrayList < > ();
+    ArrayList < TodoModel > todoModels = new ArrayList < > ();
+    ArrayList < WorkingModel > workingModels = new ArrayList < > ();
+    ArrayList < DoneModel > doneModels = new ArrayList < > ();
+    ArrayList < ReadyModel > readyModels = new ArrayList < > ();
 
     public static int tableposition = 0, changecolor = 0;
-    static boolean todovisible = true, workingvisible=true, readyvisible = true, donevisible = true;
+    static boolean todovisible = true, workingvisible = true, readyvisible = true, donevisible = true;
     CardView Addtask1;
-    RelativeLayout displayMode,emptyContainer,firstGroup,secondGroup,fourthgroup,thirdgroup,addTables;
-    TextView nameofgroup ;
-    ImageView menu,logo;
+    RelativeLayout displayMode, emptyContainer, firstGroup, secondGroup, fourthgroup, thirdgroup, addTables;
+    TextView nameofgroup;
+    ImageView menu, logo;
     Button addfirsttaskbutton;
+    ImageButton addtask;
 
     //firebase Auth
     FirebaseAuth firebaseAuth;
@@ -98,10 +107,10 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
     DatabaseHelper databaseHelper;
     public String currentId;
     public static String getGroupID;
-    public static  int lastposition;
-    public static int getGroupIDInt;
-    public static int getTaskID;
-    public int getTableID;
+    public static int lastposition;
+    public static String getGroupIDInt;
+    public static String getTaskID;
+    public String getTableID;
     public String tableid;
     public String TAG = "TAG";
 
@@ -112,6 +121,8 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
     ReadyAdapter readyAdapter;
     DoneAdapter doneAdapter;
 
+    boolean tableisempty = true;
+
     public ProgressDialog progressDialog;
 
     public static String TableReference;
@@ -121,12 +132,14 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_page);
 
-
         //process dialog
         progressDialog = new ProgressDialog(GroupPage.this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Fetching..");
         progressDialog.show();
+
+
+
 
         //to know the email and uid
         firebaseAuth = FirebaseAuth.getInstance();
@@ -141,27 +154,28 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         // set Group id
         Home home = new Home();
         getGroupID = home.GroupId;
-        Log.d("TAG", "GROUPPAGE GROUP ID "  + getGroupID);
+        Log.d("TAG", "GROUPPAGE GROUP ID " + getGroupID);
 
         //inititalization
-        displayMode =  (RelativeLayout)findViewById(R.id.displayMode);
+        displayMode = (RelativeLayout) findViewById(R.id.displayMode);
 
-        Addtask1 = (CardView)findViewById(R.id.Addtask1);
-        menu= findViewById(R.id.menu);
-        emptyContainer = (RelativeLayout)findViewById(R.id.emptyContainer);
+        Addtask1 = (CardView) findViewById(R.id.Addtask1);
+        menu = findViewById(R.id.menu);
+        emptyContainer = (RelativeLayout) findViewById(R.id.emptyContainer);
+        addtask = findViewById(R.id.addtask);
 
         //adding button in first Task
-        addfirsttaskbutton = (Button)findViewById(R.id.addfirsttaskbutton) ;
-        logo  = (ImageView)findViewById(R.id.logo);
+        addfirsttaskbutton = (Button) findViewById(R.id.addfirsttaskbutton);
+        logo = (ImageView) findViewById(R.id.logo);
         //add table button
-        addTables = (RelativeLayout)findViewById(R.id.addTable);
-        nameofgroup = (TextView) findViewById(R.id.nameofgroup) ;
+        addTables = (RelativeLayout) findViewById(R.id.addTable);
+        nameofgroup = (TextView) findViewById(R.id.nameofgroup);
 
         //set group image and Name;
         DislayGroupAndImage();
-//        display choices [grid or list view]
+        //        display choices [grid or list view]
         displayMode();
-//      menu button
+        //      menu button
         menu();
 
         //method for clicking the add Table
@@ -169,7 +183,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         createTablev2();
 
         //table recycler view yung nasa taas eto
-
 
         //hide the view if empty
         firstGroup = findViewById(R.id.firstGroup);
@@ -181,32 +194,30 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         thirdgroup = findViewById(R.id.thirdgroup);
         thirdgroup.setVisibility(View.GONE);
 
-        // setup data for table
-        //setupTable();
+
+        setupTable(); //setup data for table
+
 
         //recycler view fo table
         RecyclerView tablerecylerview = findViewById(R.id.tablerecylce);
         tableadapter = new TableAdapter(GroupPage.this, tableModels, this);
         tablerecylerview.setAdapter(tableadapter);
-        LinearLayoutManager  HorizontalLayout = new LinearLayoutManager(GroupPage.this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager HorizontalLayout = new LinearLayoutManager(GroupPage.this, LinearLayoutManager.HORIZONTAL, false);
         tablerecylerview.setLayoutManager(HorizontalLayout);
 
 
-        //recycler view for to do
-        //setupTodo();
         RecyclerView taskRecycler = findViewById(R.id.taskRecycler);
-         todoadapter = new ToDoAdapter(GroupPage.this, todoModels, this);
+        todoadapter = new ToDoAdapter(GroupPage.this, todoModels, this);
         taskRecycler.setAdapter(todoadapter);
         LinearLayoutManager TableLayoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(TableLayoutManager);
 
         //setupWorking();
         RecyclerView workingRecyler = findViewById(R.id.taskRecycler2);
-         workingAdapter = new WorkingAdapter(GroupPage.this, workingModels, this);
+        workingAdapter = new WorkingAdapter(GroupPage.this, workingModels, this);
         workingRecyler.setAdapter(workingAdapter);
         LinearLayoutManager TableLayoutManager2 = new LinearLayoutManager(this);
         workingRecyler.setLayoutManager(TableLayoutManager2);
-
 
         //setupReady();
         RecyclerView readyrecycler = findViewById(R.id.taskRecycler4);
@@ -215,7 +226,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         LinearLayoutManager TableLayoutManager3 = new LinearLayoutManager(this);
         readyrecycler.setLayoutManager(TableLayoutManager3);
 
-
         //setupDone();
         RecyclerView donerecycler = findViewById(R.id.taskRecycler3);
         doneAdapter = new DoneAdapter(GroupPage.this, doneModels, this);
@@ -223,19 +233,17 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         LinearLayoutManager TableLayoutManager4 = new LinearLayoutManager(this);
         donerecycler.setLayoutManager(TableLayoutManager4);
 
-
     }
 
     private void DislayGroupAndImage() {
 
         firestore.collection("groups").document(getGroupID)
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                .addSnapshotListener(new EventListener < DocumentSnapshot > () {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                        if(error != null){
-                            if (progressDialog.isShowing())
-                                progressDialog.dismiss();
+                        if (error != null) {
+
                             Log.e("TAG", error.getMessage());
                         }
 
@@ -247,7 +255,6 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
                     }
                 });
-
 
     }
 
@@ -265,44 +272,45 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                 //para maghide yung add table dialog
 
                 if (tableName.length() == 0) {
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
                     tableName.setError("Required");
                     return;
                 } else {
 
-                        String tablename = tableName.getText().toString();
-                        // Boolean addtable = databaseHelper.addTable(tableName.getText().toString(), getGroupID);
-                        //getting the count of table para sa position sa group page maayos
-                        //checking the last of table table
+                    String tablename = tableName.getText().toString();
+                    // Boolean addtable = databaseHelper.addTable(tableName.getText().toString(), getGroupID);
+                    //getting the count of table para sa position sa group page maayos
+                    //checking the last of table table
 
-                        CollectionReference addTAble = firestore.collection("table");
+                    CollectionReference addTAble = firestore.collection("table");
 
-                        Map<String, Object> addTablemap = new HashMap<>();
-                        addTablemap.put("ID_GROUP", getGroupID);
-                        addTablemap.put("TABLE_NAME", tablename);
+                    Map < String, Object > addTablemap = new HashMap < > ();
+                    addTablemap.put("ID_GROUP", getGroupID);
+                    addTablemap.put("TABLE_NAME", tablename);
 
-                        addTAble.add(addTablemap)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
+                    addTAble.add(addTablemap)
+                            .addOnSuccessListener(new OnSuccessListener < DocumentReference > () {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
 
-                                        Log.d("TAG", documentReference.getId());
-                                        TableReference = documentReference.getId();
-                                        Intent intent = new Intent(GroupPage.this, AddTask.class);
-                                        intent.putExtra("TABLE_ID", TableReference);
+                                    Log.d("TAG", documentReference.getId());
+                                    TableReference = documentReference.getId();
+                                    Intent intent = new Intent(GroupPage.this, AddTask.class);
+                                    intent.putExtra("TABLE_ID", TableReference);
+                                    startActivity(intent);
 
-                                        startActivity(intent);
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.d("TAG", "error add table " + e.getMessage());
-                                    }
-                                });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("TAG", "error add table " + e.getMessage());
+                                }
+                            });
                 }
             }
 
         });
-
 
         addTable.setContentView(view);
 
@@ -321,92 +329,88 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         });
     }
 
-
-
-
-
     //TODO BOTTOM SHEET add table
     //adding a first task
-//    private void createTable() {
-//
-////        bottom sheet
-//        View view = getLayoutInflater().inflate(R.layout.bottomsheet_adding_table, null, false);
-//        EditText tableName = view.findViewById(R.id.tableName);
-//        Button nextbtn = view.findViewById(R.id.nextbtn);
-//
-//        addTable = new BottomSheetDialog(this);
-//        nextbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //para maghide yung add table dialog
-//
-//                if (tableName.length() == 0){
-//                    tableName.setError("Required");
-//                    return;
-//                }else{
-//                    try {
-//                        String tablename = tableName.getText().toString();
-//                       // Boolean addtable = databaseHelper.addTable(tableName.getText().toString(), getGroupID);
-//                        //getting the count of table para sa position sa group page maayos
-//                        //checking the last of table table
-//
-//                        Cursor getpositionbyfindinggroupandtable = databaseHelper.getpositionbyfindinggroupandtable(getGroupID);
-//                        if(getpositionbyfindinggroupandtable.getCount() == 0){
-//                           lastposition = 1;
-//                            Toast.makeText(GroupPage.this, "this is new table", Toast.LENGTH_SHORT).show();
-//                        }else {
-//                            while (getpositionbyfindinggroupandtable.moveToNext()) {
-//                                lastposition = getpositionbyfindinggroupandtable.getInt(0) + 1;
-//                                Toast.makeText(GroupPage.this, "new position: " + lastposition, Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                        //boolean success = true;
-//                        boolean success = databaseHelper.addTable(tablename, Integer.parseInt(getGroupID),lastposition);
-//                        if(success == true){
-//                            Toast.makeText(GroupPage.this,"success", Toast.LENGTH_SHORT).show();
-//                            addTable.hide();
-//
-//                            //getting the table ID
-//                            Cursor gettingTableID = databaseHelper.selectLastTaskTable();
-//                            while (gettingTableID.moveToNext()){
-////                                Toast.makeText(GroupPage.this,"thiryd balot" + gettingTableID.getString(0), Toast.LENGTH_SHORT).show();
-//                                tableid = gettingTableID.getString(0);
-//                            }
-//                           // gettingTableID.moveToNext();
-//                            Intent intent = new Intent(GroupPage.this, AddTask.class);
-//                            intent.putExtra("NEW_TABLE", "true");
-//                            intent.putExtra("GROUP_ID", getGroupID);
-//                            intent.putExtra("TABLE_ID", tableid);
-//                            Log.d("TAG", "lastposition in grouppage" +  lastposition);
-//                            startActivity(intent);
-//                        }else{
-//                            Toast.makeText(GroupPage.this,"failed", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }catch (Exception e){
-//                        Toast.makeText(GroupPage.this,"checko" +  e.toString(), Toast.LENGTH_SHORT).show();
-//                        Log.d(TAG, e.toString());
-//                    }
-//
-//                }
-//            }
-//        });
-//
-//        addTable.setContentView(view);
-//
-//        addTables.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                addTable.show();
-//            }
-//        });
-//
-//        addfirsttaskbutton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                addTable.show();
-//            }
-//        });
-//    }
+    //    private void createTable() {
+    //
+    ////        bottom sheet
+    //        View view = getLayoutInflater().inflate(R.layout.bottomsheet_adding_table, null, false);
+    //        EditText tableName = view.findViewById(R.id.tableName);
+    //        Button nextbtn = view.findViewById(R.id.nextbtn);
+    //
+    //        addTable = new BottomSheetDialog(this);
+    //        nextbtn.setOnClickListener(new View.OnClickListener() {
+    //            @Override
+    //            public void onClick(View v) {
+    //                //para maghide yung add table dialog
+    //
+    //                if (tableName.length() == 0){
+    //                    tableName.setError("Required");
+    //                    return;
+    //                }else{
+    //                    try {
+    //                        String tablename = tableName.getText().toString();
+    //                       // Boolean addtable = databaseHelper.addTable(tableName.getText().toString(), getGroupID);
+    //                        //getting the count of table para sa position sa group page maayos
+    //                        //checking the last of table table
+    //
+    //                        Cursor getpositionbyfindinggroupandtable = databaseHelper.getpositionbyfindinggroupandtable(getGroupID);
+    //                        if(getpositionbyfindinggroupandtable.getCount() == 0){
+    //                           lastposition = 1;
+    //                            Toast.makeText(GroupPage.this, "this is new table", Toast.LENGTH_SHORT).show();
+    //                        }else {
+    //                            while (getpositionbyfindinggroupandtable.moveToNext()) {
+    //                                lastposition = getpositionbyfindinggroupandtable.getInt(0) + 1;
+    //                                Toast.makeText(GroupPage.this, "new position: " + lastposition, Toast.LENGTH_SHORT).show();
+    //                            }
+    //                        }
+    //                        //boolean success = true;
+    //                        boolean success = databaseHelper.addTable(tablename, Integer.parseInt(getGroupID),lastposition);
+    //                        if(success == true){
+    //                            Toast.makeText(GroupPage.this,"success", Toast.LENGTH_SHORT).show();
+    //                            addTable.hide();
+    //
+    //                            //getting the table ID
+    //                            Cursor gettingTableID = databaseHelper.selectLastTaskTable();
+    //                            while (gettingTableID.moveToNext()){
+    ////                                Toast.makeText(GroupPage.this,"thiryd balot" + gettingTableID.getString(0), Toast.LENGTH_SHORT).show();
+    //                                tableid = gettingTableID.getString(0);
+    //                            }
+    //                           // gettingTableID.moveToNext();
+    //                            Intent intent = new Intent(GroupPage.this, AddTask.class);
+    //                            intent.putExtra("NEW_TABLE", "true");
+    //                            intent.putExtra("GROUP_ID", getGroupID);
+    //                            intent.putExtra("TABLE_ID", tableid);
+    //                            Log.d("TAG", "lastposition in grouppage" +  lastposition);
+    //                            startActivity(intent);
+    //                        }else{
+    //                            Toast.makeText(GroupPage.this,"failed", Toast.LENGTH_SHORT).show();
+    //                        }
+    //                    }catch (Exception e){
+    //                        Toast.makeText(GroupPage.this,"checko" +  e.toString(), Toast.LENGTH_SHORT).show();
+    //                        Log.d(TAG, e.toString());
+    //                    }
+    //
+    //                }
+    //            }
+    //        });
+    //
+    //        addTable.setContentView(view);
+    //
+    //        addTables.setOnClickListener(new View.OnClickListener() {
+    //            @Override
+    //            public void onClick(View v) {
+    //                addTable.show();
+    //            }
+    //        });
+    //
+    //        addfirsttaskbutton.setOnClickListener(new View.OnClickListener() {
+    //            @Override
+    //            public void onClick(View v) {
+    //                addTable.show();
+    //            }
+    //        });
+    //    }
 
     private void menu() {
         menu.setOnClickListener(new View.OnClickListener() {
@@ -433,11 +437,11 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         PopupMenu popup = new PopupMenu(GroupPage.this, view);
         try {
             Field[] fields = popup.getClass().getDeclaredFields();
-            for (Field field : fields) {
+            for (Field field: fields) {
                 if ("mPopup".equals(field.getName())) {
                     field.setAccessible(true);
                     Object menuPopupHelper = field.get(popup);
-                    Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                    Class < ? > classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
                     Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
                     setForceIcons.invoke(menuPopupHelper, true);
                     break;
@@ -451,10 +455,10 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
-                if(id == R.id.listlayout){
-                    Toast.makeText(GroupPage.this,"List View",Toast.LENGTH_SHORT).show();
-                }else if (id == R.id.gridlayout){
-                    Toast.makeText(GroupPage.this,"Grid View",Toast.LENGTH_SHORT).show();
+                if (id == R.id.listlayout) {
+                    Toast.makeText(GroupPage.this, "List View", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.gridlayout) {
+                    Toast.makeText(GroupPage.this, "Grid View", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -462,18 +466,17 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
         popup.show();
     }
 
-
     //menu popup in grouppage including view your task, group details ,
     //archived and delete
     void showMenu(View view) {
         PopupMenu popup = new PopupMenu(GroupPage.this, view);
         try {
             Field[] fields = popup.getClass().getDeclaredFields();
-            for (Field field : fields) {
+            for (Field field: fields) {
                 if ("mPopup".equals(field.getName())) {
                     field.setAccessible(true);
                     Object menuPopupHelper = field.get(popup);
-                    Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                    Class < ? > classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
                     Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
                     setForceIcons.invoke(menuPopupHelper, true);
                     break;
@@ -487,12 +490,12 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
-                if(id == R.id.groupdetails){
-                    Toast.makeText(GroupPage.this,"Group Details",Toast.LENGTH_SHORT).show();
-                }else if (id == R.id.events){
-                    Toast.makeText(GroupPage.this,"Not Available",Toast.LENGTH_SHORT).show();
-                }else if (id == R.id.delete){
-                    Toast.makeText(GroupPage.this,"Not Permitted",Toast.LENGTH_SHORT).show();
+                if (id == R.id.groupdetails) {
+                    Toast.makeText(GroupPage.this, "Group Details", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.events) {
+                    Toast.makeText(GroupPage.this, "Not Available", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.delete) {
+                    Toast.makeText(GroupPage.this, "Not Permitted", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -501,19 +504,22 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
     }
 
     //set up table dta for recycler view
-    private void setupTodo(){
+    private void setupTodo() {
         RelativeLayout recycleContainer = findViewById(R.id.recycleContainer);
         RelativeLayout touchme = findViewById(R.id.touchme);
         ImageView arrow = findViewById(R.id.arrow);
+
+        firstGroup.setVisibility(View.VISIBLE);
+
         touchme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //to hide and
-                if(todovisible == true){
+                if (todovisible == true) {
                     recycleContainer.setVisibility(View.GONE);
                     todovisible = false;
                     arrow.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     recycleContainer.setVisibility(View.VISIBLE);
                     todovisible = true;
                     arrow.setVisibility(View.GONE);
@@ -521,54 +527,77 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
             }
         });
 
-
-
-        try{
+        try {
             //TODO ilipat to sa global variable
+
+
+
             String currentIdforTable = tableModels.get(tableposition).getGroupId();
-            Cursor getTaskTableforGroupPage = databaseHelper.getTaskTableforGroupPage(getGroupID,currentIdforTable,"TO DO");
 
-            ArrayList<Integer> TaskId = new ArrayList<Integer>();
-            ArrayList<Integer> TableId = new ArrayList<Integer>();
-            ArrayList<String> NameofTask = new ArrayList<String>();
-            ArrayList<String> DueDate = new ArrayList<String>();
-            ArrayList<String> partipant_photo = new ArrayList<String>();
-            if(getTaskTableforGroupPage.getCount()==0){
-                firstGroup.setVisibility(View.GONE);
-            }else{
-                while(getTaskTableforGroupPage.moveToNext()){
-                    firstGroup.setVisibility(View.VISIBLE);
-                    TaskId.add(getTaskTableforGroupPage.getInt(0));
-                    TableId.add(getTaskTableforGroupPage.getInt(2));
-                    NameofTask.add(getTaskTableforGroupPage.getString(4));
-                    DueDate.add(getTaskTableforGroupPage.getString(7) + " " + getTaskTableforGroupPage.getString(8) );
-                    partipant_photo.add(getTaskTableforGroupPage.getString(3) );
-                }
+            CollectionReference getToDo = firestore.collection("task");
+            getToDo.whereEqualTo("id_TABLE", currentIdforTable)
+                    .whereEqualTo("status", "TO DO")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        if (document.exists()) {
+                                            todoModels.add(new TodoModel(document.getId(), document.get("id_TABLE").toString() ,document.get("task_NAME").toString() ,document.get("dueDate").toString() + " " + document.get("dueTime").toString(),document.get("id_STUDENTS").toString()));
+                                            todoadapter.notifyDataSetChanged();
 
-                for(int i = 0; i< NameofTask.size(); i++){
-                    todoModels.add(new TodoModel(TaskId.get(i),TableId.get(i),NameofTask.get(i),DueDate.get(i),partipant_photo.get(i) ));
-                }
-            }
-        }catch(Exception e){
-            Log.d("TAG", "set up todo model " + e );
+                                        }
+                                    }
+                                }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+
+
+
+
+//            Cursor getTaskTableforGroupPage = databaseHelper.getTaskTableforGroupPage(getGroupID, currentIdforTable, "TO DO");
+//
+//            ArrayList < Integer > TaskId = new ArrayList < Integer > ();
+//            ArrayList < Integer > TableId = new ArrayList < Integer > ();
+//            ArrayList < String > NameofTask = new ArrayList < String > ();
+//            ArrayList < String > DueDate = new ArrayList < String > ();
+//            ArrayList < String > partipant_photo = new ArrayList < String > ();
+//            if (getTaskTableforGroupPage.getCount() == 0) {
+//                firstGroup.setVisibility(View.GONE);
+//            } else {
+//                while (getTaskTableforGroupPage.moveToNext()) {
+//                    firstGroup.setVisibility(View.VISIBLE);
+//                    TaskId.add(getTaskTableforGroupPage.getInt(0));
+//                    TableId.add(getTaskTableforGroupPage.getInt(2));
+//                    NameofTask.add(getTaskTableforGroupPage.getString(4));
+//                    DueDate.add(getTaskTableforGroupPage.getString(7) + " " + getTaskTableforGroupPage.getString(8));
+//                    partipant_photo.add(getTaskTableforGroupPage.getString(3));
+//                }
+//
+//                for (int i = 0; i < NameofTask.size(); i++) {
+//                    todoModels.add(new TodoModel(TaskId.get(i), TableId.get(i), NameofTask.get(i), DueDate.get(i), partipant_photo.get(i)));
+//                }
+//            }
+        } catch (Exception e) {
+            Log.d("TAG", "set up todo model " + e);
         }
 
-        ImageButton addtask = findViewById(R.id.addtask);
         addtask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String currentIdforTable = tableModels.get(tableposition).getGroupId();
                 Intent intent = new Intent(GroupPage.this, AddTask.class);
-                intent.putExtra("GROUP_ID", getGroupID);
                 intent.putExtra("TABLE_ID", currentIdforTable);
-                intent.putExtra("POSITION", 1);
-                intent.putExtra("NEW_TABLE", "false");
                 startActivity(intent);
             }
         });
     }
-
-
 
     private void setupWorking() {
         RelativeLayout recycleContainer = findViewById(R.id.recycleContainer2);
@@ -578,11 +607,11 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
             @Override
             public void onClick(View v) {
                 //to hide and
-                if(workingvisible == true){
+                if (workingvisible == true) {
                     recycleContainer.setVisibility(View.GONE);
                     workingvisible = false;
                     arrow.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     recycleContainer.setVisibility(View.VISIBLE);
                     workingvisible = true;
                     arrow.setVisibility(View.GONE);
@@ -590,19 +619,19 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
             }
         });
 
-        try{
+        try {
             //TODO ilipat to sa global variable
             String currentIdforTable = tableModels.get(tableposition).getGroupId();
-            Cursor getTaskTableforGroupPage = databaseHelper.getTaskTableforGroupPage(getGroupID,currentIdforTable,"Working");
+            Cursor getTaskTableforGroupPage = databaseHelper.getTaskTableforGroupPage(getGroupID, currentIdforTable, "Working");
 
-            ArrayList<String> TaskId = new ArrayList<String>();
-            ArrayList<String> TableId = new ArrayList<String>();
-            ArrayList<String> NameofTask = new ArrayList<String>();
-            ArrayList<String> DueDate = new ArrayList<String>();
-            ArrayList<String> partipant_photo = new ArrayList<String>();
-            if(getTaskTableforGroupPage.getCount() == 0){
+            ArrayList < String > TaskId = new ArrayList < String > ();
+            ArrayList < String > TableId = new ArrayList < String > ();
+            ArrayList < String > NameofTask = new ArrayList < String > ();
+            ArrayList < String > DueDate = new ArrayList < String > ();
+            ArrayList < String > partipant_photo = new ArrayList < String > ();
+            if (getTaskTableforGroupPage.getCount() == 0) {
                 secondGroup.setVisibility(View.GONE);
-            }else {
+            } else {
                 while (getTaskTableforGroupPage.moveToNext()) {
                     secondGroup.setVisibility(View.VISIBLE);
                     TaskId.add(getTaskTableforGroupPage.getString(0));
@@ -614,11 +643,11 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
                 for (int i = 0; i < NameofTask.size(); i++) {
                     workingModels.add(new WorkingModel(Integer.parseInt(TaskId.get(i)), Integer.parseInt(TableId.get(i)), NameofTask.get(i), DueDate.get(i), partipant_photo.get(i)));
-//                workingModels.add(new WorkingModel(partipant_photo.get(i)));
+                    //                workingModels.add(new WorkingModel(partipant_photo.get(i)));
                 }
             }
-        }catch(Exception e){
-            Log.d("TAG", "set up working eroor " + e );
+        } catch (Exception e) {
+            Log.d("TAG", "set up working eroor " + e);
         }
     }
 
@@ -630,11 +659,11 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
             @Override
             public void onClick(View v) {
                 //to hide and
-                if(donevisible == true){
+                if (donevisible == true) {
                     recycleContainer.setVisibility(View.GONE);
                     donevisible = false;
                     arrow.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     recycleContainer.setVisibility(View.VISIBLE);
                     donevisible = true;
                     arrow.setVisibility(View.GONE);
@@ -642,19 +671,19 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
             }
         });
 
-        try{
+        try {
             //TODO ilipat to sa global variable
             String currentIdforTable = tableModels.get(tableposition).getGroupId();
-            Cursor getTaskTableforGroupPage = databaseHelper.getTaskTableforGroupPage(getGroupID,currentIdforTable,"Done");
+            Cursor getTaskTableforGroupPage = databaseHelper.getTaskTableforGroupPage(getGroupID, currentIdforTable, "Done");
 
-            ArrayList<String> TaskId = new ArrayList<String>();
-            ArrayList<String> TableId = new ArrayList<String>();
-            ArrayList<String> NameofTask = new ArrayList<String>();
-            ArrayList<String> DueDate = new ArrayList<String>();
-            ArrayList<String> partipant_photo = new ArrayList<String>();
-            if(getTaskTableforGroupPage.getCount() == 0){
+            ArrayList < String > TaskId = new ArrayList < String > ();
+            ArrayList < String > TableId = new ArrayList < String > ();
+            ArrayList < String > NameofTask = new ArrayList < String > ();
+            ArrayList < String > DueDate = new ArrayList < String > ();
+            ArrayList < String > partipant_photo = new ArrayList < String > ();
+            if (getTaskTableforGroupPage.getCount() == 0) {
                 thirdgroup.setVisibility(View.GONE);
-            }else {
+            } else {
                 while (getTaskTableforGroupPage.moveToNext()) {
                     thirdgroup.setVisibility(View.VISIBLE);
                     TaskId.add(getTaskTableforGroupPage.getString(0));
@@ -668,13 +697,10 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                     doneModels.add(new DoneModel(Integer.parseInt(TaskId.get(i)), Integer.parseInt(TableId.get(i)), NameofTask.get(i), DueDate.get(i), partipant_photo.get(i)));
                 }
             }
-        }catch(Exception e){
-            Log.d("TAG", "set up working eroor " + e );
+        } catch (Exception e) {
+            Log.d("TAG", "set up working eroor " + e);
         }
     }
-
-
-
 
     private void setupReady() {
         RelativeLayout recycleContainer = findViewById(R.id.recycleContainer4);
@@ -684,11 +710,11 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
             @Override
             public void onClick(View v) {
                 //to hide and
-                if(readyvisible == true){
+                if (readyvisible == true) {
                     recycleContainer.setVisibility(View.GONE);
                     readyvisible = false;
                     arrow.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     recycleContainer.setVisibility(View.VISIBLE);
                     readyvisible = true;
                     arrow.setVisibility(View.GONE);
@@ -696,19 +722,19 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
             }
         });
 
-        try{
+        try {
             //TODO ilipat to sa global variable
             String currentIdforTable = tableModels.get(tableposition).getGroupId();
-            Cursor getTaskTableforGroupPage = databaseHelper.getTaskTableforGroupPage(getGroupID,currentIdforTable,"Ready");
+            Cursor getTaskTableforGroupPage = databaseHelper.getTaskTableforGroupPage(getGroupID, currentIdforTable, "Ready");
 
-            ArrayList<String> TaskId = new ArrayList<String>();
-            ArrayList<String> TableId = new ArrayList<String>();
-            ArrayList<String> NameofTask = new ArrayList<String>();
-            ArrayList<String> DueDate = new ArrayList<String>();
-            ArrayList<String> partipant_photo = new ArrayList<String>();
-            if(getTaskTableforGroupPage.getCount() == 0){
+            ArrayList < String > TaskId = new ArrayList < String > ();
+            ArrayList < String > TableId = new ArrayList < String > ();
+            ArrayList < String > NameofTask = new ArrayList < String > ();
+            ArrayList < String > DueDate = new ArrayList < String > ();
+            ArrayList < String > partipant_photo = new ArrayList < String > ();
+            if (getTaskTableforGroupPage.getCount() == 0) {
                 fourthgroup.setVisibility(View.GONE);
-            }else {
+            } else {
                 while (getTaskTableforGroupPage.moveToNext()) {
                     fourthgroup.setVisibility(View.VISIBLE);
                     TaskId.add(getTaskTableforGroupPage.getString(0));
@@ -722,91 +748,139 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                     readyModels.add(new ReadyModel(Integer.parseInt(TaskId.get(i)), Integer.parseInt(TableId.get(i)), NameofTask.get(i), DueDate.get(i), partipant_photo.get(i)));
                 }
             }
-        }catch(Exception e){
-            Log.d("TAG", "set up working eroor " + e );
+        } catch (Exception e) {
+            Log.d("TAG", "set up working eroor " + e);
         }
-
 
     }
 
     //set up table data for recycler view
-    private void setupTable(){
-
+    private void setupTable() {
         try{
-            Cursor getAllTable = databaseHelper.getAllTable(getGroupID);
 
-            if(getAllTable.getCount()==0){
-                emptyContainer.setVisibility(View.VISIBLE);
-            }
 
-            ArrayList<String> tableName = new ArrayList<String>();
-            ArrayList<String> tableid = new ArrayList<String>();
+        CollectionReference getTableFirebase = firestore.collection("table");
 
-            while(getAllTable.moveToNext()){
-                tableid.add(getAllTable.getString(0));
-                tableName.add(getAllTable.getString(2));
-            }
+        getTableFirebase
+                .whereEqualTo("ID_GROUP", getGroupID)
+                        .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(document.exists()){
+                                    tableModels.add(new TableModel(document.getId(), document.get("TABLE_NAME").toString()));
+                                    tableadapter.notifyDataSetChanged();
+                                    emptyContainer.setVisibility(View.GONE);
+                                    addtask.setVisibility(View.VISIBLE);
+                                    tableisempty = false;
+                                    //recycler view for to do
 
-            for(int i = 0; i< tableid.size(); i++){
-                tableModels.add(new TableModel(tableid.get(i),tableName.get(i)));
-            }
+                                    if (progressDialog.isShowing())
+                                        progressDialog.dismiss();
+                                } else{
+                                    if (progressDialog.isShowing())
+                                        progressDialog.dismiss();
+                                }
+                            }
+                            setupTodo();
+                        }else{
+                            if (progressDialog.isShowing())
+                                progressDialog.dismiss();
+                        }
+                    }
 
-        }catch(Exception e){
-            Log.d("TAG", "set up table error " + e );
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (progressDialog.isShowing())
+                            progressDialog.dismiss();
+                        Log.d("TAG", e.getMessage());
+                    }
+                });
+        }catch (Exception e){
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
         }
+
+//        try {
+//            Cursor getAllTable = databaseHelper.getAllTable(getGroupID);
+//
+//            if (getAllTable.getCount() == 0) {
+//                emptyContainer.setVisibility(View.VISIBLE);
+//            }
+//
+//            ArrayList < String > tableName = new ArrayList < String > ();
+//            ArrayList < String > tableid = new ArrayList < String > ();
+//
+//            while (getAllTable.moveToNext()) {
+//                tableid.add(getAllTable.getString(0));
+//                tableName.add(getAllTable.getString(2));
+//            }
+//
+//            for (int i = 0; i < tableid.size(); i++) {
+//                tableModels.add(new TableModel(tableid.get(i), tableName.get(i)));
+//            }
+//
+//        } catch (Exception e) {
+//            Log.d("TAG", "set up table error " + e);
+//        }
     }
 
     //first Table
     private void setupGroupData() {
 
-        try{
+        try {
             //get All table from SQLITE
             Cursor getAllTable = databaseHelper.getAllTable(getGroupID);
-            if(getAllTable.getCount() == 0){
+            if (getAllTable.getCount() == 0) {
                 //TODO hide the recylerview and table
 
-            }else{
+            } else {
 
-                ArrayList<String> TableName = new ArrayList<String>();
-                ArrayList<String> TableID = new ArrayList<String>();
-                ArrayList<Integer> Position = new ArrayList<Integer>();
-                while(getAllTable.moveToNext()){
+                ArrayList < String > TableName = new ArrayList < String > ();
+                ArrayList < String > TableID = new ArrayList < String > ();
+                ArrayList < Integer > Position = new ArrayList < Integer > ();
+                while (getAllTable.moveToNext()) {
                     TableID.add(getAllTable.getString(0));
                     TableName.add(getAllTable.getString(2));
                     Position.add(getAllTable.getInt(3));
                 }
-                for(int i=0; i<TableName.size(); i++){
-                    groupPageParentModels.add(new GroupPageParentModel(TableID.get(i),TableName.get(i),Position.get(i)
-                    ));
+                for (int i = 0; i < TableName.size(); i++) {
+                    groupPageParentModels.add(new GroupPageParentModel(TableID.get(i), TableName.get(i), Position.get(i)));
                 }
 
-            Toast.makeText(GroupPage.this, "click" + TableName.get(0), Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(GroupPage.this, "click" + TableName.get(0), Toast.LENGTH_SHORT).show();
 
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             emptyContainer.setVisibility(View.VISIBLE);
         }
 
-
-//        groupPageModels.clear();
+        //        groupPageModels.clear();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(isFinishing()){
-            if (addTable!= null) {
+        if (isFinishing()) {
+            if (addTable != null) {
                 addTable.dismiss();
-                addTable= null;
+                addTable = null;
             }
         }
     }
 
     @Override
     public void onItemClick(int position, String taskView) {
-        switch (taskView){
+        switch (taskView) {
             case "tableApdater":
 
                 Log.d("TAG", "table position: " + position);
@@ -817,15 +891,14 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                 readyModels.clear();
                 doneModels.clear();
                 setupTodo();
-                setupWorking();
-                setupDone();
-                setupReady();
+//                setupWorking();
+//                setupDone();
+//                setupReady();
 
-                workingAdapter.notifyDataSetChanged();
+//                workingAdapter.notifyDataSetChanged();
                 todoadapter.notifyDataSetChanged();
-                doneAdapter.notifyDataSetChanged();
-                readyAdapter.notifyDataSetChanged();
-
+//                doneAdapter.notifyDataSetChanged();
+//                readyAdapter.notifyDataSetChanged();
 
                 //to set the color of selected recycleview of table
                 changecolor = position;
@@ -835,7 +908,7 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
 
             case "todo":
                 Log.d("TAG", "table id: " + todoModels.get(position).getParticipant_src_photo());
-                getGroupIDInt = Integer.parseInt(getGroupID);
+                getGroupIDInt = getGroupID;
                 getTaskID = todoModels.get(position).getTaskId();
                 getTableID = todoModels.get(position).getTableId();
                 Intent addTaskIntent = new Intent(GroupPage.this, ViewTask.class);
@@ -843,31 +916,30 @@ public class GroupPage extends AppCompatActivity implements GroupInterface {
                 break;
 
             case "working":
-                getGroupIDInt = Integer.parseInt(getGroupID);
-                getTaskID = workingModels.get(position).getTaskId();
-                getTableID = workingModels.get(position).getTableId();
+//                getGroupIDInt = Integer.parseInt(getGroupID);
+//                getTaskID = workingModels.get(position).getTaskId();
+//                getTableID = workingModels.get(position).getTableId();
                 Intent addTaskIntent2 = new Intent(GroupPage.this, ViewTask.class);
                 startActivity(addTaskIntent2);
                 break;
 
             case "ready":
-                getGroupIDInt = Integer.parseInt(getGroupID);
-                getTaskID = readyModels.get(position).getTaskId();
-                getTableID = readyModels.get(position).getTableId();
+                getGroupIDInt = getGroupID;
+//                getTaskID = readyModels.get(position).getTaskId();
+//                getTableID = readyModels.get(position).getTableId();
                 Intent addTaskIntent3 = new Intent(GroupPage.this, ViewTask.class);
                 startActivity(addTaskIntent3);
                 break;
 
             case "done":
-                getGroupIDInt = Integer.parseInt(getGroupID);
-                getTaskID = doneModels.get(position).getTaskId();
-                getTableID = doneModels.get(position).getTableId();
-                Intent addTaskIntent4= new Intent(GroupPage.this, ViewTask.class);
+//                getGroupIDInt = Integer.parseInt(getGroupID);
+//                getTaskID = doneModels.get(position).getTaskId();
+//                getTableID = doneModels.get(position).getTableId();
+                Intent addTaskIntent4 = new Intent(GroupPage.this, ViewTask.class);
                 startActivity(addTaskIntent4);
                 break;
 
         }
     }
-
 
 }

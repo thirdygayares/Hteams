@@ -80,9 +80,9 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
     //SQLITE DB
     DatabaseHelper databaseHelper;
     String currentId;
-    int getGroupID = 1;
-    int getTaskID = 1;
-    int getTableID = 1;
+    String getGroupID;
+    String getTaskID ;
+    String getTableID;
 
     //countiing indicator
     int imagecount ;
@@ -140,7 +140,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
         //status button : dropdown the working,done, inready
         statusButton();
         //Set up posting data
-        setUpPostingData();
+        //setUpPostingData();
 
         adapter1 = new AsigneeAdapter(ViewTask.this, assigneeModels, this);
         //button_asignee lalabas yung dialog box when click assignee to but only leader make this
@@ -238,7 +238,7 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
 
         //getting table name from sqlite
-        Cursor getTableName = databaseHelper.getTableName(getTableID);
+        Cursor getTableName = databaseHelper.getTableName(2);
         Log.d("TAG", "table id in view task" + getTableID);
         try{
             if(getTableName.getCount() == 0){
@@ -399,52 +399,52 @@ public class ViewTask extends AppCompatActivity implements ViewTaskInterface,Dat
 
 //    set up data for post or updates
 //    TODO firebase manipulation
-    private void setUpPostingData() {
-
-        //posting updates Recycler View
-        ViewTaskAdapter adapter = new ViewTaskAdapter(ViewTask.this, viewTaskModels, this);
-        viewTask.setAdapter(adapter);
-        viewTask.setLayoutManager(new LinearLayoutManager(ViewTask.this));
-        LinearLayout emptyUpdates = findViewById(R.id.emptyUpdates);
-            Cursor getupdatesdata = databaseHelper.getUpdatesData(getTaskID);
-            if(getupdatesdata.getCount() == 0) {
-                Log.d("TAG", "Update Table for " + groupName.getText() + " is empty");
-                //TODO show the picture when empty data
-
-                emptyUpdates.setVisibility(View.VISIBLE);
-
-            }else{
-                try {
-                    emptyUpdates.setVisibility(View.GONE);
-                    SetProfile setProfile = new SetProfile();
-                    groupDetails groupDetails = new groupDetails();
-                    while(getupdatesdata.moveToNext()) {
-                        String participantsrcimage = groupDetails.participantImage(ViewTask.this,getupdatesdata.getString(3));
-                        String participantName = groupDetails.partcipantName(ViewTask.this,getupdatesdata.getString(3));
-
-                        //time convertion
-                        String strCurrentDate= getupdatesdata.getString(6);
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                        Date newDate = null;
-                        try {
-                            newDate = format.parse(strCurrentDate);
-                            format = new SimpleDateFormat("dd-MMM-yyyy");
-                             date = format.format(newDate);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
-                        //getting the data
-                        viewTaskModels.add(new ViewTaskModel(getupdatesdata.getInt(0), participantsrcimage, participantName,date,getupdatesdata.getString(4)));
-                    }
-                }catch (Exception e) {
-                    Log.e("TAG","error retrieving updates because " + e  );
-                }
-
-
-            }
-
-        }
+//    private void setUpPostingData() {
+//
+//        //posting updates Recycler View
+//        ViewTaskAdapter adapter = new ViewTaskAdapter(ViewTask.this, viewTaskModels, this);
+//        viewTask.setAdapter(adapter);
+//        viewTask.setLayoutManager(new LinearLayoutManager(ViewTask.this));
+//        LinearLayout emptyUpdates = findViewById(R.id.emptyUpdates);
+//            Cursor getupdatesdata = databaseHelper.getUpdatesData(getTaskID);
+//            if(getupdatesdata.getCount() == 0) {
+//                Log.d("TAG", "Update Table for " + groupName.getText() + " is empty");
+//                //TODO show the picture when empty data
+//
+//                emptyUpdates.setVisibility(View.VISIBLE);
+//
+//            }else{
+//                try {
+//                    emptyUpdates.setVisibility(View.GONE);
+//                    SetProfile setProfile = new SetProfile();
+//                    groupDetails groupDetails = new groupDetails();
+//                    while(getupdatesdata.moveToNext()) {
+//                        String participantsrcimage = groupDetails.participantImage(ViewTask.this,getupdatesdata.getString(3));
+//                        String participantName = groupDetails.partcipantName(ViewTask.this,getupdatesdata.getString(3));
+//
+//                        //time convertion
+//                        String strCurrentDate= getupdatesdata.getString(6);
+//                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//                        Date newDate = null;
+//                        try {
+//                            newDate = format.parse(strCurrentDate);
+//                            format = new SimpleDateFormat("dd-MMM-yyyy");
+//                             date = format.format(newDate);
+//                        } catch (ParseException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        //getting the data
+//                        viewTaskModels.add(new ViewTaskModel(getupdatesdata.getInt(0), participantsrcimage, participantName,date,getupdatesdata.getString(4)));
+//                    }
+//                }catch (Exception e) {
+//                    Log.e("TAG","error retrieving updates because " + e  );
+//                }
+//
+//
+//            }
+//
+//        }
 
     private void counting() {
         int imagecountfilecountlistcountlinkcount ;

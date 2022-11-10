@@ -1,16 +1,16 @@
 package com.example.hteams.model.taskModel;
 
 public class TodoModel {
-    int TaskId;
-    int GroupId;
-    int TableId;
+    String TaskId;
+    String GroupId;
+    String TableId;
     String NameofTask;
     String Status;
     String DueDate;
     String participant_src_photo;
 
 
-    public TodoModel(int taskId, int tableId, String nameofTask, String dueDate, String participant_src_photo) {
+    public TodoModel(String taskId, String tableId, String nameofTask, String dueDate, String participant_src_photo) {
         TaskId = taskId;
         TableId = tableId;
         NameofTask = nameofTask;
@@ -18,15 +18,15 @@ public class TodoModel {
         this.participant_src_photo = participant_src_photo;
     }
 
-    public int getTaskId() {
+    public String getTaskId() {
         return TaskId;
     }
 
-    public int getGroupId() {
+    public String getGroupId() {
         return GroupId;
     }
 
-    public int getTableId() {
+    public String getTableId() {
         return TableId;
     }
 
