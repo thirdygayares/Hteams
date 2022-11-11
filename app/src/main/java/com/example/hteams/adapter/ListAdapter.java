@@ -63,7 +63,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
                     ssstatus = false;
                 }
 
-
                 FirebaseFirestore firestore;
                 firestore = FirebaseFirestore.getInstance();
 

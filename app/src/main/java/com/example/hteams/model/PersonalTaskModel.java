@@ -1,16 +1,16 @@
 package com.example.hteams.model;
 
 public class PersonalTaskModel {
-    int idTask;
-    int idGroup;
-    int id_table;
+    String idTask;
+    String idGroup;
+    String id_table;
     String groupImage;
     String GroupName;
     String NameofTask;
     String Status;
     String DueDate;
 
-    public PersonalTaskModel(int idTask, int idGroup, int id_table, String groupImage, String groupName, String nameofTask, String status, String dueDate) {
+    public PersonalTaskModel(String idTask, String idGroup, String id_table, String groupImage, String groupName, String nameofTask, String status, String dueDate) {
         this.idTask = idTask;
         this.idGroup = idGroup;
         this.id_table = id_table;
@@ -21,15 +21,15 @@ public class PersonalTaskModel {
         DueDate = dueDate;
     }
 
-    public int getIdTask() {
+    public String getIdTask() {
         return idTask;
     }
 
-    public int getIdGroup() {
+    public String getIdGroup() {
         return idGroup;
     }
 
-    public int getId_table() {
+    public String getId_table() {
         return id_table;
     }
 

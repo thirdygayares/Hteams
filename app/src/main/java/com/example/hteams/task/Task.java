@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -27,10 +28,18 @@ import com.example.hteams.group.GroupPage;
 import com.example.hteams.group.Updates;
 import com.example.hteams.group.ViewTask;
 import com.example.hteams.model.PersonalTaskModel;
+import com.example.hteams.model.ViewTaskModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.function.LongFunction;
 
 public class Task extends Fragment implements PersonalTaskInterface {
 
@@ -44,8 +53,10 @@ public class Task extends Fragment implements PersonalTaskInterface {
     ArrayList<String> doneArray= new ArrayList<>();
 
     int all = 0, todocount = 0, workingcount=0, readycount=0, donecount=0 ;
-
+    PersonalTaskAdapter adapter;
     TextView todo,working,ready,done,All;
+
+    ProgressDialog progressDialog;
 
     //firebase Auth
     FirebaseAuth firebaseAuth;
@@ -54,11 +65,17 @@ public class Task extends Fragment implements PersonalTaskInterface {
     //SQLITE DB
     DatabaseHelper databaseHelper;
     String currentId;
-
+    public static String groupname;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.activity_task, container, false);
+
+        //process dialog
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Fetching task...");
+        progressDialog.show();
 
         //to know the email and uid
         firebaseAuth = FirebaseAuth.getInstance();
@@ -82,73 +99,95 @@ public class Task extends Fragment implements PersonalTaskInterface {
     //lalagay yung recycler view and date
     private void personalTaskData() {
         //calling recycler view
-        PersonalTaskAdapter adapter = new PersonalTaskAdapter(getContext(), personalTaskModels, this);
+        adapter = new PersonalTaskAdapter(getContext(), personalTaskModels, this);
         taskRecycler.setAdapter(adapter);
         taskRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        ArrayList<String> groupphoto = new ArrayList<String>();
-        ArrayList<String> groupName = new ArrayList<String>();
-        ArrayList<String> taskname = new ArrayList<String>();
-        ArrayList<String> status = new ArrayList<String>();
-        ArrayList<String> duedate = new ArrayList<String>();
-        ArrayList<Integer> idtask = new ArrayList<Integer>();
-        ArrayList<Integer> id_group = new ArrayList<Integer>();
-        ArrayList<Integer> id_table = new ArrayList<Integer>();
+
+        firestore.collection("task")
+                .whereEqualTo("id_STUDENTS", currentId)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if(error!=null){
+                            Log.d("TAG", error.getMessage());
+                        }
+                        for(DocumentChange dc: value.getDocumentChanges()){
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+
+                                personalTaskModels.add(new PersonalTaskModel(dc.getDocument().getId(),dc.getDocument().get("id_GROUP").toString(),dc.getDocument().get("id_TABLE").toString(),dc.getDocument().get("id_GROUP").toString(),groupname,dc.getDocument().get("task_NAME").toString(),dc.getDocument().get("status").toString(),dc.getDocument().get("dueDate").toString() + " " + dc.getDocument().get("dueTime").toString()));
+//                                viewTaskModels.add(new ViewTaskModel(dc.getDocument().getId(), dc.getDocument().get("ID_STUDENTS").toString(), dc.getDocument().get("ID_STUDENTS").toString(),strCurrentDate,dc.getDocument().get("UPDATES").toString()));
+                                adapter.notifyDataSetChanged();
+                                if(progressDialog.isShowing())
+                                    progressDialog.dismiss();
 
 
-        groupDetails groupDetailss = new groupDetails();
 
-        Cursor getPersonaltask = databaseHelper.getPersonalTask(currentId);
-        try{
-                while(getPersonaltask.moveToNext()){
-                    groupphoto.add(getPersonaltask.getString(1));
-                    groupName.add(groupDetailss.getGroupName(getContext(),getPersonaltask.getString(1)));
-                    taskname.add(getPersonaltask.getString(4));
-                    duedate.add(getPersonaltask.getString(7) + ", " +  getPersonaltask.getString(8));
-                    idtask.add(getPersonaltask.getInt(0));
-                    id_group.add(getPersonaltask.getInt(1));
-                    id_table.add(getPersonaltask.getInt(2));
+                            }
+                        }
 
-
-                    status.add(getPersonaltask.getString(5));
-                    //TODO COUNTING
-
-                    String statuses = getPersonaltask.getString(5);
-                    //count to do, rady and done
-                    if(statuses.equalsIgnoreCase("to do")){
-                        todocount++;
-                    }else if(statuses.equalsIgnoreCase("Ready")){
-                        readycount++ ;
-                    }else if(statuses.equalsIgnoreCase("Done")){
-                        donecount++ ;
-                    }else if(statuses.equalsIgnoreCase("Working")){
-                        workingcount++ ;
+                        if(personalTaskModels.isEmpty()){
+                            tasknotificationEmpty.setVisibility(View.VISIBLE);
+                        }else{
+                            tasknotificationEmpty.setVisibility(View.GONE);
+                        }
                     }
+                });
 
-                    //count all
-                    all++;
 
-                }
-                for(int i=0; i<taskname.size();i++){
-                    personalTaskModels.add(new PersonalTaskModel(idtask.get(i),id_group.get(i),id_table.get(i),groupphoto.get(i),groupName.get(i),taskname.get(i),status.get(i),duedate.get(i)));
-                }
 
-        }catch (Exception e){
-            Log.d("TAG", "FAILED TO RETRIVED PERSONAL TASK CAUSE " +e );
-        }
+        firestore.collection("task")
+                .whereEqualTo("id_STUDENTS", currentId)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.d("TAG", error.getMessage());
+                        }
+                        int count = 0;
+                        int todocount = 0;
+                        int readycount = 0;
+                        int workingcount = 0;
+                        int donecount = 0;
+                        for (DocumentChange dc : value.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                count++;
+                                String stats = dc.getDocument().get("status").toString();
+                                if (stats.equalsIgnoreCase("TO DO")) {
+                                    todocount++;
+                                } else if (stats.equalsIgnoreCase("Ready")) {
+                                    readycount++;
+                                } else if (stats.equalsIgnoreCase("Working")) {
+                                    workingcount++;
+                                } else if (stats.equalsIgnoreCase("Done")) {
+                                    donecount++;
+                                }
+                            }
+
+                            All.setText(String.valueOf(count));
+                            done.setText(String.valueOf(donecount));
+                            working.setText(String.valueOf(workingcount));
+                            todo.setText(String.valueOf(todocount));
+                            ready.setText(String.valueOf(readycount));
+                        }
+                    }
+                });
+
+
+
+
 
         done.setText(String.valueOf(donecount));
         working.setText(String.valueOf(workingcount));
         todo.setText(String.valueOf(todocount));
         ready.setText(String.valueOf(readycount));
-        All.setText(String.valueOf(all));
 
-        if(personalTaskModels.isEmpty()){
-            tasknotificationEmpty.setVisibility(View.VISIBLE);
-        }else{
-            tasknotificationEmpty.setVisibility(View.GONE);
-        }
 
+//        if(personalTaskModels.isEmpty()){
+//            tasknotificationEmpty.setVisibility(View.VISIBLE);
+//        }else{
+//            tasknotificationEmpty.setVisibility(View.GONE);
+//        }
     }
 
     private void initXml() {
@@ -167,9 +206,9 @@ public class Task extends Fragment implements PersonalTaskInterface {
 //        static int getTaskID;
 //        static int getTableID;
         GroupPage groupPage = new GroupPage();
-//        groupPage.getGroupIDInt = personalTaskModels.get(pos).getIdGroup();
-//        groupPage.getTaskID = personalTaskModels.get(pos).getIdTask();
-//        groupPage.getTableID = personalTaskModels.get(pos).getId_table();
+        groupPage.getGroupIDInt = personalTaskModels.get(pos).getIdGroup();
+        groupPage.getTaskID = personalTaskModels.get(pos).getIdTask();
+        groupPage.getTableID = personalTaskModels.get(pos).getId_table();
         Intent intent = new Intent(getActivity(), ViewTask.class);
         startActivity(intent);
     }

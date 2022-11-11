@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hteams.R;
 import com.example.hteams.Testing.SetAvatar;
 import com.example.hteams.model.PersonalTaskModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -49,11 +54,35 @@ public class PersonalTaskAdapter extends RecyclerView.Adapter<PersonalTaskAdapte
     public void onBindViewHolder(@NonNull PersonalTaskAdapter.MyViewHolder holder, int position) {
 
         SetAvatar setAvatar = new SetAvatar();
-        holder.groupPhoto.setImageResource(setAvatar.setAvatar(personalTaskModels.get(position).getGroupImage()));
+       // holder.groupPhoto.setImageResource(setAvatar.setAvatar(personalTaskModels.get(position).getGroupImage()));
         holder.groupName.setText(personalTaskModels.get(position).getGroupName());
         holder.taskName.setText(personalTaskModels.get(position).getNameofTask());
         holder.status.setText(personalTaskModels.get(position).getStatus());
         holder.duedate.setText(personalTaskModels.get(position).getDueDate());
+
+        FirebaseFirestore firestore;
+        firestore = FirebaseFirestore.getInstance();
+
+
+
+        firestore.collection("groups").document(personalTaskModels.get(position).getIdGroup())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull com.google.android.gms.tasks.Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if (documentSnapshot.exists()) {
+                                holder.groupName.setText(documentSnapshot.get("GROUPNAME").toString());
+                                Picasso.get().load(documentSnapshot.get("GROUPPHOTO").toString()).error(R.drawable.ic_profile).into(holder.groupPhoto);
+                            }
+                        }
+                    }
+                });
+
+
+
+
 
         String status_indicatior = holder.status.getText().toString();
         if(status_indicatior.equalsIgnoreCase("done")){
