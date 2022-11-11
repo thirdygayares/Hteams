@@ -111,7 +111,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginHorizontal="5dp"
-                                app:cardBackgroundColor="@color/gray0"
+                                app:cardBackgroundColor="@color/primary"
                                 app:cardCornerRadius="15dp"
 
                                 >

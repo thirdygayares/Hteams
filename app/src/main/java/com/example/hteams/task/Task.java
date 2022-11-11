@@ -122,7 +122,6 @@ public class Task extends Fragment implements PersonalTaskInterface {
                                     progressDialog.dismiss();
 
 
-
                             }
                         }
 
@@ -162,6 +161,7 @@ public class Task extends Fragment implements PersonalTaskInterface {
                                 } else if (stats.equalsIgnoreCase("Done")) {
                                     donecount++;
                                 }
+
                             }
 
                             All.setText(String.valueOf(count));
